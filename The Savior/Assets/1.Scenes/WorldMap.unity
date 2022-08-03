@@ -410,7 +410,7 @@ GameObject:
   - component: {fileID: 36739723}
   - component: {fileID: 36739725}
   m_Layer: 5
-  m_Name: Village_Castle
+  m_Name: Village_KingsCastle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2189,6 +2189,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 288420655}
   m_CullTransparentMesh: 1
+--- !u!1 &301621651
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 301621652}
+  - component: {fileID: 301621653}
+  m_Layer: 0
+  m_Name: UIManager2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &301621652
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301621651}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &301621653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301621651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2443270bd26b5e848bcf84f191818d1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  castleButton: {fileID: 445674262}
+  closeCastleButton: {fileID: 920014839}
+  shopButton: {fileID: 912495788}
+  shopBuyButton: {fileID: 1211343352}
+  closeShopButton: {fileID: 1698459572}
+  churchButton: {fileID: 597341035}
+  churchsummonButton: {fileID: 1364056495}
+  closeChurchButton: {fileID: 36385987}
+  castleImg: {fileID: 473937641}
+  churchImg: {fileID: 1597246787}
+  shopImg: {fileID: 659108227}
 --- !u!1 &325294777
 GameObject:
   m_ObjectHideFlags: 0
@@ -6588,7 +6643,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1086133452
 Transform:
   m_ObjectHideFlags: 0
