@@ -9,8 +9,8 @@ public class DungeonOS : MonoBehaviour
     [Header("환경 변수")]
     //private PlayUIManager PUIManager;
     private GameObject DGUI;
-    private GameObject DGtimerArrow;
-    private GameObject[] DGtimerlevel;
+    private GameObject timerArrowDG;
+    private GameObject[] timerlevelDG;
     #endregion
 
     #region 던전 기본 데이터
@@ -20,11 +20,11 @@ public class DungeonOS : MonoBehaviour
     /// 던전이 가지고있는 모든 스테이지 그룹
     /// </summary>
     [Header("던전정보")]
-    public GameObject[] DG_stageGroup;
+    public GameObject[] stageGroupDG;
     /// <summary>
     /// 현재 던전이 사용중인 스테이지
     /// </summary>
-    public GameObject DG_slotStage;
+    public GameObject slotStageDG;
     /// <summary>
     /// 각라운드가 가지고있는 정보
     /// <br>1. 일반</br>
@@ -35,81 +35,81 @@ public class DungeonOS : MonoBehaviour
     /// <br>10. 보스방 </br>
     /// </summary>
     [Header("게임진행 변수")]
-    public int[] DG_roundInfo;
+    public int[] roundInfoDG;
     /// <summary>
     /// 현재 라운드에 생존해있는 몬스터 그룹
     /// </summary>
-    public List<int> DG_monsterGroup;
+    public List<int> monsterGroupDG;
     /// <summary>
     /// 게임 분기 확인 스테이지가 순서대로 들어있기때문에, 게임분기 컷팅시키는 변수
     /// </summary>
-    public int DGGame_checkCount;
+    public int checkCountDGGame;
     
     //던전안에서 플레이어관련된 변수 : DGP
     /// <summary>
     /// 현재 라운드 
     /// </summary>
-    public int DGP_round;
+    public int roundDGP;
     /// <summary>
     /// 현재 까지 얻은 누적골드
     /// </summary>
-    public int DGP_accrueGold;
+    public int accrueGoldDGP;
     /// <summary>
     /// 현재까지 얻은 누적 소울(개별로 얻은 소울 제외)
     /// </summary>
-    public int DGP_accrueSoul;
+    public int accrueSoulDGP;
     /// <summary>
     /// 현재 보유한 코스트 (최대치 10)
     /// </summary>
-    public int DGP_cost;
+    public int costDGP;
     /// <summary>
     /// 라운드 동안 지속된 시간 
     /// </summary>
-    public float DGP_progressTime;
+    public float progressTimeDGP;
     /// <summary>
     /// 시간 흐름에 따른 시간단계를 표시 
     /// <br>0. 초반</br>
     /// <br>1. 중반</br>
     /// <br>2. 후반</br>
     /// </summary>
-    public bool DGP_timerOn;
-    public int DGP_timeLevel;
+    public bool timerOnDGP;
+    public int timeLevelDGP;
     /// <summary>
     /// 남은 카드 (덱잔량)
     /// </summary>
-    public int DGP_remainingCard;
+    public int remainingCardDGP;
     /// <summary>
     /// 파티에 참여한 유닛 정보
     /// </summary>
-    public int[] DGP_unitGroup;
+    public int[] unitGroupDGP;
     /// <summary>
     /// 개별적으로 얻은 소울 정보
     /// </summary>
-    public int[] DGP_eaGetSoul;
+    public int[] eaGetSoulDGP;
     /// <summary>
     /// 파티 그룹의 사망 여부 판단
     /// <br>1. 살아있음</br>
     /// <br>2. 죽었음</br>
     /// <br>3. 특수상태(빈사등..)</br>
     /// </summary>
-    public int[] DGP_eaIsDie;
+    public int[] eaIsDieDGP;
     /// <summary>
     /// [통계데이터] 개별 누적 피격량
     /// </summary>
-    public float[] DGP_eaDamaged;
+    public float[] eaDamagedDGP;
     /// <summary>
     /// [통계데이터] 개별 누적 데미지량
     /// </summary>
-    public float[] DGP_eaDamage;
+    public float[] eaDamageDGP;
     /// <summary>
     /// [통계데이터] 개별 누적 킬수
     /// </summary>
-    public float[] DGP_eaKillCount;
+    public float[] eaKillCountDGP;
     #endregion
 
     #region 전달받은 GameManager의 Data
     //캐릭터 정보 
-    public CharacterDatabase.CH_Info[] DGP_Party = 
+    public CharacterDatabase.CH_Info[] PartyDGP = 
         { 
             new CharacterDatabase.CH_Info(0),
             new CharacterDatabase.CH_Info(0),
@@ -117,7 +117,7 @@ public class DungeonOS : MonoBehaviour
             new CharacterDatabase.CH_Info(0)
         };
     //덱정보
-    public List<int> DGP_useDeck;
+    public List<int> useDeckDGP;
     //유물 정보
     //초회 보상 유무 진행상황변수와는 별개
     bool ClearkCheck;
@@ -142,7 +142,7 @@ public class DungeonOS : MonoBehaviour
     {
         DeckShuffle();
         ////스테이지 설정 한번 들어가야함. 
-        StageReset(DGGame_checkCount);
+        StageReset(checkCountDGGame);
     }
     void StageReset(int stageNum)
     {
@@ -152,37 +152,37 @@ public class DungeonOS : MonoBehaviour
     void DeckShuffle()
     {
         List<int> tempList = new List<int>();
-        for (int i = 0; i < DGP_useDeck.Count; i++)
+        for (int i = 0; i < useDeckDGP.Count; i++)
         {
-            int tempA = Random.Range(0, DGP_useDeck.Count);
-            tempList.Add(DGP_useDeck[tempA]);
-            DGP_useDeck.RemoveAt(tempA);
+            int tempA = Random.Range(0, useDeckDGP.Count);
+            tempList.Add(useDeckDGP[tempA]);
+            useDeckDGP.RemoveAt(tempA);
         }
-        DGP_useDeck = tempList;
+        useDeckDGP = tempList;
     }
     #endregion
     #region 던전 타이머 기능
     public void DGTimerStart() 
     {
-        DGP_progressTime = 0;
-        DGP_timerOn = true;
-        DGP_timeLevel = 0;
+        progressTimeDGP = 0;
+        timerOnDGP = true;
+        timeLevelDGP = 0;
         StartCoroutine(DGTimer());
     }
 
     public IEnumerator DGTimer()
     {
-        while (DGP_timerOn)
+        while (timerOnDGP)
         {
-            DGP_progressTime += Time.deltaTime;
-            if((DGP_progressTime % 2) >= 1)
+            progressTimeDGP += Time.deltaTime;
+            if((progressTimeDGP % 2) >= 1)
             {
                 DGTimerUIReset();
             }
-            if(DGP_progressTime >= 20)
+            if(progressTimeDGP >= 20)
             {
-                DGP_timeLevel++;
-                if (DGP_progressTime >= 100)
+                timeLevelDGP++;
+                if (progressTimeDGP >= 100)
                 {
                     DGTimerEnd();
                 }
@@ -193,7 +193,7 @@ public class DungeonOS : MonoBehaviour
 
     public void DGTimerEnd()
     {
-        DGP_timerOn = false;
+        timerOnDGP = false;
     }
     public void DGTimerUIReset()
     {

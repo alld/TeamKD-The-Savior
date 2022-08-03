@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.Events;
 public class WorldMapUIManager : MonoBehaviour
 {
     #region UI 환경 변수
@@ -54,12 +54,12 @@ public class WorldMapUIManager : MonoBehaviour
     {
         #region 버튼 함수 연결 및 캐시처리
         BT_WMCastle.onClick.AddListener(OnWMCastleButton);
-        //BT_WMDungeon00.onClick.AddListener(OnDungeonButton);
-        //BT_WMDungeon01.onClick.AddListener(OnDungeonButton);
-        //BT_WMDungeon02.onClick.AddListener(OnDungeonButton);
-        //BT_WMDungeon03.onClick.AddListener(OnDungeonButton);
-        //BT_WMDungeon04.onClick.AddListener(OnDungeonButton);
-        //BT_WMDemonCastle.onClick.AddListener(OnDungeonButton);
+        BT_WMDungeon00.onClick.AddListener(()=>OnDungeonButton(1));
+        BT_WMDungeon01.onClick.AddListener(() => OnDungeonButton(2));
+        BT_WMDungeon02.onClick.AddListener(()=>OnDungeonButton(3));
+        BT_WMDungeon03.onClick.AddListener(()=>OnDungeonButton(4));
+        BT_WMDungeon04.onClick.AddListener(()=>OnDungeonButton(5));
+        BT_WMDemonCastle.onClick.AddListener(()=>OnDungeonButton(6));
         BT_VMClose.onClick.AddListener(OnVMCloseButton);
         BT_VMCastle.onClick.AddListener(OnVMCloseButton); 
         BT_VMChurch.onClick.AddListener(OnVMChurchButton);
@@ -178,7 +178,7 @@ public class WorldMapUIManager : MonoBehaviour
     }
     #endregion
 
-    #region 던전 정보 기능
+    #region 던전 정보 기능  // 요거 빼고 없어도됩니당 나머지 다 죽어도되엽 
     public static int DGSelectNumber = 0;
     public Image DGUI_IconSlot1;
     public Image DGUI_IconSlot2;
@@ -194,9 +194,9 @@ public class WorldMapUIManager : MonoBehaviour
         //DGUI_IconSlot2 = DungeonInfo.instance.DG_info[num].DG_reward2;
         //DGUI_IconSlot3 = DungeonInfo.instance.DG_info[num].DG_reward3;
         //이미지 오브젝트로변경하는걸 검토 
-        DGUI_name.text = DungeonInfo.instance.DG_info[num].DG_name;
+        DGUI_name.text = DungeonInfo.instance.DG_info[num].nameDG;
         // 텍스트 매니저를 통해서 텍스트값을 받아와야함. 
-        DGUI_content.text = DungeonInfo.instance.DG_info[num].DG_content;
+        DGUI_content.text = DungeonInfo.instance.DG_info[num].contentDG;
         // 위와 동일 수정 필요.
     }
     #endregion

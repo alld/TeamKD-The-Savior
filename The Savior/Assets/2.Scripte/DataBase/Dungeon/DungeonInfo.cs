@@ -12,71 +12,71 @@ public class DungeonInfo : MonoBehaviour
 
     public class DG_Info
     {
-        public int DG_number;
-        public Sprite DG_Icon;
-        public string DG_name;
-        public string DG_content;
-        public Image DG_reward1;
-        public Image DG_reward2;
-        public Image DG_reward3;
+        public int numberDG;
+        public Sprite IconDG;
+        public string nameDG;
+        public string contentDG;
+        public Image reward1DG;
+        public Image reward2DG;
+        public Image reward3DG;
 
         public DG_Info(int num)
         {
             switch (num)
             {
                 case 1:
-                    DG_number = num;
-                    //DG_Icon = Imageful[num];
-                    DG_name = "Æ©Åä¸®¾ó";
-                    DG_content = "ºó¹®ÀÚ¿­";
-                    DG_reward1 = null;
-                    DG_reward2 = null;
-                    DG_reward3 = null;
+                    numberDG = num;
+                    //IconDG = Imageful[num];
+                    nameDG = "Æ©Åä¸®¾ó";
+                    contentDG = "ºó¹®ÀÚ¿­";
+                    reward1DG = null;
+                    reward2DG = null;
+                    reward3DG = null;
                     break;
                 case 2:
-                    DG_number = num;
-                    //DG_Icon = Imageful[num];
-                    DG_name = "1´øÀü";
-                    DG_content = "ºó¹®ÀÚ¿­";
-                    DG_reward1 = null;
-                    DG_reward2 = null;
-                    DG_reward3 = null;
+                    numberDG = num;
+                    //IconDG = Imageful[num];
+                    nameDG = "1´øÀü";
+                    contentDG = "ºó¹®ÀÚ¿­";
+                    reward1DG = null;
+                    reward2DG = null;
+                    reward3DG = null;
                     break;
                 case 3:
-                    DG_number = num;
-                    //DG_Icon = Imageful[num];
-                    DG_name = "2´øÀü";
-                    DG_content = "ºó¹®ÀÚ¿­";
-                    DG_reward1 = null;
-                    DG_reward2 = null;
-                    DG_reward3 = null;
+                    numberDG = num;
+                    //IconDG = Imageful[num];
+                    nameDG = "2´øÀü";
+                    contentDG = "ºó¹®ÀÚ¿­";
+                    reward1DG = null;
+                    reward2DG = null;
+                    reward3DG = null;
                     break;
                 case 4:
-                    DG_number = num;
-                    //DG_Icon = Imageful[num];
-                    DG_name = "ºó¹®ÀÚ¿­";
-                    DG_content = "ºó¹®ÀÚ¿­";
-                    DG_reward1 = null;
-                    DG_reward2 = null;
-                    DG_reward3 = null;
+                    numberDG = num;
+                    //IconDG = Imageful[num];
+                    nameDG = "ºó¹®ÀÚ¿­";
+                    contentDG = "ºó¹®ÀÚ¿­";
+                    reward1DG = null;
+                    reward2DG = null;
+                    reward3DG = null;
                     break;
                 case 5:
-                    DG_number = num; 
-                    //DG_Icon = Imageful[num];
-                    DG_name = "ºó¹®ÀÚ¿­";
-                    DG_content = "ºó¹®ÀÚ¿­";
-                    DG_reward1 = null;
-                    DG_reward2 = null;
-                    DG_reward3 = null;
+                    numberDG = num;
+                    //IconDG = Imageful[num];
+                    nameDG = "ºó¹®ÀÚ¿­";
+                    contentDG = "ºó¹®ÀÚ¿­";
+                    reward1DG = null;
+                    reward2DG = null;
+                    reward3DG = null;
                     break;
                 case 6:
-                    DG_number = num;
-                    //DG_Icon = Imageful[num];
-                    DG_name = "ºó¹®ÀÚ¿­";
-                    DG_content = "ºó¹®ÀÚ¿­";
-                    DG_reward1 = null;
-                    DG_reward2 = null;
-                    DG_reward3 = null;
+                    numberDG = num;
+                    //IconDG = Imageful[num];
+                    nameDG = "ºó¹®ÀÚ¿­";
+                    contentDG = "ºó¹®ÀÚ¿­";
+                    reward1DG = null;
+                    reward2DG = null;
+                    reward3DG = null;
                     break;
                 default:
                     break;

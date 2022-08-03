@@ -1473,7 +1473,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &500217947
 Transform:
   m_ObjectHideFlags: 0
@@ -1675,27 +1675,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8a75496d77ad8c4a94caf7f00ce67e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DG_stageGroup:
-  - {fileID: 500217946}
-  - {fileID: 839540795}
-  DG_slotStage: {fileID: 500217946}
-  DG_roundInfo: 
-  DG_monsterGroup: 
-  DGGame_checkCount: 0
-  DGP_round: 0
-  DGP_accrueGold: 0
-  DGP_accrueSoul: 0
-  DGP_cost: 0
-  DGP_progressTime: 0
-  DGP_timeLevel: 0
-  DGP_remainingCard: 0
-  DGP_unitGroup: 
-  DGP_eaGetSoul: 
-  DGP_eaIsDie: 
-  DGP_eaDamaged: []
-  DGP_eaDamage: []
-  DGP_eaKillCount: []
-  DGP_useDeck: 
+  stageGroupDG: []
+  slotStageDG: {fileID: 0}
+  roundInfoDG: 
+  monsterGroupDG: 
+  checkCountDGGame: 0
+  roundDGP: 0
+  accrueGoldDGP: 0
+  accrueSoulDGP: 0
+  costDGP: 0
+  progressTimeDGP: 0
+  timerOnDGP: 0
+  timeLevelDGP: 0
+  remainingCardDGP: 0
+  unitGroupDGP: 
+  eaGetSoulDGP: 
+  eaIsDieDGP: 
+  eaDamagedDGP: []
+  eaDamageDGP: []
+  eaKillCountDGP: []
+  useDeckDGP: 
 --- !u!114 &600042790
 MonoBehaviour:
   m_ObjectHideFlags: 0
