@@ -2192,7 +2192,7 @@ MonoBehaviour:
   closeDungeon0_Button: {fileID: 1411574604}
   startDungeon0_Button: {fileID: 1913542479}
   firstDungeon: {fileID: 1741660580}
-  bossSlotTr1: {fileID: 2056811588}
+  bossSlotTr: {fileID: 2056811588}
   rewardSlotTr1: {fileID: 1782793503}
   rewardSlotTr2: {fileID: 504198704}
   dungeonSlot: {fileID: 1960241867}
@@ -7557,7 +7557,7 @@ GameObject:
   - component: {fileID: 1146503589}
   - component: {fileID: 1146503588}
   m_Layer: 5
-  m_Name: "\uD29C\uD1A0\uB9AC\uC5BC \uB358\uC804"
+  m_Name: "\uADF8\uB85C\uD0C0"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7603,7 +7603,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD29C\uD1A0\uB9AC\uC5BC \uB358\uC804"
+  m_text: "\uADF8\uB85C\uD0C0"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c39b2761bd3ce8e478b7dd5b5dc05f48, type: 2}
   m_sharedMaterial: {fileID: -6259364659104234427, guid: c39b2761bd3ce8e478b7dd5b5dc05f48, type: 2}
