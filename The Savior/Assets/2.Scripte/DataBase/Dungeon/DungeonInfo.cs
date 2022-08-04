@@ -24,7 +24,7 @@ public class DungeonInfo : MonoBehaviour
     /// </summary>
     private void InitDungeonName()
     {
-        nameDungeon[0] = "튜토리얼 던전";
+        nameDungeon[0] = "그로타";
         nameDungeon[1] = "첫 번째 던전";
         nameDungeon[2] = "두 번째 던전";
         nameDungeon[3] = "세 번째 던전";
