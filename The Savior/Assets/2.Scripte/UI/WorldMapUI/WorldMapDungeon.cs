@@ -9,23 +9,19 @@ public class WorldMapDungeon : MonoBehaviour
     DungeonInfo info;   // 던전 정보 스크립트
 
     public enum EDungeonName { Grotta, First, Second, Third, Fourth, Fifth }    // 던전 이름
+    public EDungeonName curDungeon = EDungeonName.Grotta;
 
     [Header("던전 입장 버튼")]
-    public Button dg0_Button; // dg0 : Dungeon0
-    public Button dg1_Button; // dg1 : Dungeon1
-    public Button dg2_Button; // dg2 : Dungeon2
-    public Button dg3_Button; // dg3 : Dungeon3
-    public Button dg4_Button; // dg4 : Dungeon4
-    public Button demonCastleButton;
+    public Button[] EnterTheDungeonButton = new Button[6];
 
     [Header("던전 이미지 닫기 버튼")]
-    public Button closeDungeon0_Button;
+    public Button closeDungeonButton;
 
     [Header("던전 시작 버튼")]
-    public Button startDungeon0_Button;
+    public Button startDungeonButton;
 
     [Header("던전 입장 이미지")]
-    public GameObject firstDungeon;
+    public GameObject dungeon;
 
     [Header("던전 출현 몬스터 슬롯 / 기대 보상 슬롯")]
     public Transform bossSlotTr;
@@ -41,22 +37,36 @@ public class WorldMapDungeon : MonoBehaviour
     {
         info = GameObject.Find("DungeonInfo").GetComponent<DungeonInfo>();
 
-        dg0_Button.onClick.AddListener(() => OnClick_EnterTheGrottaBtn());
-        closeDungeon0_Button.onClick.AddListener(() => OnClick_CloseGrottaBtn());
-        startDungeon0_Button.onClick.AddListener(() => OnClick_StartGrottaBtn());
+        // 튜토리얼 던전
+        EnterTheDungeonButton[(int)EDungeonName.Grotta].onClick.AddListener(() => OnClick_EnterTheDungeonBtn(0));
+        // 첫 번째 던전
+        EnterTheDungeonButton[(int)EDungeonName.First].onClick.AddListener(() => OnClick_EnterTheDungeonBtn(1));
+        // 두 번째 던전
+        EnterTheDungeonButton[(int)EDungeonName.Second].onClick.AddListener(() => OnClick_EnterTheDungeonBtn(2));
+        // 세 번째 던전
+        EnterTheDungeonButton[(int)EDungeonName.Third].onClick.AddListener(() => OnClick_EnterTheDungeonBtn(3));
+        // 네 번째 던전
+        EnterTheDungeonButton[(int)EDungeonName.Fourth].onClick.AddListener(() => OnClick_EnterTheDungeonBtn(4));
+        // 마왕성 던전
+        EnterTheDungeonButton[(int)EDungeonName.Fifth].onClick.AddListener(() => OnClick_EnterTheDungeonBtn(5));
+
+        // 던전창 닫기, 던전 들어가기.
+        closeDungeonButton.onClick.AddListener(() => OnClick_CloseDungeonBtn());
+        startDungeonButton.onClick.AddListener(() => OnClick_StartDungeonBtn());
+
     }
 
     /// <summary>
     /// 튜토리얼 던전 이미지 활성화.
     /// <br>던전 이미지 활성화 시에 해당 던전에 맞는 아이콘과 던전 이미지를 넣어줘야 함.</br>
     /// </summary>
-    private void OnClick_EnterTheGrottaBtn()
+    private void OnClick_EnterTheDungeonBtn(int idx)
     {
         // 이미지 생성
-        dungeonImg[0] = Instantiate(info.dungeonImg[(int)EDungeonName.Grotta].GetComponent<Image>());
-        dungeonImg[1] = Instantiate(info.bossImg[(int)EDungeonName.Grotta].GetComponent<Image>());
-        dungeonImg[2] = Instantiate(info.rewardImg1[(int)EDungeonName.Grotta].GetComponent<Image>());
-        dungeonImg[3] = Instantiate(info.rewardImg2[(int)EDungeonName.Grotta].GetComponent<Image>());
+        dungeonImg[0] = Instantiate(info.dungeonImg[idx].GetComponent<Image>());
+        dungeonImg[1] = Instantiate(info.bossImg[idx].GetComponent<Image>());
+        dungeonImg[2] = Instantiate(info.rewardImg1[idx].GetComponent<Image>());
+        dungeonImg[3] = Instantiate(info.rewardImg2[idx].GetComponent<Image>());
 
         // 이미지 세팅
         dungeonImg[0].transform.SetParent(dungeonSlot);
@@ -71,10 +81,12 @@ public class WorldMapDungeon : MonoBehaviour
         InitRectSize(dungeonImg[3]);
 
         // 던전 설명
-        contactText.text = info.contactDungeon[(int)EDungeonName.Grotta];
+        contactText.text = info.contactDungeon[idx];
+
+        curDungeon = (EDungeonName)idx;
 
         // 던전 이미지 활성화.
-        firstDungeon.SetActive(true);
+        dungeon.SetActive(true);
     }
 
     /// <summary>
@@ -90,9 +102,9 @@ public class WorldMapDungeon : MonoBehaviour
     /// <summary>
     /// 튜토리얼 던전 이미지 닫기.
     /// </summary>
-    private void OnClick_CloseGrottaBtn()
+    private void OnClick_CloseDungeonBtn()
     {
-        firstDungeon.SetActive(false);
+        dungeon.SetActive(false);
         Destroy(dungeonImg[0]);
         Destroy(dungeonImg[1]);
         Destroy(dungeonImg[2]);
@@ -102,8 +114,8 @@ public class WorldMapDungeon : MonoBehaviour
     /// <summary>
     /// 튜토리얼 던전 입장.
     /// </summary>
-    private void OnClick_StartGrottaBtn()
+    private void OnClick_StartDungeonBtn()
     {
-        Debug.Log("Start!!!");
+        Debug.Log("EnterTheDungeon : " + curDungeon);
     }
 }

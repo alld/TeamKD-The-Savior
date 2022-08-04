@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
         dataManager = GetComponent<GameDataManager>();
 
         // 게임 시작시에 Main씬을 연결한다.
-        //SceneManager.LoadSceneAsync("Main", LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync("Main", LoadSceneMode.Additive);
         // Play씬에서 사용하는 UI 연결
         playUI = GameObject.Find("PUIManager").GetComponent<PlayUI>();
 
