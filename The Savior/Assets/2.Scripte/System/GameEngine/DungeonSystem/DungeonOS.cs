@@ -10,7 +10,7 @@ public class DungeonOS : MonoBehaviour
     //private PlayUIManager PUIManager;
     private GameObject timerArrowDG;
     private GameObject[] timerlevelDG;
-
+    private WaitForSeconds delay = new WaitForSeconds(0.1f);
     private DungeonController DungeonCtrl;
     #endregion
 
@@ -66,7 +66,15 @@ public class DungeonOS : MonoBehaviour
     /// <summary>
     /// 라운드 동안 지속된 시간 
     /// </summary>
-    public float progressTimeDGP;
+    public float progressTimeDGP 
+    {
+        get { return progressTimeDGP; }
+        set 
+        { 
+            progressTimeDGP = value;
+            DungeonCtrl.gameTimerText.text = progressTimeDGP.ToString("F0");
+        }
+    }
     /// <summary>
     /// 시간 흐름에 따른 시간단계를 표시 
     /// <br>0. 초반</br>
@@ -138,19 +146,77 @@ public class DungeonOS : MonoBehaviour
         GameSetting();
     }
 
-
+    #region 던전 UI 처리
+    /// <summary>
+    /// 라운드 종료후 페이드인 처리
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator FadeIn()
+    {
+        bool check = true;
+        DungeonCtrl.fadeObj.SetActive(true);
+        float colorvalue = 0;
+        while (check)
+        {
+            Color color = DungeonCtrl.fade.color;
+            colorvalue += Time.deltaTime * 10;
+            if (colorvalue < 1)
+            {
+                color.a = colorvalue;
+                DungeonCtrl.fade.color = color;
+            }
+            else check = false;
+            yield return delay;
+        }
+        DungeonCtrl.fade.color = new Color(0, 0, 0, 1);
+    }
+    /// <summary>
+    /// 페이드인 처리후 페이드아웃 
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator FadeOut()
+    {
+        bool check = true;
+        float colorvalue = 1;
+        while (check)
+        {
+            Color color = DungeonCtrl.fade.color;
+            colorvalue -= Time.deltaTime * 10;
+            if (colorvalue > 0)
+            {
+                color.a = colorvalue;
+                DungeonCtrl.fade.color = color;
+            }
+            else check = false;
+            yield return delay;
+        }
+        DungeonCtrl.fade.color = new Color(0, 0, 0, 0);
+        DungeonCtrl.fadeObj.SetActive(false);
+    }
+    #endregion
     #region 던전 셋팅
+    /// <summary>
+    /// 게임이 시작하고 던전에서 기본값들을 셋팅할때 사용
+    /// </summary>
     void GameSetting()
     {
         DeckShuffle();
         ////스테이지 설정 한번 들어가야함. 
         StageReset(checkCountDGGame);
     }
+    /// <summary>
+    /// 스테이지가 변동되고 실행되는 기능
+    /// 매개변수는 몇번째 스테이지를 진행할지 적용
+    /// </summary>
+    /// <param name="stageNum"></param>
     void StageReset(int stageNum)
     {
         DGTimerStart();
     }
 
+    /// <summary>
+    /// 게임 시작후, 휴식 타이밍에 덱 셔플 기능
+    /// </summary>
     void DeckShuffle()
     {
         List<int> tempList = new List<int>();
@@ -164,42 +230,71 @@ public class DungeonOS : MonoBehaviour
     }
     #endregion
     #region 던전 타이머 기능
+    /// <summary>
+    /// 타이머 시작 기능
+    /// </summary>
     public void DGTimerStart() 
     {
         progressTimeDGP = 0;
         timerOnDGP = true;
         timeLevelDGP = 0;
+        DungeonCtrl.gameTimerBG[0].fillAmount = 1;
+        DungeonCtrl.gameTimerBG[1].fillAmount = 1;
         StartCoroutine(DGTimer());
     }
-
+    /// <summary>
+    /// 타이머 작동 기능
+    /// 값이 변동되면 자동으로 텍스트가 반영됨
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator DGTimer()
     {
         while (timerOnDGP)
         {
             progressTimeDGP += Time.deltaTime;
-            if((progressTimeDGP % 2) >= 1)
+
+            if (progressTimeDGP < 20)
             {
+                timeLevelDGP = 1;
                 DGTimerUIReset();
             }
-            if(progressTimeDGP >= 20)
+            else if (progressTimeDGP < 40)
             {
-                timeLevelDGP++;
-                if (progressTimeDGP >= 100)
-                {
-                    DGTimerEnd();
-                }
+                timeLevelDGP = 2;
+                DGTimerUIReset();
             }
+            else
+            {
+                timeLevelDGP = 3;
+            }
+            
         }
         yield return null;
     }
-
+    /// <summary>
+    /// 외부에서 타이머 종료시 사용
+    /// </summary>
     public void DGTimerEnd()
     {
         timerOnDGP = false;
     }
+    /// <summary>
+    /// 타이머의 회전하는 UI 확인 
+    /// </summary>
     public void DGTimerUIReset()
     {
-        DungeonCtrl.gameTimerArrow.transform.rotation = Quaternion.Euler(0,0,progressTimeDGP*3);
+        DungeonCtrl.gameTimerBG[timeLevelDGP].fillAmount = (20 - (progressTimeDGP % 20)) * 0.05f;
+    }
+    #endregion
+    #region 던전 종료
+    /// <summary>
+    /// 던전 종료시 작동 // 결산창에서 나가기버튼 클릭시 실행되는 함수
+    /// </summary>
+    void DungeonEnd()
+    {
+        DungeonCtrl.dungeonUI.SetActive(false);
+        // 데이터 전달 
+        // 세이브 1회 실행
     }
     #endregion
 }
