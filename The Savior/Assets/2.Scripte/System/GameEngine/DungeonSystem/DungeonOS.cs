@@ -8,9 +8,10 @@ public class DungeonOS : MonoBehaviour
     #region 환경 변수
     [Header("환경 변수")]
     //private PlayUIManager PUIManager;
-    private GameObject DGUI;
     private GameObject timerArrowDG;
     private GameObject[] timerlevelDG;
+
+    private DungeonController DungeonCtrl;
     #endregion
 
     #region 던전 기본 데이터
@@ -126,13 +127,14 @@ public class DungeonOS : MonoBehaviour
     void Start()
     {
         #region 캐시처리 //합칠때 다시한번 설정해줘야함..
+        DungeonCtrl = DungeonController.instance;
         //PUIManager = GameObject.Find("PUIManaer").GetComponent<PlayUIManager>();
         //DGUI = PUIManager.DungeonUI;
         //DGtimerArrow = PUIManager.DungeonTimerArrow;
         //DGtimerlevel = PUIManager.DungeonTimerColor;
         #endregion
         //게임용 UI 활성화 
-        DGUI.SetActive(true);
+        DungeonCtrl.dungeonUI.SetActive(true);
         GameSetting();
     }
 
@@ -146,7 +148,7 @@ public class DungeonOS : MonoBehaviour
     }
     void StageReset(int stageNum)
     {
-        
+        DGTimerStart();
     }
 
     void DeckShuffle()
@@ -197,7 +199,7 @@ public class DungeonOS : MonoBehaviour
     }
     public void DGTimerUIReset()
     {
-        
+        DungeonCtrl.gameTimerArrow.transform.rotation = Quaternion.Euler(0,0,progressTimeDGP*3);
     }
     #endregion
 }
