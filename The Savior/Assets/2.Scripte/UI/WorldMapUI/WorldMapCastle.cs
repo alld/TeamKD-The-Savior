@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class WorldMapVisitCastle : MonoBehaviour
+public class WorldMapCastle : MonoBehaviour
 {
     [Header("¹öÆ° - ¼º")]
     public Button castleButton;
