@@ -8,16 +8,17 @@ public class CharacterDatabase : MonoBehaviour
 {
     /// <summary>
     /// 캐릭터의 기본 원형값을 가지고있는 데이터 베이스 
-    /// <br>Ch_Info를 통해 인스턴스를 만들어서 사용해야함. </br>
-    /// <br>CH_Info(int) : int == 데이터베이스상 캐릭터 고유넘버 </br>
+    /// <br>InfoCh를 통해 인스턴스를 만들어서 사용해야함. </br>
+    /// <br>InfoCH(int) : int == 데이터베이스상 캐릭터 고유넘버 </br>
     /// </summary>
     public static CharacterDatabase instance = null;
     //public Sprite[] ImagefulSet;
     //public static List<Sprite> Imageful = null;
 
-    public class CH_Info
+    public class InfoCharacter
     {
         #region 캐릭터 기본 설정값
+        public int number;
         /// <summary>
         /// 캐릭터 기본 아이콘
         /// </summary>
@@ -126,11 +127,12 @@ public class CharacterDatabase : MonoBehaviour
         /// <br>(int = num) : 캐릭터 고유의 넘버링값</br>
         /// </summary>
         /// <param name="num"></param>
-        public CH_Info(int num)
+        public InfoCharacter(int num)
         {
             switch (num)
             {
                 case 1: // 머선머선 캐릭터 아직 미정
+                    number = num;
                     iconCH = null; // 이미지 설정 검토
                     nameCH = "머선머선 캐릭터"; // 던전정보와 마찬가지로 텍스트 구동방식 검토
                     hPCH = 100;
@@ -154,6 +156,7 @@ public class CharacterDatabase : MonoBehaviour
                     speialskillCH = 0;
                     break;
                 case 2: // snrn
+                    number = num;
                     iconCH = null;
                     nameCH = null;
                     hPCH = 0;
@@ -177,6 +180,7 @@ public class CharacterDatabase : MonoBehaviour
                     speialskillCH = 0;
                     break;
                 case 3:
+                    number = num;
                     iconCH = null;
                     nameCH = null;
                     hPCH = 0;
@@ -200,6 +204,7 @@ public class CharacterDatabase : MonoBehaviour
                     speialskillCH = 0;
                     break;
                 case 4:
+                    number = num;
                     iconCH = null;
                     nameCH = null;
                     hPCH = 0;
@@ -223,6 +228,7 @@ public class CharacterDatabase : MonoBehaviour
                     speialskillCH = 0;
                     break;
                 case 5:
+                    number = num;
                     iconCH = null;
                     nameCH = null;
                     hPCH = 0;
@@ -246,6 +252,7 @@ public class CharacterDatabase : MonoBehaviour
                     speialskillCH = 0;
                     break;
                 case 6:
+                    number = num;
                     iconCH = null;
                     nameCH = null;
                     hPCH = 0;
@@ -271,7 +278,7 @@ public class CharacterDatabase : MonoBehaviour
                 default:
                     break;
             }
-}
+        }
     }
 
     private void Awake()

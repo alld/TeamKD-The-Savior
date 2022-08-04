@@ -109,12 +109,12 @@ public class DungeonOS : MonoBehaviour
 
     #region 전달받은 GameManager의 Data
     //캐릭터 정보 
-    public CharacterDatabase.CH_Info[] PartyDGP = 
+    public CharacterDatabase.InfoCharacter[] PartyDGP = 
         { 
-            new CharacterDatabase.CH_Info(0),
-            new CharacterDatabase.CH_Info(0),
-            new CharacterDatabase.CH_Info(0),
-            new CharacterDatabase.CH_Info(0)
+            new CharacterDatabase.InfoCharacter(0),
+            new CharacterDatabase.InfoCharacter(0),
+            new CharacterDatabase.InfoCharacter(0),
+            new CharacterDatabase.InfoCharacter(0)
         };
     //덱정보
     public List<int> useDeckDGP;
