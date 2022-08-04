@@ -10,7 +10,7 @@ public class DungeonInfo : MonoBehaviour
     //public Sprite[] ImagefulSet;
     //public static List<Sprite> Imageful = null;
 
-    public class DG_Info
+    public class InfoDG
     {
         public int numberDG;
         public Sprite IconDG;
@@ -20,7 +20,7 @@ public class DungeonInfo : MonoBehaviour
         public Image reward2DG;
         public Image reward3DG;
 
-        public DG_Info(int num)
+        public InfoDG(int num)
         {
             switch (num)
             {
@@ -84,14 +84,14 @@ public class DungeonInfo : MonoBehaviour
         }
     }
     
-    public DG_Info[] DG_info = 
+    public InfoDG[] infoDG= 
     { 
-        new DG_Info(1),
-        new DG_Info(2),
-        new DG_Info(3),
-        new DG_Info(4),
-        new DG_Info(5),
-        new DG_Info(6)
+        new InfoDG(1),
+        new InfoDG(2),
+        new InfoDG(3),
+        new InfoDG(4),
+        new InfoDG(5),
+        new InfoDG(6)
     };
     private void Awake()
     {

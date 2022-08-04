@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class DungeonController : MonoBehaviour
 {
+    public static DungeonController instance = null; //싱글턴
     #region UI 환경변수
     public Image[] partySlotHPGauage; // 파티원 체력바
     public Image[] partySlotNomalSkillCooldown;// 일반스킬 쿨다운 표시
@@ -22,6 +23,11 @@ public class DungeonController : MonoBehaviour
     public GameObject dungeonUI; // 던전 UI
     public GameObject[] cardSlot;
     #endregion
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
 
 }
