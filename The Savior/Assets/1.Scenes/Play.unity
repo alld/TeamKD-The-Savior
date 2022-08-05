@@ -5385,6 +5385,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Relic_Epic
       objectReference: {fileID: 0}
+    - target: {fileID: 5867218934565930778, guid: 350c17aab1b291b4292c88d4acbe5cd4, type: 3}
+      propertyPath: relicNum
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6355234723038417136, guid: 350c17aab1b291b4292c88d4acbe5cd4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -8071,6 +8075,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 407675932}
     m_Modifications:
+    - target: {fileID: -1028820248133894537, guid: d6cb17672fc056742bb6313646807c78, type: 3}
+      propertyPath: relicNum
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 36012612613491579, guid: d6cb17672fc056742bb6313646807c78, type: 3}
       propertyPath: m_Name
       value: Relic_Honor
@@ -8738,6 +8746,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 179605617}
     m_Modifications:
+    - target: {fileID: -4133340545116311567, guid: d2119d691963fd4479970b0e83c85d43, type: 3}
+      propertyPath: relicNum
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 36012612613491579, guid: d2119d691963fd4479970b0e83c85d43, type: 3}
       propertyPath: m_Name
       value: Relic_Reunes
@@ -10817,6 +10829,10 @@ PrefabInstance:
     - target: {fileID: 36012612613491579, guid: 9153eceddfc38c145bab6b2d6ebfecde, type: 3}
       propertyPath: m_Name
       value: Relic_Need
+      objectReference: {fileID: 0}
+    - target: {fileID: 3114604649452476312, guid: 9153eceddfc38c145bab6b2d6ebfecde, type: 3}
+      propertyPath: relicNum
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6355234723038417136, guid: 9153eceddfc38c145bab6b2d6ebfecde, type: 3}
       propertyPath: m_Pivot.x
@@ -31815,6 +31831,10 @@ PrefabInstance:
     - target: {fileID: 6355234723038417136, guid: 0dcdba757dd7ef84cbc9c472eb17021d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6387228250954525835, guid: 0dcdba757dd7ef84cbc9c472eb17021d, type: 3}
+      propertyPath: relicNum
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0dcdba757dd7ef84cbc9c472eb17021d, type: 3}

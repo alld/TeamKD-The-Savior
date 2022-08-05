@@ -61,14 +61,34 @@ public class Relic : MonoBehaviour
     /// <param name="copyImg"></param>
     public void RelicSetting(Image copyImg)
     {
-        
         if(relicTr[curRelicTr].childCount > 1)
         {
             Destroy(relicTr[curRelicTr].GetChild(1).gameObject);
         }
+
+        //
+        // 이미 유물이 장착되어 있다면, 장착된 유물을 파괴하고
+        // 클릭한 위치에 유물을 장착한다.
+        // 버그가 있으므로 주석 처리하고 나중에 만들겠읍니다.
+        //
+
+        //data = copyImg.GetComponent<RelicData>();
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    if (relicNum[i] == data.relicNum)
+        //    {
+        //        Debug.Log(i);
+        //        Debug.Log(relicNum[i]);
+        //        Debug.Log(relicTr[relicNum[i]-1]);
+        //        Destroy(relicTr[relicNum[i]-1].GetChild(1).gameObject);
+        //        break;
+        //    }
+        //}
+        //relicNum[curRelicTr] = data.relicNum;
         copyImg.transform.SetParent(relicTr[curRelicTr]);
         InitRectSize(copyImg);
-        relicNum[curRelicTr] = data.relicNum;
+        //Debug.Log(relicNum[curRelicTr]);
+       
         Destroy(copyImg.GetComponent<ViewRelic>());
         relicInventory.SetActive(false);
     }
