@@ -4,15 +4,41 @@ using UnityEngine;
 
 public class DungeonDatabase : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static DungeonDatabase instance;
+    public class InfoDungeon
     {
-        
-    }
+        public List<MonsterDatabase.InfoMonster> dungeonMonsterBox = new List<MonsterDatabase.InfoMonster>();
 
-    // Update is called once per frame
-    void Update()
-    {
         
+        public InfoDungeon(int num)
+        {
+            switch (num)
+            {
+                case 0:
+                    dungeonMonsterBox.Add(new MonsterDatabase.InfoMonster(1));
+                    break;
+                case 1:
+                    dungeonMonsterBox.Add(new MonsterDatabase.InfoMonster(1));
+                    break;
+                case 2:
+                    dungeonMonsterBox.Add(new MonsterDatabase.InfoMonster(1));
+                    break;
+                case 3:
+                    dungeonMonsterBox.Add(new MonsterDatabase.InfoMonster(1));
+                    break;
+                case 4:
+                    dungeonMonsterBox.Add(new MonsterDatabase.InfoMonster(1));
+                    break;
+                case 5:
+                    dungeonMonsterBox.Add(new MonsterDatabase.InfoMonster(1));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    void Awake()
+    {
+        instance = this;
     }
 }

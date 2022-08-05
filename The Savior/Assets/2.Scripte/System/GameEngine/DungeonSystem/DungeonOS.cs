@@ -4,19 +4,26 @@ using UnityEngine;
 
 public class DungeonOS : MonoBehaviour
 {
-
     #region 환경 변수
     [Header("환경 변수")]
+    public int dungeonNumber = 0;
     //private PlayUIManager PUIManager;
     private GameObject timerArrowDG;
-    private GameObject[] timerlevelDG;
+    private GameObject[] timerlevelUI;
     private WaitForSeconds delay = new WaitForSeconds(0.1f);
     private DungeonController DungeonCtrl;
+    public List<string> errorList;
     #endregion
 
     #region 던전 기본 데이터
-    //던전 관련된 변수 : DG
 
+    List<MonsterDatabase.InfoMonster> monsterBox = new List<MonsterDatabase.InfoMonster>();
+
+    List<CharacterDatabase.InfoCharacter> stageSlotPlayerBottom;
+    List<CharacterDatabase.InfoCharacter> stageSlotPlayerTop;
+    List<CharacterDatabase.InfoCharacter> stageSlotPlayerMid;
+
+    //던전 관련된 변수 : DG
     /// <summary>
     /// 던전이 가지고있는 모든 스테이지 그룹
     /// </summary>
@@ -26,6 +33,13 @@ public class DungeonOS : MonoBehaviour
     /// 현재 던전이 사용중인 스테이지
     /// </summary>
     public GameObject slotStageDG;
+
+    public GameObject playerStagePointGroup;
+    public GameObject monsterStagePointGroup;
+    private Transform[] playerStagePoint;
+    private Transform[] monsterStagePoint;
+
+
     /// <summary>
     /// 각라운드가 가지고있는 정보
     /// <br>1. 일반</br>
@@ -40,7 +54,11 @@ public class DungeonOS : MonoBehaviour
     /// <summary>
     /// 현재 라운드에 생존해있는 몬스터 그룹
     /// </summary>
-    public List<int> monsterGroupDG;
+    public List<MonsterDatabase.InfoMonster> monsterGroup = new List<MonsterDatabase.InfoMonster>();
+    /// <summary>
+    /// 플레이어 유닛 그룹
+    /// </summary>
+    public List<CharacterDatabase.InfoCharacter> characterGroup = new List<CharacterDatabase.InfoCharacter>(); // 오브젝트로 설정
     /// <summary>
     /// 게임 분기 확인 스테이지가 순서대로 들어있기때문에, 게임분기 컷팅시키는 변수
     /// </summary>
@@ -88,10 +106,6 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     public int remainingCardDGP;
     /// <summary>
-    /// 파티에 참여한 유닛 정보
-    /// </summary>
-    public int[] unitGroupDGP;
-    /// <summary>
     /// 개별적으로 얻은 소울 정보
     /// </summary>
     public int[] eaGetSoulDGP;
@@ -118,7 +132,7 @@ public class DungeonOS : MonoBehaviour
 
     #region 전달받은 GameManager의 Data
     //캐릭터 정보 
-    public CharacterDatabase.InfoCharacter[] PartyDGP = 
+    public CharacterDatabase.InfoCharacter[] partyUnit = 
         { 
             new CharacterDatabase.InfoCharacter(0),
             new CharacterDatabase.InfoCharacter(0),
@@ -136,10 +150,15 @@ public class DungeonOS : MonoBehaviour
     {
         #region 캐시처리 //합칠때 다시한번 설정해줘야함..
         DungeonCtrl = DungeonController.instance;
+        DungeonDatabase.InfoDungeon infoDungeon = new DungeonDatabase.InfoDungeon(dungeonNumber);
+        monsterBox = infoDungeon.dungeonMonsterBox;
         //PUIManager = GameObject.Find("PUIManaer").GetComponent<PlayUIManager>();
         //DGUI = PUIManager.DungeonUI;
         //DGtimerArrow = PUIManager.DungeonTimerArrow;
         //DGtimerlevel = PUIManager.DungeonTimerColor;
+
+        playerStagePoint = playerStagePointGroup.GetComponentsInChildren<Transform>();
+        monsterStagePoint = monsterStagePointGroup.GetComponentsInChildren<Transform>();
         #endregion
         //게임용 UI 활성화 
         DungeonCtrl.dungeonUI.SetActive(true);
@@ -169,6 +188,7 @@ public class DungeonOS : MonoBehaviour
             yield return delay;
         }
         DungeonCtrl.fade.color = new Color(0, 0, 0, 1);
+        FadeOut();
     }
     /// <summary>
     /// 페이드인 처리후 페이드아웃 
@@ -201,6 +221,7 @@ public class DungeonOS : MonoBehaviour
     void GameSetting()
     {
         DeckShuffle();
+        PlayerUnitCreate();
         ////스테이지 설정 한번 들어가야함. 
         StageReset(checkCountDGGame);
     }
@@ -212,6 +233,242 @@ public class DungeonOS : MonoBehaviour
     void StageReset(int stageNum)
     {
         DGTimerStart();
+        PlayerUnitSetting();
+    }
+
+    /// <summary>
+    /// 플레이어유닛 스테이지 자동배치
+    /// </summary>
+    void PlayerUnitSetting()
+    {
+        foreach (var item in partyUnit)
+        {
+            switch (item.attackTypeCH)
+            {
+                case 1:
+                    if (stageSlotPlayerBottom.Count < 3)
+                    {
+                        stageSlotPlayerBottom.Add(item);
+                    }
+                    else
+                    {
+                        CharacterDatabase.InfoCharacter moveSlot = item;
+                        CharacterDatabase.InfoCharacter tempSlot = item;
+                        //내부 비교 밀어내기식 자리배치 // 작은수치가 우선
+                        for (int i = 0; i < stageSlotPlayerBottom.Count; i++)
+                        {
+                            if (stageSlotPlayerBottom[i].positionPerCH > moveSlot.positionPerCH)
+                            {
+                                tempSlot = stageSlotPlayerBottom[i];
+                                stageSlotPlayerBottom.RemoveAt(i);
+                                stageSlotPlayerBottom.Insert(i, moveSlot);
+                                moveSlot = tempSlot;
+                            }  
+                        }
+                        // 다음줄 검토 
+                        if(stageSlotPlayerMid.Count < 3)
+                        {
+                            stageSlotPlayerMid.Add(moveSlot);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < stageSlotPlayerMid.Count; i++)
+                            {
+                                if (stageSlotPlayerMid[i].positionPerCH > moveSlot.positionPerCH)
+                                {
+                                    tempSlot = stageSlotPlayerMid[i];
+                                    stageSlotPlayerMid.RemoveAt(i);
+                                    stageSlotPlayerMid.Insert(i, moveSlot);
+                                    moveSlot = tempSlot;
+                                }
+                            }
+                            // 다음줄 검토 
+                            if (stageSlotPlayerTop.Count < 3)
+                            {
+                                stageSlotPlayerTop.Add(moveSlot);
+                            }
+                            else
+                            {
+                                GameError("유닛배치 : 초과된 유닛 발생");
+                            }
+                        }
+                    }
+                    break;
+                case 2:
+                    if (stageSlotPlayerMid.Count < 3)
+                    {
+                        stageSlotPlayerMid.Add(item);
+                    }
+                    else
+                    {
+                        CharacterDatabase.InfoCharacter moveSlot = item;
+                        CharacterDatabase.InfoCharacter tempSlot = item;
+                        // 수치가 낮은 경우 
+                        if (item.positionPerCH >= 30)
+                        {
+                            for (int i = 0; i < stageSlotPlayerMid.Count; i++)
+                            {
+                                if (stageSlotPlayerMid[i].positionPerCH > moveSlot.positionPerCH)
+                                {
+                                    tempSlot = stageSlotPlayerMid[i];
+                                    stageSlotPlayerMid.RemoveAt(i);
+                                    stageSlotPlayerMid.Insert(i, moveSlot);
+                                    moveSlot = tempSlot;
+                                }
+                            }
+                            // 다음줄 검토 
+                            if (stageSlotPlayerBottom.Count < 3)
+                            {
+                                stageSlotPlayerBottom.Add(moveSlot);
+                            }
+                            else
+                            {
+                                for (int i = 0; i < stageSlotPlayerBottom.Count; i++)
+                                {
+                                    if (stageSlotPlayerBottom[i].positionPerCH > moveSlot.positionPerCH)
+                                    {
+                                        tempSlot = stageSlotPlayerBottom[i];
+                                        stageSlotPlayerBottom.RemoveAt(i);
+                                        stageSlotPlayerBottom.Insert(i, moveSlot);
+                                        moveSlot = tempSlot;
+                                    }
+                                }
+                                // 다음줄 검토 
+                                if (stageSlotPlayerTop.Count < 3)
+                                {
+                                    stageSlotPlayerTop.Add(moveSlot);
+                                }
+                                else
+                                {
+                                    GameError("유닛배치 : 초과된 유닛 발생");
+                                }
+                            }
+                        }
+                        else // 수치가 높은 경우 
+                        {
+                            for (int i = 0; i < stageSlotPlayerMid.Count; i++)
+                            {
+                                if (stageSlotPlayerMid[i].positionPerCH < moveSlot.positionPerCH)
+                                {
+                                    tempSlot = stageSlotPlayerMid[i];
+                                    stageSlotPlayerMid.RemoveAt(i);
+                                    stageSlotPlayerMid.Insert(i, moveSlot);
+                                    moveSlot = tempSlot;
+                                }
+                            }
+                            // 다음줄 검토 
+                            if (stageSlotPlayerTop.Count < 3)
+                            {
+                                stageSlotPlayerTop.Add(moveSlot);
+                            }
+                            else
+                            {
+                                for (int i = 0; i < stageSlotPlayerTop.Count; i++)
+                                {
+                                    if (stageSlotPlayerTop[i].positionPerCH < moveSlot.positionPerCH)
+                                    {
+                                        tempSlot = stageSlotPlayerTop[i];
+                                        stageSlotPlayerTop.RemoveAt(i);
+                                        stageSlotPlayerTop.Insert(i, moveSlot);
+                                        moveSlot = tempSlot;
+                                    }
+                                }
+                                // 다음줄 검토 
+                                if (stageSlotPlayerBottom.Count < 3)
+                                {
+                                    stageSlotPlayerBottom.Add(moveSlot);
+                                }
+                                else
+                                {
+                                    GameError("유닛배치 : 초과된 유닛 발생");
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case 3:
+                    if (stageSlotPlayerTop.Count < 3)
+                    {
+                        stageSlotPlayerTop.Add(item);
+                    }
+                    else
+                    {
+                        CharacterDatabase.InfoCharacter moveSlot = item;
+                        CharacterDatabase.InfoCharacter tempSlot = item;
+                        //내부 비교 밀어내기식 자리배치 // 큰수치가 우선
+                        for (int i = 0; i < stageSlotPlayerTop.Count; i++)
+                        {
+                            if (stageSlotPlayerTop[i].positionPerCH < moveSlot.positionPerCH)
+                            {
+                                tempSlot = stageSlotPlayerTop[i];
+                                stageSlotPlayerTop.RemoveAt(i);
+                                stageSlotPlayerTop.Insert(i, moveSlot);
+                                moveSlot = tempSlot;
+                            }
+                        }
+                        // 다음줄 검토 
+                        if (stageSlotPlayerMid.Count < 3)
+                        {
+                            stageSlotPlayerMid.Add(moveSlot);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < stageSlotPlayerMid.Count; i++)
+                            {
+                                if (stageSlotPlayerMid[i].positionPerCH < moveSlot.positionPerCH)
+                                {
+                                    tempSlot = stageSlotPlayerMid[i];
+                                    stageSlotPlayerMid.RemoveAt(i);
+                                    stageSlotPlayerMid.Insert(i, moveSlot);
+                                    moveSlot = tempSlot;
+                                }
+                            }
+                            // 다음줄 검토 
+                            if (stageSlotPlayerBottom.Count < 3)
+                            {
+                                stageSlotPlayerBottom.Add(moveSlot);
+                            }
+                            else
+                            {
+                                GameError("유닛배치 : 초과된 유닛 발생");
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    GameError("유닛배치 : 공격타입이 지정되지 않은 유닛이 존재함");
+                    break;
+            }
+        }
+        for (int i = 0; i < stageSlotPlayerBottom.Count; i++)
+        {
+            stageSlotPlayerBottom[i].objectCH.transform.position = playerStagePoint[i + 1].position;
+        }
+        for (int i = 0; i < stageSlotPlayerMid.Count; i++)
+        {
+            stageSlotPlayerMid[i].objectCH.transform.position = playerStagePoint[i + 4].position;
+        }
+        for (int i = 0; i < stageSlotPlayerTop.Count; i++)
+        {
+            stageSlotPlayerTop[i].objectCH.transform.position = playerStagePoint[i + 7].position;
+        }
+    }
+    /// <summary>
+    /// 플레이어 유닛 오브젝트화
+    /// </summary>
+    void PlayerUnitCreate()
+    {
+        foreach (var item in partyUnit)
+        {
+            item.objectCH = Instantiate(item.objectCH);
+        }
+    }
+    /// <summary>
+    /// 몬스터 유닛 오브젝트화
+    /// </summary>
+    void MonsterCreate()
+    {
+        
     }
 
     /// <summary>
@@ -249,27 +506,35 @@ public class DungeonOS : MonoBehaviour
     /// <returns></returns>
     public IEnumerator DGTimer()
     {
+        float cycleTime = 0f;
         while (timerOnDGP)
         {
+            yield return null;
+            cycleTime += Time.deltaTime;
             progressTimeDGP += Time.deltaTime;
-
-            if (progressTimeDGP < 20)
+            if (timeLevelDGP == 3)
             {
-                timeLevelDGP = 1;
                 DGTimerUIReset();
             }
-            else if (progressTimeDGP < 40)
+            if (cycleTime >= 20)
             {
-                timeLevelDGP = 2;
-                DGTimerUIReset();
+                cycleTime = 0f;
+                switch (timeLevelDGP)
+                {
+                    case 0:
+                        timeLevelDGP = 1;
+                        DGTimerUIReset();
+                        break;
+                    case 1:
+                        timeLevelDGP = 2;
+                        DGTimerUIReset();
+                        break;
+                    default:
+                        timeLevelDGP = 3;
+                        break;
+                }
             }
-            else
-            {
-                timeLevelDGP = 3;
-            }
-            
         }
-        yield return null;
     }
     /// <summary>
     /// 외부에서 타이머 종료시 사용
@@ -295,6 +560,16 @@ public class DungeonOS : MonoBehaviour
         DungeonCtrl.dungeonUI.SetActive(false);
         // 데이터 전달 
         // 세이브 1회 실행
+    }
+    #endregion
+    #region 게임 에러 기록
+    public void GameError(string str)
+    {
+        errorList.Add(str);
+        foreach (var item in errorList)
+        {
+            Debug.Log(errorList);
+        }
     }
     #endregion
 }
