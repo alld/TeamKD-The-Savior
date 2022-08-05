@@ -4,14 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ClickEvent : MonoBehaviour, IPointerClickHandler
+public class ViewCharacterInfo : MonoBehaviour, IPointerClickHandler
 {
-    InfoCharacter info;
+    private InfoCharacter info;
+    private Image thisImg;
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        thisImg = GetComponent<Image>();
         info = GameObject.Find("PUIManager").GetComponent<InfoCharacter>();
-        info.OnCharacterInfo();
-    }
 
+        Image copyImg = Instantiate(thisImg);
+        info.OnCharacterInfo(copyImg);
+    }
 }
