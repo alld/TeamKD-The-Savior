@@ -24,48 +24,48 @@ public class MonsterDatabase : MonoBehaviour
         /// <summary>
         /// 프리팹에 있는 캐릭터 오브젝트, 모델
         /// </summary>
-        public GameObject objectMT;
+        public GameObject gameObject;
         /// <summary>
         /// 몬스터 기본 아이콘
         /// </summary>
-        public Image iconMT;
+        public Image icon;
         /// <summary>
         /// 몬스터 기본 이름
         /// </summary>
-        public string nameMT;
+        public string name;
         /// <summary>
         /// 몬스터 기본 체력
         /// </summary>
-        public float hPMT;
+        public float hP;
         /// <summary>
         /// 몬스터 기본 데미지
         /// </summary>
-        public float damageMT;
+        public float damage;
         /// <summary>
         /// 몬스터 기본 공격속도
         /// <br>1.0f = 100%</br>
         /// </summary>
-        public float attackSpeedMT;
+        public float attackSpeed;
         /// <summary>
         /// 몬스터 기본 이동속도
         /// <br>1.0f = 100%</br>
         /// </summary>
-        public float moveSpeedMT;
+        public float moveSpeed;
         /// <summary>
         /// 몬스터 기본 방어력
         /// </summary>
-        public float defenseMT;
+        public float defense;
         /// <summary>
         /// 몬스터 기본 공격타입
         /// <br>1. 근거리</br>
         /// <br>2. 원거리</br>
         /// <br>3. 탱커</br>
         /// </summary>
-        public int attackTypeMT;
+        public int attackType;
         /// <summary>
         /// 몬스터 기본 공격 범위
         /// </summary>
-        public float attackRangeMT;
+        public float attackRange;
         /// <summary>
         /// 몬스터 기본 속성
         /// <br>0. 무 속성</br>
@@ -73,39 +73,39 @@ public class MonsterDatabase : MonoBehaviour
         /// <br>2. 물 속성</br>
         /// <br>3. 풀 속성</br>
         /// </summary>
-        public int propertieMT;
+        public int propertie;
         /// <summary>
         /// 몬스터 인식 범위 : 공격 대상을 인식하는 범위
         /// </summary>
-        public float priRangeMT;
+        public float priRange;
         /// <summary>
         /// 몬스터 우선도 : 공격 인식 우선수치
         /// </summary>
-        public int prioritiesMT;
+        public int priorities;
         /// <summary>
         /// 몬스터 기본 자리 우선도 : 자리 배치
         /// </summary>
-        public int positionPerMT;
+        public int positionPer;
         /// <summary>
         /// 몬스터가 가진 기본 스킬 인덱스 넘버
         /// <br> 0 은 스킬이 없는것 </br>
         /// </summary>
-        public int basicskillMT1;
+        public int basicskill1;
         /// <summary>
         /// 몬스터가 가진 기본 스킬 인덱스 넘버
         /// <br> 0 은 스킬이 없는것 </br>
         /// </summary>
-        public int basicskillMT2;
+        public int basicskill2;
         /// <summary>
         /// 몬스터가 가진 기본 스킬 인덱스 넘버
         /// <br> 0 은 스킬이 없는것 </br>
         /// </summary>
-        public int basicskillMT3;
+        public int basicskill3;
         /// <summary>
         /// 몬스터가 가진 궁극기 인덱스 넘버
         /// <br> 0 은 스킬이 없는것 </br>
         /// </summary>
-        public int speialskillMT;
+        public int speialskill;
         public int rewardGold;
         public int rewardSoul;
         public int[] rewardCard;
@@ -128,24 +128,24 @@ public class MonsterDatabase : MonoBehaviour
                 case 1: // 머선머선 몬스터 아직 미정
                     number = num;
                     monsterType = MonsterType.일반;
-                    iconMT = null; // 이미지 설정 검토
-                    nameMT = "머선머선 캐릭터"; // 던전정보와 마찬가지로 텍스트 구동방식 검토
-                    hPMT = 100;
-                    damageMT = 10.0f;
-                    objectMT = Resources.Load<GameObject>("Unit/TestUnit");
-                    attackSpeedMT = 1.0f;
-                    moveSpeedMT = 1.0f;
-                    defenseMT = 10.0f;
-                    attackTypeMT = 1;
-                    attackRangeMT = 10.0f;
-                    propertieMT = 0;
-                    priRangeMT = 10.0f;
-                    prioritiesMT = 20;
-                    positionPerMT = 30;
-                    basicskillMT1 = 0;
-                    basicskillMT2 = 0;
-                    basicskillMT3 = 0;
-                    speialskillMT = 0;
+                    icon = null; // 이미지 설정 검토
+                    name = "머선머선 캐릭터"; // 던전정보와 마찬가지로 텍스트 구동방식 검토
+                    hP = 100;
+                    damage = 10.0f;
+                    gameObject = Resources.Load<GameObject>("Unit/TestUnit");
+                    attackSpeed = 1.0f;
+                    moveSpeed = 1.0f;
+                    defense = 10.0f;
+                    attackType = 1;
+                    attackRange = 10.0f;
+                    propertie = 0;
+                    priRange = 10.0f;
+                    priorities = 20;
+                    positionPer = 30;
+                    basicskill1 = 0;
+                    basicskill2 = 0;
+                    basicskill3 = 0;
+                    speialskill = 0;
                     rewardGold = 1;
                     rewardSoul = 1;
                     rewardCard = null;
@@ -155,24 +155,24 @@ public class MonsterDatabase : MonoBehaviour
                 case 2: // snrn
                     number = num;
                     monsterType = MonsterType.일반;
-                    iconMT = null;
-                    nameMT = null;
-                    hPMT = 0;
-                    damageMT = 0;
-                    objectMT = null;
-                    attackSpeedMT = 0;
-                    moveSpeedMT = 0;
-                    defenseMT = 0;
-                    attackTypeMT = 0;
-                    attackRangeMT = 0;
-                    propertieMT = 0;
-                    priRangeMT = 0;
-                    prioritiesMT = 0;
-                    positionPerMT = 0;
-                    basicskillMT1 = 0;
-                    basicskillMT2 = 0;
-                    basicskillMT3 = 0;
-                    speialskillMT = 0;
+                    icon = null;
+                    name = null;
+                    hP = 0;
+                    damage = 0;
+                    gameObject = null;
+                    attackSpeed = 0;
+                    moveSpeed = 0;
+                    defense = 0;
+                    attackType = 0;
+                    attackRange = 0;
+                    propertie = 0;
+                    priRange = 0;
+                    priorities = 0;
+                    positionPer = 0;
+                    basicskill1 = 0;
+                    basicskill2 = 0;
+                    basicskill3 = 0;
+                    speialskill = 0;
                     rewardGold = 1;
                     rewardSoul = 1;
                     rewardCard = null;
@@ -182,24 +182,24 @@ public class MonsterDatabase : MonoBehaviour
                 case 3:
                     number = num;
                     monsterType = MonsterType.일반;
-                    iconMT = null;
-                    nameMT = null;
-                    hPMT = 0;
-                    damageMT = 0;
-                    objectMT = null;
-                    attackSpeedMT = 0;
-                    moveSpeedMT = 0;
-                    defenseMT = 0;
-                    attackTypeMT = 0;
-                    attackRangeMT = 0;
-                    propertieMT = 0;
-                    priRangeMT = 0;
-                    prioritiesMT = 0;
-                    positionPerMT = 0;
-                    basicskillMT1 = 0;
-                    basicskillMT2 = 0;
-                    basicskillMT3 = 0;
-                    speialskillMT = 0;
+                    icon = null;
+                    name = null;
+                    hP = 0;
+                    damage = 0;
+                    gameObject = null;
+                    attackSpeed = 0;
+                    moveSpeed = 0;
+                    defense = 0;
+                    attackType = 0;
+                    attackRange = 0;
+                    propertie = 0;
+                    priRange = 0;
+                    priorities = 0;
+                    positionPer = 0;
+                    basicskill1 = 0;
+                    basicskill2 = 0;
+                    basicskill3 = 0;
+                    speialskill = 0;
                     rewardGold = 1;
                     rewardSoul = 1;
                     rewardCard = null;
@@ -209,24 +209,24 @@ public class MonsterDatabase : MonoBehaviour
                 case 4:
                     number = num;
                     monsterType = MonsterType.일반;
-                    iconMT = null;
-                    nameMT = null;
-                    hPMT = 0;
-                    damageMT = 0;
-                    objectMT = null;
-                    attackSpeedMT = 0;
-                    moveSpeedMT = 0;
-                    defenseMT = 0;
-                    attackTypeMT = 0;
-                    attackRangeMT = 0;
-                    propertieMT = 0;
-                    priRangeMT = 0;
-                    prioritiesMT = 0;
-                    positionPerMT = 0;
-                    basicskillMT1 = 0;
-                    basicskillMT2 = 0;
-                    basicskillMT3 = 0;
-                    speialskillMT = 0;
+                    icon = null;
+                    name = null;
+                    hP = 0;
+                    damage = 0;
+                    gameObject = null;
+                    attackSpeed = 0;
+                    moveSpeed = 0;
+                    defense = 0;
+                    attackType = 0;
+                    attackRange = 0;
+                    propertie = 0;
+                    priRange = 0;
+                    priorities = 0;
+                    positionPer = 0;
+                    basicskill1 = 0;
+                    basicskill2 = 0;
+                    basicskill3 = 0;
+                    speialskill = 0;
                     rewardGold = 1;
                     rewardSoul = 1;
                     rewardCard = null;
@@ -236,24 +236,24 @@ public class MonsterDatabase : MonoBehaviour
                 case 5:
                     number = num;
                     monsterType = MonsterType.일반;
-                    iconMT = null;
-                    nameMT = null;
-                    hPMT = 0;
-                    damageMT = 0;
-                    objectMT = null;
-                    attackSpeedMT = 0;
-                    moveSpeedMT = 0;
-                    defenseMT = 0;
-                    attackTypeMT = 0;
-                    attackRangeMT = 0;
-                    propertieMT = 0;
-                    priRangeMT = 0;
-                    prioritiesMT = 0;
-                    positionPerMT = 0;
-                    basicskillMT1 = 0;
-                    basicskillMT2 = 0;
-                    basicskillMT3 = 0;
-                    speialskillMT = 0;
+                    icon = null;
+                    name = null;
+                    hP = 0;
+                    damage = 0;
+                    gameObject = null;
+                    attackSpeed = 0;
+                    moveSpeed = 0;
+                    defense = 0;
+                    attackType = 0;
+                    attackRange = 0;
+                    propertie = 0;
+                    priRange = 0;
+                    priorities = 0;
+                    positionPer = 0;
+                    basicskill1 = 0;
+                    basicskill2 = 0;
+                    basicskill3 = 0;
+                    speialskill = 0;
                     rewardGold = 1;
                     rewardSoul = 1;
                     rewardCard = null;
@@ -263,24 +263,24 @@ public class MonsterDatabase : MonoBehaviour
                 case 6:
                     number = num;
                     monsterType = MonsterType.일반;
-                    iconMT = null;
-                    nameMT = null;
-                    hPMT = 0;
-                    damageMT = 0;
-                    objectMT = null;
-                    attackSpeedMT = 0;
-                    moveSpeedMT = 0;
-                    defenseMT = 0;
-                    attackTypeMT = 0;
-                    attackRangeMT = 0;
-                    propertieMT = 0;
-                    priRangeMT = 0;
-                    prioritiesMT = 0;
-                    positionPerMT = 0;
-                    basicskillMT1 = 0;
-                    basicskillMT2 = 0;
-                    basicskillMT3 = 0;
-                    speialskillMT = 0;
+                    icon = null;
+                    name = null;
+                    hP = 0;
+                    damage = 0;
+                    gameObject = null;
+                    attackSpeed = 0;
+                    moveSpeed = 0;
+                    defense = 0;
+                    attackType = 0;
+                    attackRange = 0;
+                    propertie = 0;
+                    priRange = 0;
+                    priorities = 0;
+                    positionPer = 0;
+                    basicskill1 = 0;
+                    basicskill2 = 0;
+                    basicskill3 = 0;
+                    speialskill = 0;
                     rewardGold = 1;
                     rewardSoul = 1;
                     rewardCard = null;

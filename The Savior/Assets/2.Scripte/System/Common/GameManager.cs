@@ -13,17 +13,42 @@ public class GameManager : MonoBehaviour
     public const string GameVersion = "Ver.00";
 
     private GameDataManager dataManager;
+    public DungeonOS dungeonOS = null;// 현재의 던전 매니저
+    public float playTime;
+    public float dungeonPlayTime;
     public GameData data;
 
     // Play씬의 UI를 특정 상황에 따라 활성화 하기 위한 함수.
     private PlayUI playUI;
+
+    #region 유동 데이터 관리
+    public Dictionary<int, CardDataBase.InfoCard> currentCardList = new Dictionary<int, CardDataBase.InfoCard>();
+    public Dictionary<int, CharacterDatabase.InfoCharacter> currentHeroList = new Dictionary<int, CharacterDatabase.InfoCharacter>();
+    public Dictionary<int, RelicDataBase.InfoRelic> currentRelicList = new Dictionary<int, RelicDataBase.InfoRelic>();
+    public List<int>[] currentDeck =
+        {
+            new List<int>(),
+            new List<int>(),
+            new List<int>(),
+            new List<int>(),
+            new List<int>(),
+        };
+    public int currentDeckPresetNumber = 0;
+    public CharacterDatabase.InfoCharacter[] partySlot =
+        {
+            new CharacterDatabase.InfoCharacter(),
+            new CharacterDatabase.InfoCharacter(),
+            new CharacterDatabase.InfoCharacter(),
+            new CharacterDatabase.InfoCharacter()
+        };
+    
+    #endregion
 
     private void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(this);
         DontDestroyOnLoad(this.gameObject);
-
         dataManager = GetComponent<GameDataManager>();
 
         // 게임 시작시에 Main씬을 연결한다.
@@ -38,6 +63,7 @@ public class GameManager : MonoBehaviour
     {
 
     }
+    
     #region 데이터 저장, 불러오기
     /// <summary>
     /// 데이터를 저장한다.
@@ -107,6 +133,9 @@ public class GameManager : MonoBehaviour
     {
         if (currentlyScene == "Main") return;
         if (data != dataManager.LoadGameDataFromJson()) GameSave();
+
+        playTime += Time.deltaTime;
+        if (dungeonOS != null) dungeonPlayTime += Time.deltaTime;
     }
     #endregion
 }
