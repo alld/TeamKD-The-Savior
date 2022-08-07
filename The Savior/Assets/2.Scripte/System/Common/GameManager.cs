@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
 
     //게임 버전 정보
-    public const string GameVersion = "Ver.00";
+    public static string GameVersion = "Ver.00";
 
     private GameDataManager dataManager;
     public DungeonOS dungeonOS = null;// 현재의 던전 매니저

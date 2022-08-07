@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11483,6 +11483,11 @@ GameObject:
   - component: {fileID: 580982183}
   - component: {fileID: 580982187}
   - component: {fileID: 580982188}
+  - component: {fileID: 580982192}
+  - component: {fileID: 580982191}
+  - component: {fileID: 580982190}
+  - component: {fileID: 580982189}
+  - component: {fileID: 580982193}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -11541,6 +11546,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d3a109fa3fe4f41acb43e3eed16000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dungeonOS: {fileID: 0}
+  playTime: 0
+  dungeonPlayTime: 0
   data:
     CurrentScene: -1
     gameProgress: -1
@@ -11550,7 +11558,68 @@ MonoBehaviour:
     Sound: 100
     souls: 0
     golds: 0
+  currentDeckPresetNumber: 0
   currentlyScene: Main
+--- !u!114 &580982189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580982182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7df3a630d614eda44841dc6f6c294b78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &580982190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580982182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ffda49af5899e146af95f6c2c47a623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &580982191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580982182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b61ab392cf7ec4244b4a774140611403, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &580982192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580982182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d775217d53fa8864dbcbfd87bc86fd37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &580982193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580982182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1c5fe87c10e90f47ae77cfcfd499831, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &586987212
 GameObject:
   m_ObjectHideFlags: 0

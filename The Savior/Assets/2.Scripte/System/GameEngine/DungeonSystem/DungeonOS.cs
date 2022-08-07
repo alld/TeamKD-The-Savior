@@ -29,8 +29,7 @@ public class DungeonOS : MonoBehaviour
     List<MonsterDatabase.InfoMonster> stageSlotMonsterBottom;
     List<MonsterDatabase.InfoMonster> stageSlotMonsterTop;
     List<MonsterDatabase.InfoMonster> stageSlotMonsterMid;
-    MonsterDatabase.InfoMonster bossMonster;
-    MonsterDatabase.InfoMonster intermediateMonster;
+
 
     public delegate void StateCheck();
     public StateCheck dele_stateCheck; // 몬스터, 캐릭터 변화 체크 이벤트 // 몬스터 이벤트에 아직안넣음
@@ -39,6 +38,7 @@ public class DungeonOS : MonoBehaviour
     /// 던전이 가지고있는 모든 스테이지 그룹
     /// </summary>
     [Header("던전정보")]
+    public GameObject[] stagePrefabGroupDG;
     public GameObject[] stageGroupDG;
     /// <summary>
     /// 현재 던전이 사용중인 스테이지
@@ -77,7 +77,8 @@ public class DungeonOS : MonoBehaviour
     /// 게임 분기 확인 스테이지가 순서대로 들어있기때문에, 게임분기 컷팅시키는 변수
     /// </summary>
     public int checkCountDGGame;
-    
+    public bool resurrectable;
+
     //던전안에서 플레이어관련된 변수 : DGP
     /// <summary>
     /// 현재 라운드 
@@ -197,18 +198,14 @@ public class DungeonOS : MonoBehaviour
     {
         if (roundDGP == 10)
         {
-            OnDungeonClear();
+            OnDungeonAllClear();
             return;
         }
-        if (roundInfoDG[roundDGP] == 6)
-        {
-            // 분기 선택 처리
-            StageSelectButtonSet();
-        }
-        else NextRound();
+        if (roundDGP % 10 == 5) OnRest();
+        StageSelectButtonSet();
     }
 
-    void OnDungeonClear()
+    void OnDungeonAllClear()
     {
         //보상 UI 처리(결과창)
     }
@@ -218,28 +215,105 @@ public class DungeonOS : MonoBehaviour
         //보상 UI 처리(결과창)
     }
 
-    void NextRound()
+    void NextRound(int num)
     {
         StartCoroutine(FadeIn());
-        if (++roundDGP % 10 != 0)
+        if (++roundDGP % 10 == 5) StageReset(5);
+        else if (roundDGP % 10 != 0)
         {
-            StageReset(roundDGP);
+            if (roundInfoDG[roundDGP -1] == 6)
+            {
+                StageReset(num);
+            }
+            else NextRound(roundDGP);
         }
-        else if (roundDGP % 10 == 5) StageReset(5);
         else StageReset(10);
         HandRefill();
     }
-    #endregion
+    // 마우스 입력 버튼 아직 안했음
+    void OnStageSelect(Vector2 clickPoint)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(clickPoint);
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            if (hit.collider.CompareTag("STAGEPOINT"))
+            {
+                int temp = hit.collider.GetComponent<PointInfo>().pointNumber;
+                if(temp == 0)
+                {
+                    NextRound(roundDGP);
+                }
+                else
+                {
+                    if (roundDGP > 10) roundDGP -= 10;
+                    else roundDGP += 10;
+                    NextRound(roundDGP);
+                }
+            }
+        }
+    }
 
+    void OnRest() //휴식
+    {
+        foreach (var item in partyUnit)
+        {
+            if (!item.isLive) resurrectable = true;
+            item.hP = item.maxHP;
+        }
+    }
+
+    void SelectResurrection(int partySlotN)
+    {
+        if(resurrectable)
+        {
+            if(partyUnit != null & !partyUnit[partySlotN].isLive)
+            {
+                resurrectable = false;
+                partyUnit[partySlotN].isLive = true;
+                partyUnit[partySlotN].hP = partyUnit[partySlotN].maxHP;
+                // 캐릭터 상태기능 전환 필요함
+            }
+        }
+    }
+    void SelectResurrection(int partySlotN, float recov)
+    {
+        if (resurrectable)
+        {
+            if (partyUnit != null & !partyUnit[partySlotN].isLive)
+            {
+                resurrectable = false;
+                partyUnit[partySlotN].isLive = true;
+                partyUnit[partySlotN].hP = recov;
+                // 캐릭터 상태기능 전환 필요함
+            }
+        }
+    }
+    // 부활을 사용하지 않을 경우 경고창 출력; 
+    #endregion
     #region 던전 UI 처리
     void StageSelectButtonSet()
     {
         GameObject.Find("StageSelectGroup").SetActive(true);
-
+        // 버튼 클릭하게해서 NextRound 실행시킴 
     }
     void HandUIReset()
     {
+        int temp = roundDGP % 10;
+        DungeonCtrl.gameRoundbarArrow.transform.SetParent(DungeonCtrl.gameRoundbarPoint[temp].transform);
+        DungeonCtrl.gameRoundbarArrow.transform.position = Vector3.zero;
+    }
 
+    // 외부에서 체력 변동시 해당값을 호출할것 
+    public void PartyUIReset()
+    {
+        for (int i = 0; i < partyUnit.Count; i++)
+        {
+            if (partyUnit[i] != null)
+            {
+                DungeonCtrl.partySlotHPGauage[i].fillAmount = partyUnit[i].hP / partyUnit[i].maxHP;
+            }
+        }
     }
 
     #region 페이드인/아웃
@@ -298,11 +372,18 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void GameSetting()
     {
-        partyUnit.Add(new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[0].number));
-        partyUnit.Add(new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[1].number));
-        partyUnit.Add(new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[2].number));
-        partyUnit.Add(new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[3].number));
+        for (int i = 0; i < 4; i++)
+        {
+            partyUnit.Add(new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[i].number));
+            partyUnit[i].isLive = true;
+        }
 
+
+        int temp = 0;
+        foreach (var item in stagePrefabGroupDG)
+        {
+            stageGroupDG[temp++] = Instantiate(item);
+        }
         HandReset();
         PlayerUnitCreate();
         roundDGP = 1;
@@ -317,9 +398,11 @@ public class DungeonOS : MonoBehaviour
     /// <param name="stageNum"></param>
     void StageReset(int stageNum)
     {
-        slotStageDG.SetActive(false);
+        slotStageDG?.SetActive(false);
         slotStageDG = stageGroupDG[stageNum];
         slotStageDG.SetActive(true);
+        Camera.main.transform.position = slotStageDG.GetComponentInChildren<Camera>().transform.position;
+        Camera.main.transform.rotation = slotStageDG.GetComponentInChildren<Camera>().transform.rotation;
         DGTimerStart();
         PlayerUnitSetting();
         MonsterCreate();
@@ -785,6 +868,20 @@ public class DungeonOS : MonoBehaviour
             int tempint = Random.Range(monsterBoxMin[roundDGP], monsterBoxMax[roundDGP]);
             monsterGroup.Add(new MonsterDatabase.InfoMonster(monsterBox[tempint].number));
             monsterGroup[i].gameObject = Instantiate(monsterGroup[i].gameObject);
+        }
+        if (roundDGP % 10 == 5)
+        {
+            monsterGroup.Add(new MonsterDatabase.InfoMonster(monsterBox[1].number));
+            monsterGroup[monsterBox.Count].gameObject = Instantiate(monsterBox[1].gameObject);
+            monsterGroup[monsterBox.Count].gameObject.transform.position = monsterStagePoint[1].position;
+            monsterGroup[monsterBox.Count].gameObject.transform.rotation = monsterStagePoint[1].rotation;
+        }
+        else if (roundDGP % 10 == 0)
+        {
+            monsterGroup.Add(new MonsterDatabase.InfoMonster(monsterBox[0].number));
+            monsterGroup[monsterBox.Count].gameObject = Instantiate(monsterBox[0].gameObject);
+            monsterGroup[monsterBox.Count].gameObject.transform.position = monsterStagePoint[1].position;
+            monsterGroup[monsterBox.Count].gameObject.transform.rotation = monsterStagePoint[1].rotation;
         }
     }
 

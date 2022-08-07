@@ -14,7 +14,6 @@ public class CharacterDatabase : MonoBehaviour
     public static CharacterDatabase instance = null;
     //public Sprite[] ImagefulSet;
     //public static List<Sprite> Imageful = null;
-
     public class InfoCharacter
     {
         #region 캐릭터 기본 설정값
@@ -31,6 +30,10 @@ public class CharacterDatabase : MonoBehaviour
         /// 캐릭터 기본 체력
         /// </summary>
         public float hP;
+        /// <summary>
+        /// 캐릭터 최대 체력
+        /// </summary>
+        public float maxHP;
         /// <summary>
         /// 캐릭터 기본 데미지
         /// </summary>
@@ -108,6 +111,10 @@ public class CharacterDatabase : MonoBehaviour
         /// </summary>
         public bool islock;
         /// <summary>
+        /// 캐릭터 생존 여부 
+        /// </summary>
+        public bool isLive;
+        /// <summary>
         /// 캐릭터가 가진 기본 스킬 인덱스 넘버
         /// <br> 0 은 스킬이 없는것 </br>
         /// </summary>
@@ -135,6 +142,7 @@ public class CharacterDatabase : MonoBehaviour
             icon = null;
             name = null;
             hP = 0;
+            maxHP = 100;
             damage = 0;
             gameObject = null;
             attackSpeed = 0;
@@ -151,6 +159,7 @@ public class CharacterDatabase : MonoBehaviour
             soul = 0;
             partySet = false;
             islock = false;
+            isLive = true;
             basicskill = 0;
             speialskill = 0;
             overlapValueA = 0;
@@ -171,6 +180,7 @@ public class CharacterDatabase : MonoBehaviour
                     icon = null; // 이미지 설정 검토
                     name = "머선머선 캐릭터"; // 던전정보와 마찬가지로 텍스트 구동방식 검토
                     hP = 100;
+                    maxHP = 100;
                     damage = 10.0f;
                     gameObject = Resources.Load<GameObject>("Unit/TestUnit");
                     attackSpeed = 1.0f;
@@ -187,6 +197,7 @@ public class CharacterDatabase : MonoBehaviour
                     soul = 0;
                     partySet = false;
                     islock = false;
+                    isLive = true;
                     basicskill = 0;
                     speialskill = 0;
                     overlapValueA = 0;
@@ -197,6 +208,7 @@ public class CharacterDatabase : MonoBehaviour
                     icon = null;
                     name = null;
                     hP = 0;
+                    maxHP = 100;
                     damage = 0;
                     gameObject = null;
                     attackSpeed = 0;
@@ -213,6 +225,7 @@ public class CharacterDatabase : MonoBehaviour
                     soul = 0;
                     partySet = false;
                     islock = false;
+                    isLive = true;
                     basicskill = 0;
                     speialskill = 0;
                     overlapValueA = 0;
@@ -223,6 +236,7 @@ public class CharacterDatabase : MonoBehaviour
                     icon = null;
                     name = null;
                     hP = 0;
+                    maxHP = 100;
                     damage = 0;
                     gameObject = null;
                     attackSpeed = 0;
@@ -239,6 +253,7 @@ public class CharacterDatabase : MonoBehaviour
                     soul = 0;
                     partySet = false;
                     islock = false;
+                    isLive = true;
                     basicskill = 0;
                     speialskill = 0;
                     overlapValueA = 0;
@@ -249,6 +264,7 @@ public class CharacterDatabase : MonoBehaviour
                     icon = null;
                     name = null;
                     hP = 0;
+                    maxHP = 100;
                     damage = 0;
                     gameObject = null;
                     attackSpeed = 0;
@@ -265,6 +281,7 @@ public class CharacterDatabase : MonoBehaviour
                     soul = 0;
                     partySet = false;
                     islock = false;
+                    isLive = true;
                     basicskill = 0;
                     speialskill = 0;
                     overlapValueA = 0;
@@ -275,6 +292,7 @@ public class CharacterDatabase : MonoBehaviour
                     icon = null;
                     name = null;
                     hP = 0;
+                    maxHP = 100;
                     damage = 0;
                     gameObject = null;
                     attackSpeed = 0;
@@ -291,6 +309,7 @@ public class CharacterDatabase : MonoBehaviour
                     soul = 0;
                     partySet = false;
                     islock = false;
+                    isLive = true;
                     basicskill = 0;
                     speialskill = 0;
                     overlapValueA = 0;
@@ -301,6 +320,7 @@ public class CharacterDatabase : MonoBehaviour
                     icon = null;
                     name = null;
                     hP = 0;
+                    maxHP = 100;
                     damage = 0;
                     gameObject = null;
                     attackSpeed = 0;
@@ -317,6 +337,7 @@ public class CharacterDatabase : MonoBehaviour
                     soul = 0;
                     partySet = false;
                     islock = false;
+                    isLive = true;
                     basicskill = 0;
                     speialskill = 0;
                     overlapValueA = 0;
