@@ -117,6 +117,14 @@ public class CharacterDatabase : MonoBehaviour
         /// <br> 0 은 스킬이 없는것 </br>
         /// </summary>
         public int speialskill;
+        /// <summary>
+        /// 유물의 중복보상 A형(골드)
+        /// </summary>
+        public int overlapValueA;
+        /// <summary>
+        /// 유물의 중복보상 B형(소울)
+        /// </summary>
+        public int overlapValueB;
         #endregion
 
 
@@ -145,6 +153,8 @@ public class CharacterDatabase : MonoBehaviour
             islock = false;
             basicskill = 0;
             speialskill = 0;
+            overlapValueA = 0;
+            overlapValueB = 0;
         }
 
         /// <summary>
@@ -179,6 +189,8 @@ public class CharacterDatabase : MonoBehaviour
                     islock = false;
                     basicskill = 0;
                     speialskill = 0;
+                    overlapValueA = 0;
+                    overlapValueB = 0;
                     break;
                 case 2: // snrn
                     number = num;
@@ -203,6 +215,8 @@ public class CharacterDatabase : MonoBehaviour
                     islock = false;
                     basicskill = 0;
                     speialskill = 0;
+                    overlapValueA = 0;
+                    overlapValueB = 0;
                     break;
                 case 3:
                     number = num;
@@ -227,6 +241,8 @@ public class CharacterDatabase : MonoBehaviour
                     islock = false;
                     basicskill = 0;
                     speialskill = 0;
+                    overlapValueA = 0;
+                    overlapValueB = 0;
                     break;
                 case 4:
                     number = num;
@@ -251,6 +267,8 @@ public class CharacterDatabase : MonoBehaviour
                     islock = false;
                     basicskill = 0;
                     speialskill = 0;
+                    overlapValueA = 0;
+                    overlapValueB = 0;
                     break;
                 case 5:
                     number = num;
@@ -275,6 +293,8 @@ public class CharacterDatabase : MonoBehaviour
                     islock = false;
                     basicskill = 0;
                     speialskill = 0;
+                    overlapValueA = 0;
+                    overlapValueB = 0;
                     break;
                 case 6:
                     number = num;
@@ -299,6 +319,8 @@ public class CharacterDatabase : MonoBehaviour
                     islock = false;
                     basicskill = 0;
                     speialskill = 0;
+                    overlapValueA = 0;
+                    overlapValueB = 0;
                     break;
                 default:
                     break;

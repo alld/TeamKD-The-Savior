@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     private PlayUI playUI;
 
     #region 유동 데이터 관리
+
+    
     public Dictionary<int, CardDataBase.InfoCard> currentCardList = new Dictionary<int, CardDataBase.InfoCard>();
     public Dictionary<int, CharacterDatabase.InfoCharacter> currentHeroList = new Dictionary<int, CharacterDatabase.InfoCharacter>();
     public Dictionary<int, RelicDataBase.InfoRelic> currentRelicList = new Dictionary<int, RelicDataBase.InfoRelic>();

@@ -18,6 +18,9 @@ public class DungeonOS : MonoBehaviour
     #region 던전 기본 데이터
 
     List<MonsterDatabase.InfoMonster> monsterBox = new List<MonsterDatabase.InfoMonster>();
+    List<int> rewardHeroBox = new List<int>();
+    List<int> rewardCardBox = new List<int>();
+    List<int> rewardRelicBox = new List<int>();
 
     List<CharacterDatabase.InfoCharacter> stageSlotPlayerBottom; 
     List<CharacterDatabase.InfoCharacter> stageSlotPlayerTop;
@@ -139,6 +142,8 @@ public class DungeonOS : MonoBehaviour
     /// [통계데이터] 개별 누적 킬수
     /// </summary>
     public float[] eaKillCountDGP;
+
+    public List<CardDataBase.InfoCard> handCard = new List<CardDataBase.InfoCard>();
     #endregion
 
     #region 전달받은 GameManager의 Data
@@ -216,7 +221,13 @@ public class DungeonOS : MonoBehaviour
     void NextRound()
     {
         StartCoroutine(FadeIn());
-        StageReset(++roundDGP);
+        if (++roundDGP % 10 != 0)
+        {
+            StageReset(roundDGP);
+        }
+        else if (roundDGP % 10 == 5) StageReset(5);
+        else StageReset(10);
+        HandRefill();
     }
     #endregion
 
@@ -224,6 +235,10 @@ public class DungeonOS : MonoBehaviour
     void StageSelectButtonSet()
     {
         GameObject.Find("StageSelectGroup").SetActive(true);
+
+    }
+    void HandUIReset()
+    {
 
     }
 
@@ -287,11 +302,10 @@ public class DungeonOS : MonoBehaviour
         partyUnit.Add(new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[1].number));
         partyUnit.Add(new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[2].number));
         partyUnit.Add(new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[3].number));
-        useDeckDGP = GameManager.instance.currentDeck[GameManager.instance.currentDeckPresetNumber];
 
-        DeckShuffle();
+        HandReset();
         PlayerUnitCreate();
-        roundDGP = 0;
+        roundDGP = 1;
         ////스테이지 설정 한번 들어가야함. 
         StageReset(roundDGP);
         //StageReset(checkCountDGGame); // 컷팅넘버 구조 재검토
@@ -303,10 +317,14 @@ public class DungeonOS : MonoBehaviour
     /// <param name="stageNum"></param>
     void StageReset(int stageNum)
     {
+        slotStageDG.SetActive(false);
+        slotStageDG = stageGroupDG[stageNum];
+        slotStageDG.SetActive(true);
         DGTimerStart();
         PlayerUnitSetting();
         MonsterCreate();
         MonsterSetting();
+
     }
 
     /// <summary>
@@ -773,7 +791,7 @@ public class DungeonOS : MonoBehaviour
     /// <summary>
     /// 게임 시작후, 휴식 타이밍에 덱 셔플 기능
     /// </summary>
-    void DeckShuffle()
+    public void DeckShuffle()
     {
         List<int> tempList = new List<int>();
         for (int i = 0; i < useDeckDGP.Count; i++)
@@ -784,6 +802,50 @@ public class DungeonOS : MonoBehaviour
         }
         useDeckDGP = tempList;
     }
+
+    public void HandReset()
+    {
+        DeckShuffle();
+        handCard.Clear();
+        useDeckDGP = GameManager.instance.currentDeck[GameManager.instance.currentDeckPresetNumber];
+        HandRefill();
+    }
+
+    public void HandRefill()
+    {
+        for (int i = useDeckDGP.Count; i < 3; i++)
+        {
+            if (useDeckDGP.Count != 0)
+            {
+                handCard.Add(new CardDataBase.InfoCard(useDeckDGP[0]));
+                useDeckDGP.RemoveAt(0);
+                remainingCardDGP++;
+            }
+            else
+            {
+                //카드 없음
+                return;
+            }
+        }
+        HandUIReset();
+    }
+
+    public void HandDraw()
+    {
+        if (useDeckDGP.Count != 0)
+        {
+            handCard.Add(new CardDataBase.InfoCard(useDeckDGP[0]));
+            useDeckDGP.RemoveAt(0);
+            remainingCardDGP++;
+        }
+        else
+        {
+            //카드 없음
+            return;
+        }
+        HandUIReset();
+    }
+
     #endregion
     #region 던전 타이머 기능
     /// <summary>
@@ -860,6 +922,61 @@ public class DungeonOS : MonoBehaviour
         GameManager.instance.dungeonOS = null;
         // 데이터 전달 
         // 세이브 1회 실행
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (GameManager.instance.partySlot[i] != null)
+            {
+                GameManager.instance.partySlot[i].soul = partyUnit[i].soul;
+            }
+        }
+
+        if(rewardCardBox.Count != 0)
+        {
+            foreach (var item in rewardCardBox)
+            {
+                if (GameManager.instance.currentCardList[item] == null)
+                {
+                    GameManager.instance.currentCardList.Add(item, new CardDataBase.InfoCard(item));
+                }
+                else
+                {
+                    GameManager.instance.currentCardList[item].cardCount++;
+                }
+            }
+        }
+        if (rewardRelicBox.Count != 0)
+        {
+            foreach (var item in rewardRelicBox)
+            {
+                if (GameManager.instance.currentRelicList[item] == null)
+                {
+                    GameManager.instance.currentRelicList.Add(item, new RelicDataBase.InfoRelic(item));
+                }
+                else
+                {
+                    GameManager.instance.currentRelicList[item].overlapValueA += accrueGoldDGP;
+                    GameManager.instance.currentRelicList[item].overlapValueB += accrueSoulDGP;
+                }
+            }
+        }
+        if (rewardCardBox.Count != 0)
+        {
+            foreach (var item in rewardHeroBox)
+            {
+                if (GameManager.instance.currentHeroList[item] == null)
+                {
+                    GameManager.instance.currentHeroList.Add(item, new CharacterDatabase.InfoCharacter(item));
+                }
+                else
+                {
+                    GameManager.instance.currentHeroList[item].overlapValueA += accrueGoldDGP;
+                    GameManager.instance.currentHeroList[item].overlapValueB += accrueSoulDGP;
+                }
+            }
+        }
+        GameManager.instance.data.souls += accrueSoulDGP;
+        GameManager.instance.data.golds += accrueGoldDGP;
     }
     #endregion
     #region 게임 에러 기록
