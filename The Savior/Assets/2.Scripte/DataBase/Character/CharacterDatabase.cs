@@ -7,8 +7,6 @@ using SimpleJSON;
 
 public class CharacterDatabase : MonoBehaviour
 {
-    public static TextAsset jsonData = Resources.Load<TextAsset>("CharacterData");
-    public static string json = jsonData.text;
     /// <summary>
     /// 캐릭터의 기본 원형값을 가지고있는 데이터 베이스 
     /// <br>InfoCh를 통해 인스턴스를 만들어서 사용해야함. </br>
@@ -173,15 +171,14 @@ public class CharacterDatabase : MonoBehaviour
             overlapValueA = 0;
             overlapValueB = 0;
         }
-
         /// <summary>
         /// 캐릭터의 기본값을 가져오기위해서는 매개변수에 (int)를 넣어줘야함.
         /// <br>(int = num) : 캐릭터 고유의 넘버링값</br>
         /// </summary>
         /// <param name="num"></param>
-        public InfoCharacter(int num)
+        public InfoCharacter(int num, JSONNode data)
         {
-            var data = JSON.Parse(json);
+            //var data = JSON.Parse(jsonData.text));
             number = num;
             icon = null; // 이미지 설정 검토
             switch (GameManager.instance.data.Language)
@@ -260,9 +257,5 @@ public class CharacterDatabase : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        //foreach (var item in ImagefulSet)
-        //{
-        //    Imageful.Add(item);
-        //}
     }
 }

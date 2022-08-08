@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SimpleJSON;
 
 public class DungeonOS : MonoBehaviour
 {
@@ -163,6 +164,16 @@ public class DungeonOS : MonoBehaviour
     //초회 보상 유무 진행상황변수와는 별개
     bool ClearkCheck;
     #endregion
+    private TextAsset jsonData;
+    private string jsonText;
+    private JSONNode jsonCH;
+
+    private void Awake()
+    {
+        jsonData = Resources.Load<TextAsset>("CharacterData");
+        jsonText = jsonData.text;
+        jsonCH = JSON.Parse(jsonText);
+    }
     //카드기능 제외... 카드 데이터베이스를 만들어야함. 
     void Start()
     {
@@ -374,7 +385,7 @@ public class DungeonOS : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            partyUnit.Add(new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[i].number));
+            partyUnit.Add(new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[i].number, jsonCH));
             partyUnit[i].isLive = true;
         }
 
@@ -1067,7 +1078,7 @@ public class DungeonOS : MonoBehaviour
             {
                 if (GameManager.instance.currentHeroList[item] == null)
                 {
-                    GameManager.instance.currentHeroList.Add(item, new CharacterDatabase.InfoCharacter(item));
+                    GameManager.instance.currentHeroList.Add(item, new CharacterDatabase.InfoCharacter(item, jsonCH));
                 }
                 else
                 {
