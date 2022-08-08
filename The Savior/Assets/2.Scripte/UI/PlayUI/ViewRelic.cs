@@ -65,7 +65,6 @@ public class ViewRelic : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         thisImg = GetComponent<Image>();
         mousePoint = GameObject.Find("MousePoint").GetComponent<Transform>();
         number = relicData.idx;
-        Debug.Log(number);
     }
 
 
