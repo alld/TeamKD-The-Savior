@@ -9,14 +9,14 @@ public class GameDataManager : MonoBehaviour
     public void SaveGameDataToJson(GameData gameData)
     {
         string jsonData = JsonUtility.ToJson(gameData, true);
-        string path = Path.Combine(Application.dataPath, "gameData.json");
+        string path = Path.Combine(Application.dataPath, "Resources/gameData.json");
         File.WriteAllText(path, jsonData);
     }
 
     public GameData LoadGameDataFromJson()
     {
         GameData data = new GameData();
-        string path = Path.Combine(Application.dataPath, "gameData.json");
+        string path = Path.Combine(Application.dataPath, "Resources/gameData.json");
         string jsonData = File.ReadAllText(path);
         data = JsonUtility.FromJson<GameData>(jsonData);
 

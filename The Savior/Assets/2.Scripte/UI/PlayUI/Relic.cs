@@ -21,7 +21,7 @@ public class Relic : MonoBehaviour
 
     [Header("유물의 위치")]
     public Transform[] relicTr = new Transform[5];
-    public int[] relicNum = new int[5];
+    public int[] relicNum = new int [5];
 
     private int curRelicTr = 0;
 
@@ -115,7 +115,6 @@ public class Relic : MonoBehaviour
                 Destroy(relicTr[i].GetChild(0).gameObject);
                 Destroy(selectTr[i].GetChild(1).gameObject);
                 Debug.Log(selectTr[i].GetChild(1).gameObject);
-                relicInventory.SetActive(false);
                 isUseRelic = true;
                 break;
             }
@@ -137,8 +136,7 @@ public class Relic : MonoBehaviour
                     InitRectSize(selectRelicImg);
 
                     Destroy(copyImg.GetComponent<ViewRelic>());
-                    relicInventory.SetActive(false);
-                    //isInventorySetting = true;
+
                     break;
                 }
             }

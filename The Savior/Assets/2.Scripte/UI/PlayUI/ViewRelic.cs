@@ -9,7 +9,7 @@ public class ViewRelic : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 {
     // 유물 장착을 위한 연결
     private Relic relic;
-    private RelicData data;
+    private RelicData relicData;
 
     public bool isSelect = false;
 
@@ -60,11 +60,12 @@ public class ViewRelic : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     private void Start()
     {
-        data = GetComponent<RelicData>();
+        relicData = GetComponent<RelicData>();
         relic = GameObject.Find("PUIManager").GetComponent<Relic>();
         thisImg = GetComponent<Image>();
         mousePoint = GameObject.Find("MousePoint").GetComponent<Transform>();
-        number = data.num;  
+        number = relicData.idx;
+        Debug.Log(number);
     }
 
 
