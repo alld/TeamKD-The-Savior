@@ -15,7 +15,7 @@ public class WorldMapCastle : MonoBehaviour
     public Button shopBuyButton;
     public Button closeShopButton;
     public Button churchButton;
-    public Button churchsummonButton;
+    public Button churchSummonButton;
     public Button closeChurchButton;
     //public Button kingsCastle;
 
@@ -39,7 +39,7 @@ public class WorldMapCastle : MonoBehaviour
         closeShopButton.onClick.AddListener(() => OnClick_OnShopBtn());
         closeChurchButton.onClick.AddListener(() => OnClick_OnChurchBtn());
         shopBuyButton.onClick.AddListener(() => OnClick_OnBuyBtn());
-        churchsummonButton.onClick.AddListener(() => OnClick_OnSummonBtn());
+        churchSummonButton.onClick.AddListener(() => OnClick_OnSummonBtn());
     }
 
     /// <summary>

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using SimpleJSON;
 
 public class RelicDataBase : MonoBehaviour
 {
@@ -11,8 +12,36 @@ public class RelicDataBase : MonoBehaviour
     /// <br>InfoRelic(int) : int == 데이터베이스상 캐릭터 고유넘버 </br>
     /// </summary>
     public static RelicDataBase instance = null;
-    //public Sprite[] ImagefulSet;
-    //public static List<Sprite> Imageful = null;
+
+    private TextAsset jsonData;
+    private string json;
+
+    public int n;
+
+
+    private void Awake()
+    {
+        if(instance == null)instance = this;
+
+        InfoRelic info = new InfoRelic(n);
+
+        jsonData = Resources.Load<TextAsset>("RelicData");
+        json = jsonData.text;
+        var data = JSON.Parse(json);
+
+        switch (GameManager.instance.data.Language)
+        {
+            case 0:
+                info.name = data[n]["Name_Kr"];
+                break;
+            case 1:
+                info.name = data[n]["Name_Eng"];
+                break;
+            default:
+                break;
+        }
+    }
+
 
     public class InfoRelic
     {
@@ -103,7 +132,10 @@ public class RelicDataBase : MonoBehaviour
         /// </summary>
         public int dataCount;
         #endregion
+        public InfoRelic()
+        {
 
+        }
         /// <summary>
         /// 유물의 기본값을 가져오기위해서는 매개변수에 (int)를 넣어줘야함.
         /// <br>(int = num) : 유물 고유의 넘버링값</br>
@@ -111,38 +143,30 @@ public class RelicDataBase : MonoBehaviour
         /// <param name="num"></param>
         public InfoRelic(int num)
         {
-            switch (num)
-            {
-                case 1: // 머선머선 카드 아직 미정
-                    number = num;
-                    Icon = null;
-                    name = "";
-                    relicCount = false;
-                    propertie = 0;
-                    effectSortA = 0;
-                    effectSortB = 0;
-                    relicString1 = 0;
-                    relicString2 = 0;
-                    effectValue_intA = 0;
-                    effectValue_intB = 0;
-                    effectValue_floatA = 0;
-                    effectValue_floatB = 0;
-                    effectValue_floatC = 0;
-                    effectValue_floatD = 0;
-                    effectValue_bool = 0;
-                    condition = Conditions.일반;
-                    overlapValueA = 0;
-                    overlapValueB = 0;
-                    recycle = 0;
-                    dataCount = 0;
-                    break;
-                default:
-                    break;
-            }
+            
+            number = num;
+            Icon = null;
+            name = "";
+            relicCount = false;
+            propertie = 0;
+            effectSortA = 0;
+            effectSortB = 0;
+            relicString1 = 0;
+            relicString2 = 0;
+            effectValue_intA = 0;
+            effectValue_intB = 0;
+            effectValue_floatA = 0;
+            effectValue_floatB = 0;
+            effectValue_floatC = 0;
+            effectValue_floatD = 0;
+            effectValue_bool = 0;
+            condition = Conditions.일반;
+            overlapValueA = 0;
+            overlapValueB = 0;
+            recycle = 0;
+            dataCount = 0;
         }
+
     }
-    private void Awake()
-    {
-        instance = this;
-    }
+
 }

@@ -44,9 +44,9 @@ public class RelicData : MonoBehaviour
                 addContent = data[num]["Content_2_Kr"];
                 break;
             case 1:
-                relicName = data[num]["Name_Kr"];
-                content = data[num]["Conten_1_Kr"];
-                addContent = data[num]["Content_2_Kr"];
+                relicName = data[num]["Name_Eng"];
+                content = data[num]["Conten_1_Eng"];
+                addContent = data[num]["Content_2_Eng"];
                 break;
             default:
                 break;
