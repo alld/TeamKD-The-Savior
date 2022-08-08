@@ -60,6 +60,16 @@ public class Relic : MonoBehaviour
     /// <param name="copyImg"></param>
     public void RelicSetting(Image copyImg, int num)
     {
+        // 다른 자리에 동일한 유물이 있다면 파괴한다.
+        for(int i = 0; i < relicNum.Length; i++)
+        {
+            if(relicNum[i] == num)
+            {
+                relicNum[i] = 0;
+                Destroy(relicTr[i].GetChild(0).gameObject);
+            }
+        }
+        // 해당 자리에 이미 장착된 유물이 있다면 파괴하고 장착한다.
         if(relicTr[curRelicTr].childCount > 0)
         {
             Destroy(relicTr[curRelicTr].GetChild(0).gameObject);
