@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class RelicData : MonoBehaviour
 {
-    public int num = 0;
+    public TextAsset relicJson;
+
+    
+    private void Start()
+    {
+        string json = relicJson.text;
+       
+    }
 
 }
