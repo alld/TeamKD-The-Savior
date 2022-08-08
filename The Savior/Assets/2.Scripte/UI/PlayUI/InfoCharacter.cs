@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InfoCharacter : MonoBehaviour
 {
@@ -17,8 +18,29 @@ public class InfoCharacter : MonoBehaviour
     public GameObject statusImg;
     public GameObject identityImg;
 
-    //해당 창이 열려 있는가 ?
-    private bool isOpen = false;
+    // 이미지 위치
+    public Transform imgTr;
+
+    [Header("스킬창")]
+    public Transform skillTr;
+    public Transform spetialTr;
+    public TMP_Text skillText;
+    public TMP_Text spetialText;
+
+
+    [Header("캐릭터 정보")]
+    // 캐릭터 이름 텍스트
+    public TMP_Text charName;
+    // 캐릭터 스탯 텍스트
+    public TMP_Text hp;
+    public TMP_Text att;
+    public TMP_Text def;
+
+    // 불러올 캐릭터의 정보
+    private TestCharData data;
+
+    // 상세정보에 활성화 된 캐릭터 이미지
+    private Image character;
 
     void Start()
     {
@@ -31,18 +53,48 @@ public class InfoCharacter : MonoBehaviour
     /// <summary>
     /// 인벤토리에서 해당 캐릭터를 클릭시 상세정보창이 활성화됨.
     /// </summary>
-    public void OnCharacterInfo()
+    public void OnCharacterInfo(Image copyImg)
     {
-        isOpen = true;
-        charInfo.SetActive(isOpen);
+        skillButton.Select();
+
+        data = copyImg.GetComponent<TestCharData>();
+
+        character = copyImg;
+        copyImg.transform.SetParent(imgTr);
+        InitRectSize(copyImg);
+        Destroy(copyImg.GetComponent<ViewCharacterInfo>());
+
+        hp.text = hp.text + data.hp;
+        att.text = att.text + data.att;
+        def.text = def.text + data.def;
+
+        charInfo.SetActive(true);
     }
 
+    /// <summary>
+    /// 스트레치가 적용된 이미지의 사이즈를 부모 객체의 사이즈에 맞춤.
+    /// </summary>
+    /// <param name="img"></param>
+    private void InitRectSize(Image img)
+    {
+        img.rectTransform.offsetMin = Vector2.zero;
+        img.rectTransform.offsetMax = Vector2.zero;
+    }
+
+    /// <summary>
+    /// 상세정보창을 닫음
+    /// 인벤토리에 있는 캐릭터를 복사하여 가져왔기 때문에
+    /// 창을 닫을 때 해당 이미지를 파괴한다.
+    /// </summary>
     private void OnClick_CloseInfoBtn()
     {
-        isOpen = false;
-        charInfo.SetActive(isOpen);
+        Destroy(character);
+        charInfo.SetActive(false);
     }
 
+    /// <summary>
+    /// 스킬창을 연다.
+    /// </summary>
     private void OnClick_SkillBtn()
     {
         skillImg.SetActive(true);
@@ -50,6 +102,9 @@ public class InfoCharacter : MonoBehaviour
         identityImg.SetActive(false);
     }
 
+    /// <summary>
+    /// 스테이터스창을 연다.
+    /// </summary>
     private void OnClick_StatusBtn()
     {
         statusImg.SetActive(true);
@@ -58,6 +113,9 @@ public class InfoCharacter : MonoBehaviour
         identityImg.SetActive(false);
     }
 
+    /// <summary>
+    /// 특성창을 연다.
+    /// </summary>
     private void OnClick_IdentityBtn()
     {
         identityImg.SetActive(true);
