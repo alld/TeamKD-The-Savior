@@ -431,7 +431,7 @@ public class DungeonOS : MonoBehaviour
                         //내부 비교 밀어내기식 자리배치 // 작은수치가 우선
                         for (int i = 0; i < stageSlotPlayerBottom.Count; i++)
                         {
-                            if (stageSlotPlayerBottom[i].positionPer > moveSlot.positionPer)
+                            if (stageSlotPlayerBottom[i].positionPri > moveSlot.positionPri)
                             {
                                 tempSlot = stageSlotPlayerBottom[i];
                                 stageSlotPlayerBottom.RemoveAt(i);
@@ -448,7 +448,7 @@ public class DungeonOS : MonoBehaviour
                         {
                             for (int i = 0; i < stageSlotPlayerMid.Count; i++)
                             {
-                                if (stageSlotPlayerMid[i].positionPer > moveSlot.positionPer)
+                                if (stageSlotPlayerMid[i].positionPri > moveSlot.positionPri)
                                 {
                                     tempSlot = stageSlotPlayerMid[i];
                                     stageSlotPlayerMid.RemoveAt(i);
@@ -478,11 +478,11 @@ public class DungeonOS : MonoBehaviour
                         CharacterDatabase.InfoCharacter moveSlot = item;
                         CharacterDatabase.InfoCharacter tempSlot = item;
                         // 수치가 낮은 경우 
-                        if (item.positionPer >= 30)
+                        if (item.positionPri >= 30)
                         {
                             for (int i = 0; i < stageSlotPlayerMid.Count; i++)
                             {
-                                if (stageSlotPlayerMid[i].positionPer > moveSlot.positionPer)
+                                if (stageSlotPlayerMid[i].positionPri > moveSlot.positionPri)
                                 {
                                     tempSlot = stageSlotPlayerMid[i];
                                     stageSlotPlayerMid.RemoveAt(i);
@@ -499,7 +499,7 @@ public class DungeonOS : MonoBehaviour
                             {
                                 for (int i = 0; i < stageSlotPlayerBottom.Count; i++)
                                 {
-                                    if (stageSlotPlayerBottom[i].positionPer > moveSlot.positionPer)
+                                    if (stageSlotPlayerBottom[i].positionPri > moveSlot.positionPri)
                                     {
                                         tempSlot = stageSlotPlayerBottom[i];
                                         stageSlotPlayerBottom.RemoveAt(i);
@@ -522,7 +522,7 @@ public class DungeonOS : MonoBehaviour
                         {
                             for (int i = 0; i < stageSlotPlayerMid.Count; i++)
                             {
-                                if (stageSlotPlayerMid[i].positionPer < moveSlot.positionPer)
+                                if (stageSlotPlayerMid[i].positionPri < moveSlot.positionPri)
                                 {
                                     tempSlot = stageSlotPlayerMid[i];
                                     stageSlotPlayerMid.RemoveAt(i);
@@ -539,7 +539,7 @@ public class DungeonOS : MonoBehaviour
                             {
                                 for (int i = 0; i < stageSlotPlayerTop.Count; i++)
                                 {
-                                    if (stageSlotPlayerTop[i].positionPer < moveSlot.positionPer)
+                                    if (stageSlotPlayerTop[i].positionPri < moveSlot.positionPri)
                                     {
                                         tempSlot = stageSlotPlayerTop[i];
                                         stageSlotPlayerTop.RemoveAt(i);
@@ -572,7 +572,7 @@ public class DungeonOS : MonoBehaviour
                         //내부 비교 밀어내기식 자리배치 // 큰수치가 우선
                         for (int i = 0; i < stageSlotPlayerTop.Count; i++)
                         {
-                            if (stageSlotPlayerTop[i].positionPer < moveSlot.positionPer)
+                            if (stageSlotPlayerTop[i].positionPri < moveSlot.positionPri)
                             {
                                 tempSlot = stageSlotPlayerTop[i];
                                 stageSlotPlayerTop.RemoveAt(i);
@@ -589,7 +589,7 @@ public class DungeonOS : MonoBehaviour
                         {
                             for (int i = 0; i < stageSlotPlayerMid.Count; i++)
                             {
-                                if (stageSlotPlayerMid[i].positionPer < moveSlot.positionPer)
+                                if (stageSlotPlayerMid[i].positionPri < moveSlot.positionPri)
                                 {
                                     tempSlot = stageSlotPlayerMid[i];
                                     stageSlotPlayerMid.RemoveAt(i);
@@ -950,6 +950,7 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     public void DGTimerStart() 
     {
+        costDGP = 3;
         progressTimeDGP = 0;
         timerOnDGP = true;
         timeLevelDGP = 0;
@@ -977,6 +978,9 @@ public class DungeonOS : MonoBehaviour
             if (cycleTime >= 20)
             {
                 cycleTime = 0f;
+                if (costDGP <= 7) costDGP += 3;
+                else costDGP = 10;
+                
                 switch (timeLevelDGP)
                 {
                     case 0:

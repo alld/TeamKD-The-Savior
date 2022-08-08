@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using SimpleJSON;
 
 
 public class CharacterDatabase : MonoBehaviour
 {
+    public static TextAsset jsonData = Resources.Load<TextAsset>("CharacterData");
+    public static string json = jsonData.text;
     /// <summary>
     /// 캐릭터의 기본 원형값을 가지고있는 데이터 베이스 
     /// <br>InfoCh를 통해 인스턴스를 만들어서 사용해야함. </br>
@@ -38,6 +41,10 @@ public class CharacterDatabase : MonoBehaviour
         /// 캐릭터 기본 데미지
         /// </summary>
         public float damage;
+        /// <summary>
+        /// 캐릭터 평타 데미지
+        /// </summary>
+        public float meleDmg;
         /// <summary>
         /// 프리팹에 있는 캐릭터 오브젝트, 모델
         /// </summary>
@@ -74,7 +81,7 @@ public class CharacterDatabase : MonoBehaviour
         /// <br>2. 물 속성</br>
         /// <br>3. 풀 속성</br>
         /// </summary>
-        public int propertie;
+        public int Attribute;
         /// <summary>
         /// 캐릭터 인식 범위 : 공격 대상을 인식하는 범위
         /// </summary>
@@ -86,7 +93,7 @@ public class CharacterDatabase : MonoBehaviour
         /// <summary>
         /// 캐릭터 기본 자리 우선도 : 자리 배치
         /// </summary>
-        public int positionPer;
+        public int positionPri;
         /// <summary>
         /// [saveData] 캐릭터 클래스
         /// </summary>
@@ -144,16 +151,17 @@ public class CharacterDatabase : MonoBehaviour
             hP = 0;
             maxHP = 100;
             damage = 0;
+            meleDmg = 0;
             gameObject = null;
             attackSpeed = 0;
             moveSpeed = 0;
             defense = 0;
             attackType = 0;
             attackRange = 0;
-            propertie = 0;
+            Attribute = 0;
             priRange = 0;
             priorities = 0;
-            positionPer = 0;
+            positionPri = 0;
             unitClass = 0;
             level = 1;
             soul = 0;
@@ -173,179 +181,79 @@ public class CharacterDatabase : MonoBehaviour
         /// <param name="num"></param>
         public InfoCharacter(int num)
         {
-            switch (num)
+            var data = JSON.Parse(json);
+            number = num;
+            icon = null; // 이미지 설정 검토
+            switch (GameManager.instance.data.Language)
             {
-                case 1: // 머선머선 캐릭터 아직 미정
-                    number = num;
-                    icon = null; // 이미지 설정 검토
-                    name = "머선머선 캐릭터"; // 던전정보와 마찬가지로 텍스트 구동방식 검토
-                    hP = 100;
-                    maxHP = 100;
-                    damage = 10.0f;
-                    gameObject = Resources.Load<GameObject>("Unit/TestUnit");
-                    attackSpeed = 1.0f;
-                    moveSpeed = 1.0f;
-                    defense = 10.0f;
-                    attackType = 1;
-                    attackRange = 10.0f;
-                    propertie = 0;
-                    priRange = 10.0f;
-                    priorities = 20;
-                    positionPer = 30;
-                    unitClass = 0;
-                    level = 1;
-                    soul = 0;
-                    partySet = false;
-                    islock = false;
-                    isLive = true;
-                    basicskill = 0;
-                    speialskill = 0;
-                    overlapValueA = 0;
-                    overlapValueB = 0;
+                case 0:
+                    name = data[num]["Name_Kr"];
                     break;
-                case 2: // snrn
-                    number = num;
-                    icon = null;
-                    name = null;
-                    hP = 0;
-                    maxHP = 100;
-                    damage = 0;
-                    gameObject = null;
-                    attackSpeed = 0;
-                    moveSpeed = 0;
-                    defense = 0;
-                    attackType = 0;
-                    attackRange = 0;
-                    propertie = 0;
-                    priRange = 0;
-                    priorities = 0;
-                    positionPer = 0;
-                    unitClass = 0;
-                    level = 1;
-                    soul = 0;
-                    partySet = false;
-                    islock = false;
-                    isLive = true;
-                    basicskill = 0;
-                    speialskill = 0;
-                    overlapValueA = 0;
-                    overlapValueB = 0;
-                    break;
-                case 3:
-                    number = num;
-                    icon = null;
-                    name = null;
-                    hP = 0;
-                    maxHP = 100;
-                    damage = 0;
-                    gameObject = null;
-                    attackSpeed = 0;
-                    moveSpeed = 0;
-                    defense = 0;
-                    attackType = 0;
-                    attackRange = 0;
-                    propertie = 0;
-                    priRange = 0;
-                    priorities = 0;
-                    positionPer = 0;
-                    unitClass = 0;
-                    level = 1;
-                    soul = 0;
-                    partySet = false;
-                    islock = false;
-                    isLive = true;
-                    basicskill = 0;
-                    speialskill = 0;
-                    overlapValueA = 0;
-                    overlapValueB = 0;
-                    break;
-                case 4:
-                    number = num;
-                    icon = null;
-                    name = null;
-                    hP = 0;
-                    maxHP = 100;
-                    damage = 0;
-                    gameObject = null;
-                    attackSpeed = 0;
-                    moveSpeed = 0;
-                    defense = 0;
-                    attackType = 0;
-                    attackRange = 0;
-                    propertie = 0;
-                    priRange = 0;
-                    priorities = 0;
-                    positionPer = 0;
-                    unitClass = 0;
-                    level = 1;
-                    soul = 0;
-                    partySet = false;
-                    islock = false;
-                    isLive = true;
-                    basicskill = 0;
-                    speialskill = 0;
-                    overlapValueA = 0;
-                    overlapValueB = 0;
-                    break;
-                case 5:
-                    number = num;
-                    icon = null;
-                    name = null;
-                    hP = 0;
-                    maxHP = 100;
-                    damage = 0;
-                    gameObject = null;
-                    attackSpeed = 0;
-                    moveSpeed = 0;
-                    defense = 0;
-                    attackType = 0;
-                    attackRange = 0;
-                    propertie = 0;
-                    priRange = 0;
-                    priorities = 0;
-                    positionPer = 0;
-                    unitClass = 0;
-                    level = 1;
-                    soul = 0;
-                    partySet = false;
-                    islock = false;
-                    isLive = true;
-                    basicskill = 0;
-                    speialskill = 0;
-                    overlapValueA = 0;
-                    overlapValueB = 0;
-                    break;
-                case 6:
-                    number = num;
-                    icon = null;
-                    name = null;
-                    hP = 0;
-                    maxHP = 100;
-                    damage = 0;
-                    gameObject = null;
-                    attackSpeed = 0;
-                    moveSpeed = 0;
-                    defense = 0;
-                    attackType = 0;
-                    attackRange = 0;
-                    propertie = 0;
-                    priRange = 0;
-                    priorities = 0;
-                    positionPer = 0;
-                    unitClass = 0;
-                    level = 1;
-                    soul = 0;
-                    partySet = false;
-                    islock = false;
-                    isLive = true;
-                    basicskill = 0;
-                    speialskill = 0;
-                    overlapValueA = 0;
-                    overlapValueB = 0;
+                case 1:
+                    name = data[num]["Name_Eng"];
                     break;
                 default:
                     break;
             }
+            hP = data[num]["Hp_Cur"];
+            maxHP = data[num]["Hp_Total"];
+            damage = data[num]["Chr_power"];
+            meleDmg = data[num]["Total_Damage"];
+            gameObject = Resources.Load<GameObject>("Unit/TestUnit");
+            attackSpeed = data[num]["Chr_AtkSpeed"];
+            moveSpeed = data[num]["Chr_MS"];
+            defense = data[num]["Chr_DF"];
+            attackType = data[num]["Attack_Type"];
+            attackRange = data[num]["Chr_AtkRange"];
+            Attribute = data[num]["Attribute"];
+            priRange = data[num]["Atk_Know_Range"];
+            priorities = data[num]["Attack_Priority"];
+            positionPri = data[num]["Place_Priority"];
+            unitClass = 0;
+            level = 1;
+            soul = 0;
+            partySet = false;
+            islock = false;
+            isLive = true;
+            basicskill = 0;
+            speialskill = 0;
+            overlapValueA = 0;
+            overlapValueB = 0;
+
+
+            //switch (num)
+            //{
+            //    case 1: // 머선머선 캐릭터 아직 미정
+            //        number = num;
+            //        icon = null; // 이미지 설정 검토
+            //        name = "머선머선 캐릭터"; // 던전정보와 마찬가지로 텍스트 구동방식 검토
+            //        hP = 100;
+            //        maxHP = 100;
+            //        damage = 10.0f;
+            //        gameObject = Resources.Load<GameObject>("Unit/TestUnit");
+            //        attackSpeed = 1.0f;
+            //        moveSpeed = 1.0f;
+            //        defense = 10.0f;
+            //        attackType = 1;
+            //        attackRange = 10.0f;
+            //        propertie = 0;
+            //        priRange = 10.0f;
+            //        priorities = 20;
+            //        positionPer = 30;
+            //        unitClass = 0;
+            //        level = 1;
+            //        soul = 0;
+            //        partySet = false;
+            //        islock = false;
+            //        isLive = true;
+            //        basicskill = 0;
+            //        speialskill = 0;
+            //        overlapValueA = 0;
+            //        overlapValueB = 0;
+            //        break;
+            //    default:
+            //        break;
+            //}
         }
     }
 
