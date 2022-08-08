@@ -28,26 +28,20 @@ public class PlayToolBar : MonoBehaviour
     public TMP_Text souls;
     public TMP_Text golds;
 
-    // 해당 창이 열려있는가?
-    private bool isRelic = false;
-    private bool isCard = false;
-    private bool isParty = false;
-    private bool isCollect = false;
-
     private void Start()
     {
         // 유물 인벤토리 On, Off
         relicButton.onClick.AddListener(() => OnClick_RelicBtn());
-        closeRelicButton.onClick.AddListener(() => OnClick_RelicBtn());
+        closeRelicButton.onClick.AddListener(() => OnClick_CloseRelicBtn());
         // 카드 인벤토리 On, Off
         cardButton.onClick.AddListener(() => OnClick_CardBtn());
-        closeCardButton.onClick.AddListener(() => OnClick_CardBtn());
+        closeCardButton.onClick.AddListener(() => OnClick_CloseCardBtn());
         // 캐릭터 인벤토리 On, Off
         partyButton.onClick.AddListener(() => OnClick_PartyBtn());
-        closePartyButton.onClick.AddListener(() => OnClick_PartyBtn());
+        closePartyButton.onClick.AddListener(() => OnClick_ClosePartyBtn());
         // 업적 인벤토리 On, Off
         collectButton.onClick.AddListener(() => OnClick_CollectBtn());
-        closeCollectButton.onClick.AddListener(() => OnClick_CollectBtn());
+        closeCollectButton.onClick.AddListener(() => OnClick_CloseCollectBtn());
 
         Gold();
     }
@@ -66,13 +60,7 @@ public class PlayToolBar : MonoBehaviour
         cardImg.SetActive(false);
         partyImg.SetActive(false);
         collectImg.SetActive(false);
-
-        isCard = false;
-        isParty = false;
-        isCollect = false;
-
-        isRelic = !isRelic;
-        relicImg.SetActive(isRelic);
+        relicImg.SetActive(true);
     }
 
     /// <summary>
@@ -83,13 +71,7 @@ public class PlayToolBar : MonoBehaviour
         relicImg.SetActive(false);
         partyImg.SetActive(false);
         collectImg.SetActive(false);
-
-        isRelic = false;
-        isParty = false;
-        isCollect = false;
-
-        isCard = !isCard;
-        cardImg.SetActive(isCard);
+        cardImg.SetActive(true);
     }
 
     /// <summary>
@@ -100,13 +82,7 @@ public class PlayToolBar : MonoBehaviour
         relicImg.SetActive(false);
         cardImg.SetActive(false);
         collectImg.SetActive(false);
-
-        isRelic = false;
-        isCard = false;
-        isCollect = false;
-
-        isParty = !isParty;
-        partyImg.SetActive(isParty);
+        partyImg.SetActive(true);
     }
 
     /// <summary>
@@ -117,13 +93,24 @@ public class PlayToolBar : MonoBehaviour
         relicImg.SetActive(false);
         cardImg.SetActive(false);
         partyImg.SetActive(false);
-
-        isRelic = false;
-        isCard = false;
-        isParty = false;
-
-        isCollect = !isCollect;
-        collectImg.SetActive(isCollect);
+        collectImg.SetActive(true);
     }
 
+    private void OnClick_CloseRelicBtn()
+    {
+        relicImg.SetActive(false);
+    }
+
+    private void OnClick_CloseCardBtn()
+    {
+        relicImg.SetActive(false);
+    }
+    private void OnClick_ClosePartyBtn()
+    {
+        relicImg.SetActive(false);
+    }
+    private void OnClick_CloseCollectBtn()
+    {
+        relicImg.SetActive(false);
+    }
 }

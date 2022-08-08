@@ -12,10 +12,12 @@ public class Relic : MonoBehaviour
     // 유물 세팅 버튼을 사용하여 창을 열었는가?
     public bool isRelicSetting = false;
 
-    // 유물 선택 됐음을 알리는 이미지 위치
-    private Transform[] setRelic = new Transform[5];
+    // 인벤토리를 열어서 유물을 장착하였는지 여부
+    private bool isUseRelic = false;
+
     [Header("선택된 유물")]
     public Image selectRelic;
+    public Transform[] selectTr = new Transform[5];
 
     [Header("유물의 위치")]
     public Transform[] relicTr = new Transform[5];
@@ -58,8 +60,10 @@ public class Relic : MonoBehaviour
     /// 세팅 후 창을 닫는다.
     /// </summary>
     /// <param name="copyImg"></param>
-    public void RelicSetting(Image copyImg, int num)
+    public void RelicSetting(Image relicImg, int num, Transform setRelicTr)
     {
+        Image copyImg = Instantiate(relicImg);
+        Image selectRelicImg = Instantiate(selectRelic);
         // 다른 자리에 동일한 유물이 있다면 파괴한다.
         for(int i = 0; i < relicNum.Length; i++)
         {
@@ -67,19 +71,79 @@ public class Relic : MonoBehaviour
             {
                 relicNum[i] = 0;
                 Destroy(relicTr[i].GetChild(0).gameObject);
+                Destroy(selectTr[i].GetChild(1).gameObject);
             }
         }
         // 해당 자리에 이미 장착된 유물이 있다면 파괴하고 장착한다.
-        if(relicTr[curRelicTr].childCount > 0)
+        if(relicNum[curRelicTr] != 0)
         {
             Destroy(relicTr[curRelicTr].GetChild(0).gameObject);
+            Destroy(selectTr[curRelicTr].GetChild(1).gameObject);
         }
         relicNum[curRelicTr] = num;
         copyImg.transform.SetParent(relicTr[curRelicTr]);
+
+        // 인벤토리에 장착된 유물을 표시함.
+        selectTr[curRelicTr] = setRelicTr;
+        selectRelicImg.transform.SetParent(selectTr[curRelicTr]);
+        //Debug.Log(selectTr[curRelicTr]);
+
+        InitRectSize(selectRelicImg);
         InitRectSize(copyImg);
        
+
+
         Destroy(copyImg.GetComponent<ViewRelic>());
         relicInventory.SetActive(false);
+    }
+
+    /// <summary>
+    /// 인벤토리에 있는 유물을 복사하여 유물 장착칸으로 이동 시킨다.
+    /// 단, 0번부터 검사하여 비어있는 자리에 장착시킨다.
+    /// 장착중인 유물을 클릭 할 경우 해제시킨다.
+    /// </summary>
+    /// <param name="copyImg"></param>
+    /// <param name="num"></param>
+    public void StackRelicSetting(Image relicImg, int num, Transform setRelicTr)
+    {
+        for(int i = 0; i < relicNum.Length; i++)
+        {
+            // 장착중인 동일한 유물이 있는지 검사를 하고
+            if(relicNum[i] == num)
+            {
+                relicNum[i] = 0;                
+                Destroy(relicTr[i].GetChild(0).gameObject);
+                Destroy(selectTr[i].GetChild(1).gameObject);
+                Debug.Log(selectTr[i].GetChild(1).gameObject);
+                relicInventory.SetActive(false);
+                isUseRelic = true;
+                break;
+            }
+        }
+        if (!isUseRelic)
+        {
+            for (int i = 0; i < relicNum.Length; i++)
+            {
+                // 장착중인 동일한 유물이 없다면 장착.
+                if (relicNum[i] == 0)
+                {
+                    Image selectRelicImg = Instantiate(selectRelic);
+                    Image copyImg = Instantiate(relicImg);
+                    relicNum[i] = num;
+                    copyImg.transform.SetParent(relicTr[i]);
+                    selectTr[i] = setRelicTr;
+                    selectRelicImg.transform.SetParent(selectTr[i]);
+                    InitRectSize(copyImg);
+                    InitRectSize(selectRelicImg);
+
+                    Destroy(copyImg.GetComponent<ViewRelic>());
+                    relicInventory.SetActive(false);
+                    //isInventorySetting = true;
+                    break;
+                }
+            }
+        }
+        isUseRelic = false;
     }
 
 

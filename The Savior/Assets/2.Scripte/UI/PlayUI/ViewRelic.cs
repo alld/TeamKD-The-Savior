@@ -28,14 +28,14 @@ public class ViewRelic : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     {
         info.SetActive(false);
         isSelect = true;
-        Image copyImg = Instantiate(thisImg);
+        //Image copyImg = Instantiate(thisImg);
         switch (relic.isRelicSetting)
         {
             case true:
-                relic.RelicSetting(copyImg, number);
+                relic.RelicSetting(thisImg, number, transform.parent);
                 break;
             case false:
-                Debug.Log("False!!!");
+                relic.StackRelicSetting(thisImg, number, transform.parent);
                 break;
         }
         relic.isRelicSetting = false;
