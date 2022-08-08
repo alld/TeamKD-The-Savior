@@ -9,12 +9,15 @@ public class ViewRelic : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 {
     // 유물 장착을 위한 연결
     private Relic relic;
+    private RelicData data;
 
     public bool isSelect = false;
 
+    // 유물의 번호
+    private int number = 0;
+
     [Header("유물 정보")]
-    
-    public Transform mousePoint;
+    private Transform mousePoint;
 
     private GameObject info;
 
@@ -23,12 +26,13 @@ public class ViewRelic : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        info.SetActive(false);
         isSelect = true;
         Image copyImg = Instantiate(thisImg);
         switch (relic.isRelicSetting)
         {
             case true:
-                relic.RelicSetting(copyImg);
+                relic.RelicSetting(copyImg, number);
                 break;
             case false:
                 Debug.Log("False!!!");
@@ -42,7 +46,7 @@ public class ViewRelic : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
         info = relic.infoImage.gameObject;
 
-        mousePoint.position = Input.mousePosition;
+        mousePoint.position = this.gameObject.transform.position;
 
         relic.infoImage.transform.SetParent(mousePoint);
         InitRectSize(relic.infoImage, relic.infoText);
@@ -56,17 +60,19 @@ public class ViewRelic : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     private void Start()
     {
+        data = GetComponent<RelicData>();
         relic = GameObject.Find("PUIManager").GetComponent<Relic>();
         thisImg = GetComponent<Image>();
         mousePoint = GameObject.Find("MousePoint").GetComponent<Transform>();
+        number = data.num;  
     }
 
 
 
     private void InitRectSize(Image img, TMP_Text text)
     {
-        img.rectTransform.offsetMin = new Vector2(200, 0);
-        img.rectTransform.offsetMax = new Vector2(300, 0);
+        img.rectTransform.offsetMin = new Vector2(150, 0);
+        img.rectTransform.offsetMax = new Vector2(600, 0);
 
         text.rectTransform.offsetMin = Vector2.zero;
         text.rectTransform.offsetMax = Vector2.zero;

@@ -6,7 +6,6 @@ using TMPro;
 
 public class Relic : MonoBehaviour
 {
-    private RelicData data;
     public Button[] relic = new Button[5];
     public GameObject relicInventory;
 
@@ -59,22 +58,15 @@ public class Relic : MonoBehaviour
     /// 세팅 후 창을 닫는다.
     /// </summary>
     /// <param name="copyImg"></param>
-    public void RelicSetting(Image copyImg)
+    public void RelicSetting(Image copyImg, int num)
     {
-        if(relicTr[curRelicTr].childCount > 1)
+        if(relicTr[curRelicTr].childCount > 0)
         {
-            Destroy(relicTr[curRelicTr].GetChild(1).gameObject);
+            Destroy(relicTr[curRelicTr].GetChild(0).gameObject);
         }
-
-        //
-        // 이미 유물이 장착되어 있다면, 장착된 유물을 파괴하고
-        // 클릭한 위치에 유물을 장착한다.
-        // 버그가 있으므로 주석 처리하고 나중에 만들겠읍니다.
-        //
-
+        relicNum[curRelicTr] = num;
         copyImg.transform.SetParent(relicTr[curRelicTr]);
         InitRectSize(copyImg);
-        //Debug.Log(relicNum[curRelicTr]);
        
         Destroy(copyImg.GetComponent<ViewRelic>());
         relicInventory.SetActive(false);

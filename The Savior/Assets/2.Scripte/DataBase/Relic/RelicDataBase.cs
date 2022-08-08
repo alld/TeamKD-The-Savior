@@ -16,7 +16,7 @@ public class RelicDataBase : MonoBehaviour
 
     public class InfoRelic
     {
-        #region 카드 기본 설정값
+        #region 유물 기본 설정값
         /// <summary>
         /// 유물 데이터가 어떤데이터인지 구분하기위한 넘버
         /// </summary>

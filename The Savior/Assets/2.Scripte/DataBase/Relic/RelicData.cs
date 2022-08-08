@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class RelicData : MonoBehaviour
 {
-    public int relicNum = 0;
-
-    void Start()
-    {
-        
-    }
+    public int num = 0;
 
 }
