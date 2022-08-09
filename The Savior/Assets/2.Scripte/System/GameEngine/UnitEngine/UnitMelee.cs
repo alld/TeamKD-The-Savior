@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-/* 캐릭터 사망처리시 사용 변수 변경 (리스트 첨삭 불가능하기때문에 변경해줘야함)
+/*(작업 필요) 캐릭터 사망처리시 사용 변수 변경 (리스트 첨삭 불가능하기때문에 변경해줘야함)
  * 캐릭터 추가시 해당 컴포넌트에 접근하여 설정값을 잡아줌. 
  * unitNumber,
  * 
@@ -13,55 +13,79 @@ using UnityEngine;
  * 
  */
 
-
+/// <summary>
+/// 기능 : 플레이어 유닛의 일반 공격 기능 컴포넌트
+/// </summary>
 public class UnitMelee : MonoBehaviour
 {
+    /// <summary>
+    /// 기능 : 피격된 대상에대한 데이터에 접근하기위한 변수
+    /// <br></br>방법 : DungeonOS.instance.partySlot[<paramref name="unitNumber"/>]
+    /// </summary>
     public int unitNumber;
+    //캐시 처리
     private DamageEngine dmgEngine;
     
     private void Start()
     {
-       dmgEngine = GetComponent<DamageEngine>();
+       dmgEngine = DungeonOS.instance.GetComponent<DamageEngine>();
     }
 
     /// <summary>
-    /// 공격 명령이 내려지면 일반 공격을 하는 기능 
-    /// 
+    /// 이 컴포넌트를 가지고 있는 유닛의 공격 행동을 담당하는 함수
     /// </summary>
     public void OnAttack()
     {
         int tempAType = DungeonOS.instance.partyUnit[unitNumber].attackType;
         if(tempAType != 2)
         {
-            
+            // (작업 필요)근접 공격시 근접 무기에 달려있는 트리거상자 활성화
         }
-        else if(tempAType == 2)
+        else
         {
-
+            // (작업 필요)원거리 공격시 투사체 오브젝트 생성
         }
-    
     }
 
     /// <summary>
-    /// 공격 받게될 시 내려지는 기능
+    /// 이 컴포넌트를 가지고 있는 유닛이 피격될시 결과 처리 함수
     /// </summary>
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PHYSICS"))
+        if (other.CompareTag("PHYSICS")) // 데미지 계산의 대상인지 검사
         {
-            int Target = other.GetComponent<UnitMelee>().unitNumber;
+            int Target = other.GetComponent<UnitMelee>().unitNumber; //(작업 필요)몬스터껄로 변경필요함
             float damage;
             damage = DungeonOS.instance.partyUnit[unitNumber].meleDmg;
             OnDamage(damage, Target);
+            // 투사체 및 트리거 박스 설정
+            int tempAType = DungeonOS.instance.partyUnit[Target].attackType;
+            if (tempAType != 2)
+            {
+                // (작업 필요)근접 공격 피격시 무기에 달려있는 트리거상자 비활성화
+            }
+            else
+            {
+                //(작업 필요) 원거리 공격시 투사체 비활성화 하던가 디스트로이 하던가..
+            }
+
         }
     }
 
     /// <summary>
-    /// 데미지 엔진에 필요한 값을 전달시킴
+    /// 데미지 엔진을 실행시키는 함수 
+    /// <br></br><paramref name="dmg"/> : 피격될시 가해진 기본 데미지량
+    /// <br></br><paramref name="TargetNumber"/> : 공격한 대상의 넘버링 
+    /// <br></br>데이터베이스가 아닌 dungeonOS에서 별도 그룹값에 접근하기위한 넘버링
     /// </summary>
+    /// <param name="dmg"></param>
+    /// <param name="TargetNumber"></param>
     private void OnDamage(float dmg, int TargetNumber)
     {
-        dmgEngine.OnDamageTarget(0.1f);
-
+        DungeonOS.instance.partyUnit[unitNumber].hP -= dmgEngine.OnDamageCalculate(false, dmg, TargetNumber, unitNumber);
+        if (DungeonOS.instance.partyUnit[unitNumber].hP < 0)
+        {
+            GetComponent<UnitAI>().State_Die();
+        }
     }
 }

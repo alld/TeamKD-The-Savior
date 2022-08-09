@@ -6,6 +6,7 @@ using SimpleJSON;
 public class DungeonOS : MonoBehaviour
 {
     public static DungeonOS instance = null;
+    public GameObject DungeonOSObj = null;
     #region 환경 변수
     [Header("환경 변수")]
     public int dungeonNumber = 0;
@@ -149,6 +150,44 @@ public class DungeonOS : MonoBehaviour
     public List<CardDataBase.InfoCard> handCard = new List<CardDataBase.InfoCard>();
     #endregion
 
+    #region 던전 가중치 데이터
+    // 가중치 횟수 체크 변수
+    public int addCount;
+    // 아군
+    public float allyAdd_damage;
+    public float allyAdd_maxHP;
+    public float allyAdd_hp;
+    public float allyAdd_meleDmg;
+    public float allyAdd_attackSpeed;
+    public float allyAdd_moveSpeed;
+    public float allyAdd_defense;
+    public float allyAdd_attackRange;
+    public bool allyAdd_attributeCheck;
+    public int allyAdd_attribute;
+    public float[] allyAdd_attributeVlaue = new float[3];
+    public float allyAdd_priRange;
+    public int allyAdd_priorities;
+    public float allyAdd_skilcoldown;
+    // 적
+    public float enemyAdd_damage;
+    public float enemyAdd_maxHP;
+    public float enemyAdd_hp;
+    public float enemyAdd_meleDmg;
+    public float enemyAdd_attackSpeed;
+    public float enemyAdd_moveSpeed;
+    public float enemyAdd_defense;
+    public float enemyAdd_attackRange;
+    public bool enemyAdd_attributeCheck;
+    public int enemyAdd_attribute;
+    public float[] enemyAdd_attributeVlaue = new float[3];
+    public float enemyAdd_priRange;
+    public int enemyAdd_priorities;
+    public float enemyAdd_skilcoldown;
+    public int enemyAdd_rewardGold;
+    public int ememyAdd_rewardSoul;
+
+    #endregion
+
     #region 전달받은 GameManager의 Data
     //캐릭터 정보 
     //public CharacterDatabase.InfoCharacter[] partyUnit = 
@@ -193,7 +232,7 @@ public class DungeonOS : MonoBehaviour
         DungeonCtrl.dungeonUI.SetActive(true);
         GameSetting();
     }
-    #region 던전 이벤트(기능)
+    #region 던전 이벤트(기능) // 주석처리 미흡
     public void OnStateCheck()
     {
         dele_stateCheck();
@@ -304,7 +343,7 @@ public class DungeonOS : MonoBehaviour
     }
     // 부활을 사용하지 않을 경우 경고창 출력; 
     #endregion
-    #region 던전 UI 처리
+    #region 던전 UI 처리 // 주석기능 미흡
     void StageSelectButtonSet()
     {
         GameObject.Find("StageSelectGroup").SetActive(true);
@@ -379,7 +418,7 @@ public class DungeonOS : MonoBehaviour
     }
     #endregion
     #endregion
-    #region 던전 셋팅
+    #region 던전 셋팅 // 주석기능 미흡
     /// <summary>
     /// 게임이 시작하고 던전에서 기본값들을 셋팅할때 사용
     /// </summary>
@@ -956,8 +995,8 @@ public class DungeonOS : MonoBehaviour
         HandUIReset();
     }
 
-    #endregion
-    #region 던전 타이머 기능
+    #endregion 
+    #region 던전 타이머 기능 // 주석기능 미흡
     /// <summary>
     /// 타이머 시작 기능
     /// </summary>
@@ -1029,7 +1068,13 @@ public class DungeonOS : MonoBehaviour
     #endregion
     #region 던전 종료
     /// <summary>
-    /// 던전 종료시 작동 // 결산창에서 나가기버튼 클릭시 실행되는 함수
+    /// 던전 종료시 작동 
+    /// <br><b>시점 : </b></br>결산창에서 나가기버튼 클릭시 실행되는 함수
+    /// <br></br>게임이 종료됬을시 던전 셋팅값을 되돌리고 던전내에서 변동된 값을
+    /// 게임매니저와 동기화시킴 
+    /// <br></br>
+    /// <br><b>구조 : </b></br> 게임매니저가 가지고있는 인스턴스에 접근하여
+    /// DungeonOS가 가지고있는 일부값을 넣어줌. 
     /// </summary>
     void DungeonEnd()
     {
@@ -1095,6 +1140,13 @@ public class DungeonOS : MonoBehaviour
     }
     #endregion
     #region 게임 에러 기록
+    /// <summary>
+    /// 던전내에서 발생한 문제를 추적 관리하기위한 리스트 목록
+    /// <br><b>구조</b> : 에러가 발생한 지점에서 텍스트를 입력받아서
+    /// 리스트로 에디터상에서도 확인할수 있게 해둠.</br> 
+    /// <br></br>[errorList] : 스트링으로 넘겨받은 에러문자들을 누적하는곳
+    /// </summary>
+    /// <param name="str"></param>
     public void GameError(string str)
     {
         errorList.Add(str);

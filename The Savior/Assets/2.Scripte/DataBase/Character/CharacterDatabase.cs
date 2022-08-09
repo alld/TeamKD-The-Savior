@@ -79,7 +79,7 @@ public class CharacterDatabase : MonoBehaviour
         /// <br>2. 물 속성</br>
         /// <br>3. 풀 속성</br>
         /// </summary>
-        public int Attribute;
+        public int attribute;
         /// <summary>
         /// 캐릭터 인식 범위 : 공격 대상을 인식하는 범위
         /// </summary>
@@ -156,7 +156,7 @@ public class CharacterDatabase : MonoBehaviour
             defense = 0;
             attackType = 0;
             attackRange = 0;
-            Attribute = 0;
+            attribute = 0;
             priRange = 0;
             priorities = 0;
             positionPri = 0;
@@ -202,7 +202,7 @@ public class CharacterDatabase : MonoBehaviour
             defense = data[num]["Chr_DF"];
             attackType = data[num]["Attack_Type"];
             attackRange = data[num]["Chr_AtkRange"];
-            Attribute = data[num]["Attribute"];
+            attribute = data[num]["Attribute"];
             priRange = data[num]["Atk_Know_Range"];
             priorities = data[num]["Attack_Priority"];
             positionPri = data[num]["Place_Priority"];

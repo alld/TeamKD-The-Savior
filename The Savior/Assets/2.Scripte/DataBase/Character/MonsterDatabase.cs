@@ -73,7 +73,7 @@ public class MonsterDatabase : MonoBehaviour
         /// <br>2. 물 속성</br>
         /// <br>3. 풀 속성</br>
         /// </summary>
-        public int propertie;
+        public int attribute;
         /// <summary>
         /// 몬스터 인식 범위 : 공격 대상을 인식하는 범위
         /// </summary>
@@ -138,7 +138,7 @@ public class MonsterDatabase : MonoBehaviour
                     defense = 10.0f;
                     attackType = 1;
                     attackRange = 10.0f;
-                    propertie = 0;
+                    attribute = 0;
                     priRange = 10.0f;
                     priorities = 20;
                     positionPer = 30;
@@ -165,7 +165,7 @@ public class MonsterDatabase : MonoBehaviour
                     defense = 0;
                     attackType = 0;
                     attackRange = 0;
-                    propertie = 0;
+                    attribute = 0;
                     priRange = 0;
                     priorities = 0;
                     positionPer = 0;
@@ -192,7 +192,7 @@ public class MonsterDatabase : MonoBehaviour
                     defense = 0;
                     attackType = 0;
                     attackRange = 0;
-                    propertie = 0;
+                    attribute = 0;
                     priRange = 0;
                     priorities = 0;
                     positionPer = 0;
@@ -219,7 +219,7 @@ public class MonsterDatabase : MonoBehaviour
                     defense = 0;
                     attackType = 0;
                     attackRange = 0;
-                    propertie = 0;
+                    attribute = 0;
                     priRange = 0;
                     priorities = 0;
                     positionPer = 0;
@@ -246,7 +246,7 @@ public class MonsterDatabase : MonoBehaviour
                     defense = 0;
                     attackType = 0;
                     attackRange = 0;
-                    propertie = 0;
+                    attribute = 0;
                     priRange = 0;
                     priorities = 0;
                     positionPer = 0;
@@ -273,7 +273,7 @@ public class MonsterDatabase : MonoBehaviour
                     defense = 0;
                     attackType = 0;
                     attackRange = 0;
-                    propertie = 0;
+                    attribute = 0;
                     priRange = 0;
                     priorities = 0;
                     positionPer = 0;
