@@ -11740,6 +11740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7df3a630d614eda44841dc6f6c294b78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  n: 0
 --- !u!114 &580982190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26449,6 +26450,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Relic_3
       objectReference: {fileID: 0}
+    - target: {fileID: 7733647857694571021, guid: 64bc4bf00198e464a910ed955dac280e, type: 3}
+      propertyPath: number
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8651330146743051559, guid: 64bc4bf00198e464a910ed955dac280e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -29547,6 +29552,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1687307871}
     m_Modifications:
+    - target: {fileID: -7823023568598460538, guid: 5d781085d7ce0fb4f962ad78c122829b, type: 3}
+      propertyPath: number
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 755610167171246275, guid: 5d781085d7ce0fb4f962ad78c122829b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -32637,6 +32646,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1617723340}
     m_Modifications:
+    - target: {fileID: -8799163176042316626, guid: d7d5313c975dba843b7e72f399e28cc7, type: 3}
+      propertyPath: number
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1552444209553960672, guid: d7d5313c975dba843b7e72f399e28cc7, type: 3}
       propertyPath: m_Name
       value: Relic_2
