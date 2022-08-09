@@ -38,7 +38,7 @@ public class CharacterDataTable : MonoBehaviour
     public Image icon;                // 캐릭터 아이콘
     public GameObject charObject;       // 캐릭터 오브젝트
 
-    private void Awake()
+    public CharacterDataTable(int num)
     {
         jsonData = Resources.Load<TextAsset>("CharacterData");
         json = jsonData.text;

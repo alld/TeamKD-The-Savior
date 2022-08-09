@@ -342,7 +342,6 @@ namespace SimpleJSON
         {
             return !(a == b);
         }
-
         public override bool Equals(object obj)
         {
             return ReferenceEquals(this, obj);
