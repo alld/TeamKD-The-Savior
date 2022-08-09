@@ -37,6 +37,9 @@ namespace GameDataTable
         public int Sound = 100;
         public int souls = 0;
         public int golds = 0;
-        //public int[] haveCharNum = new int[6]; // : Have Character Number
+        public string[] presetName = new string[] { "1번 프리셋", "2번 프리셋", "3번 프리셋", "4번 프리셋", "5번 프리셋"};
+        public int[] haveRelic = new int[28];
+        public int[] haveCharacter = new int[28];
+        public int[] haveCard = new int[99];
     }
 }

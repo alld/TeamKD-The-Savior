@@ -37,7 +37,6 @@ public class WorldMapDungeon : MonoBehaviour
     public Button yesPresetButton;
     public Button noPresetButton;
     public Button[] curPresetButton = new Button[5];
-    public string[] presetStr = new string[5];
     public TMP_Text presetName;
 
     private Image[] dungeonImg = new Image[4];      // 0 : 던전 이미지 //// 1 : 등장 보스 //// 2 : 기대 보상 1 //// 3 : 기대 보상 2
@@ -73,11 +72,6 @@ public class WorldMapDungeon : MonoBehaviour
         curPresetButton[3].onClick.AddListener(() => OnClick_Preset(3));
         curPresetButton[4].onClick.AddListener(() => OnClick_Preset(4));
 
-        presetStr[0] = "1번 프리셋";
-        presetStr[1] = "2번 프리셋";
-        presetStr[2] = "3번 프리셋";
-        presetStr[3] = "4번 프리셋";
-        presetStr[4] = "5번 프리셋";
     }
 
     /// <summary>
@@ -141,8 +135,8 @@ public class WorldMapDungeon : MonoBehaviour
     private void OnClick_StartDungeonBtn()
     {
         cardPreset.SetActive(true);
-        curPresetButton[0].Select();
-        OnClick_Preset(0);
+        curPresetButton[GameManager.instance.currentDeckPresetNumber].Select();
+        OnClick_Preset(GameManager.instance.currentDeckPresetNumber);
     }
 
     // 카드 프리셋 y버튼 클릭시 던전 입장
@@ -160,7 +154,8 @@ public class WorldMapDungeon : MonoBehaviour
     // 카드 프리셋의 이름.
     private void OnClick_Preset(int idx)
     {
+        GameManager.instance.currentDeckPresetNumber = idx;
         curPresetButton[idx].Select();
-        presetName.text = presetStr[idx];
+        presetName.text = GameManager.instance.data.presetName[idx];
     }
 }
