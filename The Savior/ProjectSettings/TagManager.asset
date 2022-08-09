@@ -5,11 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - STAGEPOINT
+  - ITEM
+  - PHYSICS
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PhysicsCheck
   - Water
   - UI
   - 

@@ -5,6 +5,7 @@ using SimpleJSON;
 
 public class DungeonOS : MonoBehaviour
 {
+    public static DungeonOS instance = null;
     #region 환경 변수
     [Header("환경 변수")]
     public int dungeonNumber = 0;
@@ -170,6 +171,7 @@ public class DungeonOS : MonoBehaviour
 
     private void Awake()
     {
+        instance = this; 
         jsonData = Resources.Load<TextAsset>("CharacterData");
         jsonText = jsonData.text;
         jsonCH = JSON.Parse(jsonText);
@@ -1017,7 +1019,8 @@ public class DungeonOS : MonoBehaviour
         timerOnDGP = false;
     }
     /// <summary>
-    /// 타이머의 회전하는 UI 확인 
+    /// <b>타이머의 회전하는 UI 확인</b>
+    ///
     /// </summary>
     public void DGTimerUIReset()
     {
@@ -1101,4 +1104,5 @@ public class DungeonOS : MonoBehaviour
         }
     }
     #endregion
+
 }
