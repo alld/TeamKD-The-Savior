@@ -2210,12 +2210,6 @@ MonoBehaviour:
   - {fileID: 1970116903}
   - {fileID: 1033114817}
   - {fileID: 1881841428}
-  presetStr:
-  - 
-  - 
-  - 
-  - 
-  - 
   presetName: {fileID: 1386966892}
 --- !u!114 &301621655
 MonoBehaviour:
@@ -2256,7 +2250,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopCardPackTr: {fileID: 641839937}
-  selectPackButton: []
+  unPack: {fileID: 739139713}
+  shopCardPackImageTr: {fileID: 653543413}
+  cardList:
+  - {fileID: 1962571903}
+  - {fileID: 1292271464}
+  - {fileID: 278910659}
+  - {fileID: 629446298}
+  - {fileID: 1185119474}
+  openPack: {fileID: 1846599513}
+  buyCardList:
+  - {fileID: 1175644072}
+  - {fileID: 750901189}
+  - {fileID: 1535679144}
+  - {fileID: 1192618411}
+  - {fileID: 1520760178}
+  cardPackImg:
+  - {fileID: 8171580904510986176, guid: 0509e78819e94b144896ee10caf28991, type: 3}
+  - {fileID: 8171580904510986176, guid: b7babfd84ea853a42834fbcb8f7cddf8, type: 3}
+  - {fileID: 8171580904510986176, guid: 8e02994d74df9044f914c0aef3add0d0, type: 3}
+  - {fileID: 8171580904510986176, guid: 5e7bf3a3cf91a0846a26f62d6321a79f, type: 3}
+  - {fileID: 8171580904510986176, guid: a87dea9202db18f4b80d95bb971fec0c, type: 3}
 --- !u!1 &325294777
 GameObject:
   m_ObjectHideFlags: 0

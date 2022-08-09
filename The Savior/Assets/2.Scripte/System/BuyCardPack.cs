@@ -8,18 +8,34 @@ public class BuyCardPack : MonoBehaviour
 {
     private TextAsset jsonData;
     private string json;
+    [Header("상점 카드팩 리스트 위치")]
     public Transform shopCardPackTr;
+
+    [Header("카드팩 이미지 위치")]
+    public GameObject unPack;
+    public Transform shopCardPackImageTr;
+    public Transform[] cardList;
+
+    [Header("구매한 카드들의 위치")]
+    public GameObject openPack;
+    public Transform[] buyCardList;
+
+    [Header("카드팩 이미지 리스트")]
+    public Image[] cardPackImg;
+    private Image[] cardImg;
+
 
     private int maxCardPack = 5;
     private List<GameObject> cardPackList = new List<GameObject>();
     private GameObject thisObject;
     private TextMeshProUGUI packName;
     private TextMeshProUGUI packContant;
-    public Button[] selectPackButton;
+    private Button[] selectPackButton;
 
     private void Start()
     {
         selectPackButton = new Button[maxCardPack];
+        unPack.SetActive(true);
 
         for (int i = 0; i < maxCardPack; i++)
         {
@@ -47,7 +63,29 @@ public class BuyCardPack : MonoBehaviour
 
     private void OnClick_SelectPackBtn(int idx)
     {
+        for (int i = 0; i < 5; i++)
+        {
+
+        }
+
+        Image pack = Instantiate(cardPackImg[(idx - 1)], shopCardPackImageTr);
+        InitRect(pack);
+
         Debug.Log(idx + "번 카드팩");
+        openPack.SetActive(false);
+        unPack.SetActive(true);
+    }
+
+    private void InitRect(Image img)
+    {
+        img.rectTransform.offsetMax = Vector2.zero;
+        img.rectTransform.offsetMin = Vector2.zero;
+    }
+
+    public void BuyCard()
+    {
+        unPack.SetActive(false);
+        openPack.SetActive(true);
     }
 
 }

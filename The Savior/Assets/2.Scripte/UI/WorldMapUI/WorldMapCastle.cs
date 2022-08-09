@@ -79,6 +79,7 @@ public class WorldMapCastle : MonoBehaviour
     /// </summary>
     private void OnClick_OnBuyBtn()
     {
+        buy.BuyCard();
         Debug.Log("±¸¸Å");
     }
 
