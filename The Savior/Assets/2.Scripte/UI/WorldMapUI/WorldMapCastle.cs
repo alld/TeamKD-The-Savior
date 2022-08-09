@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class WorldMapCastle : MonoBehaviour
 {
+    SummonCharacter summon;
+
     [Header("獄動 - 失")]
     public Button castleButton;
     public Button closeCastleButton;
@@ -28,6 +30,8 @@ public class WorldMapCastle : MonoBehaviour
     private bool isChurch = false;
     private bool isShop = false;
 
+    private int summonPrice = 100;
+
 
 
     void Start()
@@ -40,6 +44,8 @@ public class WorldMapCastle : MonoBehaviour
         closeChurchButton.onClick.AddListener(() => OnClick_OnChurchBtn());
         shopBuyButton.onClick.AddListener(() => OnClick_OnBuyBtn());
         churchSummonButton.onClick.AddListener(() => OnClick_OnSummonBtn());
+
+        summon = GetComponent<SummonCharacter>();
     }
 
     /// <summary>
@@ -89,7 +95,7 @@ public class WorldMapCastle : MonoBehaviour
     /// </summary>
     private void OnClick_OnSummonBtn()
     {
-        Debug.Log("社発");
+        summon.SummonRandom(gold);
     }
 
 }

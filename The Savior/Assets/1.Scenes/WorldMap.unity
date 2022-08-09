@@ -2125,6 +2125,7 @@ GameObject:
   - component: {fileID: 301621652}
   - component: {fileID: 301621653}
   - component: {fileID: 301621654}
+  - component: {fileID: 301621656}
   - component: {fileID: 301621655}
   m_Layer: 0
   m_Name: UIManager
@@ -2212,6 +2213,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textList: []
+--- !u!114 &301621656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301621651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33cd036dcb6a8c747963734545fdfaaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: 11
 --- !u!1 &325294777
 GameObject:
   m_ObjectHideFlags: 0
