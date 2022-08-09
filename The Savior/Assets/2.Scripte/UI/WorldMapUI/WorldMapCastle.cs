@@ -72,6 +72,7 @@ public class WorldMapCastle : MonoBehaviour
     {
         isShop = !isShop;
         shopImg.SetActive(isShop);
+        buy.OpenShop();
     }
 
     /// <summary>
@@ -80,7 +81,6 @@ public class WorldMapCastle : MonoBehaviour
     private void OnClick_OnBuyBtn()
     {
         buy.BuyCard();
-        Debug.Log("±¸¸Å");
     }
 
     /// <summary>

@@ -30,7 +30,10 @@ public class WorldMapDungeon : MonoBehaviour
 
     [Header("던전 이미지 및 설명")]
     public Transform dungeonSlot;
+    public TMP_Text dungeonName;
     public TMP_Text contactText;
+
+    private string[] dgName = new string[6];
 
     [Header("카드 프리셋")]
     public GameObject cardPreset;
@@ -44,6 +47,7 @@ public class WorldMapDungeon : MonoBehaviour
     {
         info = GameObject.Find("DungeonInfo").GetComponent<DungeonInfo>();
 
+        dgName[0] = "그로타";
         // 튜토리얼 던전
         EnterTheDungeonButton[(int)EDungeonName.Grotta].onClick.AddListener(() => OnClick_EnterTheDungeonBtn(0));
         // 첫 번째 던전
@@ -100,6 +104,7 @@ public class WorldMapDungeon : MonoBehaviour
 
         // 던전 설명
         contactText.text = info.contactDungeon[idx];
+        dungeonName.text = dgName[0];
 
         curDungeon = (EDungeonName)idx;
 

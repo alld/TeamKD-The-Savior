@@ -114,7 +114,6 @@ public class Relic : MonoBehaviour
                 relicNum[i] = 0;                
                 Destroy(relicTr[i].GetChild(0).gameObject);
                 Destroy(selectTr[i].GetChild(1).gameObject);
-                Debug.Log(selectTr[i].GetChild(1).gameObject);
                 isUseRelic = true;
                 break;
             }

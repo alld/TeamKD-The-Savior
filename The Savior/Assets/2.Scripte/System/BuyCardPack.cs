@@ -19,10 +19,16 @@ public class BuyCardPack : MonoBehaviour
     [Header("구매한 카드들의 위치")]
     public GameObject openPack;
     public Transform[] buyCardList;
+    public Button confirmButton;
 
     [Header("카드팩 이미지 리스트")]
     public Image[] cardPackImg;
-    private Image[] cardImg;
+    private Image[] cardImg = new Image[3];
+    private string cardName = "Card";
+
+    // instantiate로 생성하여 사용할 이미지
+    private Image pack; // 팩 이미지
+    private Image card; // 카드 이미지
 
 
     private int maxCardPack = 5;
@@ -36,6 +42,8 @@ public class BuyCardPack : MonoBehaviour
     {
         selectPackButton = new Button[maxCardPack];
         unPack.SetActive(true);
+        OnClick_SelectPackBtn(1);
+        confirmButton.onClick.AddListener(() => OnClick_ConfirmBtn());
 
         for (int i = 0; i < maxCardPack; i++)
         {
@@ -61,31 +69,108 @@ public class BuyCardPack : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 카드를 사고 난 후 이전상태로 초기화.
+    /// </summary>
+    public void OpenShop()
+    {
+        unPack.SetActive(true);
+        openPack.SetActive(false);
+    }
+
+    /// <summary>
+    /// 생성된 카드팩을 파괴함.
+    /// </summary>
+    public void InitCardPack()
+    {
+        if (shopCardPackImageTr.childCount > 0) Destroy(shopCardPackImageTr.GetChild(0).gameObject);
+        for (int i = 0; i < 3; i++)
+        {
+            if (cardList[i].transform.childCount > 0)
+            {
+                Destroy(cardList[i].GetChild(0).gameObject);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 카드 상점 리스트에서 카드팩을 누를 경우 해당 카드팩의 정보를 출력함.
+    /// </summary>
+    /// <param name="idx"></param>
     private void OnClick_SelectPackBtn(int idx)
     {
-        for (int i = 0; i < 5; i++)
+        InitCardPack();
+        InitBuyCard();
+        for (int i = 0; i < 3; i++)
         {
-
+            cardImg[i] = Resources.Load<Image>("Card/" + cardName + idx.ToString() + "_" + (i + 1).ToString());
+            card = Instantiate(cardImg[i], cardList[i]);
+            InitRect(card);
         }
 
-        Image pack = Instantiate(cardPackImg[(idx - 1)], shopCardPackImageTr);
+        pack = Instantiate(cardPackImg[(idx - 1)], shopCardPackImageTr);
         InitRect(pack);
 
-        Debug.Log(idx + "번 카드팩");
         openPack.SetActive(false);
         unPack.SetActive(true);
     }
 
+    /// <summary>
+    /// 확인 버튼이 눌릴 경우 호출
+    /// </summary>
+    private void OnClick_ConfirmBtn()
+    {
+        InitBuyCard();
+        unPack.SetActive(true);
+        openPack.SetActive(false);
+    }
+
+    /// <summary>
+    /// 이미지의 사이즈를 부모 객체의 사이즈에 맞춤.
+    /// </summary>
+    /// <param name="img"></param>
     private void InitRect(Image img)
     {
         img.rectTransform.offsetMax = Vector2.zero;
         img.rectTransform.offsetMin = Vector2.zero;
     }
 
+    /// <summary>
+    /// 카드 구매시 호출되는 함수.
+    /// </summary>
     public void BuyCard()
     {
+        TestCard testCard;
         unPack.SetActive(false);
         openPack.SetActive(true);
+
+        // 난수를 생성해서 리스트에서 랜덤하게 가져오게 할 예정이지만
+        // 현재 카드가 3장 밖에 없어서 그냥 넣겠읍니다.
+        for (int i = 0; i < 3; i++)
+        {
+            card = Instantiate(cardImg[i], buyCardList[i]);
+            testCard = card.GetComponent<TestCard>();
+            Debug.Log(testCard.idx);
+            for (int j = 0; j < 28; j++)
+            {
+                if (GameManager.instance.data.haveCard[j] != 0)
+                {
+                    GameManager.instance.data.haveCard[j] = testCard.idx;
+                    GameManager.instance.GameSave();
+                }
+            }
+        }
     }
 
+    /// <summary>
+    /// 카드 구매 후 확인 버튼을 누를 경우 혹은 상점이 열릴 경우 호출
+    /// </summary>
+    private void InitBuyCard()
+    {
+        for (int i = 0; i < 3; i++) {
+            if (buyCardList[i].childCount > 0)
+            {
+                Destroy(buyCardList[i].GetChild(0).gameObject);
+            }
+    } }
 }
