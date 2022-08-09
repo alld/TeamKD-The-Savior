@@ -103,14 +103,14 @@ public class PlayToolBar : MonoBehaviour
 
     private void OnClick_CloseCardBtn()
     {
-        relicImg.SetActive(false);
+        cardImg.SetActive(false);
     }
     private void OnClick_ClosePartyBtn()
     {
-        relicImg.SetActive(false);
+        partyImg.SetActive(false);
     }
     private void OnClick_CloseCollectBtn()
     {
-        relicImg.SetActive(false);
+        collectImg.SetActive(false);
     }
 }

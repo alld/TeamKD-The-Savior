@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class WorldMapCastle : MonoBehaviour
 {
     SummonCharacter summon;
-
+    BuyCardPack buy;
     [Header("¹öÆ° - ¼º")]
     public Button castleButton;
     public Button closeCastleButton;
@@ -46,6 +46,7 @@ public class WorldMapCastle : MonoBehaviour
         churchSummonButton.onClick.AddListener(() => OnClick_OnSummonBtn());
 
         summon = GetComponent<SummonCharacter>();
+        buy = GetComponent<BuyCardPack>();
     }
 
     /// <summary>
@@ -95,7 +96,7 @@ public class WorldMapCastle : MonoBehaviour
     /// </summary>
     private void OnClick_OnSummonBtn()
     {
-        summon.SummonRandom(gold);
+        summon.SummonRandom(summonPrice);
     }
 
 }

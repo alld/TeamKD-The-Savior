@@ -32,6 +32,14 @@ public class WorldMapDungeon : MonoBehaviour
     public Transform dungeonSlot;
     public TMP_Text contactText;
 
+    [Header("카드 프리셋")]
+    public GameObject cardPreset;
+    public Button yesPresetButton;
+    public Button noPresetButton;
+    public Button[] curPresetButton = new Button[5];
+    public string[] presetStr = new string[5];
+    public TMP_Text presetName;
+
     private Image[] dungeonImg = new Image[4];      // 0 : 던전 이미지 //// 1 : 등장 보스 //// 2 : 기대 보상 1 //// 3 : 기대 보상 2
     void Start()
     {
@@ -54,6 +62,22 @@ public class WorldMapDungeon : MonoBehaviour
         closeDungeonButton.onClick.AddListener(() => OnClick_CloseDungeonBtn());
         startDungeonButton.onClick.AddListener(() => OnClick_StartDungeonBtn());
 
+        // 프리셋 => 던전 들어가기, 던전 창으로 돌아가기
+        yesPresetButton.onClick.AddListener(() => OnClick_YesPreset());
+        noPresetButton.onClick.AddListener(() => OnClick_NoPreset());
+
+        // 카드 프리셋
+        curPresetButton[0].onClick.AddListener(() => OnClick_Preset(0));
+        curPresetButton[1].onClick.AddListener(() => OnClick_Preset(1));
+        curPresetButton[2].onClick.AddListener(() => OnClick_Preset(2));
+        curPresetButton[3].onClick.AddListener(() => OnClick_Preset(3));
+        curPresetButton[4].onClick.AddListener(() => OnClick_Preset(4));
+
+        presetStr[0] = "1번 프리셋";
+        presetStr[1] = "2번 프리셋";
+        presetStr[2] = "3번 프리셋";
+        presetStr[3] = "4번 프리셋";
+        presetStr[4] = "5번 프리셋";
     }
 
     /// <summary>
@@ -112,10 +136,31 @@ public class WorldMapDungeon : MonoBehaviour
     }
 
     /// <summary>
-    /// 튜토리얼 던전 입장.
+    ///  던전 입장 버튼 클릭시 카드 프리셋 활성화
     /// </summary>
     private void OnClick_StartDungeonBtn()
     {
-        Debug.Log("EnterTheDungeon : " + curDungeon);
+        cardPreset.SetActive(true);
+        curPresetButton[0].Select();
+        OnClick_Preset(0);
+    }
+
+    // 카드 프리셋 y버튼 클릭시 던전 입장
+    private void OnClick_YesPreset()
+    {
+        Debug.Log("Enter the Dungeon : " + curDungeon);
+    }
+
+    // n버튼 클릭시 다시 던전 정보창으로 돌아감.
+    private void OnClick_NoPreset()
+    {
+        cardPreset.SetActive(false);
+    }
+
+    // 카드 프리셋의 이름.
+    private void OnClick_Preset(int idx)
+    {
+        curPresetButton[idx].Select();
+        presetName.text = presetStr[idx];
     }
 }
