@@ -19,6 +19,8 @@ public class WorldMapCastle : MonoBehaviour
     public Button churchButton;
     public Button churchSummonButton;
     public Button closeChurchButton;
+    public Button summonConfirmButton;
+    public Button reSummonButton;
     //public Button kingsCastle;
 
     [Header("성 이미지")]
@@ -44,6 +46,9 @@ public class WorldMapCastle : MonoBehaviour
         closeChurchButton.onClick.AddListener(() => OnClick_OnChurchBtn());
         shopBuyButton.onClick.AddListener(() => OnClick_OnBuyBtn());
         churchSummonButton.onClick.AddListener(() => OnClick_OnSummonBtn());
+        summonConfirmButton.onClick.AddListener(() => OnClick_ConfirmSummonBtn());
+        reSummonButton.onClick.AddListener(() => OnClick_ReSummonBtn());
+
 
         summon = GetComponent<SummonCharacter>();
         buy = GetComponent<BuyCardPack>();
@@ -90,6 +95,8 @@ public class WorldMapCastle : MonoBehaviour
     {
         isChurch = !isChurch;
         churchImg.SetActive(isChurch);
+        summon.InitSummon();
+        InitChurchButton();
     }
 
     /// <summary>
@@ -97,7 +104,43 @@ public class WorldMapCastle : MonoBehaviour
     /// </summary>
     private void OnClick_OnSummonBtn()
     {
+
+        if(GameManager.instance.data.haveCharacter.Count >= 27)
+        {
+            Debug.Log("인벤토리에 캐릭터가 가득 찼습니다.");
+            return;
+        }
         summon.SummonRandom(summonPrice);
+
+        churchSummonButton.gameObject.SetActive(false);
+        summonConfirmButton.gameObject.SetActive(true);
+        reSummonButton.gameObject.SetActive(true);
+    }
+
+
+    /// <summary>
+    /// 캐릭터 소환 후 확인 버튼 클릭시 호출
+    /// </summary>
+    private void OnClick_ConfirmSummonBtn()
+    {
+        summon.InitSummon();
+        InitChurchButton();
+    }
+
+    /// <summary>
+    /// 캐릭터 소환 후 한번 더 소환하기 버튼 클릭시 호출
+    /// </summary>
+    private void OnClick_ReSummonBtn()
+    {
+        summon.InitSummon();
+        OnClick_OnSummonBtn();
+    }
+
+    private void InitChurchButton()
+    {
+        churchSummonButton.gameObject.SetActive(true);
+        summonConfirmButton.gameObject.SetActive(false); ;
+        reSummonButton.gameObject.SetActive(false);
     }
 
 }

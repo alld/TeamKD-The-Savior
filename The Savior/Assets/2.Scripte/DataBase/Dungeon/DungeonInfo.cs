@@ -15,22 +15,9 @@ public class DungeonInfo : MonoBehaviour
 
     private void Awake()
     {
-        InitDungeonName();
         InitContactDungeon();
     }
 
-    /// <summary>
-    /// 임시로 설정함
-    /// </summary>
-    private void InitDungeonName()
-    {
-        nameDungeon[0] = "그로타";
-        nameDungeon[1] = "첫 번째 던전";
-        nameDungeon[2] = "두 번째 던전";
-        nameDungeon[3] = "세 번째 던전";
-        nameDungeon[4] = "네 번째 던전";
-        nameDungeon[5] = "마 왕 성";
-    }
 
     /// <summary>
     /// 임시로 설정함

@@ -1,12 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SummonCharacter : MonoBehaviour
 {
-    public int input = 11;
 
+    // 캐릭터의 수
+    public int input = 6;
+    // 난수
     private int rnd;
+    // 소환될 캐릭터의 오브젝트
+    private GameObject character;
+    // 소환된 캐릭터가 배치될 포지션
+    public Transform summonCharTr; // CharacterTransform
 
     /// <summary>
     /// 캐릭터 소환 버튼을 누르면 호출되는 함수.
@@ -16,23 +23,27 @@ public class SummonCharacter : MonoBehaviour
     /// <returns></returns>
     public void SummonRandom(int price)
     {
-        if (GameManager.instance.data.golds < price) 
-        {
-            Debug.Log("골드가 부족합니다.");
-            return;
-        } 
+        //if (GameManager.instance.data.golds < price) 
+        //{
+        //    Debug.Log("골드가 부족합니다.");
+        //    return;
+        //} 
+        //GameManager.instance.data.golds -= price;
         rnd = Random.Range(1, input);
-        GameManager.instance.data.golds -= price;
+        character = Resources.Load<GameObject>("Unit/Character" + rnd.ToString());
+        character = Instantiate(character, summonCharTr);
 
-        SummonChar(rnd);
+        GameManager.instance.data.haveCharacter.Add(character.GetComponent<SummonCharacterTest>().number);
+        GameManager.instance.GameSave();
+        Debug.Log(GameManager.instance.data.haveCharacter);
     }
 
-    /// <summary>
-    /// 캐릭터 소환
-    /// </summary>
-    private void SummonChar(int n)
+    public void InitSummon()
     {
-        Debug.Log(n + "번 캐릭터 소환");
-        
+        if(summonCharTr.childCount > 0)
+        {
+            Destroy(summonCharTr.GetChild(0).gameObject);
+        } 
     }
+    
 }

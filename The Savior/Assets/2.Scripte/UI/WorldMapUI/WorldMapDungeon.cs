@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using SimpleJSON;
 
 public class WorldMapDungeon : MonoBehaviour
 {
     DungeonInfo info;   // 던전 정보 스크립트
+
+    private TextAsset jsonData;
+    private string json;
 
     public enum EDungeonName { Grotta, First, Second, Third, Fourth, Fifth }    // 던전 이름
     public EDungeonName curDungeon = EDungeonName.Grotta;
@@ -33,7 +37,7 @@ public class WorldMapDungeon : MonoBehaviour
     public TMP_Text dungeonName;
     public TMP_Text contactText;
 
-    private string[] dgName = new string[6];
+    private string dgName;
 
     [Header("카드 프리셋")]
     public GameObject cardPreset;
@@ -47,7 +51,9 @@ public class WorldMapDungeon : MonoBehaviour
     {
         info = GameObject.Find("DungeonInfo").GetComponent<DungeonInfo>();
 
-        dgName[0] = "그로타";
+        jsonData = Resources.Load<TextAsset>("DungeonNameData");
+        json = jsonData.text;
+
         // 튜토리얼 던전
         EnterTheDungeonButton[(int)EDungeonName.Grotta].onClick.AddListener(() => OnClick_EnterTheDungeonBtn(0));
         // 첫 번째 던전
@@ -84,6 +90,7 @@ public class WorldMapDungeon : MonoBehaviour
     /// </summary>
     private void OnClick_EnterTheDungeonBtn(int idx)
     {
+        var data = JSON.Parse(json);
         // 이미지 생성
         dungeonImg[0] = Instantiate(info.dungeonImg[idx].GetComponent<Image>());
         dungeonImg[1] = Instantiate(info.bossImg[idx].GetComponent<Image>());
@@ -104,7 +111,7 @@ public class WorldMapDungeon : MonoBehaviour
 
         // 던전 설명
         contactText.text = info.contactDungeon[idx];
-        dungeonName.text = dgName[0];
+        dungeonName.text = data[idx]["던전이름"];
 
         curDungeon = (EDungeonName)idx;
 
