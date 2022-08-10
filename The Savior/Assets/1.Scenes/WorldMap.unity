@@ -5355,7 +5355,6 @@ GameObject:
   m_Component:
   - component: {fileID: 805595355}
   - component: {fileID: 805595354}
-  - component: {fileID: 805595353}
   m_Layer: 0
   m_Name: SummonCamera
   m_TagString: Untagged
@@ -5363,14 +5362,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &805595353
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 805595352}
-  m_Enabled: 1
 --- !u!20 &805595354
 Camera:
   m_ObjectHideFlags: 0

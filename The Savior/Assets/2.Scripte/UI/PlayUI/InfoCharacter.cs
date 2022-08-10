@@ -36,8 +36,10 @@ public class InfoCharacter : MonoBehaviour
     public TMP_Text att;
     public TMP_Text def;
 
-    // 불러올 캐릭터의 정보
-    private TestCharData data;
+    // 캐릭터 번호
+    private int idx;
+    private SummonCharacterTest test;
+    private InfoCharacter data;
 
     // 상세정보에 활성화 된 캐릭터 이미지
     private Image character;
@@ -56,17 +58,17 @@ public class InfoCharacter : MonoBehaviour
     public void OnCharacterInfo(Image copyImg)
     {
         skillButton.Select();
-
-        data = copyImg.GetComponent<TestCharData>();
-
+        
+        
+        
         character = copyImg;
         copyImg.transform.SetParent(imgTr);
         InitRectSize(copyImg);
         Destroy(copyImg.GetComponent<ViewCharacterInfo>());
 
-        hp.text = hp.text + data.hp;
-        att.text = att.text + data.att;
-        def.text = def.text + data.def;
+        //hp.text = hp.text + data.
+        //att.text = att.text + data.att;
+        //def.text = def.text + data.def;
 
         charInfo.SetActive(true);
     }
