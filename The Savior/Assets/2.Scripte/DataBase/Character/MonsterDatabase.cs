@@ -21,7 +21,7 @@ public class MonsterDatabase : MonoBehaviour
         /// <summary>
         /// 프리팹에 있는 캐릭터 오브젝트, 모델
         /// </summary>
-        public GameObject gameObj;
+        public GameObject charObject;
         /// <summary>
         /// 몬스터 기본 아이콘
         /// </summary>
@@ -29,11 +29,11 @@ public class MonsterDatabase : MonoBehaviour
         /// <summary>
         /// 몬스터 기본 이름
         /// </summary>
-        public string monsterName;
+        public string charName;
         /// <summary>
         /// 몬스터 기본 체력
         /// </summary>
-        public float hP;
+        public float hp;
         /// <summary>
         /// 몬스터 최대 체력
         /// </summary>
@@ -91,22 +91,22 @@ public class MonsterDatabase : MonoBehaviour
         /// 몬스터가 가진 기본 스킬 인덱스 넘버
         /// <br> 0 은 스킬이 없는것 </br>
         /// </summary>
-        public int basicskill1;
+        public int basicSkill1;
         /// <summary>
         /// 몬스터가 가진 기본 스킬 인덱스 넘버
         /// <br> 0 은 스킬이 없는것 </br>
         /// </summary>
-        public int basicskill2;
+        public int basicSkill2;
         /// <summary>
         /// 몬스터가 가진 기본 스킬 인덱스 넘버
         /// <br> 0 은 스킬이 없는것 </br>
         /// </summary>
-        public int basicskill3;
+        public int basicSkill3;
         /// <summary>
         /// 몬스터가 가진 궁극기 인덱스 넘버
         /// <br> 0 은 스킬이 없는것 </br>
         /// </summary>
-        public int speialskill;
+        public int speialSkill;
         public int rewardGold;
         public int rewardSoul;
         public int[] rewardCard;
@@ -127,10 +127,10 @@ public class MonsterDatabase : MonoBehaviour
                 number = num;
                 monsterType = MonsterType.MONSTER;
                 icon = null; // 이미지 설정 검토
-                monsterName = "머선머선 캐릭터"; // 던전정보와 마찬가지로 텍스트 구동방식 검토
-                hP = 100;
+                charName = "머선머선 캐릭터"; // 던전정보와 마찬가지로 텍스트 구동방식 검토
+                hp = 100;
                 damage = 10.0f;
-                gameObj = Resources.Load<GameObject>("Unit/TestUnit");
+                charObject = Resources.Load<GameObject>("Unit/TestUnit");
                 attackSpeed = 1.0f;
                 moveSpeed = 1.0f;
                 defense = 10.0f;
@@ -140,10 +140,10 @@ public class MonsterDatabase : MonoBehaviour
                 priRange = 10.0f;
                 priorities = 20;
                 positionPer = 30;
-                basicskill1 = 0;
-                basicskill2 = 0;
-                basicskill3 = 0;
-                speialskill = 0;
+                basicSkill1 = 0;
+                basicSkill2 = 0;
+                basicSkill3 = 0;
+                speialSkill = 0;
                 rewardGold = 1;
                 rewardSoul = 1;
                 rewardCard = null;

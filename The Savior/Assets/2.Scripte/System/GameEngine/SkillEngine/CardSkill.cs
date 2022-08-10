@@ -137,37 +137,37 @@ public class CardSkill : MonoBehaviour
             {
                 case CardDataBase.InfoCard.EffectSortC.ALLY:
                     temp = AllyTargetCheck(card.effectSortD);
-                    DungeonOS.instance.partyUnit[temp].hP += card.effectValue_floatA;
-                    if(DungeonOS.instance.partyUnit[temp].hP > DungeonOS.instance.partyUnit[temp].maxHP)
+                    DungeonOS.instance.partyUnit[temp].hp += card.effectValue_floatA;
+                    if(DungeonOS.instance.partyUnit[temp].hp > DungeonOS.instance.partyUnit[temp].maxHP)
                     {
-                        DungeonOS.instance.partyUnit[temp].hP = DungeonOS.instance.partyUnit[temp].maxHP;
+                        DungeonOS.instance.partyUnit[temp].hp = DungeonOS.instance.partyUnit[temp].maxHP;
                     }
                     break;
                 case CardDataBase.InfoCard.EffectSortC.ALLIES:
                     foreach (var item in DungeonOS.instance.partyUnit)
                     {
-                        item.hP += card.effectValue_floatA;
-                        if (item.hP > item.maxHP)
+                        item.hp += card.effectValue_floatA;
+                        if (item.hp > item.maxHP)
                         {
-                            item.hP = item.maxHP;
+                            item.hp = item.maxHP;
                         }
                     }
                     break;
                 case CardDataBase.InfoCard.EffectSortC.ENEMY:
                     temp = EnemyTargetCheck(card.effectSortD);
-                    DungeonOS.instance.monsterGroup[temp].hP += card.effectValue_floatA;
-                    if (DungeonOS.instance.monsterGroup[temp].hP > DungeonOS.instance.monsterGroup[temp].maxHP)
+                    DungeonOS.instance.monsterGroup[temp].hp += card.effectValue_floatA;
+                    if (DungeonOS.instance.monsterGroup[temp].hp > DungeonOS.instance.monsterGroup[temp].maxHP)
                     {
-                        DungeonOS.instance.monsterGroup[temp].hP = DungeonOS.instance.monsterGroup[temp].maxHP;
+                        DungeonOS.instance.monsterGroup[temp].hp = DungeonOS.instance.monsterGroup[temp].maxHP;
                     }
                     break;
                 case CardDataBase.InfoCard.EffectSortC.ENEMIES:
                     foreach (var item in DungeonOS.instance.monsterGroup)
                     {
-                        item.hP += card.effectValue_floatA;
-                        if (item.hP > item.maxHP)
+                        item.hp += card.effectValue_floatA;
+                        if (item.hp > item.maxHP)
                         {
-                            item.hP = item.maxHP;
+                            item.hp = item.maxHP;
                         }
                     }
                     break;

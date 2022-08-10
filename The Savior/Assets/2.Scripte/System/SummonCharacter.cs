@@ -33,7 +33,7 @@ public class SummonCharacter : MonoBehaviour
         character = Resources.Load<GameObject>("Unit/Character" + rnd.ToString());
         character = Instantiate(character, summonCharTr);
 
-        GameManager.instance.data.haveCharacter.Add(character.GetComponent<SummonCharacterTest>().number);
+        GameManager.instance.data.haveCharacter.Add(character.GetComponent<UnitAI>().unitNumber); // << (summonCharacterTest -> UnitAI) 요걸로 변경했어요  확인후 주석지워도되욥 
         GameManager.instance.GameSave();
         Debug.Log(GameManager.instance.data.haveCharacter);
     }

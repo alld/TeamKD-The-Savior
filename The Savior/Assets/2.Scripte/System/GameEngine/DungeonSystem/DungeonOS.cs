@@ -25,9 +25,9 @@ public class DungeonOS : MonoBehaviour
     List<int> rewardCardBox = new List<int>();
     List<int> rewardRelicBox = new List<int>();
 
-    List<CharacterDatabase.InfoCharacter> stageSlotPlayerBottom; 
-    List<CharacterDatabase.InfoCharacter> stageSlotPlayerTop;
-    List<CharacterDatabase.InfoCharacter> stageSlotPlayerMid; 
+    List<CharacterDatabase> stageSlotPlayerBottom; 
+    List<CharacterDatabase> stageSlotPlayerTop;
+    List<CharacterDatabase> stageSlotPlayerMid; 
 
     List<MonsterDatabase> stageSlotMonsterBottom;
     List<MonsterDatabase> stageSlotMonsterTop;
@@ -75,7 +75,7 @@ public class DungeonOS : MonoBehaviour
     /// <summary>
     /// 플레이어 유닛 그룹
     /// </summary>
-    public List<CharacterDatabase.InfoCharacter> characterGroup = new List<CharacterDatabase.InfoCharacter>(); // 오브젝트로 설정
+    public List<CharacterDatabase> characterGroup = new List<CharacterDatabase>(); // 오브젝트로 설정
     /// <summary>
     /// 게임 분기 확인 스테이지가 순서대로 들어있기때문에, 게임분기 컷팅시키는 변수
     /// </summary>
@@ -153,39 +153,35 @@ public class DungeonOS : MonoBehaviour
     #region 던전 가중치 데이터
     // 가중치 횟수 체크 변수
     public int addCount;
-    // 아군
-    public float allyAdd_damage;
-    public float allyAdd_maxHP;
-    public float allyAdd_hp;
-    public float allyAdd_meleDmg;
-    public float allyAdd_attackSpeed;
-    public float allyAdd_moveSpeed;
-    public float allyAdd_defense;
-    public float allyAdd_attackRange;
-    public bool allyAdd_attributeCheck;
-    public int allyAdd_attribute;
-    public float[] allyAdd_attributeVlaue = new float[3];
-    public float allyAdd_priRange;
-    public int allyAdd_priorities;
-    public float allyAdd_skilcoldown;
-    // 적
-    public float enemyAdd_damage;
-    public float enemyAdd_maxHP;
-    public float enemyAdd_hp;
-    public float enemyAdd_meleDmg;
-    public float enemyAdd_attackSpeed;
-    public float enemyAdd_moveSpeed;
-    public float enemyAdd_defense;
-    public float enemyAdd_attackRange;
-    public bool enemyAdd_attributeCheck;
-    public int enemyAdd_attribute;
-    public float[] enemyAdd_attributeVlaue = new float[3];
-    public float enemyAdd_priRange;
-    public int enemyAdd_priorities;
-    public float enemyAdd_skilcoldown;
-    public int enemyAdd_rewardGold;
-    public int ememyAdd_rewardSoul;
+    public class WeightUnit
+    {
+        // 아군
+        public float Add_damage;
+        public float Add_maxHP;
+        public float Add_hp;
+        public float Add_meleDmg;
+        public float Add_attackSpeed;
+        public float Add_moveSpeed;
+        public float Add_defense;
+        public float Add_attackRange;
+        public bool Add_attributeCheck;
+        public int Add_attribute;
+        public float[] Add_attributeVlaue = new float[3];
+        public float Add_priRange;
+        public int Add_priorities;
+        public float Add_skilcoldown;
+    }
 
+    public class WeightEnemy : WeightUnit
+    {
+        // 적
+        public int Add_rewardGold;
+        public int Add_rewardSoul;
+    }
+    public WeightUnit weightAlly = new WeightUnit();
+    public WeightUnit[] weightAllyUnit = new WeightUnit[3];
+    public WeightEnemy weightEnemy = new WeightEnemy();
+    public List<WeightEnemy> weightEnemyGroup = new List<WeightEnemy>();
     #endregion
 
     #region 전달받은 GameManager의 Data
@@ -197,7 +193,7 @@ public class DungeonOS : MonoBehaviour
     //        new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[2].number),
     //        new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[3].number)
     //    };
-    public List<CharacterDatabase.InfoCharacter> partyUnit = new List<CharacterDatabase.InfoCharacter>();
+    public List<CharacterDatabase> partyUnit = new List<CharacterDatabase>();
     //덱정보
     public List<int> useDeckDGP = new List<int>();
     //유물 정보
@@ -311,7 +307,7 @@ public class DungeonOS : MonoBehaviour
         foreach (var item in partyUnit)
         {
             if (!item.isLive) resurrectable = true;
-            item.hP = item.maxHP;
+            item.hp = item.maxHP;
         }
     }
 
@@ -323,7 +319,7 @@ public class DungeonOS : MonoBehaviour
             {
                 resurrectable = false;
                 partyUnit[partySlotN].isLive = true;
-                partyUnit[partySlotN].hP = partyUnit[partySlotN].maxHP;
+                partyUnit[partySlotN].hp = partyUnit[partySlotN].maxHP;
                 // 캐릭터 상태기능 전환 필요함
             }
         }
@@ -336,7 +332,7 @@ public class DungeonOS : MonoBehaviour
             {
                 resurrectable = false;
                 partyUnit[partySlotN].isLive = true;
-                partyUnit[partySlotN].hP = recov;
+                partyUnit[partySlotN].hp = recov;
                 // 캐릭터 상태기능 전환 필요함
             }
         }
@@ -363,7 +359,7 @@ public class DungeonOS : MonoBehaviour
         {
             if (partyUnit[i] != null)
             {
-                DungeonCtrl.partySlotHPGauage[i].fillAmount = partyUnit[i].hP / partyUnit[i].maxHP;
+                DungeonCtrl.partySlotHPGauage[i].fillAmount = partyUnit[i].hp / partyUnit[i].maxHP;
             }
         }
     }
@@ -426,7 +422,7 @@ public class DungeonOS : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            partyUnit.Add(new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[i].number, jsonCH));
+            partyUnit.Add(new CharacterDatabase(GameManager.instance.partySlot[i].number, jsonCH));
             partyUnit[i].isLive = true;
         }
 
@@ -478,8 +474,8 @@ public class DungeonOS : MonoBehaviour
                     }
                     else
                     {
-                        CharacterDatabase.InfoCharacter moveSlot = item;
-                        CharacterDatabase.InfoCharacter tempSlot = item;
+                        CharacterDatabase moveSlot = item;
+                        CharacterDatabase tempSlot = item;
                         //내부 비교 밀어내기식 자리배치 // 작은수치가 우선
                         for (int i = 0; i < stageSlotPlayerBottom.Count; i++)
                         {
@@ -527,8 +523,8 @@ public class DungeonOS : MonoBehaviour
                     }
                     else
                     {
-                        CharacterDatabase.InfoCharacter moveSlot = item;
-                        CharacterDatabase.InfoCharacter tempSlot = item;
+                        CharacterDatabase moveSlot = item;
+                        CharacterDatabase tempSlot = item;
                         // 수치가 낮은 경우 
                         if (item.positionPri >= 30)
                         {
@@ -619,8 +615,8 @@ public class DungeonOS : MonoBehaviour
                     }
                     else
                     {
-                        CharacterDatabase.InfoCharacter moveSlot = item;
-                        CharacterDatabase.InfoCharacter tempSlot = item;
+                        CharacterDatabase moveSlot = item;
+                        CharacterDatabase tempSlot = item;
                         //내부 비교 밀어내기식 자리배치 // 큰수치가 우선
                         for (int i = 0; i < stageSlotPlayerTop.Count; i++)
                         {
@@ -686,7 +682,7 @@ public class DungeonOS : MonoBehaviour
     {
         foreach (var item in partyUnit)
         {
-            item.gameObject = Instantiate(item.gameObject);
+            item.charObject = Instantiate(item.gameObject);
             characterGroup.Add(item);
         }
     }
@@ -919,19 +915,19 @@ public class DungeonOS : MonoBehaviour
         {
             int tempint = Random.Range(monsterBoxMin[roundDGP], monsterBoxMax[roundDGP]);
             monsterGroup.Add(new MonsterDatabase(monsterBox[tempint].number));
-            monsterGroup[i].gameObj = Instantiate(monsterGroup[i].gameObject);
+            monsterGroup[i].charObject = Instantiate(monsterGroup[i].gameObject);
         }
         if (roundDGP % 10 == 5)
         {
             monsterGroup.Add(new MonsterDatabase(monsterBox[1].number));
-            monsterGroup[monsterBox.Count].gameObj = Instantiate(monsterBox[1].gameObject);
+            monsterGroup[monsterBox.Count].charObject = Instantiate(monsterBox[1].gameObject);
             monsterGroup[monsterBox.Count].gameObject.transform.position = monsterStagePoint[1].position;
             monsterGroup[monsterBox.Count].gameObject.transform.rotation = monsterStagePoint[1].rotation;
         }
         else if (roundDGP % 10 == 0)
         {
             monsterGroup.Add(new MonsterDatabase(monsterBox[0].number));
-            monsterGroup[monsterBox.Count].gameObj = Instantiate(monsterBox[0].gameObject);
+            monsterGroup[monsterBox.Count].charObject = Instantiate(monsterBox[0].gameObject);
             monsterGroup[monsterBox.Count].gameObject.transform.position = monsterStagePoint[1].position;
             monsterGroup[monsterBox.Count].gameObject.transform.rotation = monsterStagePoint[1].rotation;
         }
@@ -1087,7 +1083,7 @@ public class DungeonOS : MonoBehaviour
         {
             if (GameManager.instance.partySlot[i] != null)
             {
-                GameManager.instance.partySlot[i].soul = partyUnit[i].soul;
+                GameManager.instance.partySlot[i].exp = partyUnit[i].exp;
             }
         }
 
@@ -1126,7 +1122,7 @@ public class DungeonOS : MonoBehaviour
             {
                 if (GameManager.instance.currentHeroList[item] == null)
                 {
-                    GameManager.instance.currentHeroList.Add(item, new CharacterDatabase.InfoCharacter(item, jsonCH));
+                    GameManager.instance.currentHeroList.Add(item, new CharacterDatabase(item, jsonCH));
                 }
                 else
                 {

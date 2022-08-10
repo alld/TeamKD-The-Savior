@@ -30,32 +30,32 @@ public class DamageEngine : MonoBehaviour
         if (playercheck) // 공격자가 플레이언지 몬스터인지 확인
         {
             // 속성 변환 체크 후 설정값 지정
-            if (DungeonOS.instance.allyAdd_attributeCheck) a_attribute = DungeonOS.instance.allyAdd_attribute;
+            if (DungeonOS.instance.weightAlly.Add_attributeCheck) a_attribute = DungeonOS.instance.weightAlly.Add_attribute;
             else a_attribute = DungeonOS.instance.partyUnit[attacker].attribute;
-            if (DungeonOS.instance.enemyAdd_attributeCheck) d_attribute = DungeonOS.instance.enemyAdd_attribute;
+            if (DungeonOS.instance.weightEnemy.Add_attributeCheck) d_attribute = DungeonOS.instance.weightEnemy.Add_attribute;
             else d_attribute = DungeonOS.instance.monsterGroup[defender].attribute;
-            add_attDamageA = DungeonOS.instance.allyAdd_attributeVlaue[a_attribute];
-            add_attDamageD = DungeonOS.instance.enemyAdd_attributeVlaue[d_attribute];
+            add_attDamageA = DungeonOS.instance.weightAlly.Add_attributeVlaue[a_attribute];
+            add_attDamageD = DungeonOS.instance.weightEnemy.Add_attributeVlaue[d_attribute];
 
 
-            dmg += DungeonOS.instance.allyAdd_damage;
+            dmg += DungeonOS.instance.weightAlly.Add_damage;
             d_defense = DungeonOS.instance.monsterGroup[defender].defense;
-            d_defense += DungeonOS.instance.enemyAdd_defense;
+            d_defense += DungeonOS.instance.weightEnemy.Add_defense;
         }
         else 
         {
             // 속성 변환 체크 후 설정값 지정 
-            if (DungeonOS.instance.allyAdd_attributeCheck) d_attribute = DungeonOS.instance.allyAdd_attribute;
+            if (DungeonOS.instance.weightAlly.Add_attributeCheck) d_attribute = DungeonOS.instance.weightAlly.Add_attribute;
             else d_attribute = DungeonOS.instance.partyUnit[defender].attribute;
-            if (DungeonOS.instance.enemyAdd_attributeCheck) a_attribute = DungeonOS.instance.enemyAdd_attribute;
+            if (DungeonOS.instance.weightEnemy.Add_attributeCheck) a_attribute = DungeonOS.instance.weightEnemy.Add_attribute;
             else a_attribute = DungeonOS.instance.monsterGroup[attacker].attribute;
-            add_attDamageD = DungeonOS.instance.allyAdd_attributeVlaue[d_attribute];
-            add_attDamageA = DungeonOS.instance.enemyAdd_attributeVlaue[a_attribute];
+            add_attDamageD = DungeonOS.instance.weightAlly.Add_attributeVlaue[d_attribute];
+            add_attDamageA = DungeonOS.instance.weightEnemy.Add_attributeVlaue[a_attribute];
 
 
-            dmg += DungeonOS.instance.enemyAdd_damage;
+            dmg += DungeonOS.instance.weightEnemy.Add_damage;
             d_defense = DungeonOS.instance.partyUnit[defender].defense;
-            d_defense += DungeonOS.instance.allyAdd_defense;
+            d_defense += DungeonOS.instance.weightAlly.Add_defense;
         }
         sum_attribute = (a_attribute * 10) + d_attribute;
         switch (sum_attribute) // 속성 데미지 비율 적용하는 기능
@@ -100,32 +100,32 @@ public class DamageEngine : MonoBehaviour
         if (playercheck) // 공격자가 플레이언지 몬스터인지 확인
         {
             // 속성 변환 체크 후 설정값 지정
-            if (DungeonOS.instance.allyAdd_attributeCheck) a_attribute = DungeonOS.instance.allyAdd_attribute;
+            if (DungeonOS.instance.weightAlly.Add_attributeCheck) a_attribute = DungeonOS.instance.weightAlly.Add_attribute;
             else a_attribute = DungeonOS.instance.partyUnit[attacker].attribute;
-            if (DungeonOS.instance.enemyAdd_attributeCheck) d_attribute = DungeonOS.instance.enemyAdd_attribute;
+            if (DungeonOS.instance.weightEnemy.Add_attributeCheck) d_attribute = DungeonOS.instance.weightEnemy.Add_attribute;
             else d_attribute = DungeonOS.instance.monsterGroup[defender].attribute;
-            add_attDamageA = DungeonOS.instance.allyAdd_attributeVlaue[a_attribute];
-            add_attDamageD = DungeonOS.instance.enemyAdd_attributeVlaue[d_attribute];
+            add_attDamageA = DungeonOS.instance.weightAlly.Add_attributeVlaue[a_attribute];
+            add_attDamageD = DungeonOS.instance.weightEnemy.Add_attributeVlaue[d_attribute];
 
 
-            dmg += DungeonOS.instance.allyAdd_damage;
+            dmg += DungeonOS.instance.weightAlly.Add_damage;
             d_defense = DungeonOS.instance.monsterGroup[defender].defense;
-            d_defense += DungeonOS.instance.enemyAdd_defense;
+            d_defense += DungeonOS.instance.weightEnemy.Add_defense;
         }
         else
         {
             // 속성 변환 체크 후 설정값 지정 
-            if (DungeonOS.instance.allyAdd_attributeCheck) d_attribute = DungeonOS.instance.allyAdd_attribute;
+            if (DungeonOS.instance.weightAlly.Add_attributeCheck) d_attribute = DungeonOS.instance.weightAlly.Add_attribute;
             else d_attribute = DungeonOS.instance.partyUnit[defender].attribute;
-            if (DungeonOS.instance.enemyAdd_attributeCheck) a_attribute = DungeonOS.instance.enemyAdd_attribute;
+            if (DungeonOS.instance.weightEnemy.Add_attributeCheck) a_attribute = DungeonOS.instance.weightEnemy.Add_attribute;
             else a_attribute = DungeonOS.instance.monsterGroup[attacker].attribute;
-            add_attDamageD = DungeonOS.instance.allyAdd_attributeVlaue[d_attribute];
-            add_attDamageA = DungeonOS.instance.enemyAdd_attributeVlaue[a_attribute];
+            add_attDamageD = DungeonOS.instance.weightAlly.Add_attributeVlaue[d_attribute];
+            add_attDamageA = DungeonOS.instance.weightEnemy.Add_attributeVlaue[a_attribute];
 
 
-            dmg += DungeonOS.instance.enemyAdd_damage;
+            dmg += DungeonOS.instance.weightEnemy.Add_damage;
             d_defense = DungeonOS.instance.partyUnit[defender].defense;
-            d_defense += DungeonOS.instance.allyAdd_defense;
+            d_defense += DungeonOS.instance.weightAlly.Add_defense;
         }
         sum_attribute = (a_attribute * 10) + d_attribute;
         switch (sum_attribute) // 속성 데미지 비율 적용하는 기능

@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     
     public Dictionary<int, CardDataBase.InfoCard> currentCardList = new Dictionary<int, CardDataBase.InfoCard>();
-    public Dictionary<int, CharacterDatabase.InfoCharacter> currentHeroList = new Dictionary<int, CharacterDatabase.InfoCharacter>();
+    public Dictionary<int, CharacterDatabase> currentHeroList = new Dictionary<int, CharacterDatabase>();
     public Dictionary<int, RelicDataBase.InfoRelic> currentRelicList = new Dictionary<int, RelicDataBase.InfoRelic>();
     public List<int>[] currentDeck =
         {
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
             new List<int>(),
         };
     public int currentDeckPresetNumber = 0;
-    public CharacterDatabase.InfoCharacter[] partySlot =
+    public CharacterDatabase[] partySlot =
         {
             
         };

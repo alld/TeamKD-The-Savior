@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using SimpleJSON;
-
-public class RelicDataBase : MonoBehaviour
-{
     /// <summary>
     /// 유물의 기본 원형값을 가지고있는 데이터 베이스 
     /// <br>InfoRelic를 통해 인스턴스를 만들어서 사용해야함. </br>
     /// <br>InfoRelic(int) : int == 데이터베이스상 캐릭터 고유넘버 </br>
     /// </summary>
-    public static RelicDataBase instance = null;
+public class RelicDataBase : MonoBehaviour
+{
 
     private TextAsset jsonData;
     private string json;
@@ -21,8 +19,6 @@ public class RelicDataBase : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)instance = this;
-
         InfoRelic info = new InfoRelic(n);
 
         jsonData = Resources.Load<TextAsset>("RelicData");

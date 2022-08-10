@@ -12,7 +12,7 @@ public class CharacterDataTable : MonoBehaviour
     public int num;      // 캐릭터 번호
 
     public string charName; // 캐릭터 이름
-    public float hP;
+    public float hp;
     public float maxHP;
     public float damage;
     public float attackSpeed;
@@ -26,12 +26,12 @@ public class CharacterDataTable : MonoBehaviour
     public int positionPer;         // 자리 배치
     public int unitClass;
     public int level;               // 캐릭터 등급
-    public int soul;
+    public int exp;
     public bool partySet;           // 캐릭터 파티 참여 여부
     public bool islock;             // 캐릭터 해금 여부
     public bool isLive;             // 캐릭터 생존 여부
-    public int basicskill;          // 캐릭터 일반 스킬 인덱스 넘버
-    public int speialskill;         // 캐릭터 국극기 인덱스 넘버
+    public int basicSkill;          // 캐릭터 일반 스킬 인덱스 넘버
+    public int speialSkill;         // 캐릭터 국극기 인덱스 넘버
     public int overlapValueA;       // 유물의 중복 보상 (골드)
     public int overlapValueB;       // 유물의 중복 보상 (소울)
 

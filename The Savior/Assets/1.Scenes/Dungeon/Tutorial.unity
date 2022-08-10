@@ -366,6 +366,7 @@ GameObject:
   m_Component:
   - component: {fileID: 600042788}
   - component: {fileID: 600042789}
+  - component: {fileID: 600042790}
   m_Layer: 0
   m_Name: DungeonManager
   m_TagString: Untagged
@@ -400,6 +401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8a75496d77ad8c4a94caf7f00ce67e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DungeonOSObj: {fileID: 0}
   dungeonNumber: 0
   errorList: []
   stagePrefabGroupDG: []
@@ -416,6 +418,8 @@ MonoBehaviour:
   monsterBoxMax: 
   monsterBoxCount: 
   roundInfoDG: 
+  monsterGroup: []
+  characterGroup: []
   checkCountDGGame: 0
   resurrectable: 0
   roundDGP: 0
@@ -430,7 +434,47 @@ MonoBehaviour:
   eaDamagedDGP: []
   eaDamageDGP: []
   eaKillCountDGP: []
+  addCount: 0
+  partyUnit: []
   useDeckDGP: 
+--- !u!114 &600042790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600042787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 501fd20d63f392e4fa6bed199a615a27, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f15305cb-335b-4b5c-a3a5-c04f6ef36861
+    m_ActionName: Player/Mouse[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0acbbbf2-4794-4f97-ad7e-70df709688f4
+    m_ActionName: Player/Skill[/Keyboard/1,/Keyboard/2,/Keyboard/3,/Keyboard/4]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: PC
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &617554973
 GameObject:
   m_ObjectHideFlags: 0

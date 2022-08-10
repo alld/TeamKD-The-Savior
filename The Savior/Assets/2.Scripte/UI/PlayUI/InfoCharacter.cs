@@ -67,7 +67,7 @@ public class InfoCharacter : MonoBehaviour
         charInfo.SetActive(true);
 
         // 이 함수를 호출한 캐릭터의 번호에 맞는 데이터를 가져온다.
-        CharacterDatabase.InfoCharacter charData = new CharacterDatabase.InfoCharacter(num-1, data);
+        CharacterDatabase charData = new CharacterDatabase(num-1, data);
         character = copyImg;
         character = Instantiate(character, imgTr);
         InitRectSize(character);

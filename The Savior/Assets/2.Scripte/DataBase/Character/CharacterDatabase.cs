@@ -6,8 +6,6 @@ using SimpleJSON;
 
 public class CharacterDatabase : MonoBehaviour
 {
-    public class InfoCharacter
-    {
         #region 캐릭터 기본 설정값
         public int number;
         /// <summary>
@@ -17,11 +15,11 @@ public class CharacterDatabase : MonoBehaviour
         /// <summary>
         /// 캐릭터 기본 이름
         /// </summary>
-        public string name;
+        public string charName;
         /// <summary>
         /// 캐릭터 기본 체력
         /// </summary>
-        public float hP;
+        public float hp;
         /// <summary>
         /// 캐릭터 최대 체력
         /// </summary>
@@ -31,13 +29,9 @@ public class CharacterDatabase : MonoBehaviour
         /// </summary>
         public float damage;
         /// <summary>
-        /// 캐릭터 평타 데미지
-        /// </summary>
-        public float meleDmg;
-        /// <summary>
         /// 프리팹에 있는 캐릭터 오브젝트, 모델
         /// </summary>
-        public GameObject gameObject;
+        public GameObject charObject;
         /// <summary>
         /// 캐릭터 기본 공격속도
         /// <br>1.0f = 100%</br>
@@ -95,7 +89,7 @@ public class CharacterDatabase : MonoBehaviour
         /// <summary>
         /// [saveData] 캐릭터 소지 소울 
         /// </summary>
-        public int soul;
+        public int exp;
         /// <summary>
         /// 캐릭터 파티 참여 여부 
         /// <para>세이브 여부 검토 </para>
@@ -114,12 +108,12 @@ public class CharacterDatabase : MonoBehaviour
         /// 캐릭터가 가진 기본 스킬 인덱스 넘버
         /// <br> 0 은 스킬이 없는것 </br>
         /// </summary>
-        public int basicskill;
+        public int basicSkill;
         /// <summary>
         /// 캐릭터가 가진 궁극기 인덱스 넘버
         /// <br> 0 은 스킬이 없는것 </br>
         /// </summary>
-        public int speialskill;
+        public int speialSkill;
         /// <summary>
         /// 유물의 중복보상 A형(골드)
         /// </summary>
@@ -130,43 +124,12 @@ public class CharacterDatabase : MonoBehaviour
         public int overlapValueB;
         public int identity; // 캐릭터 특성
         #endregion
-        public InfoCharacter()
-        {
-            //빈 슬롯
-            number = 0;
-            icon = null;
-            name = null;
-            hP = 0;
-            maxHP = 100;
-            damage = 0;
-            meleDmg = 0;
-            gameObject = null;
-            attackSpeed = 0;
-            moveSpeed = 0;
-            defense = 0;
-            attackType = 0;
-            attackRange = 0;
-            attribute = 0;
-            priRange = 0;
-            priorities = 0;
-            positionPri = 0;
-            unitClass = 0;
-            level = 1;
-            soul = 0;
-            partySet = false;
-            islock = false;
-            isLive = true;
-            basicskill = 0;
-            speialskill = 0;
-            overlapValueA = 0;
-            overlapValueB = 0;
-        }
         /// <summary>
         /// 캐릭터의 기본값을 가져오기위해서는 매개변수에 (int)를 넣어줘야함.
         /// <br>(int = num -1) : 캐릭터 고유의 넘버링값</br>
         /// </summary>
         /// <param name="num"></param>
-        public InfoCharacter(int num, JSONNode data)
+        public CharacterDatabase(int num, JSONNode data)
         {
             //var data = JSON.Parse(jsonData.text));
             number = num;
@@ -174,19 +137,18 @@ public class CharacterDatabase : MonoBehaviour
             switch (GameManager.instance.data.Language)
             {
                 case 0:
-                    name = data[num]["Name_Kr"];
+                    charName = data[num]["Name_Kr"];
                     break;
                 case 1:
-                    name = data[num]["Name_Eng"];
+                    charName = data[num]["Name_Eng"];
                     break;
                 default:
                     break;
             }
-            hP = data[num]["Hp_Cur"];
+            hp = data[num]["Hp_Cur"];
             maxHP = data[num]["Hp_Total"];
             damage = data[num]["Chr_Power"];
-            meleDmg = data[num]["Total_Damage"];
-            gameObject = Resources.Load<GameObject>("");
+            charObject = Resources.Load<GameObject>("");
             attackSpeed = data[num]["Chr_AtkSpeed"];
             moveSpeed = data[num]["Chr_MS"];
             defense = data[num]["Chr_DF"];
@@ -198,14 +160,13 @@ public class CharacterDatabase : MonoBehaviour
             positionPri = data[num]["Place_Priority"];
             unitClass = 0;
             level = 1;
-            soul = 0;
+            exp = 0;
             partySet = false;
             islock = false;
             isLive = true;
-            basicskill = 0;
-            speialskill = 0;
+            basicSkill = 0;
+            speialSkill = 0;
             overlapValueA = 0;
             overlapValueB = 0;
         }
-    }
 }

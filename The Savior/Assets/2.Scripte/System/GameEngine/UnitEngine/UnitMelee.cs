@@ -22,7 +22,7 @@ public class UnitMelee : MonoBehaviour
     /// 기능 : 피격된 대상에대한 데이터에 접근하기위한 변수
     /// <br></br>방법 : DungeonOS.instance.partySlot[<paramref name="unitNumber"/>]
     /// </summary>
-    public int unitNumber;
+    private int unitNumber;
     //캐시 처리
     private DamageEngine dmgEngine;
     
@@ -57,7 +57,7 @@ public class UnitMelee : MonoBehaviour
         {
             int Target = other.GetComponent<UnitMelee>().unitNumber; //(작업 필요)몬스터껄로 변경필요함
             float damage;
-            damage = DungeonOS.instance.partyUnit[unitNumber].meleDmg;
+            damage = DungeonOS.instance.partyUnit[unitNumber].damage;
             OnDamage(damage, Target);
             // 투사체 및 트리거 박스 설정
             int tempAType = DungeonOS.instance.partyUnit[Target].attackType;
@@ -83,8 +83,8 @@ public class UnitMelee : MonoBehaviour
     /// <param name="TargetNumber"></param>
     private void OnDamage(float dmg, int TargetNumber)
     {
-        DungeonOS.instance.partyUnit[unitNumber].hP -= dmgEngine.OnDamageCalculate(false, dmg, TargetNumber, unitNumber);
-        if (DungeonOS.instance.partyUnit[unitNumber].hP < 0)
+        DungeonOS.instance.partyUnit[unitNumber].hp -= dmgEngine.OnDamageCalculate(false, dmg, TargetNumber, unitNumber);
+        if (DungeonOS.instance.partyUnit[unitNumber].hp < 0)
         {
             GetComponent<UnitAI>().State_Die();            
         }
