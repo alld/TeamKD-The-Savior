@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
+using SimpleJSON;
 
 public class InfoCharacter : MonoBehaviour
 {
@@ -39,7 +41,12 @@ public class InfoCharacter : MonoBehaviour
     // 캐릭터 번호
     private int idx;
     private SummonCharacterTest test;
-    private InfoCharacter data;
+
+    private TextAsset json;
+    private string jsonData;
+
+
+    
 
     // 상세정보에 활성화 된 캐릭터 이미지
     private Image character;
@@ -50,6 +57,11 @@ public class InfoCharacter : MonoBehaviour
         skillButton.onClick.AddListener(() => OnClick_SkillBtn());
         statusButton.onClick.AddListener(() => OnClick_StatusBtn());
         identityButton.onClick.AddListener(() => OnClick_IdentityBtn());
+
+        json = Resources.Load<TextAsset>("CharacterData");
+        jsonData = json.text;
+
+        
     }
 
     /// <summary>
@@ -57,18 +69,20 @@ public class InfoCharacter : MonoBehaviour
     /// </summary>
     public void OnCharacterInfo(Image copyImg)
     {
-        skillButton.Select();
-        
-        
-        
+
+        var data = JSON.Parse(jsonData);
+        test = copyImg.GetComponent<SummonCharacterTest>();
+
+        CharacterDatabase.InfoCharacter charData = new CharacterDatabase.InfoCharacter(test.number, data);
+
         character = copyImg;
         copyImg.transform.SetParent(imgTr);
         InitRectSize(copyImg);
         Destroy(copyImg.GetComponent<ViewCharacterInfo>());
-
-        //hp.text = hp.text + data.
-        //att.text = att.text + data.att;
-        //def.text = def.text + data.def;
+        charName.text = charData.name;
+        hp.text = hp.text + charData.maxHP;
+        att.text = att.text + charData.damage;
+        def.text = def.text + charData.defense;
 
         charInfo.SetActive(true);
     }

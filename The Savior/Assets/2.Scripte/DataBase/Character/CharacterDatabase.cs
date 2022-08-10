@@ -13,8 +13,6 @@ public class CharacterDatabase : MonoBehaviour
     /// <br>InfoCH(int) : int == 데이터베이스상 캐릭터 고유넘버 </br>
     /// </summary>
     public static CharacterDatabase instance = null;
-    //public Sprite[] ImagefulSet;
-    //public static List<Sprite> Imageful = null;
     public class InfoCharacter
     {
         #region 캐릭터 기본 설정값
@@ -137,6 +135,7 @@ public class CharacterDatabase : MonoBehaviour
         /// 유물의 중복보상 B형(소울)
         /// </summary>
         public int overlapValueB;
+        public int identity; // 캐릭터 특성
         #endregion
 
 
@@ -196,13 +195,13 @@ public class CharacterDatabase : MonoBehaviour
             maxHP = data[num]["Hp_Total"];
             damage = data[num]["Chr_power"];
             meleDmg = data[num]["Total_Damage"];
-            gameObject = Resources.Load<GameObject>("Unit/TestUnit");
+            gameObject = Resources.Load<GameObject>("");
             attackSpeed = data[num]["Chr_AtkSpeed"];
             moveSpeed = data[num]["Chr_MS"];
             defense = data[num]["Chr_DF"];
             attackType = data[num]["Attack_Type"];
             attackRange = data[num]["Chr_AtkRange"];
-            attribute = data[num]["Attribute"];
+            attribute = 0;
             priRange = data[num]["Atk_Know_Range"];
             priorities = data[num]["Attack_Priority"];
             positionPri = data[num]["Place_Priority"];
@@ -216,41 +215,6 @@ public class CharacterDatabase : MonoBehaviour
             speialskill = 0;
             overlapValueA = 0;
             overlapValueB = 0;
-
-
-            //switch (num)
-            //{
-            //    case 1: // 머선머선 캐릭터 아직 미정
-            //        number = num;
-            //        icon = null; // 이미지 설정 검토
-            //        name = "머선머선 캐릭터"; // 던전정보와 마찬가지로 텍스트 구동방식 검토
-            //        hP = 100;
-            //        maxHP = 100;
-            //        damage = 10.0f;
-            //        gameObject = Resources.Load<GameObject>("Unit/TestUnit");
-            //        attackSpeed = 1.0f;
-            //        moveSpeed = 1.0f;
-            //        defense = 10.0f;
-            //        attackType = 1;
-            //        attackRange = 10.0f;
-            //        propertie = 0;
-            //        priRange = 10.0f;
-            //        priorities = 20;
-            //        positionPer = 30;
-            //        unitClass = 0;
-            //        level = 1;
-            //        soul = 0;
-            //        partySet = false;
-            //        islock = false;
-            //        isLive = true;
-            //        basicskill = 0;
-            //        speialskill = 0;
-            //        overlapValueA = 0;
-            //        overlapValueB = 0;
-            //        break;
-            //    default:
-            //        break;
-            //}
         }
     }
 
@@ -259,3 +223,5 @@ public class CharacterDatabase : MonoBehaviour
         if(instance == null)instance = this;
     }
 }
+
+
