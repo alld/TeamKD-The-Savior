@@ -40,6 +40,6 @@ namespace GameDataTable
         public string[] presetName = new string[] { "1번 프리셋", "2번 프리셋", "3번 프리셋", "4번 프리셋", "5번 프리셋"};
         public int[] haveRelic = new int[28];
         public int[] haveCharacter = new int[28];
-        public int[] haveCard = new int[28];
+        public List<Dictionary<int, int>> haveCard = new List<Dictionary<int, int>>();
     }
 }

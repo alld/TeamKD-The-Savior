@@ -151,15 +151,10 @@ public class BuyCardPack : MonoBehaviour
             card = Instantiate(cardImg[i], buyCardList[i]);
             testCard = card.GetComponent<TestCard>();
             Debug.Log(testCard.idx);
-            for (int j = 0; j < 28; j++)
-            {
-                if (GameManager.instance.data.haveCard[j] != 0)
-                {
-                    GameManager.instance.data.haveCard[j] = testCard.idx;
-                    GameManager.instance.GameSave();
-                }
-            }
+            
+
         }
+        GameManager.instance.GameSave();
     }
 
     /// <summary>
