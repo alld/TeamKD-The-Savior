@@ -79,7 +79,7 @@ public class DamageEngine : MonoBehaviour
                 addDamage_attribute = 0.5f + (add_attDamageA - add_attDamageD);
                 break;
             default:
-                DungeonOS.instance.errorList.Add("데미지 엔진 : 없는 속성값이 설정되었습니다.");
+                DungeonOS.instance.GameError("데미지 엔진 : 없는 속성값이 설정되었습니다.");
                 break;
         }
         // 최종 데미지 계산
@@ -88,4 +88,75 @@ public class DamageEngine : MonoBehaviour
         if(a_Damage < 0) return 0;
         else return a_Damage;
     }
+    /// <summary>
+    /// 카드나 유물 효과로 데미지를 줬을 경우
+    /// </summary>
+    /// <param name="dmg"></param>
+    /// <param name="attacker"></param>
+    /// <param name="defender"></param>
+    /// <returns></returns>
+    public float OnDamageCalculate(bool playercheck, bool notUnitCheck, float dmg, int attacker, int defender)
+    {
+        if (playercheck) // 공격자가 플레이언지 몬스터인지 확인
+        {
+            // 속성 변환 체크 후 설정값 지정
+            if (DungeonOS.instance.allyAdd_attributeCheck) a_attribute = DungeonOS.instance.allyAdd_attribute;
+            else a_attribute = DungeonOS.instance.partyUnit[attacker].attribute;
+            if (DungeonOS.instance.enemyAdd_attributeCheck) d_attribute = DungeonOS.instance.enemyAdd_attribute;
+            else d_attribute = DungeonOS.instance.monsterGroup[defender].attribute;
+            add_attDamageA = DungeonOS.instance.allyAdd_attributeVlaue[a_attribute];
+            add_attDamageD = DungeonOS.instance.enemyAdd_attributeVlaue[d_attribute];
+
+
+            dmg += DungeonOS.instance.allyAdd_damage;
+            d_defense = DungeonOS.instance.monsterGroup[defender].defense;
+            d_defense += DungeonOS.instance.enemyAdd_defense;
+        }
+        else
+        {
+            // 속성 변환 체크 후 설정값 지정 
+            if (DungeonOS.instance.allyAdd_attributeCheck) d_attribute = DungeonOS.instance.allyAdd_attribute;
+            else d_attribute = DungeonOS.instance.partyUnit[defender].attribute;
+            if (DungeonOS.instance.enemyAdd_attributeCheck) a_attribute = DungeonOS.instance.enemyAdd_attribute;
+            else a_attribute = DungeonOS.instance.monsterGroup[attacker].attribute;
+            add_attDamageD = DungeonOS.instance.allyAdd_attributeVlaue[d_attribute];
+            add_attDamageA = DungeonOS.instance.enemyAdd_attributeVlaue[a_attribute];
+
+
+            dmg += DungeonOS.instance.enemyAdd_damage;
+            d_defense = DungeonOS.instance.partyUnit[defender].defense;
+            d_defense += DungeonOS.instance.allyAdd_defense;
+        }
+        sum_attribute = (a_attribute * 10) + d_attribute;
+        switch (sum_attribute) // 속성 데미지 비율 적용하는 기능
+        {
+            // 불1 물2 풀3 
+            // 앞자리가 공격자의 속성, 뒷자리가 방어자의 속성
+            case 0:
+            case 11:
+            case 22:
+            case 33:
+                addDamage_attribute = 1;
+                break;
+            case 13:
+            case 21:
+            case 32:
+                addDamage_attribute = 1.5f + (add_attDamageA - add_attDamageD);
+                break;
+            case 12:
+            case 23:
+            case 31:
+                addDamage_attribute = 0.5f + (add_attDamageA - add_attDamageD);
+                break;
+            default:
+                DungeonOS.instance.GameError("데미지 엔진 : 없는 속성값이 설정되었습니다.");
+                break;
+        }
+        // 최종 데미지 계산
+        a_Damage = (dmg - defender) * addDamage_attribute;
+        // 데미지 마이너스 방지 
+        if (a_Damage < 0) return 0;
+        else return a_Damage;
+    }
+
 }

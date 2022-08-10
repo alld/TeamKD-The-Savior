@@ -34,17 +34,35 @@ public class CardDataBase : MonoBehaviour
         /// </summary>
         public int cardCount;
         /// <summary>
+        /// 카드를 사용하기위한 비용
+        /// </summary>
+        public int cost;
+        /// <summary>
         /// 카드의 속성
         /// </summary>
         public int propertie;
         /// <summary>
-        /// 카드의 효과 대분류
+        /// 카드의 효과 종류 분류
         /// </summary>
-        public int effectSortA;
+        //public int effectSortA;
+        public enum EffectSortA { 회복, 보호, 버프, 디버프, 공격, 특수 }
+        public EffectSortA effectSortA;
         /// <summary>
-        /// 카드의 효과 소분류
+        /// 카드의 효과 시간 분류
         /// </summary>
-        public int effectSortB;
+        public enum EffectSortB { 즉시, 지속, 지연 }
+        public EffectSortB effectSortB;
+        /// <summary>
+        /// 카드의 효과 대상 분류 
+        /// </summary>
+        public enum EffectSortC { 아군단일, 아군전체, 적단일, 적전체  }
+        public EffectSortC effectSortC;
+        /// <summary>
+        /// 카드의 효과 단일대상 분류 
+        /// </summary>
+        public enum EffectSortD { 전체, 랜덤, 체력많음, 체력적음, 데미지높음, 데미지낮음 }
+        public EffectSortD effectSortD;
+
         /// <summary>
         /// 카드의 설명 1
         /// </summary>
@@ -75,17 +93,13 @@ public class CardDataBase : MonoBehaviour
         public int effectValue_floatC;
         /// <summary>
         /// 카드 효과 float형 D
+        /// <br></br> [역할] 지속시간, 지연시간에 사용됨. 이외에 사용가능 
         /// </summary>
         public int effectValue_floatD;
         /// <summary>
         /// 카드 효과 bool형
         /// </summary>
         public int effectValue_bool;
-        public enum Conditions { 일반, 초반, 중반, 후반 };
-        /// <summary>
-        /// 카드 사용조건 분류
-        /// </summary>
-        Conditions condition;
         /// <summary>
         /// 카드의 판매가격 A형(골드)
         /// </summary>
@@ -118,9 +132,12 @@ public class CardDataBase : MonoBehaviour
                     Icon = null;
                     name = "";
                     cardCount = 0;
+                    cost = 0;
                     propertie = 0;
                     effectSortA = 0;
                     effectSortB = 0;
+                    effectSortC = 0;
+                    effectSortD = 0;
                     cardString1 = 0;
                     cardString2 = 0;
                     effectValue_intA = 0;
@@ -130,7 +147,6 @@ public class CardDataBase : MonoBehaviour
                     effectValue_floatC = 0;
                     effectValue_floatD = 0;
                     effectValue_bool = 0;
-                    condition = Conditions.일반;
                     sellValueA = 0;
                     sellValueB = 0;
                     recycle = 0;

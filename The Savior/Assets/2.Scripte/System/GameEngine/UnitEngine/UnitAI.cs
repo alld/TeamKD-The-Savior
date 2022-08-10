@@ -11,9 +11,9 @@ public class UnitAI : MonoBehaviour
     /// <summary>
     /// 유닛이 자동으로 일반스킬을 쓰는 함수
     /// </summary>
-    public void State_Skil()
+    public void State_Skilㅣ()
     {
-
+        
     }
 
     /// <summary>
@@ -27,6 +27,7 @@ public class UnitAI : MonoBehaviour
         {
 
             yield return null;
+            
         }
     }
     
@@ -54,13 +55,6 @@ public class UnitAI : MonoBehaviour
     public void State_Move()
     {
 
-        /* 이동대상 설정
-         * 
-         * 
-         * 
-         * 
-         * 
-         */
     }
 
     /// <summary>
