@@ -10,21 +10,18 @@ public class MonsterDatabase : MonoBehaviour
     /// <br>InfoMT를 통해 인스턴스를 만들어서 사용해야함. </br>
     /// <br>InfoMT(int) : int == 데이터베이스상 캐릭터 고유넘버 </br>
     /// </summary>
-    public static MonsterDatabase instance = null;
 
-    public class InfoMonster
-    {
         #region 몬스터의 기본 설정값
         /// <summary>
         /// 몬스터 타입 구분
         /// </summary>
-        public enum MonsterType { 일반, 중간보스, 최종보스}
+        public enum MonsterType { MONSTER, BOSS, LASTBOSS}
         MonsterType monsterType;
         public int number;
         /// <summary>
         /// 프리팹에 있는 캐릭터 오브젝트, 모델
         /// </summary>
-        public GameObject gameObject;
+        public GameObject gameObj;
         /// <summary>
         /// 몬스터 기본 아이콘
         /// </summary>
@@ -32,11 +29,15 @@ public class MonsterDatabase : MonoBehaviour
         /// <summary>
         /// 몬스터 기본 이름
         /// </summary>
-        public string name;
+        public string monsterName;
         /// <summary>
         /// 몬스터 기본 체력
         /// </summary>
         public float hP;
+        /// <summary>
+        /// 몬스터 최대 체력
+        /// </summary>
+        public float maxHP;
         /// <summary>
         /// 몬스터 기본 데미지
         /// </summary>
@@ -111,193 +112,45 @@ public class MonsterDatabase : MonoBehaviour
         public int[] rewardCard;
         public int[] rewardUnit;
         public int[] rewardRelic;
-        #endregion
+    #endregion
 
-
-
-
-        /// <summary>
-        /// 몬스터의 기본값을 가져오기위해서는 매개변수에 (int)를 넣어줘야함.
-        /// <br>(int = num) : 몬스터 고유의 넘버링값</br>
-        /// </summary>
-        /// <param name="num"></param>
-        public InfoMonster(int num)
+    /// <summary>
+    /// 몬스터의 기본값을 가져오기위해서는 매개변수에 (int)를 넣어줘야함.
+    /// <br>(int = num) : 몬스터 고유의 넘버링값</br>
+    /// </summary>
+    /// <param name="num"></param>
+    public MonsterDatabase(int num)
+    {
+        switch (num)
         {
-            switch (num)
-            {
-                case 1: // 머선머선 몬스터 아직 미정
-                    number = num;
-                    monsterType = MonsterType.일반;
-                    icon = null; // 이미지 설정 검토
-                    name = "머선머선 캐릭터"; // 던전정보와 마찬가지로 텍스트 구동방식 검토
-                    hP = 100;
-                    damage = 10.0f;
-                    gameObject = Resources.Load<GameObject>("Unit/TestUnit");
-                    attackSpeed = 1.0f;
-                    moveSpeed = 1.0f;
-                    defense = 10.0f;
-                    attackType = 1;
-                    attackRange = 10.0f;
-                    attribute = 0;
-                    priRange = 10.0f;
-                    priorities = 20;
-                    positionPer = 30;
-                    basicskill1 = 0;
-                    basicskill2 = 0;
-                    basicskill3 = 0;
-                    speialskill = 0;
-                    rewardGold = 1;
-                    rewardSoul = 1;
-                    rewardCard = null;
-                    rewardUnit = null;
-                    rewardRelic = null;
-                    break;
-                case 2: // snrn
-                    number = num;
-                    monsterType = MonsterType.일반;
-                    icon = null;
-                    name = null;
-                    hP = 0;
-                    damage = 0;
-                    gameObject = null;
-                    attackSpeed = 0;
-                    moveSpeed = 0;
-                    defense = 0;
-                    attackType = 0;
-                    attackRange = 0;
-                    attribute = 0;
-                    priRange = 0;
-                    priorities = 0;
-                    positionPer = 0;
-                    basicskill1 = 0;
-                    basicskill2 = 0;
-                    basicskill3 = 0;
-                    speialskill = 0;
-                    rewardGold = 1;
-                    rewardSoul = 1;
-                    rewardCard = null;
-                    rewardUnit = null;
-                    rewardRelic = null;
-                    break;
-                case 3:
-                    number = num;
-                    monsterType = MonsterType.일반;
-                    icon = null;
-                    name = null;
-                    hP = 0;
-                    damage = 0;
-                    gameObject = null;
-                    attackSpeed = 0;
-                    moveSpeed = 0;
-                    defense = 0;
-                    attackType = 0;
-                    attackRange = 0;
-                    attribute = 0;
-                    priRange = 0;
-                    priorities = 0;
-                    positionPer = 0;
-                    basicskill1 = 0;
-                    basicskill2 = 0;
-                    basicskill3 = 0;
-                    speialskill = 0;
-                    rewardGold = 1;
-                    rewardSoul = 1;
-                    rewardCard = null;
-                    rewardUnit = null;
-                    rewardRelic = null;
-                    break;
-                case 4:
-                    number = num;
-                    monsterType = MonsterType.일반;
-                    icon = null;
-                    name = null;
-                    hP = 0;
-                    damage = 0;
-                    gameObject = null;
-                    attackSpeed = 0;
-                    moveSpeed = 0;
-                    defense = 0;
-                    attackType = 0;
-                    attackRange = 0;
-                    attribute = 0;
-                    priRange = 0;
-                    priorities = 0;
-                    positionPer = 0;
-                    basicskill1 = 0;
-                    basicskill2 = 0;
-                    basicskill3 = 0;
-                    speialskill = 0;
-                    rewardGold = 1;
-                    rewardSoul = 1;
-                    rewardCard = null;
-                    rewardUnit = null;
-                    rewardRelic = null;
-                    break;
-                case 5:
-                    number = num;
-                    monsterType = MonsterType.일반;
-                    icon = null;
-                    name = null;
-                    hP = 0;
-                    damage = 0;
-                    gameObject = null;
-                    attackSpeed = 0;
-                    moveSpeed = 0;
-                    defense = 0;
-                    attackType = 0;
-                    attackRange = 0;
-                    attribute = 0;
-                    priRange = 0;
-                    priorities = 0;
-                    positionPer = 0;
-                    basicskill1 = 0;
-                    basicskill2 = 0;
-                    basicskill3 = 0;
-                    speialskill = 0;
-                    rewardGold = 1;
-                    rewardSoul = 1;
-                    rewardCard = null;
-                    rewardUnit = null;
-                    rewardRelic = null;
-                    break;
-                case 6:
-                    number = num;
-                    monsterType = MonsterType.일반;
-                    icon = null;
-                    name = null;
-                    hP = 0;
-                    damage = 0;
-                    gameObject = null;
-                    attackSpeed = 0;
-                    moveSpeed = 0;
-                    defense = 0;
-                    attackType = 0;
-                    attackRange = 0;
-                    attribute = 0;
-                    priRange = 0;
-                    priorities = 0;
-                    positionPer = 0;
-                    basicskill1 = 0;
-                    basicskill2 = 0;
-                    basicskill3 = 0;
-                    speialskill = 0;
-                    rewardGold = 1;
-                    rewardSoul = 1;
-                    rewardCard = null;
-                    rewardUnit = null;
-                    rewardRelic = null;
-                    break;
-                default:
-                    break;
-            }
+            case 1: // 머선머선 몬스터 아직 미정
+                number = num;
+                monsterType = MonsterType.MONSTER;
+                icon = null; // 이미지 설정 검토
+                monsterName = "머선머선 캐릭터"; // 던전정보와 마찬가지로 텍스트 구동방식 검토
+                hP = 100;
+                damage = 10.0f;
+                gameObj = Resources.Load<GameObject>("Unit/TestUnit");
+                attackSpeed = 1.0f;
+                moveSpeed = 1.0f;
+                defense = 10.0f;
+                attackType = 1;
+                attackRange = 10.0f;
+                attribute = 0;
+                priRange = 10.0f;
+                priorities = 20;
+                positionPer = 30;
+                basicskill1 = 0;
+                basicskill2 = 0;
+                basicskill3 = 0;
+                speialskill = 0;
+                rewardGold = 1;
+                rewardSoul = 1;
+                rewardCard = null;
+                rewardUnit = null;
+                rewardRelic = null;
+                break;
         }
     }
-    private void Awake()
-    {
-        instance = this;
-        //foreach (var item in ImagefulSet)
-        //{
-        //    Imageful.Add(item);
-        //}
-    }
+
 }

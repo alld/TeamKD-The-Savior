@@ -38,10 +38,7 @@ public class GameManager : MonoBehaviour
     public int currentDeckPresetNumber = 0;
     public CharacterDatabase.InfoCharacter[] partySlot =
         {
-            new CharacterDatabase.InfoCharacter(),
-            new CharacterDatabase.InfoCharacter(),
-            new CharacterDatabase.InfoCharacter(),
-            new CharacterDatabase.InfoCharacter()
+            
         };
     
     #endregion

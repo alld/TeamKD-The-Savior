@@ -7,7 +7,7 @@ public class DungeonDatabase : MonoBehaviour
     public static DungeonDatabase instance;
     public class InfoDungeon
     {
-        public List<MonsterDatabase.InfoMonster> dungeonMonsterBox = new List<MonsterDatabase.InfoMonster>();
+        public List<MonsterDatabase> dungeonMonsterBox = new List<MonsterDatabase>();
 
         
         public InfoDungeon(int num)
@@ -15,22 +15,22 @@ public class DungeonDatabase : MonoBehaviour
             switch (num)
             {
                 case 0:
-                    dungeonMonsterBox.Add(new MonsterDatabase.InfoMonster(1));
+                    dungeonMonsterBox.Add(new MonsterDatabase(1));
                     break;
                 case 1:
-                    dungeonMonsterBox.Add(new MonsterDatabase.InfoMonster(1));
+                    dungeonMonsterBox.Add(new MonsterDatabase(1));
                     break;
                 case 2:
-                    dungeonMonsterBox.Add(new MonsterDatabase.InfoMonster(1));
+                    dungeonMonsterBox.Add(new MonsterDatabase(1));
                     break;
                 case 3:
-                    dungeonMonsterBox.Add(new MonsterDatabase.InfoMonster(1));
+                    dungeonMonsterBox.Add(new MonsterDatabase(1));
                     break;
                 case 4:
-                    dungeonMonsterBox.Add(new MonsterDatabase.InfoMonster(1));
+                    dungeonMonsterBox.Add(new MonsterDatabase(1));
                     break;
                 case 5:
-                    dungeonMonsterBox.Add(new MonsterDatabase.InfoMonster(1));
+                    dungeonMonsterBox.Add(new MonsterDatabase(1));
                     break;
                 default:
                     break;

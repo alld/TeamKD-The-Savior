@@ -83,7 +83,7 @@ public class DamageEngine : MonoBehaviour
                 break;
         }
         // 최종 데미지 계산
-        a_Damage = (dmg - defender) * addDamage_attribute;
+        a_Damage = (dmg - d_defense) * addDamage_attribute;
         // 데미지 마이너스 방지 
         if(a_Damage < 0) return 0;
         else return a_Damage;
@@ -153,7 +153,7 @@ public class DamageEngine : MonoBehaviour
                 break;
         }
         // 최종 데미지 계산
-        a_Damage = (dmg - defender) * addDamage_attribute;
+        a_Damage = (dmg - d_defense) * addDamage_attribute;
         // 데미지 마이너스 방지 
         if (a_Damage < 0) return 0;
         else return a_Damage;

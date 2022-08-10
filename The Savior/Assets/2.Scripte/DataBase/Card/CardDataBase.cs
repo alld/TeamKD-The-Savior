@@ -45,24 +45,23 @@ public class CardDataBase : MonoBehaviour
         /// 카드의 효과 종류 분류
         /// </summary>
         //public int effectSortA;
-        public enum EffectSortA { 회복, 보호, 버프, 디버프, 공격, 특수 }
+        public enum EffectSortA { HEAL, PROTECT, BUFF, DEBUFF, ATTACK, SPEIAL}
         public EffectSortA effectSortA;
         /// <summary>
         /// 카드의 효과 시간 분류
         /// </summary>
-        public enum EffectSortB { 즉시, 지속, 지연 }
+        public enum EffectSortB { NOW, CONTINUE, DELAY }
         public EffectSortB effectSortB;
         /// <summary>
         /// 카드의 효과 대상 분류 
         /// </summary>
-        public enum EffectSortC { 아군단일, 아군전체, 적단일, 적전체  }
+        public enum EffectSortC { ALLY, ALLIES, ENEMY, ENEMIES}
         public EffectSortC effectSortC;
         /// <summary>
         /// 카드의 효과 단일대상 분류 
         /// </summary>
-        public enum EffectSortD { 전체, 랜덤, 체력많음, 체력적음, 데미지높음, 데미지낮음 }
+        public enum EffectSortD { TOTAL, RANDOM, HP_HIGH, HP_LOW, DAMAGE_HIGH, DAMAGE_LOW }
         public EffectSortD effectSortD;
-
         /// <summary>
         /// 카드의 설명 1
         /// </summary>

@@ -30,21 +30,23 @@ public class CardSkill : MonoBehaviour
     private float skill_ActiveTime;
     private void CardSkillSetting()
     {
+        // 카드효과의 기본값을 리셋시킴 (값을 재활용하기때문에 리셋이필요)
         CardSkillValueReset();
         if (card.cost > DungeonOS.instance.costDGP) // 코스트 검사
         {
             check = false;
             return;
         }
+        // 스킬의 지속상태의 설정값을 지정함
         switch (card.effectSortB)
         {
-            case CardDataBase.InfoCard.EffectSortB.즉시:
+            case CardDataBase.InfoCard.EffectSortB.NOW:
                 skill_ActiveTime = 0;
                 break;
-            case CardDataBase.InfoCard.EffectSortB.지속:
+            case CardDataBase.InfoCard.EffectSortB.CONTINUE:
                 skill_ActiveTime = -card.effectValue_floatD;
                 break;
-            case CardDataBase.InfoCard.EffectSortB.지연:
+            case CardDataBase.InfoCard.EffectSortB.DELAY:
                 skill_ActiveTime = card.effectValue_floatD;
                 break;
             default:
@@ -52,21 +54,21 @@ public class CardSkill : MonoBehaviour
                 check = false;
                 return;
         }
-
+        // 어떤 스킬 효과를 적용할지를 분류함
         switch (card.effectSortA)
         {
-            case CardDataBase.InfoCard.EffectSortA.회복:
+            case CardDataBase.InfoCard.EffectSortA.HEAL:
                 StartCoroutine(CardSkill_Heal());
                 break;
-            case CardDataBase.InfoCard.EffectSortA.보호:
+            case CardDataBase.InfoCard.EffectSortA.PROTECT:
                 break;
-            case CardDataBase.InfoCard.EffectSortA.버프:
+            case CardDataBase.InfoCard.EffectSortA.BUFF:
                 break;
-            case CardDataBase.InfoCard.EffectSortA.디버프:
+            case CardDataBase.InfoCard.EffectSortA.DEBUFF:
                 break;
-            case CardDataBase.InfoCard.EffectSortA.공격:
+            case CardDataBase.InfoCard.EffectSortA.ATTACK:
                 break;
-            case CardDataBase.InfoCard.EffectSortA.특수:
+            case CardDataBase.InfoCard.EffectSortA.SPEIAL:
                 break;
             default:
                 DungeonOS.instance.GameError("카드 스킬 : 분류값 (A)가 제대로 할당되지 않았습니다.");
@@ -85,17 +87,17 @@ public class CardSkill : MonoBehaviour
     {
         switch (targetType)
         {
-            case CardDataBase.InfoCard.EffectSortD.전체:
+            case CardDataBase.InfoCard.EffectSortD.TOTAL:
                 break;
-            case CardDataBase.InfoCard.EffectSortD.랜덤:
+            case CardDataBase.InfoCard.EffectSortD.RANDOM:
                 return Random.Range(0, DungeonOS.instance.partyUnit.Count);
-            case CardDataBase.InfoCard.EffectSortD.체력많음:
+            case CardDataBase.InfoCard.EffectSortD.HP_HIGH:
                 break;
-            case CardDataBase.InfoCard.EffectSortD.체력적음:
+            case CardDataBase.InfoCard.EffectSortD.HP_LOW:
                 break;
-            case CardDataBase.InfoCard.EffectSortD.데미지높음:
+            case CardDataBase.InfoCard.EffectSortD.DAMAGE_HIGH:
                 break;
-            case CardDataBase.InfoCard.EffectSortD.데미지낮음:
+            case CardDataBase.InfoCard.EffectSortD.DAMAGE_LOW:
                 break;
             default:
                 break;
@@ -106,17 +108,17 @@ public class CardSkill : MonoBehaviour
     {
         switch (targetType)
         {
-            case CardDataBase.InfoCard.EffectSortD.전체:
+            case CardDataBase.InfoCard.EffectSortD.TOTAL:
                 break;
-            case CardDataBase.InfoCard.EffectSortD.랜덤:
+            case CardDataBase.InfoCard.EffectSortD.RANDOM:
                 return Random.Range(0, DungeonOS.instance.monsterGroup.Count);
-            case CardDataBase.InfoCard.EffectSortD.체력많음:
+            case CardDataBase.InfoCard.EffectSortD.HP_HIGH:
                 break;
-            case CardDataBase.InfoCard.EffectSortD.체력적음:
+            case CardDataBase.InfoCard.EffectSortD.HP_LOW:
                 break;
-            case CardDataBase.InfoCard.EffectSortD.데미지높음:
+            case CardDataBase.InfoCard.EffectSortD.DAMAGE_HIGH:
                 break;
-            case CardDataBase.InfoCard.EffectSortD.데미지낮음:
+            case CardDataBase.InfoCard.EffectSortD.DAMAGE_LOW:
                 break;
             default:
                 break;
@@ -126,26 +128,47 @@ public class CardSkill : MonoBehaviour
 
     IEnumerator CardSkill_Heal()
     {
-        // (제작할것) if 로 지연시간 반영
+        bool skill_Switch = true;
+        if(skill_ActiveTime < 0) yield return new WaitForSeconds(-skill_ActiveTime);
         do {
+            int temp;
+            int count = 0;
             switch (card.effectSortC)
             {
-                case CardDataBase.InfoCard.EffectSortC.아군단일:
-                    DungeonOS.instance.partyUnit[AllyTargetCheck(card.effectSortD)].hP += card.effectValue_floatA;
+                case CardDataBase.InfoCard.EffectSortC.ALLY:
+                    temp = AllyTargetCheck(card.effectSortD);
+                    DungeonOS.instance.partyUnit[temp].hP += card.effectValue_floatA;
+                    if(DungeonOS.instance.partyUnit[temp].hP > DungeonOS.instance.partyUnit[temp].maxHP)
+                    {
+                        DungeonOS.instance.partyUnit[temp].hP = DungeonOS.instance.partyUnit[temp].maxHP;
+                    }
                     break;
-                case CardDataBase.InfoCard.EffectSortC.아군전체:
+                case CardDataBase.InfoCard.EffectSortC.ALLIES:
                     foreach (var item in DungeonOS.instance.partyUnit)
                     {
                         item.hP += card.effectValue_floatA;
+                        if (item.hP > item.maxHP)
+                        {
+                            item.hP = item.maxHP;
+                        }
                     }
                     break;
-                case CardDataBase.InfoCard.EffectSortC.적단일:
-                    DungeonOS.instance.monsterGroup[EnemyTargetCheck(card.effectSortD)].hP += card.effectValue_floatA;
+                case CardDataBase.InfoCard.EffectSortC.ENEMY:
+                    temp = EnemyTargetCheck(card.effectSortD);
+                    DungeonOS.instance.monsterGroup[temp].hP += card.effectValue_floatA;
+                    if (DungeonOS.instance.monsterGroup[temp].hP > DungeonOS.instance.monsterGroup[temp].maxHP)
+                    {
+                        DungeonOS.instance.monsterGroup[temp].hP = DungeonOS.instance.monsterGroup[temp].maxHP;
+                    }
                     break;
-                case CardDataBase.InfoCard.EffectSortC.적전체:
+                case CardDataBase.InfoCard.EffectSortC.ENEMIES:
                     foreach (var item in DungeonOS.instance.monsterGroup)
                     {
                         item.hP += card.effectValue_floatA;
+                        if (item.hP > item.maxHP)
+                        {
+                            item.hP = item.maxHP;
+                        }
                     }
                     break;
                 default:
@@ -153,8 +176,11 @@ public class CardSkill : MonoBehaviour
                     check = false;
                     break;
             }
+            if (++count >= skill_ActiveTime) skill_Switch = false;
+            else yield return new WaitForSeconds(1f);
         }
-        while (check); //(제작할것) 조건으로 무한 반복인지 1회 사용인지 구분
-        yield return null;
+        while (skill_Switch);
     }
+
+
 }

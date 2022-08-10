@@ -20,7 +20,7 @@ public class DungeonOS : MonoBehaviour
 
     #region 던전 기본 데이터
 
-    List<MonsterDatabase.InfoMonster> monsterBox = new List<MonsterDatabase.InfoMonster>();
+    List<MonsterDatabase> monsterBox = new List<MonsterDatabase>();
     List<int> rewardHeroBox = new List<int>();
     List<int> rewardCardBox = new List<int>();
     List<int> rewardRelicBox = new List<int>();
@@ -29,9 +29,9 @@ public class DungeonOS : MonoBehaviour
     List<CharacterDatabase.InfoCharacter> stageSlotPlayerTop;
     List<CharacterDatabase.InfoCharacter> stageSlotPlayerMid; 
 
-    List<MonsterDatabase.InfoMonster> stageSlotMonsterBottom;
-    List<MonsterDatabase.InfoMonster> stageSlotMonsterTop;
-    List<MonsterDatabase.InfoMonster> stageSlotMonsterMid;
+    List<MonsterDatabase> stageSlotMonsterBottom;
+    List<MonsterDatabase> stageSlotMonsterTop;
+    List<MonsterDatabase> stageSlotMonsterMid;
 
 
     public delegate void StateCheck();
@@ -71,7 +71,7 @@ public class DungeonOS : MonoBehaviour
     /// <summary>
     /// 현재 라운드에 생존해있는 몬스터 그룹
     /// </summary>
-    public List<MonsterDatabase.InfoMonster> monsterGroup = new List<MonsterDatabase.InfoMonster>();
+    public List<MonsterDatabase> monsterGroup = new List<MonsterDatabase>();
     /// <summary>
     /// 플레이어 유닛 그룹
     /// </summary>
@@ -707,8 +707,8 @@ public class DungeonOS : MonoBehaviour
                     }
                     else
                     {
-                        MonsterDatabase.InfoMonster moveSlot = item;
-                        MonsterDatabase.InfoMonster tempSlot = item;
+                        MonsterDatabase moveSlot = item;
+                        MonsterDatabase tempSlot = item;
                         //내부 비교 밀어내기식 자리배치 // 작은수치가 우선
                         for (int i = 0; i < stageSlotMonsterBottom.Count; i++)
                         {
@@ -756,8 +756,8 @@ public class DungeonOS : MonoBehaviour
                     }
                     else
                     {
-                        MonsterDatabase.InfoMonster moveSlot = item;
-                        MonsterDatabase.InfoMonster tempSlot = item;
+                        MonsterDatabase moveSlot = item;
+                        MonsterDatabase tempSlot = item;
                         // 수치가 낮은 경우 
                         if (item.attackType >= 30)
                         {
@@ -848,8 +848,8 @@ public class DungeonOS : MonoBehaviour
                     }
                     else
                     {
-                        MonsterDatabase.InfoMonster moveSlot = item;
-                        MonsterDatabase.InfoMonster tempSlot = item;
+                        MonsterDatabase moveSlot = item;
+                        MonsterDatabase tempSlot = item;
                         //내부 비교 밀어내기식 자리배치 // 큰수치가 우선
                         for (int i = 0; i < stageSlotMonsterTop.Count; i++)
                         {
@@ -918,20 +918,20 @@ public class DungeonOS : MonoBehaviour
         for (int i = 0; i < monsterBoxCount[roundDGP]; i++)
         {
             int tempint = Random.Range(monsterBoxMin[roundDGP], monsterBoxMax[roundDGP]);
-            monsterGroup.Add(new MonsterDatabase.InfoMonster(monsterBox[tempint].number));
-            monsterGroup[i].gameObject = Instantiate(monsterGroup[i].gameObject);
+            monsterGroup.Add(new MonsterDatabase(monsterBox[tempint].number));
+            monsterGroup[i].gameObj = Instantiate(monsterGroup[i].gameObject);
         }
         if (roundDGP % 10 == 5)
         {
-            monsterGroup.Add(new MonsterDatabase.InfoMonster(monsterBox[1].number));
-            monsterGroup[monsterBox.Count].gameObject = Instantiate(monsterBox[1].gameObject);
+            monsterGroup.Add(new MonsterDatabase(monsterBox[1].number));
+            monsterGroup[monsterBox.Count].gameObj = Instantiate(monsterBox[1].gameObject);
             monsterGroup[monsterBox.Count].gameObject.transform.position = monsterStagePoint[1].position;
             monsterGroup[monsterBox.Count].gameObject.transform.rotation = monsterStagePoint[1].rotation;
         }
         else if (roundDGP % 10 == 0)
         {
-            monsterGroup.Add(new MonsterDatabase.InfoMonster(monsterBox[0].number));
-            monsterGroup[monsterBox.Count].gameObject = Instantiate(monsterBox[0].gameObject);
+            monsterGroup.Add(new MonsterDatabase(monsterBox[0].number));
+            monsterGroup[monsterBox.Count].gameObj = Instantiate(monsterBox[0].gameObject);
             monsterGroup[monsterBox.Count].gameObject.transform.position = monsterStagePoint[1].position;
             monsterGroup[monsterBox.Count].gameObject.transform.rotation = monsterStagePoint[1].rotation;
         }

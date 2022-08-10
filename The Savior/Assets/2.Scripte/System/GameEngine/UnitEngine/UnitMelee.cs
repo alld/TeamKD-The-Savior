@@ -29,6 +29,7 @@ public class UnitMelee : MonoBehaviour
     private void Start()
     {
        dmgEngine = DungeonOS.instance.GetComponent<DamageEngine>();
+       unitNumber = GetComponent<UnitAI>().unitNumber;
     }
 
     /// <summary>
@@ -85,7 +86,7 @@ public class UnitMelee : MonoBehaviour
         DungeonOS.instance.partyUnit[unitNumber].hP -= dmgEngine.OnDamageCalculate(false, dmg, TargetNumber, unitNumber);
         if (DungeonOS.instance.partyUnit[unitNumber].hP < 0)
         {
-            GetComponent<UnitAI>().State_Die();
+            GetComponent<UnitAI>().State_Die();            
         }
     }
 }
