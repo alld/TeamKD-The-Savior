@@ -38,15 +38,9 @@ public class InfoCharacter : MonoBehaviour
     public TMP_Text att;
     public TMP_Text def;
 
-    // 캐릭터 번호
-    private int idx;
-    private SummonCharacterTest test;
-
     private TextAsset json;
     private string jsonData;
 
-
-    
 
     // 상세정보에 활성화 된 캐릭터 이미지
     private Image character;
@@ -67,24 +61,24 @@ public class InfoCharacter : MonoBehaviour
     /// <summary>
     /// 인벤토리에서 해당 캐릭터를 클릭시 상세정보창이 활성화됨.
     /// </summary>
-    public void OnCharacterInfo(Image copyImg)
+    public void OnCharacterInfo(Image copyImg, int num)
     {
-
         var data = JSON.Parse(jsonData);
-        test = copyImg.GetComponent<SummonCharacterTest>();
-
-        CharacterDatabase.InfoCharacter charData = new CharacterDatabase.InfoCharacter(test.number, data);
-
-        character = copyImg;
-        copyImg.transform.SetParent(imgTr);
-        InitRectSize(copyImg);
-        Destroy(copyImg.GetComponent<ViewCharacterInfo>());
-        charName.text = charData.name;
-        hp.text = hp.text + charData.maxHP;
-        att.text = att.text + charData.damage;
-        def.text = def.text + charData.defense;
-
         charInfo.SetActive(true);
+
+        // 이 함수를 호출한 캐릭터의 번호에 맞는 데이터를 가져온다.
+        CharacterDatabase.InfoCharacter charData = new CharacterDatabase.InfoCharacter(num-1, data);
+        character = copyImg;
+        character = Instantiate(character, imgTr);
+        InitRectSize(character);
+
+        charName.text = charData.name;
+        hp.text = "체력 : " + charData.maxHP;
+        att.text = "공격력 : " + charData.damage;
+        def.text = "방어력 : " + charData.defense;
+
+
+        Destroy(character.GetComponent<ViewCharacterInfo>());
     }
 
     /// <summary>

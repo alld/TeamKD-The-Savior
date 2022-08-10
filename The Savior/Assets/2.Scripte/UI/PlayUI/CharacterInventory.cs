@@ -12,14 +12,15 @@ public class CharacterInventory : MonoBehaviour
 
     private void Start()
     {
+        // 데이터가 가지고 있는 캐릭터 정보 검사
         for (int i = 0; i < GameManager.instance.data.haveCharacter.Count; i++)
         {
+            // 인벤토리에 남은 자리가 있는지 검사
             for (int j = 0; j < GameManager.instance.data.haveCharacter.Count; j++)
             {
                 if (charInventoryTr.GetChild(j).childCount == 0)
                 {
                     characterImg = Resources.Load<Image>("Unit/Character_" + GameManager.instance.data.haveCharacter[i].ToString());
-                    Debug.Log(characterImg);
                     characterImg = Instantiate(characterImg, charInventoryTr.GetChild(j).GetComponent<Transform>());
                     InitRect(characterImg);
                     break;

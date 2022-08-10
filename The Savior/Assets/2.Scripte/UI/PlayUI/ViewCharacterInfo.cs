@@ -8,13 +8,15 @@ public class ViewCharacterInfo : MonoBehaviour, IPointerClickHandler
 {
     private InfoCharacter info;
     private Image thisImg;
+    public int num;
+
 
     public void OnPointerClick(PointerEventData eventData)
     {
         thisImg = GetComponent<Image>();
         info = GameObject.Find("PUIManager").GetComponent<InfoCharacter>();
 
-        Image copyImg = Instantiate(thisImg);
-        info.OnCharacterInfo(copyImg);
+        info.OnCharacterInfo(thisImg, num);
+
     }
 }

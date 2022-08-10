@@ -4,15 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using SimpleJSON;
 
-
 public class CharacterDatabase : MonoBehaviour
 {
-    /// <summary>
-    /// 캐릭터의 기본 원형값을 가지고있는 데이터 베이스 
-    /// <br>InfoCh를 통해 인스턴스를 만들어서 사용해야함. </br>
-    /// <br>InfoCH(int) : int == 데이터베이스상 캐릭터 고유넘버 </br>
-    /// </summary>
-    public static CharacterDatabase instance = null;
     public class InfoCharacter
     {
         #region 캐릭터 기본 설정값
@@ -137,8 +130,6 @@ public class CharacterDatabase : MonoBehaviour
         public int overlapValueB;
         public int identity; // 캐릭터 특성
         #endregion
-
-
         public InfoCharacter()
         {
             //빈 슬롯
@@ -172,14 +163,14 @@ public class CharacterDatabase : MonoBehaviour
         }
         /// <summary>
         /// 캐릭터의 기본값을 가져오기위해서는 매개변수에 (int)를 넣어줘야함.
-        /// <br>(int = num) : 캐릭터 고유의 넘버링값</br>
+        /// <br>(int = num -1) : 캐릭터 고유의 넘버링값</br>
         /// </summary>
         /// <param name="num"></param>
         public InfoCharacter(int num, JSONNode data)
         {
             //var data = JSON.Parse(jsonData.text));
             number = num;
-            icon = null; // 이미지 설정 검토
+            icon = Resources.Load<Image>("Unit/Character_" + num.ToString());
             switch (GameManager.instance.data.Language)
             {
                 case 0:
@@ -193,7 +184,7 @@ public class CharacterDatabase : MonoBehaviour
             }
             hP = data[num]["Hp_Cur"];
             maxHP = data[num]["Hp_Total"];
-            damage = data[num]["Chr_power"];
+            damage = data[num]["Chr_Power"];
             meleDmg = data[num]["Total_Damage"];
             gameObject = Resources.Load<GameObject>("");
             attackSpeed = data[num]["Chr_AtkSpeed"];
@@ -217,11 +208,4 @@ public class CharacterDatabase : MonoBehaviour
             overlapValueB = 0;
         }
     }
-
-    private void Awake()
-    {
-        if(instance == null)instance = this;
-    }
 }
-
-
