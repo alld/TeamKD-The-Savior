@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     // Play씬의 UI를 특정 상황에 따라 활성화 하기 위한 함수.
     private PlayUI playUI;
 
+    private string n;
+    private int a, b, c;
+
     #region 유동 데이터 관리
 
     
@@ -60,10 +63,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-
+        
     }
     
-    #region 데이터 저장, 불러오기
+    #region 데이터 저장, 불러오기, 리셋하기
     /// <summary>
     /// 데이터를 저장한다.
     /// </summary>
@@ -78,6 +81,14 @@ public class GameManager : MonoBehaviour
     public void GameLoad()
     {
         data = dataManager.LoadGameDataFromJson();
+    }
+    
+    /// <summary>
+    /// 데이터를 초기화 시킨다.
+    /// </summary>
+    public void GameReset()
+    {
+        data = dataManager.ResetGameData();
     }
     #endregion
 

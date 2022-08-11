@@ -41,6 +41,7 @@ public class InfoCharacter : MonoBehaviour
     private TextAsset json;
     private string jsonData;
 
+    private CharacterDatabase charData;
 
     // 상세정보에 활성화 된 캐릭터 이미지
     private Image character;
@@ -55,7 +56,7 @@ public class InfoCharacter : MonoBehaviour
         json = Resources.Load<TextAsset>("CharacterData");
         jsonData = json.text;
 
-        
+        charData = GameObject.Find("GameManager").GetComponent<CharacterDatabase>();
     }
 
     /// <summary>
@@ -67,12 +68,12 @@ public class InfoCharacter : MonoBehaviour
         charInfo.SetActive(true);
 
         // 이 함수를 호출한 캐릭터의 번호에 맞는 데이터를 가져온다.
-        CharacterDatabase charData = new CharacterDatabase(num-1, data);
+        charData = new CharacterDatabase(num-1, data);
         character = copyImg;
         character = Instantiate(character, imgTr);
         InitRectSize(character);
 
-        charName.text = charData.name;
+        charName.text = charData.charName;
         hp.text = "체력 : " + charData.maxHP;
         att.text = "공격력 : " + charData.damage;
         def.text = "방어력 : " + charData.defense;

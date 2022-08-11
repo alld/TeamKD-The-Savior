@@ -67,9 +67,9 @@ public class OpeningDialog : MonoBehaviour
     private void charInit()
     {
         character[0] = GameObject.Find("Player");
-        character[1] = GameObject.Find("Mather");
-        character[2] = GameObject.Find("SoldierA");
-        character[3] = GameObject.Find("SoldierB");
+        character[1] = GameObject.Find("Mother");
+        character[2] = GameObject.Find("Soldier");
+        character[3] = GameObject.Find("Soldier");
 
         foreach (var item in character)
         {

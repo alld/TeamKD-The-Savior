@@ -2,9 +2,9 @@
     "CurrentScene": 2,
     "gameProgress": 2,
     "Language": 0,
-    "SFX": 52,
-    "BGM": 51,
-    "Sound": 53,
+    "SFX": 100,
+    "BGM": 100,
+    "Sound": 100,
     "souls": 0,
     "golds": 0,
     "presetName": [
@@ -14,10 +14,26 @@
         "4번 프리셋",
         "5번 프리셋"
     ],
+    "equipRelic": [
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
     "haveCharacter": [
-        3,
         1,
-        4
+        4,
+        3,
+        4,
+        5,
+        1,
+        2,
+        4,
+        1,
+        2,
+        5,
+        2
     ],
     "haveRelic": [
         1,

@@ -21,7 +21,7 @@ public class Relic : MonoBehaviour
 
     [Header("유물의 위치")]
     public Transform[] relicTr = new Transform[5];
-    public int[] relicNum = new int [5];
+    public int[] relicNum = new int[5];
 
     private int curRelicTr = 0;
 
@@ -65,22 +65,24 @@ public class Relic : MonoBehaviour
         Image copyImg = Instantiate(relicImg);
         Image selectRelicImg = Instantiate(selectRelic);
         // 다른 자리에 동일한 유물이 있다면 파괴한다.
-        for(int i = 0; i < relicNum.Length; i++)
+        for (int i = 0; i < relicNum.Length; i++)
         {
-            if(relicNum[i] == num)
+            if (relicNum[i] == num)
             {
                 relicNum[i] = 0;
+                GameManager.instance.data.equipRelic[i] = 0;
                 Destroy(relicTr[i].GetChild(0).gameObject);
                 Destroy(selectTr[i].GetChild(1).gameObject);
             }
         }
         // 해당 자리에 이미 장착된 유물이 있다면 파괴하고 장착한다.
-        if(relicNum[curRelicTr] != 0)
+        if (relicNum[curRelicTr] != 0)
         {
             Destroy(relicTr[curRelicTr].GetChild(0).gameObject);
             Destroy(selectTr[curRelicTr].GetChild(1).gameObject);
         }
         relicNum[curRelicTr] = num;
+        GameManager.instance.data.equipRelic[curRelicTr] = num;
         copyImg.transform.SetParent(relicTr[curRelicTr]);
 
         // 인벤토리에 장착된 유물을 표시함.
@@ -90,7 +92,7 @@ public class Relic : MonoBehaviour
 
         InitRectSize(selectRelicImg);
         InitRectSize(copyImg);
-       
+
 
 
         Destroy(copyImg.GetComponent<ViewRelic>());
@@ -106,12 +108,14 @@ public class Relic : MonoBehaviour
     /// <param name="num"></param>
     public void StackRelicSetting(Image relicImg, int num, Transform setRelicTr)
     {
-        for(int i = 0; i < relicNum.Length; i++)
+        for (int i = 0; i < relicNum.Length; i++)
         {
             // 장착중인 동일한 유물이 있는지 검사를 하고
-            if(relicNum[i] == num)
+            // 동인 유물이 있다면 장착 해제
+            if (relicNum[i] == num)
             {
-                relicNum[i] = 0;                
+                relicNum[i] = 0;
+                GameManager.instance.data.equipRelic[i] = 0;
                 Destroy(relicTr[i].GetChild(0).gameObject);
                 Destroy(selectTr[i].GetChild(1).gameObject);
                 isUseRelic = true;
@@ -128,6 +132,7 @@ public class Relic : MonoBehaviour
                     Image selectRelicImg = Instantiate(selectRelic);
                     Image copyImg = Instantiate(relicImg);
                     relicNum[i] = num;
+                    GameManager.instance.data.equipRelic[i] = num;
                     copyImg.transform.SetParent(relicTr[i]);
                     selectTr[i] = setRelicTr;
                     selectRelicImg.transform.SetParent(selectTr[i]);

@@ -55,6 +55,8 @@ public class NewGame : MonoBehaviour
     private void OnClick_NewGameWarnningBtn()
     {
         warnningNewGame.SetActive(false);
+        // 새 게임 시작시 데이터 초기화
+        GameManager.instance.GameReset();
         GameManager.instance.SceneChange(1);
     }
 }

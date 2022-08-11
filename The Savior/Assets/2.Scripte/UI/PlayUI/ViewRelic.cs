@@ -9,12 +9,11 @@ public class ViewRelic : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 {
     // 유물 장착을 위한 연결
     private Relic relic;
-    private RelicData relicData;
 
     public bool isSelect = false;
 
     // 유물의 번호
-    private int number = 0;
+    public int number = 0;
 
     [Header("유물 정보")]
     private Transform mousePoint;
@@ -60,13 +59,10 @@ public class ViewRelic : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     private void Start()
     {
-        relicData = GetComponent<RelicData>();
         relic = GameObject.Find("PUIManager").GetComponent<Relic>();
         thisImg = GetComponent<Image>();
         mousePoint = GameObject.Find("MousePoint").GetComponent<Transform>();
-        number = relicData.idx;
     }
-
 
 
     private void InitRectSize(Image img, TMP_Text text)
