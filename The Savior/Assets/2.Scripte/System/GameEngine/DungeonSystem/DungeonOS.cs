@@ -954,7 +954,7 @@ public class DungeonOS : MonoBehaviour
     {
         DeckShuffle();
         handCard.Clear();
-        useDeckDGP = GameManager.instance.currentDeck[GameManager.instance.currentDeckPresetNumber];
+        useDeckDGP = GameManager.instance.currentDeck[GameManager.instance.data.presset];
         HandRefill();
     }
 

@@ -48,10 +48,15 @@ namespace GameDataTable
         public int souls = 0;
         public int golds = 0;
         public string[] presetName = new string[] { "1번 프리셋", "2번 프리셋", "3번 프리셋", "4번 프리셋", "5번 프리셋"};
-        public int[] equipRelic = new int[5] { 0, 0, 0, 0, 0 };
+        public int presset = 1;
+        // 장착한 데이터
+        public int[] equipRelic = new int[5];
+        public int[] equipCard = new int[15];
+        public int[] equipCharacter = new int[4];
         // 유물과 캐릭터는 중복이 되어도 개별 칸으로 들어감.
         public List<int> haveCharacter = new List<int>();
         public List<int> haveRelic = new List<int>();
         public Dictionary<int, int> haveCard = new Dictionary<int, int>();      // 키는 카드 번호, 밸류는 카드 개수.
     }
+
 }

@@ -147,8 +147,8 @@ public class WorldMapDungeon : MonoBehaviour
     private void OnClick_StartDungeonBtn()
     {
         cardPreset.SetActive(true);
-        curPresetButton[GameManager.instance.currentDeckPresetNumber].Select();
-        OnClick_Preset(GameManager.instance.currentDeckPresetNumber);
+        curPresetButton[GameManager.instance.data.presset].Select();
+        OnClick_Preset(GameManager.instance.data.presset);
     }
 
     // 카드 프리셋 y버튼 클릭시 던전 입장
@@ -166,7 +166,7 @@ public class WorldMapDungeon : MonoBehaviour
     // 카드 프리셋의 이름.
     private void OnClick_Preset(int idx)
     {
-        GameManager.instance.currentDeckPresetNumber = idx;
+        GameManager.instance.data.presset = idx;
         curPresetButton[idx].Select();
         presetName.text = GameManager.instance.data.presetName[idx];
     }

@@ -38,7 +38,6 @@ public class GameManager : MonoBehaviour
             new List<int>(),
             new List<int>(),
         };
-    public int currentDeckPresetNumber = 0;
     public CharacterDatabase[] partySlot =
         {
             
