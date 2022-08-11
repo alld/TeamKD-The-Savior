@@ -182,5 +182,62 @@ public class CardSkill : MonoBehaviour
         while (skill_Switch);
     }
 
+    IEnumerator CardSkill_Damage()
+    {
+        bool skill_Switch = true;
+        if (skill_ActiveTime < 0) yield return new WaitForSeconds(-skill_ActiveTime);
+        do
+        {
+            int temp;
+            int count = 0;
+            switch (card.effectSortC)
+            {
+                case CardDataBase.InfoCard.EffectSortC.ALLY:
+                    temp = AllyTargetCheck(card.effectSortD);
+                    DungeonOS.instance.partyUnit[temp].hp += card.effectValue_floatA;
+                    if (DungeonOS.instance.partyUnit[temp].hp > DungeonOS.instance.partyUnit[temp].maxHP)
+                    {
+                        DungeonOS.instance.partyUnit[temp].hp = DungeonOS.instance.partyUnit[temp].maxHP;
+                    }
+                    break;
+                case CardDataBase.InfoCard.EffectSortC.ALLIES:
+                    foreach (var item in DungeonOS.instance.partyUnit)
+                    {
+                        item.hp += card.effectValue_floatA;
+                        if (item.hp > item.maxHP)
+                        {
+                            item.hp = item.maxHP;
+                        }
+                    }
+                    break;
+                case CardDataBase.InfoCard.EffectSortC.ENEMY:
+                    temp = EnemyTargetCheck(card.effectSortD);
+                    DungeonOS.instance.monsterGroup[temp].hp += card.effectValue_floatA;
+                    if (DungeonOS.instance.monsterGroup[temp].hp > DungeonOS.instance.monsterGroup[temp].maxHP)
+                    {
+                        DungeonOS.instance.monsterGroup[temp].hp = DungeonOS.instance.monsterGroup[temp].maxHP;
+                    }
+                    break;
+                case CardDataBase.InfoCard.EffectSortC.ENEMIES:
+                    foreach (var item in DungeonOS.instance.monsterGroup)
+                    {
+                        item.hp += card.effectValue_floatA;
+                        if (item.hp > item.maxHP)
+                        {
+                            item.hp = item.maxHP;
+                        }
+                    }
+                    break;
+                default:
+                    DungeonOS.instance.GameError("카드 스킬 : 분류값 (C)가 제대로 할당되지 않았습니다.");
+                    check = false;
+                    break;
+            }
+            if (++count >= skill_ActiveTime) skill_Switch = false;
+            else yield return new WaitForSeconds(1f);
+        }
+        while (skill_Switch);
+    }
+
 
 }

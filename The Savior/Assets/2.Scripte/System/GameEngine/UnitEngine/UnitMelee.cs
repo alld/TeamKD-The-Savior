@@ -25,10 +25,10 @@ public class UnitMelee : MonoBehaviour
     private int unitNumber;
     //캐시 처리
     private DamageEngine dmgEngine;
-    
-    private void Start()
+
+    private void Start() // 상점에서도 같은 오브젝트를 사용하기때문에, Start사용시 예외처리 필수
     {
-       dmgEngine = DungeonOS.instance.GetComponent<DamageEngine>();
+        dmgEngine = DungeonOS.instance?.GetComponent<DamageEngine>();
        unitNumber = GetComponent<UnitAI>().unitNumber;
     }
 

@@ -159,6 +159,8 @@ public class DungeonOS : MonoBehaviour
         public float Add_damage;
         public float Add_maxHP;
         public float Add_hp;
+        public float Current_protect;
+        public float Current_protectMax;
         public float Add_meleDmg;
         public float Add_attackSpeed;
         public float Add_moveSpeed;
