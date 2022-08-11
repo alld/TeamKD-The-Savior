@@ -20,7 +20,7 @@ public class CharacterInventory : MonoBehaviour
             {
                 if (charInventoryTr.GetChild(j).childCount == 0)
                 {
-                    characterImg = Resources.Load<Image>("Unit/Character_" + GameManager.instance.data.haveCharacter[i].ToString());
+                    characterImg = Resources.Load<Image>("Unit/Image/Character_" + GameManager.instance.data.haveCharacter[i].ToString());
                     characterImg = Instantiate(characterImg, charInventoryTr.GetChild(j).GetComponent<Transform>());
                     InitRect(characterImg);
                     break;
@@ -31,7 +31,7 @@ public class CharacterInventory : MonoBehaviour
 
     private void InitRect(Image img)
     {
-        img.rectTransform.offsetMax = Vector2.zero;
-        img.rectTransform.offsetMin = Vector2.zero;
+        img.rectTransform.offsetMax = new Vector2(-5, -5);
+        img.rectTransform.offsetMin = new Vector2(5, 5);
     }
 }

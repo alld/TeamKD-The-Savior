@@ -32,8 +32,6 @@ public class CharacterDataTable : MonoBehaviour
     public bool isLive;             // 캐릭터 생존 여부
     public int basicSkill;          // 캐릭터 일반 스킬 인덱스 넘버
     public int speialSkill;         // 캐릭터 국극기 인덱스 넘버
-    public int overlapValueA;       // 유물의 중복 보상 (골드)
-    public int overlapValueB;       // 유물의 중복 보상 (소울)
 
     public Image icon;                // 캐릭터 아이콘
     public GameObject charObject;       // 캐릭터 오브젝트

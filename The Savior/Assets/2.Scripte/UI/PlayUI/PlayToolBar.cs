@@ -60,7 +60,14 @@ public class PlayToolBar : MonoBehaviour
         cardImg.SetActive(false);
         partyImg.SetActive(false);
         collectImg.SetActive(false);
-        relicImg.SetActive(true);
+        if (!relicImg.activeSelf)
+        {
+            relicImg.SetActive(true);
+        }
+        else
+        {
+            relicImg.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -71,7 +78,14 @@ public class PlayToolBar : MonoBehaviour
         relicImg.SetActive(false);
         partyImg.SetActive(false);
         collectImg.SetActive(false);
-        cardImg.SetActive(true);
+        if (!cardImg.activeSelf)
+        {
+            cardImg.SetActive(true);
+        }
+        else
+        {
+            cardImg.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -82,7 +96,14 @@ public class PlayToolBar : MonoBehaviour
         relicImg.SetActive(false);
         cardImg.SetActive(false);
         collectImg.SetActive(false);
-        partyImg.SetActive(true);
+        if (!partyImg.activeSelf)
+        {
+            partyImg.SetActive(true);
+        }
+        else
+        {
+            partyImg.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -93,7 +114,14 @@ public class PlayToolBar : MonoBehaviour
         relicImg.SetActive(false);
         cardImg.SetActive(false);
         partyImg.SetActive(false);
-        collectImg.SetActive(true);
+        if (!collectImg.activeSelf)
+        {
+            collectImg.SetActive(true);
+        }
+        else
+        {
+            collectImg.SetActive(false);
+        }
     }
 
     private void OnClick_CloseRelicBtn()
