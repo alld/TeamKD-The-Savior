@@ -158,5 +158,25 @@ public class DamageEngine : MonoBehaviour
         if (a_Damage < 0) return 0;
         else return a_Damage;
     }
+    public float OnProtectCalculate(bool playercheck, float dmg, int attacker, int defender, out float shieldDamage)
+    {
+        float a_Damage = dmg;
+        shieldDamage = 0;
+        float temp_shield;
+        if (playercheck) temp_shield = DungeonOS.instance.weightAllyUnit[defender].Current_protect;
+        else temp_shield = DungeonOS.instance.weightEnemyGroup[defender].Current_protect;
 
+        if(dmg <= temp_shield)
+        {
+            shieldDamage = dmg;
+            a_Damage = 0;
+        }
+        else
+        {
+            shieldDamage = temp_shield;
+            a_Damage = dmg - temp_shield;
+        }
+
+        return OnDamageCalculate(playercheck, a_Damage, attacker, defender);
+    }
 }

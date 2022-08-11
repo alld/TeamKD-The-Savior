@@ -6,7 +6,6 @@ public class CardSkill : MonoBehaviour
 {
     public static CardSkill instance = null;
     CardDataBase.InfoCard card;
-    private bool check;
     void Awake()
     {
         instance = this;
@@ -22,20 +21,17 @@ public class CardSkill : MonoBehaviour
     public bool UseCard(int cardNumber)
     {
         card = new CardDataBase.InfoCard(cardNumber);
-        CardSkillSetting();
 
-        return check;
+        return CardSkillSetting();
     }
     
-    private float skill_ActiveTime;
-    private void CardSkillSetting()
+    private bool CardSkillSetting()
     {
-        // 카드효과의 기본값을 리셋시킴 (값을 재활용하기때문에 리셋이필요)
-        CardSkillValueReset();
+        float skill_ActiveTime = 0;
+
         if (card.cost > DungeonOS.instance.costDGP) // 코스트 검사
         {
-            check = false;
-            return;
+            return false;
         }
         // 스킬의 지속상태의 설정값을 지정함
         switch (card.effectSortB)
@@ -51,18 +47,19 @@ public class CardSkill : MonoBehaviour
                 break;
             default:
                 DungeonOS.instance.GameError("카드 스킬 : 분류값 (B)가 제대로 할당되지 않았습니다.");
-                check = false;
-                return;
+                return false;
         }
         // 어떤 스킬 효과를 적용할지를 분류함
         switch (card.effectSortA)
         {
             case CardDataBase.InfoCard.EffectSortA.HEAL:
-                StartCoroutine(CardSkill_Heal());
+                StartCoroutine(CardSkill_Heal(skill_ActiveTime));
                 break;
             case CardDataBase.InfoCard.EffectSortA.PROTECT:
+                StartCoroutine(CardSkill_PROTECT(skill_ActiveTime));
                 break;
             case CardDataBase.InfoCard.EffectSortA.BUFF:
+                StartCoroutine(CardSkill_BUFF(skill_ActiveTime));
                 break;
             case CardDataBase.InfoCard.EffectSortA.DEBUFF:
                 break;
@@ -72,17 +69,16 @@ public class CardSkill : MonoBehaviour
                 break;
             default:
                 DungeonOS.instance.GameError("카드 스킬 : 분류값 (A)가 제대로 할당되지 않았습니다.");
-                check = false;
-                return;
+                return false;
         }
+        return true;
     }
 
-    private void CardSkillValueReset()
-    {
-        check = true;
-        skill_ActiveTime = 0;
-    }
-
+    /// <summary>
+    /// 효과 (아군)대상이 단일대상일 경우, 어떤 대상을 선택할지 지정함.
+    /// </summary>
+    /// <param name="targetType"></param>
+    /// <returns></returns>
     private int AllyTargetCheck(CardDataBase.InfoCard.EffectSortD targetType)
     {
         switch (targetType)
@@ -104,6 +100,11 @@ public class CardSkill : MonoBehaviour
         }
         return 0;
     }
+    /// <summary>
+    /// 효과 (적)대상이 단일대상일 경우 어떤 대상을 선택할지 지정함.
+    /// </summary>
+    /// <param name="targetType"></param>
+    /// <returns></returns>
     private int EnemyTargetCheck(CardDataBase.InfoCard.EffectSortD targetType)
     {
         switch (targetType)
@@ -126,10 +127,18 @@ public class CardSkill : MonoBehaviour
         return 0;
     }
 
-    IEnumerator CardSkill_Heal()
+    /// <summary>
+    /// 회복 효과 적용
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator CardSkill_Heal(float skill_ActiveTime)
     {
         bool skill_Switch = true;
-        if(skill_ActiveTime < 0) yield return new WaitForSeconds(-skill_ActiveTime);
+        if (skill_ActiveTime < 0)
+        {
+            skill_ActiveTime = -skill_ActiveTime;
+            yield return new WaitForSeconds(skill_ActiveTime);
+        }
         do {
             int temp;
             int count = 0;
@@ -173,7 +182,6 @@ public class CardSkill : MonoBehaviour
                     break;
                 default:
                     DungeonOS.instance.GameError("카드 스킬 : 분류값 (C)가 제대로 할당되지 않았습니다.");
-                    check = false;
                     break;
             }
             if (++count >= skill_ActiveTime) skill_Switch = false;
@@ -182,62 +190,200 @@ public class CardSkill : MonoBehaviour
         while (skill_Switch);
     }
 
-    IEnumerator CardSkill_Damage()
+    /// <summary>
+    /// 보호막 효과 적용
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator CardSkill_PROTECT(float skill_ActiveTime)
     {
         bool skill_Switch = true;
-        if (skill_ActiveTime < 0) yield return new WaitForSeconds(-skill_ActiveTime);
+        if (skill_ActiveTime < 0)
+        {
+            skill_ActiveTime = -skill_ActiveTime;
+            yield return new WaitForSeconds(skill_ActiveTime);
+        }
+        int temp;
+        int count = 0;
+        switch (card.effectSortC)
+        {
+            case CardDataBase.InfoCard.EffectSortC.ALLY:
+                temp = AllyTargetCheck(card.effectSortD);
+                DungeonOS.instance.weightAllyUnit[temp].Current_protect += card.effectValue_floatA;
+                DungeonOS.instance.weightAllyUnit[temp].Current_protectMax += card.effectValue_floatA;
+                break;
+            case CardDataBase.InfoCard.EffectSortC.ALLIES:
+                foreach (var item in DungeonOS.instance.weightAllyUnit)
+                {
+                    item.Current_protect += card.effectValue_floatA;
+                    item.Current_protectMax += card.effectValue_floatA;
+                }
+                break;
+            case CardDataBase.InfoCard.EffectSortC.ENEMY:
+                temp = EnemyTargetCheck(card.effectSortD);
+                DungeonOS.instance.weightEnemyGroup[temp].Current_protect += card.effectValue_floatA;
+                DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax += card.effectValue_floatA;
+                break;
+            case CardDataBase.InfoCard.EffectSortC.ENEMIES:
+                foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                {
+                    item.Current_protect += card.effectValue_floatA;
+                    item.Current_protectMax += card.effectValue_floatA;
+                }
+                break;
+            default:
+                DungeonOS.instance.GameError("카드 회복 스킬 : 분류값 (C)가 제대로 할당되지 않았습니다.");
+                break;
+        }
+        if (skill_ActiveTime <= 0) skill_Switch = false;
         do
         {
-            int temp;
-            int count = 0;
-            switch (card.effectSortC)
+            if ((++count >= skill_ActiveTime) && (skill_ActiveTime > 0))
             {
-                case CardDataBase.InfoCard.EffectSortC.ALLY:
-                    temp = AllyTargetCheck(card.effectSortD);
-                    DungeonOS.instance.partyUnit[temp].hp += card.effectValue_floatA;
-                    if (DungeonOS.instance.partyUnit[temp].hp > DungeonOS.instance.partyUnit[temp].maxHP)
-                    {
-                        DungeonOS.instance.partyUnit[temp].hp = DungeonOS.instance.partyUnit[temp].maxHP;
-                    }
-                    break;
-                case CardDataBase.InfoCard.EffectSortC.ALLIES:
-                    foreach (var item in DungeonOS.instance.partyUnit)
-                    {
-                        item.hp += card.effectValue_floatA;
-                        if (item.hp > item.maxHP)
+                skill_Switch = false;
+                switch (card.effectSortC)
+                {
+                    case CardDataBase.InfoCard.EffectSortC.ALLY:
+                        temp = AllyTargetCheck(card.effectSortD);
+                        DungeonOS.instance.weightAllyUnit[temp].Current_protectMax -= card.effectValue_floatA;
+                        if (DungeonOS.instance.weightAllyUnit[temp].Current_protect >= DungeonOS.instance.weightAllyUnit[temp].Current_protectMax)
                         {
-                            item.hp = item.maxHP;
+                            DungeonOS.instance.weightAllyUnit[temp].Current_protect = DungeonOS.instance.weightAllyUnit[temp].Current_protectMax;
                         }
-                    }
-                    break;
-                case CardDataBase.InfoCard.EffectSortC.ENEMY:
-                    temp = EnemyTargetCheck(card.effectSortD);
-                    DungeonOS.instance.monsterGroup[temp].hp += card.effectValue_floatA;
-                    if (DungeonOS.instance.monsterGroup[temp].hp > DungeonOS.instance.monsterGroup[temp].maxHP)
-                    {
-                        DungeonOS.instance.monsterGroup[temp].hp = DungeonOS.instance.monsterGroup[temp].maxHP;
-                    }
-                    break;
-                case CardDataBase.InfoCard.EffectSortC.ENEMIES:
-                    foreach (var item in DungeonOS.instance.monsterGroup)
-                    {
-                        item.hp += card.effectValue_floatA;
-                        if (item.hp > item.maxHP)
+                        break;
+                    case CardDataBase.InfoCard.EffectSortC.ALLIES:
+                        foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
-                            item.hp = item.maxHP;
+                            item.Current_protectMax -= card.effectValue_floatA;
+                            if (item.Current_protect >= item.Current_protectMax)
+                            {
+                                item.Current_protect = item.Current_protectMax;
+                            }
                         }
-                    }
-                    break;
-                default:
-                    DungeonOS.instance.GameError("카드 스킬 : 분류값 (C)가 제대로 할당되지 않았습니다.");
-                    check = false;
-                    break;
+                        break;
+                    case CardDataBase.InfoCard.EffectSortC.ENEMY:
+                        temp = EnemyTargetCheck(card.effectSortD);
+                        DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax -= card.effectValue_floatA;
+                        if (DungeonOS.instance.weightEnemyGroup[temp].Current_protect >= DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax)
+                        {
+                            DungeonOS.instance.weightEnemyGroup[temp].Current_protect = DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax;
+                        }
+                        break;
+                    case CardDataBase.InfoCard.EffectSortC.ENEMIES:
+                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        {
+                            item.Current_protectMax -= card.effectValue_floatA;
+                            if (item.Current_protect >= item.Current_protectMax)
+                            {
+                                item.Current_protect = item.Current_protectMax;
+                            }
+                        }
+                        break;
+                    default:
+                        DungeonOS.instance.GameError("카드 보호막 스킬 : 분류값 (C)가 제대로 할당되지 않았습니다.");
+                        break;
+                }
             }
-            if (++count >= skill_ActiveTime) skill_Switch = false;
             else yield return new WaitForSeconds(1f);
         }
         while (skill_Switch);
     }
 
+    /// <summary>
+    /// 버프 효과 적용
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator CardSkill_BUFF(float skill_ActiveTime)
+    {
+        bool skill_Switch = true;
+        if (skill_ActiveTime < 0)
+        {
+            skill_ActiveTime = -skill_ActiveTime;
+            yield return new WaitForSeconds(skill_ActiveTime);
+        }
+        int temp;
+        int count = 0;
+        switch (card.effectSortC)
+        {
+            case CardDataBase.InfoCard.EffectSortC.ALLY:
+                temp = AllyTargetCheck(card.effectSortD);
+                DungeonOS.instance.weightAllyUnit[temp].Current_protect += card.effectValue_floatA;
+                DungeonOS.instance.weightAllyUnit[temp].Current_protectMax += card.effectValue_floatA;
+                break;
+            case CardDataBase.InfoCard.EffectSortC.ALLIES:
+                foreach (var item in DungeonOS.instance.weightAllyUnit)
+                {
+                    item.Current_protect += card.effectValue_floatA;
+                    item.Current_protectMax += card.effectValue_floatA;
+                }
+                break;
+            case CardDataBase.InfoCard.EffectSortC.ENEMY:
+                temp = EnemyTargetCheck(card.effectSortD);
+                DungeonOS.instance.weightEnemyGroup[temp].Current_protect += card.effectValue_floatA;
+                DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax += card.effectValue_floatA;
+                break;
+            case CardDataBase.InfoCard.EffectSortC.ENEMIES:
+                foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                {
+                    item.Current_protect += card.effectValue_floatA;
+                    item.Current_protectMax += card.effectValue_floatA;
+                }
+                break;
+            default:
+                DungeonOS.instance.GameError("카드 회복 스킬 : 분류값 (C)가 제대로 할당되지 않았습니다.");
+                break;
+        }
+        if (skill_ActiveTime <= 0) skill_Switch = false;
+        do
+        {
+            if ((++count >= skill_ActiveTime) && (skill_ActiveTime > 0))
+            {
+                skill_Switch = false;
+                switch (card.effectSortC)
+                {
+                    case CardDataBase.InfoCard.EffectSortC.ALLY:
+                        temp = AllyTargetCheck(card.effectSortD);
+                        DungeonOS.instance.weightAllyUnit[temp].Current_protectMax -= card.effectValue_floatA;
+                        if (DungeonOS.instance.weightAllyUnit[temp].Current_protect >= DungeonOS.instance.weightAllyUnit[temp].Current_protectMax)
+                        {
+                            DungeonOS.instance.weightAllyUnit[temp].Current_protect = DungeonOS.instance.weightAllyUnit[temp].Current_protectMax;
+                        }
+                        break;
+                    case CardDataBase.InfoCard.EffectSortC.ALLIES:
+                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        {
+                            item.Current_protectMax -= card.effectValue_floatA;
+                            if (item.Current_protect >= item.Current_protectMax)
+                            {
+                                item.Current_protect = item.Current_protectMax;
+                            }
+                        }
+                        break;
+                    case CardDataBase.InfoCard.EffectSortC.ENEMY:
+                        temp = EnemyTargetCheck(card.effectSortD);
+                        DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax -= card.effectValue_floatA;
+                        if (DungeonOS.instance.weightEnemyGroup[temp].Current_protect >= DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax)
+                        {
+                            DungeonOS.instance.weightEnemyGroup[temp].Current_protect = DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax;
+                        }
+                        break;
+                    case CardDataBase.InfoCard.EffectSortC.ENEMIES:
+                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        {
+                            item.Current_protectMax -= card.effectValue_floatA;
+                            if (item.Current_protect >= item.Current_protectMax)
+                            {
+                                item.Current_protect = item.Current_protectMax;
+                            }
+                        }
+                        break;
+                    default:
+                        DungeonOS.instance.GameError("카드 보호막 스킬 : 분류값 (C)가 제대로 할당되지 않았습니다.");
+                        break;
+                }
+            }
+            else yield return new WaitForSeconds(1f);
+        }
+        while (skill_Switch);
+    }
 
 }

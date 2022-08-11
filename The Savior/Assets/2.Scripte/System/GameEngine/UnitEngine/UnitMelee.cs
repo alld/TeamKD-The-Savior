@@ -76,14 +76,17 @@ public class UnitMelee : MonoBehaviour
     /// <summary>
     /// 데미지 엔진을 실행시키는 함수 
     /// <br></br><paramref name="dmg"/> : 피격될시 가해진 기본 데미지량
-    /// <br></br><paramref name="TargetNumber"/> : 공격한 대상의 넘버링 
+    /// <br></br><paramref name="AttackerNumber"/> : 공격한 대상의 넘버링 
     /// <br></br>데이터베이스가 아닌 dungeonOS에서 별도 그룹값에 접근하기위한 넘버링
     /// </summary>
     /// <param name="dmg"></param>
-    /// <param name="TargetNumber"></param>
-    private void OnDamage(float dmg, int TargetNumber)
+    /// <param name="AttackerNumber"></param>
+    private void OnDamage(float dmg, int AttackerNumber)
     {
-        DungeonOS.instance.partyUnit[unitNumber].hp -= dmgEngine.OnDamageCalculate(false, dmg, TargetNumber, unitNumber);
+        float temp_shield;
+        float temp_damage = dmgEngine.OnProtectCalculate(false, dmg, AttackerNumber, unitNumber, out temp_shield);
+        DungeonOS.instance.weightAllyUnit[unitNumber].Current_protect -= temp_shield;
+        DungeonOS.instance.partyUnit[unitNumber].hp -= temp_damage;
         if (DungeonOS.instance.partyUnit[unitNumber].hp < 0)
         {
             GetComponent<UnitAI>().State_Die();            
