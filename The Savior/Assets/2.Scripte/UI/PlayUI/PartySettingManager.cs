@@ -74,7 +74,6 @@ public class PartySettingManager : MonoBehaviour
         // 해당 인덱스에 캐릭터를 배치하고 데이터를 저장한다.
         if (partyTr[idx].childCount == 0)
         {
-            Debug.Log("aa");
             copy.transform.SetParent(partyTr[idx]);
             InitRect(copy);
             GameManager.instance.data.equipCharacter[idx] = copy.GetComponent<ViewCharacterInfo>().num;
@@ -84,7 +83,6 @@ public class PartySettingManager : MonoBehaviour
         // 해당 인덱스에 배치된 캐릭터를 파괴하고 해당 위치에 캐릭터를 저장한다.
         else if (partyTr[idx].childCount > 0)
         {
-            Debug.Log("bb");
             Destroy(partyTr[idx].GetChild(0).gameObject);
             copy.transform.SetParent(partyTr[idx]);
             InitRect(copy);

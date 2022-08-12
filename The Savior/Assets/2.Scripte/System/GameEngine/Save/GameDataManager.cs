@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using GameDataTable;
-
+using Newtonsoft.Json;
 public class GameDataManager : MonoBehaviour
 {
     public void SaveGameDataToJson(GameData gameData)
@@ -32,6 +32,14 @@ public class GameDataManager : MonoBehaviour
 
         return data;
     }
+
+    //public void SaveJson(CharGoods goods) 
+    //{
+    //    string json = JsonConvert.SerializeObject(goods);
+    //    string path = Path.Combine(Application.dataPath, "Resources/saveData.json");
+    //    File.WriteAllText(path, json);
+    //}
+           
 }
 
 namespace GameDataTable
@@ -56,7 +64,11 @@ namespace GameDataTable
         // 유물과 캐릭터는 중복이 되어도 개별 칸으로 들어감.
         public List<int> haveCharacter = new List<int>();
         public List<int> haveRelic = new List<int>();
-        public Dictionary<int, int> haveCard = new Dictionary<int, int>();      // 키는 카드 번호, 밸류는 카드 개수.
     }
 
+    //[System.Serializable]
+    //public class CharGoods
+    //{
+    //    public Dictionary<int, int[,]> charDic = new Dictionary<int, int[,]>();
+    //}
 }

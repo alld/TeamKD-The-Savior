@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public float playTime;
     public float dungeonPlayTime;
     public GameData data;
+    //public CharGoods goods;
 
     // Play씬의 UI를 특정 상황에 따라 활성화 하기 위한 함수.
     private PlayUI playUI;
@@ -42,8 +43,6 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    int b = 1;
-
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -57,12 +56,9 @@ public class GameManager : MonoBehaviour
         playUI = GameObject.Find("PUIManager").GetComponent<PlayUI>();
 
         GameLoad();
+
     }
 
-    private void Start()
-    {
-        
-    }
     #region 데이터 저장, 불러오기, 리셋하기
     /// <summary>
     /// 데이터를 저장한다.
@@ -70,6 +66,7 @@ public class GameManager : MonoBehaviour
     public void GameSave()
     {
         dataManager.SaveGameDataToJson(data);
+        Debug.Log("SAVE!!!");
     }
 
     /// <summary>

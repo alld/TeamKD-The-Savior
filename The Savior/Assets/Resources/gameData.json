@@ -5,8 +5,8 @@
     "SFX": 100,
     "BGM": 100,
     "Sound": 100,
-    "souls": 0,
-    "golds": 0,
+    "souls": 1000000,
+    "golds": 1000000,
     "presetName": [
         "1번 프리셋",
         "2번 프리셋",
@@ -14,13 +14,13 @@
         "4번 프리셋",
         "5번 프리셋"
     ],
-    "presset": 2,
+    "presset": 1,
     "equipRelic": [
+        1,
         2,
         3,
-        4,
         0,
-        1
+        0
     ],
     "equipCard": [
         0,
@@ -40,16 +40,17 @@
         0
     ],
     "equipCharacter": [
-        1,
-        2,
-        4,
-        3
+        0,
+        0,
+        0,
+        0
     ],
     "haveCharacter": [
         1,
         2,
         3,
-        4
+        4,
+        3
     ],
     "haveRelic": [
         1,
