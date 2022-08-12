@@ -64,6 +64,21 @@ public class Relic : MonoBehaviour
     {
         Image copyImg = Instantiate(relicImg);
         Image selectRelicImg = Instantiate(selectRelic);
+
+        // 현재 자리에 동일한 유물이 있다면 파괴하고 데이터를 초기화한다.
+        if (GameManager.instance.data.equipRelic[curRelicTr] == copyImg.GetComponent<ViewRelic>().number)
+        {
+            Debug.Log("aa");
+            GameManager.instance.data.equipRelic[curRelicTr] = 0;
+            relicNum[curRelicTr] = 0;
+            Destroy(copyImg.gameObject);
+            Destroy(selectRelicImg.gameObject);
+            Destroy(relicTr[curRelicTr].GetChild(0).gameObject);
+            Destroy(selectTr[curRelicTr].GetChild(1).gameObject);
+            relicInventory.SetActive(false);
+            return;
+        }
+
         // 다른 자리에 동일한 유물이 있다면 파괴한다.
         for (int i = 0; i < relicNum.Length; i++)
         {

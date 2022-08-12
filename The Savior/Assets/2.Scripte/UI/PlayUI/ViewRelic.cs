@@ -23,6 +23,7 @@ public class ViewRelic : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     // 인벤토리에 있는 유물을 복사하여 유물 창에 넣어줌.
     private Image thisImg;
 
+    // 인벤토리에 있는 유물 클릭시 유물 장착
     public void OnPointerClick(PointerEventData eventData)
     {
         info.SetActive(false);
@@ -40,6 +41,7 @@ public class ViewRelic : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         relic.isRelicSetting = false;
     }
 
+    // 인벤토리의 유물 위에 마우스 커서를 올리면 이미지 출력
     public void OnPointerEnter(PointerEventData eventData)
     {
 

@@ -20,7 +20,6 @@ public class ViewCharacterInfo : MonoBehaviour, IPointerClickHandler
 
         if (manager.isPartySettingMode == true)
         {
-            Debug.Log("aaaa");
             manager.OnPartySetting(thisImg);
             manager.isPartySettingMode = false;
         }
