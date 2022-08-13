@@ -20,16 +20,16 @@ public class UnitMelee : MonoBehaviour
 {
     /// <summary>
     /// 기능 : 피격된 대상에대한 데이터에 접근하기위한 변수
-    /// <br></br>방법 : DungeonOS.instance.partySlot[<paramref name="unitNumber"/>]
+    /// <br></br>방법 : DungeonOS.instance.partySlot[<paramref name="partyNumber"/>]
     /// </summary>
     private int unitNumber;
+    private int partyNumber;
     //캐시 처리
-    private DamageEngine dmgEngine;
 
     private void Start() // 상점에서도 같은 오브젝트를 사용하기때문에, Start사용시 예외처리 필수
     {
-        dmgEngine = DungeonOS.instance?.GetComponent<DamageEngine>();
-       unitNumber = GetComponent<UnitAI>().unitNumber;
+        unitNumber = GetComponent<UnitAI>().unitNumber;
+        partyNumber = GetComponent<UnitAI>().partyNumber;
     }
 
     /// <summary>
@@ -37,7 +37,7 @@ public class UnitMelee : MonoBehaviour
     /// </summary>
     public void OnAttack()
     {
-        int tempAType = DungeonOS.instance.partyUnit[unitNumber].attackType;
+        int tempAType = DungeonOS.instance.partyUnit[partyNumber].attackType;
         if(tempAType != 2)
         {
             // (작업 필요)근접 공격시 근접 무기에 달려있는 트리거상자 활성화
@@ -55,9 +55,9 @@ public class UnitMelee : MonoBehaviour
     {
         if (other.CompareTag("PHYSICS")) // 데미지 계산의 대상인지 검사
         {
-            int Target = other.GetComponent<UnitMelee>().unitNumber; //(작업 필요)몬스터껄로 변경필요함
+            int Target = other.GetComponent<UnitMelee>().partyNumber; //(작업 필요)몬스터껄로 변경필요함
             float damage;
-            damage = DungeonOS.instance.partyUnit[unitNumber].damage;
+            damage = DungeonOS.instance.partyUnit[partyNumber].damage;
             OnDamage(damage, Target);
             // 투사체 및 트리거 박스 설정
             int tempAType = DungeonOS.instance.partyUnit[Target].attackType;
@@ -84,10 +84,10 @@ public class UnitMelee : MonoBehaviour
     private void OnDamage(float dmg, int AttackerNumber)
     {
         float temp_shield;
-        float temp_damage = dmgEngine.OnProtectCalculate(false, dmg, AttackerNumber, unitNumber, out temp_shield);
-        DungeonOS.instance.weightAllyUnit[unitNumber].Current_protect -= temp_shield;
-        DungeonOS.instance.partyUnit[unitNumber].hp -= temp_damage;
-        if (DungeonOS.instance.partyUnit[unitNumber].hp < 0)
+        float temp_damage = DamageEngine.instance.OnProtectCalculate(false, dmg, AttackerNumber, partyNumber, out temp_shield);
+        DungeonOS.instance.weightAllyUnit[partyNumber].Current_protect -= temp_shield;
+        DungeonOS.instance.partyUnit[partyNumber].hp -= temp_damage;
+        if (DungeonOS.instance.partyUnit[partyNumber].hp < 0)
         {
             GetComponent<UnitAI>().State_Die();            
         }

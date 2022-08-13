@@ -88,6 +88,10 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     public int roundDGP;
     /// <summary>
+    /// 현재 라운드 진행 여부
+    /// </summary>
+    public bool isRoundPlaying = false;
+    /// <summary>
     /// 현재 까지 얻은 누적골드
     /// </summary>
     public int accrueGoldDGP;
@@ -147,7 +151,7 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     public float[] eaKillCountDGP;
 
-    public List<CardDataBase.InfoCard> handCard = new List<CardDataBase.InfoCard>();
+    public List<CardDataBase> handCard = new List<CardDataBase>();
     #endregion
 
     #region 던전 가중치 데이터
@@ -156,22 +160,71 @@ public class DungeonOS : MonoBehaviour
     public class WeightUnit
     {
         // 아군
+        /// <summary>
+        /// 가중치 :: 추가 공격력
+        /// </summary>
         public float Add_damage;
-        public float Add_maxHP;
-        public float Add_hp;
+        /// <summary>
+        /// 가중치 :: 최종 추가 공격력
+        /// </summary>
+        public float Add_fianlDamage = 1;
+        /// <summary>
+        /// 가중치 :: 피해량 감소량
+        /// </summary>
+        public float Add_dropDamage = 1;
+        /// <summary>
+        /// 가중치(추가능력) :: 보호막 수치
+        /// </summary>
         public float Current_protect;
+        /// <summary>
+        /// 가중치(추가능력) :: 보호막 최대 수치
+        /// </summary>
         public float Current_protectMax;
-        public float Add_meleDmg;
+        /// <summary>
+        /// 가중치 :: 공격 속도
+        /// </summary>
         public float Add_attackSpeed;
+        /// <summary>
+        /// 가중치 :: 이동 속도
+        /// </summary>
         public float Add_moveSpeed;
+        /// <summary>
+        /// 가중치 :: 방어력
+        /// </summary>
         public float Add_defense;
+        /// <summary>
+        /// 가중치 :: 공격 범위(사거리)
+        /// </summary>
         public float Add_attackRange;
+        /// <summary>
+        /// 가중치 :: 속성 변경 여부 (bool)
+        /// </summary>
         public bool Add_attributeCheck;
+        /// <summary>
+        /// 가중치 :: 변경된 속성값 
+        /// </summary>
         public int Add_attribute;
-        public float[] Add_attributeVlaue = new float[3];
+        /// <summary>
+        /// 가중치 :: 속성 추가 데미지
+        /// </summary>
+        public float[] Add_attributeVlaue = {1, 1,1,1 };
+        /// <summary>
+        /// 가중치 :: 공격 인식 범위
+        /// </summary>
         public float Add_priRange;
+        /// <summary>
+        /// 가중치 :: 공격 우선도
+        /// </summary>
         public int Add_priorities;
-        public float Add_skilcoldown;
+        /// <summary>
+        /// 가중치 :: 스킬 쿨다운
+        /// </summary>
+        public float Add_skilcoldown = 1;
+        /// <summary>
+        /// 가중치 :: 무적 유무
+        /// </summary>
+        public bool isinvincible;
+        public List<BuffDataBase> Current_buff = new List<BuffDataBase>();
     }
 
     public class WeightEnemy : WeightUnit
@@ -964,7 +1017,7 @@ public class DungeonOS : MonoBehaviour
         {
             if (useDeckDGP.Count != 0)
             {
-                handCard.Add(new CardDataBase.InfoCard(useDeckDGP[0]));
+                handCard.Add(new CardDataBase(useDeckDGP[0]));
                 useDeckDGP.RemoveAt(0);
                 remainingCardDGP++;
             }
@@ -981,7 +1034,7 @@ public class DungeonOS : MonoBehaviour
     {
         if (useDeckDGP.Count != 0)
         {
-            handCard.Add(new CardDataBase.InfoCard(useDeckDGP[0]));
+            handCard.Add(new CardDataBase(useDeckDGP[0]));
             useDeckDGP.RemoveAt(0);
             remainingCardDGP++;
         }
@@ -1095,7 +1148,7 @@ public class DungeonOS : MonoBehaviour
             {
                 if (GameManager.instance.currentCardList[item] == null)
                 {
-                    GameManager.instance.currentCardList.Add(item, new CardDataBase.InfoCard(item));
+                    GameManager.instance.currentCardList.Add(item, new CardDataBase(item));
                 }
                 else
                 {

@@ -17,6 +17,7 @@ public class UnitAI : MonoBehaviour
     /// <br></br>방법 : DungeonOS.instance.partySlot[<paramref name="unitNumber"/>]
     /// </summary>
     public int unitNumber;
+    public int partyNumber;
 
     // 상점에서도 같은 오브젝트를 사용하기때문에, Start사용시 예외처리 필수
     private void Start()
