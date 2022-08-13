@@ -33,13 +33,19 @@ public class GameDataManager : MonoBehaviour
         return data;
     }
 
-    //public void SaveJson(CharGoods goods) 
-    //{
-    //    string json = JsonConvert.SerializeObject(goods);
-    //    string path = Path.Combine(Application.dataPath, "Resources/saveData.json");
-    //    File.WriteAllText(path, json);
-    //}
-           
+    public void SaveJson(CharGoods goods)
+    {
+        string path = Path.Combine(Application.dataPath, "Resources/saveData.json");
+
+        if (!File.Exists(path))
+        {
+            File.Create(path);
+        }
+
+        string json = JsonConvert.SerializeObject(goods);
+        File.WriteAllText(path, json);
+    }
+
 }
 
 namespace GameDataTable
@@ -66,9 +72,9 @@ namespace GameDataTable
         public List<int> haveRelic = new List<int>();
     }
 
-    //[System.Serializable]
-    //public class CharGoods
-    //{
-    //    public Dictionary<int, int[,]> charDic = new Dictionary<int, int[,]>();
-    //}
+    [System.Serializable]
+    public class CharGoods
+    {
+        public Dictionary<int, int[,]> charDic = new Dictionary<int, int[,]>();
+    }
 }

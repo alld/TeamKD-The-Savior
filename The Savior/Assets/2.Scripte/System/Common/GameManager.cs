@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public float playTime;
     public float dungeonPlayTime;
     public GameData data;
-    //public CharGoods goods;
+    public CharGoods goods;
 
     // Play씬의 UI를 특정 상황에 따라 활성화 하기 위한 함수.
     private PlayUI playUI;
