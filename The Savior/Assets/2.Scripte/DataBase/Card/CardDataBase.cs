@@ -42,35 +42,35 @@ public class CardDataBase : MonoBehaviour
     /// <summary>
     /// 카드의 효과 종류 분류
     /// </summary>
-    public enum EffectSortA { HEAL, PROTECT, BUFF, DEBUFF, ATTACK, SPEIAL }
+    public enum EffectTypeA { HEAL, PROTECT, BUFF, DEBUFF, ATTACK, SPEIAL }
     /// <summary>
     /// 카드의 효과 종류 분류
     /// </summary>
-    public EffectSortA effectSortA;
+    public EffectTypeA effectTypeA;
     /// <summary>
     /// 카드의 효과 시간 분류
     /// </summary>
-    public enum EffectSortB { NOW, CONTINUE, DELAY }
+    public enum EffectTypeB { NOW, CONTINUE, DELAY }
     /// <summary>
     /// 카드의 효과 시간 분류
     /// </summary>
-    public EffectSortB effectSortB;
+    public EffectTypeB effectTypeB;
     /// <summary>
     /// 카드의 효과 대상 분류 
     /// </summary>
-    public enum EffectSortC { ALLY, ALLIES, ENEMY, ENEMIES }
+    public enum EffectTypeC { ALLY, ALLIES, ENEMY, ENEMIES }
     /// <summary>
     /// 카드 효과 대상 분류
     /// </summary>
-    public EffectSortC effectSortC;
+    public EffectTypeC effectTypeC;
     /// <summary>
     /// 카드의 효과 단일대상 분류 
     /// </summary>     
-    public enum EffectSortD { TOTAL, RANDOM, HP_HIGH, HP_LOW, DAMAGE_HIGH, DAMAGE_LOW }
+    public enum EffectTypeD { TOTAL, RANDOM, HP_HIGH, HP_LOW, DAMAGE_HIGH, DAMAGE_LOW }
     /// <summary>
     /// 카드의 효과 단일대상 분류 
     /// </summary>
-    public EffectSortD effectSortD;
+    public EffectTypeD effectTypeD;
     /// <summary>
     /// 카드의 설명 1
     /// </summary>
@@ -149,10 +149,10 @@ public class CardDataBase : MonoBehaviour
                 cardCount = 0;
                 cost = 0;
                 propertie = 0;
-                effectSortA = 0;
-                effectSortB = 0;
-                effectSortC = 0;
-                effectSortD = 0;
+                effectTypeA = 0;
+                effectTypeB = 0;
+                effectTypeC = 0;
+                effectTypeD = 0;
                 cardString1 = "";
                 cardString2 = "";
                 effectValue_intA = 0;

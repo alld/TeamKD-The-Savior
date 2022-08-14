@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     private PlayUI playUI;
 
     #region 유동 데이터 관리
-
+    
 
     public Dictionary<int, CardDataBase> currentCardList = new Dictionary<int, CardDataBase>();
     public Dictionary<int, CharacterDatabase> currentHeroList = new Dictionary<int, CharacterDatabase>();
@@ -49,7 +49,6 @@ public class GameManager : MonoBehaviour
         else Destroy(this);
         DontDestroyOnLoad(this.gameObject);
         dataManager = GetComponent<GameDataManager>();
-
         // 게임 시작시에 Main씬을 연결한다.
         SceneManager.LoadSceneAsync("Main", LoadSceneMode.Additive);
         // Play씬에서 사용하는 UI 연결

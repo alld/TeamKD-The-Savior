@@ -65,11 +65,11 @@ public class RelicDataBase : MonoBehaviour
         /// <summary>
         /// 유물의 효과 대분류
         /// </summary>
-        public int effectSortA;
+        public int EffectTypeA;
         /// <summary>
         /// 유물의 효과 소분류
         /// </summary>
-        public int effectSortB;
+        public int EffectTypeB;
         /// <summary>
         /// 유물의 설명 1
         /// </summary>
@@ -106,7 +106,7 @@ public class RelicDataBase : MonoBehaviour
         /// 유물 효과 bool형
         /// </summary>
         public int effectValue_bool;
-        public enum Conditions { 일반, 초반, 중반, 후반 };
+        public enum Conditions { ALWAY, FIRST, MIDDLE, HALF, LAST};
         /// <summary>
         /// 유물 사용조건 분류
         /// </summary>
@@ -145,8 +145,8 @@ public class RelicDataBase : MonoBehaviour
             name = "";
             relicCount = false;
             propertie = 0;
-            effectSortA = 0;
-            effectSortB = 0;
+            EffectTypeA = 0;
+            EffectTypeB = 0;
             relicString1 = 0;
             relicString2 = 0;
             effectValue_intA = 0;
@@ -156,7 +156,7 @@ public class RelicDataBase : MonoBehaviour
             effectValue_floatC = 0;
             effectValue_floatD = 0;
             effectValue_bool = 0;
-            condition = Conditions.일반;
+            condition = Conditions.ALWAY;
             overlapValueA = 0;
             overlapValueB = 0;
             recycle = 0;

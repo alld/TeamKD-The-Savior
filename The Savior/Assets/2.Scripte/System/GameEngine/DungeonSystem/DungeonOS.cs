@@ -36,6 +36,7 @@ public class DungeonOS : MonoBehaviour
 
     public delegate void StateCheck();
     public StateCheck dele_stateCheck; // 몬스터, 캐릭터 변화 체크 이벤트 // 몬스터 이벤트에 아직안넣음
+    public StateCheck dele_TimeALWAY, dele_TimeFIRST, dele_TimeMIDDLE, dele_TimeHALF, dele_TimeLAST;
     //던전 관련된 변수 : DG
     /// <summary>
     /// 던전이 가지고있는 모든 스테이지 그룹
@@ -55,7 +56,7 @@ public class DungeonOS : MonoBehaviour
     public int[] monsterBoxMin; // 설정해줘야함
     public int[] monsterBoxMax; // 설정해줘야함
     public int[] monsterBoxCount; // 설정해줘야함
-
+    
     /// <summary>
     /// 각라운드가 가지고있는 정보
     /// <br>1. 일반</br>
@@ -122,7 +123,24 @@ public class DungeonOS : MonoBehaviour
     /// <br>2. 후반</br>
     /// </summary>
     public bool timerOnDGP;
-    public int timeLevelDGP;
+    public int timeLevelDGP
+    {
+        get { return timeLevelDGP; }
+        set
+        {
+            switch (value)
+            {
+                case 1:
+                    dele_TimeMIDDLE();
+                    break;
+                case 2:
+                    dele_TimeHALF();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
     /// <summary>
     /// 남은 카드 (덱잔량)
     /// </summary>
@@ -249,6 +267,7 @@ public class DungeonOS : MonoBehaviour
     //        new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[3].number)
     //    };
     public List<CharacterDatabase> partyUnit = new List<CharacterDatabase>();
+    public List<RelicData> equipRelic = new List<RelicData>();
     //덱정보
     public List<int> useDeckDGP = new List<int>();
     //유물 정보
@@ -475,12 +494,15 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void GameSetting()
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++) // 추후 데이터 처리 방식 변경에따라 맞쳐서 변경
         {
             partyUnit.Add(new CharacterDatabase(GameManager.instance.partySlot[i].number, jsonCH));
             partyUnit[i].isLive = true;
         }
-
+        foreach (var item in GameManager.instance.data.equipRelic)
+        {
+            equipRelic.Add(new RelicData(item));
+        }
 
         int temp = 0;
         foreach (var item in stagePrefabGroupDG)

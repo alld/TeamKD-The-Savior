@@ -37,6 +37,7 @@ public class DamageEngine : MonoBehaviour
     {
         if (playercheck) // 공격자가 플레이언지 몬스터인지 확인
         {
+            if (DungeonOS.instance.weightEnemyGroup[defender].isinvincible) return 0;
             // 속성 변환 체크 후 설정값 지정
             if (DungeonOS.instance.weightAlly.Add_attributeCheck) a_attribute = DungeonOS.instance.weightAlly.Add_attribute;
             else a_attribute = DungeonOS.instance.partyUnit[attacker].attribute;
@@ -56,6 +57,7 @@ public class DamageEngine : MonoBehaviour
         }
         else 
         {
+            if (DungeonOS.instance.weightAllyUnit[defender].isinvincible) return 0;
             // 속성 변환 체크 후 설정값 지정 
             if (DungeonOS.instance.weightAlly.Add_attributeCheck) d_attribute = DungeonOS.instance.weightAlly.Add_attribute;
             else d_attribute = DungeonOS.instance.partyUnit[defender].attribute;
