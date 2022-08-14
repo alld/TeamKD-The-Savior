@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using GameDataTable;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using SimpleJSON;
+
 public class GameDataManager : MonoBehaviour
 {
     public void SaveGameDataToJson(GameData gameData)
@@ -33,17 +35,43 @@ public class GameDataManager : MonoBehaviour
         return data;
     }
 
-    public void SaveJson(CharGoods goods)
-    {
-        string path = Path.Combine(Application.dataPath, "Resources/saveData.json");
 
+
+    // 저장될 Json 데이터의 배열
+    public JArray jAry = new JArray();
+    public JObject jObj = new JObject();
+    private int idx;
+    /// <summary>
+    /// Json 파일이 없다면 생성하고, 캐릭터의 데이터를 저장합니다.
+    /// </summary>
+    /// <param name="charExp"></param>
+    public void SaveCharExp(CharExp charExp)
+    {
+        string path = Path.Combine(Application.dataPath, "Resources/CharacterExperience.json");
+        idx = charExp.id;
         if (!File.Exists(path))
         {
             File.Create(path);
         }
+        jObj.Add(idx.ToString(), JObject.FromObject(charExp));
+        File.WriteAllText(path, jObj.ToString());
+    }
 
-        string json = JsonConvert.SerializeObject(goods);
-        File.WriteAllText(path, json);
+
+    /// <summary>
+    /// Json 파일에서 캐릭터의 데이터를 불러옵니다.
+    /// </summary>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    public CharExp LoadCharExp(int n)
+    {
+        TextAsset textAsset = Resources.Load<TextAsset>("CharacterExperience");
+        CharExp charExp = new CharExp();
+        var json = JSON.Parse(textAsset.text);
+        charExp.id = json[n]["id"];
+        charExp.exp = json[n]["exp"];
+        charExp.level = json[n]["level"];
+        return charExp;
     }
 
 }
@@ -73,8 +101,10 @@ namespace GameDataTable
     }
 
     [System.Serializable]
-    public class CharGoods
+    public class CharExp
     {
-        public Dictionary<int, int[,]> charDic = new Dictionary<int, int[,]>();
+        public int id = 0;
+        public int level = 1;
+        public int exp = 0;
     }
 }
