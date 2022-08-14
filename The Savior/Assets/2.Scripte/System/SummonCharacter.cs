@@ -7,7 +7,7 @@ public class SummonCharacter : MonoBehaviour
 {
 
     // 캐릭터의 수
-    public int input = 6;
+    public int input = 5;
     // 난수
     private int rnd;
     // 소환될 캐릭터의 오브젝트
@@ -30,12 +30,18 @@ public class SummonCharacter : MonoBehaviour
         //} 
         //GameManager.instance.data.golds -= price;
         rnd = Random.Range(1, input);
+        Debug.Log(rnd);
         character = Resources.Load<GameObject>("Unit/Character" + rnd.ToString());
         character = Instantiate(character, summonCharTr);
+        Debug.Log(character.name);
 
-        GameManager.instance.data.haveCharacter.Add(character.GetComponent<UnitAI>().unitNumber); // << (summonCharacterTest -> UnitAI) 요걸로 변경했어요  확인후 주석지워도되욥 
+        GameManager.instance.data.haveCharacter.Add(character.GetComponent<UnitAI>().unitNumber);
+        Debug.Log(character.GetComponent<UnitAI>().unitNumber);
         GameManager.instance.GameSave();
-        Debug.Log(GameManager.instance.data.haveCharacter);
+
+
+        GameManager.instance.SaveExp(rnd-1);
+        GameManager.instance.CharacterDataSave(GameManager.instance.data.haveCharacter.Count-1);
     }
 
     public void InitSummon()

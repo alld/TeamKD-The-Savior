@@ -17,7 +17,9 @@ public class GameManager : MonoBehaviour
     public float playTime;
     public float dungeonPlayTime;
     public GameData data;
-    public CharGoods goods;
+    public CharExp charData;
+    public List<CharExp> charExp = new List<CharExp>();
+    
 
     // Play씬의 UI를 특정 상황에 따라 활성화 하기 위한 함수.
     private PlayUI playUI;
@@ -55,7 +57,7 @@ public class GameManager : MonoBehaviour
         playUI = GameObject.Find("PUIManager").GetComponent<PlayUI>();
 
         GameLoad();
-
+        CharacterDataLoad();
     }
 
     #region 데이터 저장, 불러오기, 리셋하기
@@ -65,7 +67,6 @@ public class GameManager : MonoBehaviour
     public void GameSave()
     {
         dataManager.SaveGameDataToJson(data);
-        Debug.Log("SAVE!!!");
     }
 
     /// <summary>
@@ -82,6 +83,36 @@ public class GameManager : MonoBehaviour
     public void GameReset()
     {
         data = dataManager.ResetGameData();
+    }
+
+    /// <summary>
+    /// n번 캐릭터의 데이터를 Json파일에 저장한다.
+    /// </summary>
+    /// <param name="n"></param>
+    public void CharacterDataSave(int n)
+    {
+        dataManager.SaveCharExp(charExp[n]);
+    }
+
+    /// <summary>
+    /// n번 캐릭터의 데이터를 임시 저장한다.
+    /// </summary>
+    /// <param name="n"></param>
+    public void SaveExp(int n)
+    {
+        charExp.Add(new CharExp { id = n, exp = 0, level = 1 });
+    }
+
+    /// <summary>
+    /// 캐릭터의 번호를 불러온다.
+    /// </summary>
+    public void CharacterDataLoad()
+    {
+        for (int i = 0; i < data.haveCharacter.Count; i++)
+        {
+            charExp.Add(dataManager.LoadCharExp(i));
+            Debug.Log("id : " + charExp[i].id);
+        }
     }
     #endregion
 
