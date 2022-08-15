@@ -18,13 +18,14 @@ public class GameManager : MonoBehaviour
     public float dungeonPlayTime;
     public GameData data;
     public CharExp charData;
+    public HaveCard card;
     public List<CharExp> charExp = new List<CharExp>();
 
     // Play씬의 UI를 특정 상황에 따라 활성화 하기 위한 함수.
     private PlayUI playUI;
 
     #region 유동 데이터 관리
-    
+
 
     public Dictionary<int, CardDataBase> currentCardList = new Dictionary<int, CardDataBase>();
     public Dictionary<int, CharacterDatabase> currentHeroList = new Dictionary<int, CharacterDatabase>();
@@ -56,6 +57,8 @@ public class GameManager : MonoBehaviour
         playUI = GameObject.Find("PUIManager").GetComponent<PlayUI>();
 
         GameLoad();
+        
+
         //CharacterDataLoad();
 
     }

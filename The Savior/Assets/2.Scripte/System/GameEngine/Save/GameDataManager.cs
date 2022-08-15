@@ -43,6 +43,7 @@ public class GameDataManager : MonoBehaviour
     private int idx;
     /// <summary>
     /// Json 파일이 없다면 생성하고, 캐릭터의 데이터를 저장합니다.
+    /// 미완성입니다.
     /// </summary>
     /// <param name="charExp"></param>
     public void SaveCharExp(CharExp charExp)
@@ -55,7 +56,6 @@ public class GameDataManager : MonoBehaviour
         }
 
         jObj.Add(idx.ToString(), JObject.FromObject(charExp));
-        Debug.Log(jObj);
         File.WriteAllText(path, jObj.ToString());
 
     }
@@ -63,6 +63,7 @@ public class GameDataManager : MonoBehaviour
 
     /// <summary>
     /// Json 파일에서 캐릭터의 데이터를 불러옵니다.
+    /// 미완성입니다.
     /// </summary>
     /// <param name="n"></param>
     /// <returns></returns>
@@ -75,6 +76,43 @@ public class GameDataManager : MonoBehaviour
         charExp.exp = json[n]["exp"];
         charExp.level = json[n]["level"];
         return charExp;
+    }
+
+
+
+    public JObject cardJson = new JObject();
+    /// <summary>
+    /// 카드의 데이터를 Json 파일로 저장합니다.
+    /// 미완성입니다.
+    /// </summary>
+    /// <param name="card"></param>
+    public void GainCard(HaveCard card)
+    {
+
+        string path = Path.Combine(Application.dataPath, "Resources/HaveCard.json");
+        if (!File.Exists(path))
+        {
+            File.Create(path);
+        }
+
+        cardJson.Add(card.id.ToString(), JObject.FromObject(card));
+
+        File.WriteAllText(path, cardJson.ToString());
+    }
+    /// <summary>
+    /// Json파일에 저장된 카드의 데이터를 불러옵니다.
+    /// 미완성입니다.
+    /// </summary>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    public HaveCard CardDataLoad(int n)
+    {
+        HaveCard card = new HaveCard();
+        TextAsset textAsset = Resources.Load<TextAsset>("HaveCard");
+        var json = JSON.Parse(textAsset.text);
+        card.id = json[n]["id"];
+        card.haveCard = json[n]["haveCard"];
+        return card;
     }
 
 }
@@ -92,7 +130,7 @@ namespace GameDataTable
         public int Sound = 100;
         public int souls = 0;
         public int golds = 0;
-        public string[] presetName = new string[] { "1번 프리셋", "2번 프리셋", "3번 프리셋", "4번 프리셋", "5번 프리셋"};
+        public string[] presetName = new string[] { "1번 프리셋", "2번 프리셋", "3번 프리셋", "4번 프리셋", "5번 프리셋" };
         public int presset = 1;
         // 장착한 데이터
         public int[] equipRelic = new int[5];
@@ -101,6 +139,13 @@ namespace GameDataTable
         // 유물과 캐릭터는 중복이 되어도 개별 칸으로 들어감.
         public List<int> haveCharacter = new List<int>();
         public List<int> haveRelic = new List<int>();
+    }
+
+    [System.Serializable]
+    public class HaveCard
+    {
+        public int id;
+        public int haveCard = 0;
     }
 
     [System.Serializable]
