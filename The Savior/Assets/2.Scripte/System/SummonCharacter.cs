@@ -12,8 +12,10 @@ public class SummonCharacter : MonoBehaviour
     private int rnd;
     // 소환될 캐릭터의 오브젝트
     private GameObject character;
+    private Image charImg;
     // 소환된 캐릭터가 배치될 포지션
     public Transform summonCharTr; // CharacterTransform
+    private Transform charInventoryTr;
 
     /// <summary>
     /// 캐릭터 소환 버튼을 누르면 호출되는 함수.
@@ -29,27 +31,28 @@ public class SummonCharacter : MonoBehaviour
         //    return;
         //} 
         //GameManager.instance.data.golds -= price;
+
+        // 캐릭터 생성
         rnd = Random.Range(1, input);
-        Debug.Log(rnd);
         character = Resources.Load<GameObject>("Unit/Character" + rnd.ToString());
         character = Instantiate(character, summonCharTr);
-        Debug.Log(character.name);
-
+        
+        // 캐릭터 소유 유무 저장
         GameManager.instance.data.haveCharacter.Add(character.GetComponent<UnitAI>().unitNumber);
-        Debug.Log(character.GetComponent<UnitAI>().unitNumber);
+        //Debug.Log(character.GetComponent<UnitAI>().unitNumber);
         GameManager.instance.GameSave();
 
-
-        GameManager.instance.SaveExp(rnd-1);
-        GameManager.instance.CharacterDataSave(GameManager.instance.data.haveCharacter.Count-1);
+        // 캐릭터의 개별 정보 저장
+        GameManager.instance.SaveExp(GameManager.instance.data.haveCharacter.Count);
+        GameManager.instance.CharacterDataSave(GameManager.instance.data.haveCharacter.Count - 1);
     }
 
     public void InitSummon()
     {
-        if(summonCharTr.childCount > 0)
+        if (summonCharTr.childCount > 0)
         {
             Destroy(summonCharTr.GetChild(0).gameObject);
-        } 
+        }
     }
-    
+
 }

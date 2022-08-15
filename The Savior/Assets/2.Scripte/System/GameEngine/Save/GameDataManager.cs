@@ -53,8 +53,11 @@ public class GameDataManager : MonoBehaviour
         {
             File.Create(path);
         }
+
         jObj.Add(idx.ToString(), JObject.FromObject(charExp));
+        Debug.Log(jObj);
         File.WriteAllText(path, jObj.ToString());
+
     }
 
 

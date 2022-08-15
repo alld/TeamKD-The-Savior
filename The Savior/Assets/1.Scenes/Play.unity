@@ -1258,7 +1258,7 @@ GameObject:
   - component: {fileID: 67993924}
   - component: {fileID: 67993923}
   m_Layer: 5
-  m_Name: Game UI
+  m_Name: GameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11487,6 +11487,11 @@ MonoBehaviour:
     equipCharacter: 00000000000000000000000000000000
     haveCharacter: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
     haveRelic: 
+  charData:
+    id: 0
+    level: 1
+    exp: 0
+  charExp: []
   partySlot: []
   currentlyScene: Main
 --- !u!114 &580982189
@@ -11565,6 +11570,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d775217d53fa8864dbcbfd87bc86fd37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  number: 0
+  Icon: {fileID: 0}
+  cardName: 
+  cardCount: 0
+  cost: 0
+  propertie: 0
+  effectTypeA: 0
+  effectTypeB: 0
+  effectTypeC: 0
+  effectTypeD: 0
+  cardString1: 
+  cardString2: 
+  effectValue_intA: 0
+  effectValue_intB: 0
+  effectValue_floatA: 0
+  effectValue_floatB: 0
+  effectValue_floatC: 0
+  effectValue_floatD: 0
+  effectValue_bool: 0
+  sellValueA: 0
+  sellValueB: 0
+  recycle: 0
+  dataCount: 0
+  buffCount: 0
+  buffindex: 0
 --- !u!114 &580982193
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,8 +10,9 @@ public class CharacterInventory : MonoBehaviour
 
     private Image characterImg;
 
-    private void Start()
+    private void OnEnable()
     {
+        Debug.Log("인벤토리 열림");
         // 데이터가 가지고 있는 캐릭터 정보 검사
         for (int i = 0; i < GameManager.instance.data.haveCharacter.Count; i++)
         {

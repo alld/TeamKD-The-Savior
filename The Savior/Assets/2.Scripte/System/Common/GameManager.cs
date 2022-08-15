@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
     public GameData data;
     public CharExp charData;
     public List<CharExp> charExp = new List<CharExp>();
-    
 
     // Play씬의 UI를 특정 상황에 따라 활성화 하기 위한 함수.
     private PlayUI playUI;
@@ -57,7 +56,8 @@ public class GameManager : MonoBehaviour
         playUI = GameObject.Find("PUIManager").GetComponent<PlayUI>();
 
         GameLoad();
-        CharacterDataLoad();
+        //CharacterDataLoad();
+
     }
 
     #region 데이터 저장, 불러오기, 리셋하기
@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
     /// <param name="n"></param>
     public void SaveExp(int n)
     {
-        charExp.Add(new CharExp { id = n, exp = 0, level = 1 });
+        charExp.Add(new CharExp { id = n, exp = 10, level = 1 });
     }
 
     /// <summary>
