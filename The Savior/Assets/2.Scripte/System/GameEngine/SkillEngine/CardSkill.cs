@@ -66,7 +66,7 @@ public class CardSkill : MonoBehaviour
                 break;
             case CardDataBase.EffectTypeA.DEBUFF:
                 break;
-            case CardDataBase.EffectTypeA.ATTACK:
+            case CardDataBase.EffectTypeA.DAMAGE:
                 if (card.effectValue_bool && buffCount.Length > 3) card.effectTypeA = CardDataBase.EffectTypeA.DEBUFF;
                 break;
             case CardDataBase.EffectTypeA.SPEIAL:
@@ -90,7 +90,7 @@ public class CardSkill : MonoBehaviour
             case CardDataBase.EffectTypeA.DEBUFF:
                 StartCoroutine(CardSkill_DEBUFF(skill_ActiveTime, buffCount));
                 break;
-            case CardDataBase.EffectTypeA.ATTACK:
+            case CardDataBase.EffectTypeA.DAMAGE:
                 StartCoroutine(CardSkill_DAMAGE(skill_ActiveTime));
                 break;
             case CardDataBase.EffectTypeA.SPEIAL:
@@ -104,6 +104,7 @@ public class CardSkill : MonoBehaviour
 
     /// <summary>
     /// 효과 (아군)대상이 단일대상일 경우, 어떤 대상을 선택할지 지정함.
+    /// 
     /// </summary>
     /// <param name="targetType"></param>
     /// <returns></returns>
@@ -750,7 +751,7 @@ public class CardSkill : MonoBehaviour
                     DungeonOS.instance.partyUnit[temp].hp -= temp_damage;
                     if (DungeonOS.instance.partyUnit[temp].hp < 0)
                     {
-                        DungeonOS.instance.partyUnit[temp].charObject.GetComponent<UnitAI>().State_Die();
+                        DungeonOS.instance.partyUnit[temp].charObject.GetComponent<UnitAI>().Action_Die();
                     }
                     break;
                 case CardDataBase.EffectTypeC.ALLIES:
@@ -762,7 +763,7 @@ public class CardSkill : MonoBehaviour
                         DungeonOS.instance.partyUnit[i].hp -= temp_damage;
                         if (DungeonOS.instance.partyUnit[i].hp < 0)
                         {
-                            DungeonOS.instance.partyUnit[i].charObject.GetComponent<UnitAI>().State_Die();
+                            DungeonOS.instance.partyUnit[i].charObject.GetComponent<UnitAI>().Action_Die();
                         }
                     }
                     break;
@@ -773,7 +774,7 @@ public class CardSkill : MonoBehaviour
                     DungeonOS.instance.monsterGroup[temp].hp -= temp_damage;
                     if (DungeonOS.instance.monsterGroup[temp].hp < 0)
                     {
-                        DungeonOS.instance.monsterGroup[temp].charObject.GetComponent<UnitAI>().State_Die();
+                        DungeonOS.instance.monsterGroup[temp].charObject.GetComponent<UnitAI>().Action_Die();
                     }
                     break;
                 case CardDataBase.EffectTypeC.ENEMIES:
@@ -785,7 +786,7 @@ public class CardSkill : MonoBehaviour
                         DungeonOS.instance.monsterGroup[i].hp -= temp_damage;
                         if (DungeonOS.instance.monsterGroup[i].hp < 0)
                         {
-                            DungeonOS.instance.monsterGroup[i].charObject.GetComponent<UnitAI>().State_Die();
+                            DungeonOS.instance.monsterGroup[i].charObject.GetComponent<UnitAI>().Action_Die();
                         }
                     }
                     break;
@@ -1391,7 +1392,7 @@ public class CardSkill : MonoBehaviour
                         DungeonOS.instance.partyUnit[allynum].hp -= temp_damage;
                         if (DungeonOS.instance.partyUnit[allynum].hp < 0)
                         {
-                            DungeonOS.instance.partyUnit[allynum].charObject.GetComponent<UnitAI>().State_Die();
+                            DungeonOS.instance.partyUnit[allynum].charObject.GetComponent<UnitAI>().Action_Die();
                         }
                         break;
                     case CardDataBase.EffectTypeC.ALLIES:
@@ -1404,7 +1405,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.partyUnit[i].hp -= temp_damage;
                             if (DungeonOS.instance.partyUnit[i].hp < 0)
                             {
-                                DungeonOS.instance.partyUnit[i].charObject.GetComponent<UnitAI>().State_Die();
+                                DungeonOS.instance.partyUnit[i].charObject.GetComponent<UnitAI>().Action_Die();
                             }
                         }
                         break;
@@ -1415,7 +1416,7 @@ public class CardSkill : MonoBehaviour
                         DungeonOS.instance.monsterGroup[enemynum].hp -= temp_damage;
                         if (DungeonOS.instance.monsterGroup[enemynum].hp < 0)
                         {
-                            DungeonOS.instance.monsterGroup[enemynum].charObject.GetComponent<UnitAI>().State_Die();
+                            DungeonOS.instance.monsterGroup[enemynum].charObject.GetComponent<UnitAI>().Action_Die();
                         }
                         break;
                     case CardDataBase.EffectTypeC.ENEMIES:
@@ -1427,7 +1428,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.monsterGroup[i].hp -= temp_damage;
                             if (DungeonOS.instance.monsterGroup[i].hp < 0)
                             {
-                                DungeonOS.instance.monsterGroup[i].charObject.GetComponent<UnitAI>().State_Die();
+                                DungeonOS.instance.monsterGroup[i].charObject.GetComponent<UnitAI>().Action_Die();
                             }
                         }
                         break;

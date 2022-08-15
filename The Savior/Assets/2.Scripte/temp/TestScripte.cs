@@ -7,26 +7,20 @@ public class TestScripte : MonoBehaviour
     void Start()
     {
         StartCoroutine(Starttest());
+        Debug.Log("확인2");
     }
 
     public IEnumerator Starttest()
     {
-        StartCoroutine(Test(1, 0, 10));
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(Test(2, 0, 15));
-    }
+        //StartCoroutine(Test(1, 0, 10));
 
-    public IEnumerator Test(int A, int B, int C)
-    {
-        int temp = 10;
-        B = 0;
-
-        while (C > 0)
+        while (true)
         {
-            Debug.Log($"A: {A},B: {B++},C: {C--}, temp {temp--}");
-            yield return new WaitForSeconds(1.0f);
-
+            Debug.Log("확인");
+            yield return new WaitForSeconds(0.5f);
         }
-        
+        //StartCoroutine(Test(2, 0, 15));
     }
+
+
 }

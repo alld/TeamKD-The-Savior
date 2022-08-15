@@ -17,7 +17,7 @@ public class RelicData : MonoBehaviour
     public int usingTime;
     public int dataRange;
     public int attribute;
-    public enum EffectTypeA { HEAL, PROTECT, ABILITY, ATTACK, SPEIAL }; 
+    public enum EffectTypeA { HEAL, PROTECT, ABILITY, DAMAGE, SPEIAL }; 
     public EffectTypeA effectTypeA; 
     public enum EffectTypeB { ALWAY, FIRST, MIDDLE, HALF, LAST }; 
     public EffectTypeB effectTypeB; 
@@ -34,6 +34,8 @@ public class RelicData : MonoBehaviour
     public float effectDataB4;
     public float effectDataC1;
     public bool loopEffect;
+    public double effectCount;
+    public byte EffectCycle; // 인겜용 데이터 값 할당 X
     public EffectTypeA negEffectTypeA;
     public EffectTypeB negEffectTypeB;
     public EffectTypeC negEffectTypeC;
@@ -47,6 +49,9 @@ public class RelicData : MonoBehaviour
     public float negEffectDataB4;
     public float negEffectDataC1;
     public bool negLoopEffect;
+    public double negEffectCount;
+    public byte negEffectCycle; // 인겜용 데이터 값 할당 X
+
 
 
     public RelicData(int num)

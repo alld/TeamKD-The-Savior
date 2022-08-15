@@ -37,6 +37,7 @@ public class DungeonOS : MonoBehaviour
     public delegate void StateCheck();
     public StateCheck dele_stateCheck; // 몬스터, 캐릭터 변화 체크 이벤트 // 몬스터 이벤트에 아직안넣음
     public StateCheck dele_TimeALWAY, dele_TimeFIRST, dele_TimeMIDDLE, dele_TimeHALF, dele_TimeLAST;
+    public StateCheck dele_RoundStart, dele_RoundEnd;
     //던전 관련된 변수 : DG
     /// <summary>
     /// 던전이 가지고있는 모든 스테이지 그룹
@@ -91,7 +92,21 @@ public class DungeonOS : MonoBehaviour
     /// <summary>
     /// 현재 라운드 진행 여부
     /// </summary>
-    public bool isRoundPlaying = false;
+    public bool isRoundPlaying
+    {
+        get { return isRoundPlaying; }
+        set
+        {
+            if (value)
+            {
+                dele_RoundStart();
+            }
+            else
+            {
+                dele_RoundEnd();
+            }
+        }
+    }
     /// <summary>
     /// 현재 까지 얻은 누적골드
     /// </summary>
@@ -112,7 +127,6 @@ public class DungeonOS : MonoBehaviour
         get { return progressTimeDGP; }
         set 
         { 
-            progressTimeDGP = value;
             DungeonCtrl.gameTimerText.text = progressTimeDGP.ToString("F0");
         }
     }

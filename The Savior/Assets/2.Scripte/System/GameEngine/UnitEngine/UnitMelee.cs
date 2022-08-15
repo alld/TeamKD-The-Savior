@@ -89,7 +89,7 @@ public class UnitMelee : MonoBehaviour
         DungeonOS.instance.partyUnit[partyNumber].hp -= temp_damage;
         if (DungeonOS.instance.partyUnit[partyNumber].hp < 0)
         {
-            GetComponent<UnitAI>().State_Die();            
+            GetComponent<UnitAI>().Action_Die();            
         }
     }
 }

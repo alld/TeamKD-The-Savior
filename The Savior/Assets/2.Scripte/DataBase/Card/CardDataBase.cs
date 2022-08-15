@@ -42,7 +42,7 @@ public class CardDataBase : MonoBehaviour
     /// <summary>
     /// 카드의 효과 종류 분류
     /// </summary>
-    public enum EffectTypeA { HEAL, PROTECT, BUFF, DEBUFF, ATTACK, SPEIAL }
+    public enum EffectTypeA { HEAL, PROTECT, BUFF, DEBUFF, DAMAGE, SPEIAL }
     /// <summary>
     /// 카드의 효과 종류 분류
     /// </summary>
