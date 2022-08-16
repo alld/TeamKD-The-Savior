@@ -42,9 +42,6 @@ public class SummonCharacter : MonoBehaviour
         //Debug.Log(character.GetComponent<UnitAI>().unitNumber);
         GameManager.instance.GameSave();
 
-        // 캐릭터의 개별 정보 저장
-        GameManager.instance.SaveExp(GameManager.instance.data.haveCharacter.Count);
-        GameManager.instance.CharacterDataSave(GameManager.instance.data.haveCharacter.Count - 1);
     }
 
     public void InitSummon()

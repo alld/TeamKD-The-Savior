@@ -103,7 +103,7 @@ public class BuyCardPack : MonoBehaviour
         InitBuyCard();
         for (int i = 0; i < 3; i++)
         {
-            cardImg[i] = Resources.Load<Image>("Card/" + cardName + idx.ToString() + "_" + (i + 1).ToString());
+            cardImg[i] = Resources.Load<Image>("Card/Card_"+ (i + 1).ToString());
             card = Instantiate(cardImg[i], cardList[i]);
             InitRect(card);
         }
@@ -140,7 +140,7 @@ public class BuyCardPack : MonoBehaviour
     /// </summary>
     public void BuyCard()
     {
-        TestCard testCard;
+        ViewCard viewCard;
         unPack.SetActive(false);
         openPack.SetActive(true);
 
@@ -149,12 +149,11 @@ public class BuyCardPack : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             card = Instantiate(cardImg[i], buyCardList[i]);
-            testCard = card.GetComponent<TestCard>();
-            Debug.Log(testCard.idx);
-            
-
+            viewCard = card.GetComponent<ViewCard>();
+            Debug.Log(viewCard.num);
+            GameManager.instance.card[i].haveCard++;
         }
-        GameManager.instance.GameSave();
+        GameManager.instance.CardSave();
     }
 
     /// <summary>
@@ -162,10 +161,12 @@ public class BuyCardPack : MonoBehaviour
     /// </summary>
     private void InitBuyCard()
     {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++)
+        {
             if (buyCardList[i].childCount > 0)
             {
                 Destroy(buyCardList[i].GetChild(0).gameObject);
             }
-    } }
+        }
+    }
 }

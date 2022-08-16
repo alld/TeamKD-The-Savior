@@ -17,9 +17,9 @@ public class GameManager : MonoBehaviour
     public float playTime;
     public float dungeonPlayTime;
     public GameData data;
-    public CharExp charData;
-    public HaveCard card;
-    public List<CharExp> charExp = new List<CharExp>();
+    public List<CharExp> charExp = new List<CharExp>(); // Json 파일에 저장되어야 하는 캐릭터의 데이터
+    public List<HaveCard> card = new List<HaveCard>();  // Json 파일에 저장되어야 하는 카드의 데이터
+    public int cardIdx = 0;  // Json 파일에 저장되어있는 카드의 인덱스
 
     // Play씬의 UI를 특정 상황에 따라 활성화 하기 위한 함수.
     private PlayUI playUI;
@@ -57,10 +57,7 @@ public class GameManager : MonoBehaviour
         playUI = GameObject.Find("PUIManager").GetComponent<PlayUI>();
 
         GameLoad();
-        
-
-        //CharacterDataLoad();
-
+        LoadCardData();
     }
 
     #region 데이터 저장, 불러오기, 리셋하기
@@ -88,33 +85,35 @@ public class GameManager : MonoBehaviour
         data = dataManager.ResetGameData();
     }
 
-    /// <summary>
-    /// n번 캐릭터의 데이터를 Json파일에 저장한다.
-    /// </summary>
-    /// <param name="n"></param>
-    public void CharacterDataSave(int n)
-    {
-        dataManager.SaveCharExp(charExp[n]);
-    }
 
     /// <summary>
-    /// n번 캐릭터의 데이터를 임시 저장한다.
+    /// 현재 카드 상황을 Json 파일로 저장한다.
     /// </summary>
     /// <param name="n"></param>
-    public void SaveExp(int n)
+    public void CardSave()
     {
-        charExp.Add(new CharExp { id = n, exp = 10, level = 1 });
-    }
-
-    /// <summary>
-    /// 캐릭터의 번호를 불러온다.
-    /// </summary>
-    public void CharacterDataLoad()
-    {
-        for (int i = 0; i < data.haveCharacter.Count; i++)
+        cardIdx = dataManager.CurrentCardData();
+        // 리스트의 인덱스는 0부터 시작
+        // 반환된 cardIdx는 1부터 시작하여 마지막 값의 +1 이기 때문에
+        // cardIdx -2가 최대 리스트 인덱스
+        for (int cardArr = 0; cardArr < (cardIdx-1); cardArr++)
         {
-            charExp.Add(dataManager.LoadCharExp(i));
-            Debug.Log("id : " + charExp[i].id);
+            dataManager.GainCard(card[cardArr]);
+        }
+        dataManager.SaveCard();
+    }
+
+    /// <summary>
+    /// Json 파일에 카드 인덱스가 몇이나 있는지 값을 받고,
+    /// <br>인덱스 수 만큼 데이터를 불러옵니다.</br>
+    /// </summary>
+    public void LoadCardData()
+    {
+        card.Clear();        
+        cardIdx = dataManager.CurrentCardData();
+        for(int cardArr = 1; cardArr < cardIdx; cardArr++)
+        {
+            card.Add(dataManager.CardDataLoad(cardArr));
         }
     }
     #endregion

@@ -3,32 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
-public class ViewCard : MonoBehaviour, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
+using TMPro;
+public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public static GameObject dragItem = null;
 
     public int num;
+    public TMP_Text nameText;
 
     private Transform tr;
     private Transform curTr;
     private Transform moveTr;
-    private Transform cardDeckTr;
     private int curIdx;
-
-
 
     private void Start()
     {
-        cardDeckTr = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/DeckSetting_Active/SsttingBoxImage").transform;
-        moveTr = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/DeckSetting_Active").transform;
+        moveTr = GameObject.Find("GameUI").transform;
         tr = GetComponent<Transform>();
         curTr = this.gameObject.transform.parent;
-        curIdx = tr.transform.GetSiblingIndex();
+        nameText = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/CardInfo/CardBoxImage/CardName").GetComponent<TMP_Text>();
+        Debug.Log(nameText.name);
     }
 
+    /*
+     * 카드를 드래그 하면 카드가 이동한다.
+     * 드롭 이벤트가 일어나지 않았다면 원래 자리로 돌아간다.
+     */
     public void OnDrag(PointerEventData eventData)
     {
+        
         tr.position = Input.mousePosition;
         tr.GetComponent<Image>().raycastTarget = false;
     }
@@ -50,14 +53,22 @@ public class ViewCard : MonoBehaviour, IPointerClickHandler, IDragHandler, IBegi
         }
     }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        curIdx = tr.GetSiblingIndex();
+    }
+
+    /// <summary>
+    /// 카드를 클릭하면 카드의 정보를 출력한다.
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerClick(PointerEventData eventData)
     {
-
+        nameText.text = this.name;
     }
 
     private void InitImage(Image img)
     {
         img.rectTransform.sizeDelta = new Vector2(100, 100);
     }
-
 }
