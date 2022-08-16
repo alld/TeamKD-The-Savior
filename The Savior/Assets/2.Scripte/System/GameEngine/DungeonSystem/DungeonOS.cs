@@ -400,6 +400,7 @@ public class DungeonOS : MonoBehaviour
             if (!item.isLive) resurrectable = true;
             item.hp = item.maxHP;
         }
+        HandReset();
     }
 
     void SelectResurrection(int partySlotN)
@@ -514,10 +515,15 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void GameSetting()
     {
+        int tempCharNumber;
         for (int i = 0; i < 4; i++) // 추후 데이터 처리 방식 변경에따라 맞쳐서 변경
         {
-            partyUnit.Add(new UnitTable(new CharacterDatabase(GameManager.instance.partySlot[i].number, jsonCH)));
-            partyUnit[i].isLive = true;
+            tempCharNumber = GameManager.instance.data.equipCharacter[i];
+            if (tempCharNumber != 0)
+            {
+                partyUnit.Add(new UnitTable(new CharacterDatabase(tempCharNumber, jsonCH)));
+                partyUnit[partyUnit.Count-1].isLive = true;
+            }
         }
         foreach (var item in GameManager.instance.data.equipRelic)
         {
@@ -1050,9 +1056,27 @@ public class DungeonOS : MonoBehaviour
 
     public void HandReset()
     {
+        switch(GameManager.instance.data.presset)
+        {
+            case 1:
+                useDeckDGP.AddRange(GameManager.instance.data.equipCard1);
+                break;
+            case 2:
+                useDeckDGP.AddRange(GameManager.instance.data.equipCard2);
+                break;
+            case 3:
+                useDeckDGP.AddRange(GameManager.instance.data.equipCard3);
+                break;
+            case 4:
+                useDeckDGP.AddRange(GameManager.instance.data.equipCard4);
+                break;
+            case 5:
+                useDeckDGP.AddRange(GameManager.instance.data.equipCard5);
+                break;
+        }
         DeckShuffle();
         handCard.Clear();
-        useDeckDGP = GameManager.instance.currentDeck[GameManager.instance.data.presset];
+        
         HandRefill();
     }
 

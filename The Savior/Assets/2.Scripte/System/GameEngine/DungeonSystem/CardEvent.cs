@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class CardEvent : MonoBehaviour
 {
@@ -21,7 +22,11 @@ public class CardEvent : MonoBehaviour
     public int card_handnumber;
     public int cost;
     private Button cardButton;
- 
+
+    private EventTrigger eventTrigger;
+    private EventTrigger.Entry eventMouseEnter;
+    private EventTrigger.Entry eventMouseExit;
+
     private void Start()
     {
         if(GameManager.instance.dungeonOS != null)
@@ -29,7 +34,17 @@ public class CardEvent : MonoBehaviour
             Destroy(GetComponent<ViewCard>());
             cardButton = gameObject.AddComponent<Button>();
             cardButton.onClick.AddListener(() => OnClick_CardBtn());
-           
+
+            if(!TryGetComponent<EventTrigger>(out eventTrigger))
+            {
+                eventTrigger = gameObject.AddComponent<EventTrigger>();
+            }
+            eventMouseEnter.eventID = EventTriggerType.PointerEnter;
+            eventMouseExit.eventID = EventTriggerType.PointerExit;
+            eventMouseEnter.callback.AddListener((data) => { EventMouseEnter(); });
+            eventMouseExit.callback.AddListener((data) => { EventMouseExit(); });
+            eventTrigger?.triggers.Add(eventMouseExit);
+            eventTrigger?.triggers.Add(eventMouseEnter);
         }
     }
     /// <summary>
@@ -56,17 +71,14 @@ public class CardEvent : MonoBehaviour
         //효과 없음 ..있다면 채우는곳...
     }
 
-    private void OnMouseEnter()
+    private void EventMouseEnter()
     {
         DungeonOS.instance.HandUIReset();
         DungeonController.instance.playerExpectationsGauage.fillAmount = cost / 10;
     }
 
-    private void OnMouseExit()
+    private void EventMouseExit()
     {
         DungeonController.instance.playerExpectationsGauage.fillAmount = DungeonController.instance.playerCostGauage.fillAmount;
     }
-
-
-
 }
