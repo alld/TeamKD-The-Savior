@@ -15,12 +15,13 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     private Transform curTr;
     private Transform moveTr;
     private int curIdx;
+    private int equipIdx;
 
     private void Start()
     {
         moveTr = GameObject.Find("GameUI").transform;
         tr = GetComponent<Transform>();
-        curTr = this.gameObject.transform.parent;
+        curTr = GameObject.Find("PUIManager").GetComponent<CardDeck>().cardDeckTr;
         nameText = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/CardInfo/CardBoxImage/CardName").GetComponent<TMP_Text>();
     }
 
@@ -30,7 +31,6 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
      */
     public void OnDrag(PointerEventData eventData)
     {
-        
         tr.position = Input.mousePosition;
         tr.GetComponent<Image>().raycastTarget = false;
     }
@@ -48,13 +48,33 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
         {
             tr.SetParent(curTr);
             tr.SetSiblingIndex(curIdx);
-            Debug.Log("ÀåÂø ½ÇÆÐ");
+            switch ((GameManager.instance.data.presset-1))
+            {
+                case 0:
+                    GameManager.instance.data.equipCard1[equipIdx] = 0;
+                    break;
+                case 1:
+                    GameManager.instance.data.equipCard2[equipIdx] = 0;
+                    break;
+                case 2:
+                    GameManager.instance.data.equipCard3[equipIdx] = 0;
+                    break;
+                case 3:
+                    GameManager.instance.data.equipCard4[equipIdx] = 0;
+                    break;
+                case 4:
+                    GameManager.instance.data.equipCard5[equipIdx] = 0;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         curIdx = tr.GetSiblingIndex();
+        equipIdx = this.transform.parent.GetSiblingIndex();
     }
 
     /// <summary>
