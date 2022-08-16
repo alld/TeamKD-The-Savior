@@ -14,10 +14,16 @@ public class UnitAI : MonoBehaviour
 
     private float targetDistance;
     private CharacterDatabase unit;
+    private CharacterController unitControl;
+    #endregion
+
+    #region AI 성향 변수
+    
     #endregion
 
     //enum UnitState { COMMON, ATTACK, ATTACK_MOVE, MOVE, SKILL, DIE, SPEIAL_SKILL }
     //UnitState unitState;
+    private WaitForSeconds delay_001 = new WaitForSeconds(0.01f);
     private WaitForSeconds delay_05 = new WaitForSeconds(0.5f);
     private WaitForSeconds delay_10 = new WaitForSeconds(1.0f);
     /// <summary>
@@ -47,10 +53,10 @@ public class UnitAI : MonoBehaviour
     public AIPattern aiPattern;
     public enum UnitState { Attack, Move, AttackMove, Skill, SpeialSkill, Die, Stand }
     public UnitState unitState;
-    private IEnumerator autoScheduler;
     private bool isOnScheduler;
     private bool isOnGoing;
     private bool isRemove;
+    private bool isMoving;
     private bool onAttackAvailable;
     private bool onSkillAvailable;
     private bool onSpecialSkillAvailable;
@@ -59,6 +65,7 @@ public class UnitAI : MonoBehaviour
     private void Start()
     {
         unitMelee = GetComponent<UnitMelee>();
+        unitControl.GetComponent<CharacterController>();
     }
 
     private void ResetAISetting()
@@ -79,6 +86,8 @@ public class UnitAI : MonoBehaviour
         isOnScheduler = false;
         ResetAISetting();
     }
+
+    #region 스케쥴러
 
     /// <summary>
     /// <br><paramref name="PatternNumber"/> :: </br>
@@ -112,6 +121,7 @@ public class UnitAI : MonoBehaviour
                             StartCoroutine(State_Attacking());
                             break;
                         case AIPattern.Avoiding:
+                            StartCoroutine(State_Avoiding());
                             break;
                         case AIPattern.RuuningAway:
                             break;
@@ -218,9 +228,9 @@ public class UnitAI : MonoBehaviour
     {
         return AIPattern.Death;
     }
+    #endregion
 
-
-
+    #region 패턴
 
     IEnumerator State_Stand()
     {
@@ -244,11 +254,12 @@ public class UnitAI : MonoBehaviour
         isOnScheduler = true;
         StartCoroutine(IsOnGoing());
 
-        while (true)
+        while (isOnScheduler)
         { 
             AttackTargetSearch();
             if (targetObj == null)
             {
+                MovePointSearch();
                 Action_AttackMove();
             }
             else break;
@@ -263,11 +274,34 @@ public class UnitAI : MonoBehaviour
             // 적이 다가옴 
             yield return delay_05;
         }
-
+        isMoving = false;
         isOnScheduler = false;
         if (aiSchedule.Count == 0) AutoScheduler(0, 0);
     }
 
+    IEnumerator State_Avoiding()
+    {
+        isOnScheduler = true;
+        StartCoroutine(IsOnGoing());
+
+        while (isOnScheduler)
+        {
+            AvoidPointSearch();
+            if (Vector3.Distance(targetPoint.position, transform.position) < 1)
+            {
+                Action_Move();
+            }
+            else break;
+
+            yield return delay_10;
+        }
+        isMoving = false;
+        isOnScheduler = false;
+        if (aiSchedule.Count == 0) AutoScheduler(1, AIPattern.Attacking);
+    }
+    #endregion
+
+    #region 대상 탐색
     /* 검토해야할 부분
      * 
      * 유닛마다 타겟우선도를 별도로 부여할지를 검토
@@ -312,14 +346,30 @@ public class UnitAI : MonoBehaviour
     }
 
     /// <summary>
+    /// 적이 가장 없는 지역을 향해서 이동시킴 
+    /// </summary>
+    private void AvoidPointSearch()
+    {
+        Vector3 tempPoint = Vector3.zero;
+        targetObj = null;
+        foreach (var item in DungeonOS.instance.monsterGroup)
+        {
+            tempPoint += item.transform.position;
+        }
+        tempPoint = tempPoint / DungeonOS.instance.monsterGroup.Count;
+        tempPoint = transform.position - tempPoint;
+        targetPoint.transform.position = tempPoint;
+    }
+    #endregion
+
+    #region 상태 설정
+    /// <summary>
     /// 유닛이 공격하기위해 이동하는 함수
     /// </summary>
     public void Action_AttackMove()
     {
         unitState = UnitState.AttackMove;
-        MovePointSearch();
-        // 포인트로 이동명령
-        
+        if (!isMoving) StartCoroutine(Moving());
     }
 
     /// <summary>
@@ -361,6 +411,28 @@ public class UnitAI : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// 유닛을 공격하게 하는 함수
+    /// </summary>
+    public bool Action_Attack()
+    {
+        unitState = UnitState.Attack;
+        unitMelee.OnAttack();
+        onAttackAvailable = false;
+        StartCoroutine(CooldownCheck(unit.attackSpeed, 0));
+        return true;
+    }
+
+    /// <summary>
+    /// 유닛을 자동으로 움직이게 하는 함수
+    /// </summary>
+    public void Action_Move()
+    {
+        unitState = UnitState.Move;
+        if (!isMoving) StartCoroutine(Moving());
+    }
+    #endregion
+
 
     /// <summary>
     /// 공격 속도(재공격), 스킬 쿨다운을 체크하는 함수
@@ -394,26 +466,24 @@ public class UnitAI : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 유닛을 공격하게 하는 함수
-    /// </summary>
-    public bool Action_Attack()
-    {
-        unitState = UnitState.Attack;
-        unitMelee.OnAttack();
-        onAttackAvailable = false;
-        StartCoroutine(CooldownCheck(unit.attackSpeed, 0));
-        return true;
-    }
+    #region 행동
 
-    /// <summary>
-    /// 유닛을 자동으로 움직이게 하는 함수
-    /// </summary>
-    public void Action_Move()
+    IEnumerator Moving()
     {
-        unitState = UnitState.Move;
-        MovePointSearch();
-        // 포인트로 이동명령
+        isMoving = true;
+        while (isMoving)
+        {
+            if (Vector3.Distance(transform.position, targetPoint.position) >= 0.5f)
+            {
+                unitControl.Move(targetPoint.position * Time.deltaTime);
+                transform.LookAt(targetPoint.position * Time.deltaTime);
+                yield return delay_001;
+            }
+            else
+            {
+                isMoving = false;
+            }
+        }
     }
-
+    #endregion
 }

@@ -6,8 +6,8 @@ public class TestScripte : MonoBehaviour
 {
     void Start()
     {
-        StartCoroutine(Starttest());
-        Debug.Log("»Æ¿Œ2");
+        //StartCoroutine(Starttest());
+
     }
 
     public IEnumerator Starttest()
@@ -21,6 +21,5 @@ public class TestScripte : MonoBehaviour
         }
         //StartCoroutine(Test(2, 0, 15));
     }
-
 
 }
