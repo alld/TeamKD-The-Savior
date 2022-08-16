@@ -9,11 +9,11 @@ public class UnitAI : MonoBehaviour
 
     #region AI 계산값
     public Transform targetPoint;
-    private MonsterDatabase targetObj;
+    private UnitTable targetObj;
     private UnitMelee unitMelee;
 
     private float targetDistance;
-    private CharacterDatabase unit;
+    private UnitTable unit;
     private CharacterController unitControl;
     #endregion
 
@@ -57,9 +57,9 @@ public class UnitAI : MonoBehaviour
     private bool isOnGoing;
     private bool isRemove;
     private bool isMoving;
-    private bool onAttackAvailable;
-    private bool onSkillAvailable;
-    private bool onSpecialSkillAvailable;
+    private bool onAttackAvailable = false;
+    private bool onSkillAvailable = false;
+    private bool onSpecialSkillAvailable = false;
 
     // 상점에서도 같은 오브젝트를 사용하기때문에, Start사용시 예외처리 필수
     private void Start()
