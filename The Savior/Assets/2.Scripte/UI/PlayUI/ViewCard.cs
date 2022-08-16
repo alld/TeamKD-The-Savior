@@ -22,7 +22,6 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
         tr = GetComponent<Transform>();
         curTr = this.gameObject.transform.parent;
         nameText = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/CardInfo/CardBoxImage/CardName").GetComponent<TMP_Text>();
-        Debug.Log(nameText.name);
     }
 
     /*
