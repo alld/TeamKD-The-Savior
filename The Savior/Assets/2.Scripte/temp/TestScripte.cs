@@ -8,6 +8,22 @@ public class TestScripte : MonoBehaviour
     {
         //StartCoroutine(Starttest());
 
+
+        DEF abc = new DEF();
+        ABC abc2 = abc.aaa;
+        Debug.Log(abc.aaa.A);
+
+        abc.aaa.A++;
+
+        Debug.Log(abc.aaa.A);
+        Debug.Log(abc2.A);
+
+        abc2.top();
+
+        Debug.Log(abc.aaa.A);
+        Debug.Log(abc2.A);
+
+
     }
 
     public IEnumerator Starttest()
@@ -22,4 +38,20 @@ public class TestScripte : MonoBehaviour
         //StartCoroutine(Test(2, 0, 15));
     }
 
+
+    public class ABC
+    {
+        public int A = 1;
+        public void top()
+        {
+            A = 5;
+        }
+    }
+
+    public class DEF
+    {
+        static public int B = 0;
+        public ABC aaa = new ABC();
+        
+    }
 }

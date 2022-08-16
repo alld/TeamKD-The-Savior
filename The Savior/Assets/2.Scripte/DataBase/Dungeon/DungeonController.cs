@@ -17,6 +17,7 @@ public class DungeonController : MonoBehaviour
     public Image playerExpectationsGauage; // 기대치바
     public Image[] gameTimerBG; //타이머 배경
     public TMP_Text gameTimerText; //시계바늘
+    public TMP_Text gameCostNumber; // 코스트 숫자
     public GameObject gameRoundbarArrow; //라운드 표시바늘
     public GameObject[] gameRoundbarPoint; //라운드 표시바 위치
     public GameObject[] gameRoundDisplayIcon; //각 라운드 아이콘

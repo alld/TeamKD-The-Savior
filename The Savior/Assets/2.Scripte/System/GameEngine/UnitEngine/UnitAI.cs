@@ -24,14 +24,24 @@ public class UnitAI : MonoBehaviour
     //enum UnitState { COMMON, ATTACK, ATTACK_MOVE, MOVE, SKILL, DIE, SPEIAL_SKILL }
     //UnitState unitState;
     private WaitForSeconds delay_001 = new WaitForSeconds(0.01f);
+    private WaitForSeconds delay_03 = new WaitForSeconds(0.3f);
     private WaitForSeconds delay_05 = new WaitForSeconds(0.5f);
     private WaitForSeconds delay_10 = new WaitForSeconds(1.0f);
     /// <summary>
     /// 기능 : 인공지능 유닛을 구분하기위한 넘버, 해당 컴포넌트들을 이 값을 기준으로 기준넘버가 변경됨
     /// <br></br>방법 : DungeonOS.instance.partySlot[<paramref name="unitNumber"/>]
     /// </summary>
-    public int unitNumber;
-    public int partyNumber;
+    public int unitNumber 
+    {
+        get { return unitNumber; }
+        set { GetComponent<UnitMelee>().unitNumber = value; }
+    }
+    public int partyNumber
+    {
+        get { return partyNumber; }
+        set { GetComponent<UnitMelee>().partyNumber = value; }
+    }
+    public bool isplayer;
 
     public List<AIPattern> aiSchedule = new List<AIPattern>();
     /// <summary>
@@ -78,7 +88,11 @@ public class UnitAI : MonoBehaviour
     public void OnStartAI()
     {
         ResetAISetting();
-        unit = DungeonOS.instance.partyUnit[partyNumber];
+        if (isplayer)
+        {
+            unit = DungeonOS.instance.partyUnit[partyNumber];
+        }
+        else unit = DungeonOS.instance.monsterGroup[partyNumber];
     }
 
     public void OnEndAI()
@@ -100,7 +114,7 @@ public class UnitAI : MonoBehaviour
     /// <br> - 3 : 행동 탐색</br>
     /// <br> - 4 : 현재 행동 제거</br>
     /// <returns></returns>
-    private bool AutoScheduler(int PatternNumber, AIPattern Pattern)
+    public bool AutoScheduler(int PatternNumber, AIPattern Pattern)
     {
         switch (PatternNumber)
         {
@@ -124,22 +138,27 @@ public class UnitAI : MonoBehaviour
                             StartCoroutine(State_Avoiding());
                             break;
                         case AIPattern.RuuningAway:
+                            StartCoroutine(State_RuuningAway());
                             break;
                         case AIPattern.Follow:
+                            StartCoroutine(State_Follow(5.0f, Vector3.zero));
                             break;
                         case AIPattern.Push:
                             break;
                         case AIPattern.Stern:
+                            StartCoroutine(State_Stern(5.0f));
                             break;
                         case AIPattern.Skill:
                             break;
                         case AIPattern.SpecialSkill:
                             break;
                         case AIPattern.Moving:
+                            StartCoroutine(State_Moving(Vector3.zero));
                             break;
                         case AIPattern.Provocation:
                             break;
                         case AIPattern.Death:
+                            StartCoroutine(State_Death());
                             break;
                         default:
                             break;
@@ -232,7 +251,7 @@ public class UnitAI : MonoBehaviour
 
     #region 패턴
 
-    IEnumerator State_Stand()
+    IEnumerator State_Stand() // 대기
     {
         isOnScheduler = true;
         StartCoroutine(IsOnGoing());
@@ -249,7 +268,7 @@ public class UnitAI : MonoBehaviour
         if (aiSchedule.Count == 0) AutoScheduler(0, 0);
     }
 
-    IEnumerator State_Attacking()
+    IEnumerator State_Attacking() // 공격
     {
         isOnScheduler = true;
         StartCoroutine(IsOnGoing());
@@ -279,7 +298,7 @@ public class UnitAI : MonoBehaviour
         if (aiSchedule.Count == 0) AutoScheduler(0, 0);
     }
 
-    IEnumerator State_Avoiding()
+    IEnumerator State_Avoiding() // 회피
     {
         isOnScheduler = true;
         StartCoroutine(IsOnGoing());
@@ -298,6 +317,101 @@ public class UnitAI : MonoBehaviour
         isMoving = false;
         isOnScheduler = false;
         if (aiSchedule.Count == 0) AutoScheduler(1, AIPattern.Attacking);
+    }
+
+    IEnumerator State_RuuningAway() // 도주 
+    {
+        isOnScheduler = true;
+        StartCoroutine(IsOnGoing());
+
+        while (isOnScheduler)
+        {
+            AvoidPointSearch();
+            if (Vector3.Distance(targetPoint.position, transform.position) < 0.1)
+            {
+                Action_Move();
+            }
+            else break;
+
+            yield return delay_10;
+        }
+        isMoving = false;
+        isOnScheduler = false;
+        if (aiSchedule.Count == 0) AutoScheduler(1, AIPattern.Avoiding);
+    }
+
+    IEnumerator State_Follow(float time, Vector3 Target) // 따라가기 
+    {
+        isOnScheduler = true;
+        StartCoroutine(IsOnGoing());
+        time *= 2;
+        while (isOnScheduler)
+        {
+            FollowTargetSearch(Target);
+            if (--time < 0) break;
+            if (Vector3.Distance(targetPoint.position, transform.position) < 1)
+            {
+                Action_Move();
+            }
+            else break;
+
+            yield return delay_05;
+        }
+        isMoving = false;
+        isOnScheduler = false;
+        if (aiSchedule.Count == 0) AutoScheduler(1, AIPattern.Avoiding);
+    }
+
+    IEnumerator State_Moving(Vector3 Target) // 이동하기 
+    {
+        isOnScheduler = true;
+        StartCoroutine(IsOnGoing());
+        while (isOnScheduler)
+        {
+            if (Vector3.zero == Target) MovePointSearch();
+            else targetPoint.position = Target;
+            if (Vector3.Distance(targetPoint.position, transform.position) < 1)
+            {
+                Action_Move();
+            }
+            else break;
+
+            yield return delay_05;
+        }
+        isMoving = false;
+        isOnScheduler = false;
+        if (aiSchedule.Count == 0) AutoScheduler(1, AIPattern.Avoiding);
+    }
+
+    IEnumerator State_Stern(float time) // 스턴
+    {
+        isOnScheduler = true;
+        StartCoroutine(IsOnGoing());
+        Action_Stand();
+        time *= 2;
+
+        while (isOnScheduler)
+        {
+            if (--time < 0) break;
+            yield return delay_05;
+        }
+        //애니메이션 작동
+        while (!isRemove)
+        {
+            // 추가 조건으로 빠져나올것 :: 스턴 상태 종료, 특수상태 종료 같은상황
+            // 적이 다가옴 
+            yield return delay_05;
+        }
+
+        isOnScheduler = false;
+        if (aiSchedule.Count == 0) AutoScheduler(0, 0);
+    }
+
+    IEnumerator State_Death() // 사망
+    {
+        Action_Die();
+        //애니메이션 작동
+        yield return delay_03;
     }
     #endregion
 
@@ -332,7 +446,6 @@ public class UnitAI : MonoBehaviour
     {
         float tempDistance = 99999;
         Vector3 tempPoint = Vector3.zero;
-        targetObj = null;
         foreach (var item in DungeonOS.instance.monsterGroup)
         {
             targetDistance = Vector3.Distance(transform.position, item.transform.position);
@@ -343,6 +456,26 @@ public class UnitAI : MonoBehaviour
             }
         }
         targetPoint.transform.position = tempPoint;
+    }
+
+    private void FollowTargetSearch(Vector3 followTargetPoint)
+    {
+        if(followTargetPoint == Vector3.zero)
+        {
+            float tempDistance = 99999;
+            Vector3 tempPoint = Vector3.zero;
+            foreach (var item in DungeonOS.instance.monsterGroup)
+            {
+                targetDistance = Vector3.Distance(transform.position, item.transform.position);
+                if (targetDistance < tempDistance)
+                {
+                    tempDistance = targetDistance;
+                    tempPoint = item.transform.position;
+                }
+            }
+            targetPoint.transform.position = tempPoint;
+        }
+        else targetPoint.transform.position = followTargetPoint;
     }
 
     /// <summary>
@@ -387,7 +520,10 @@ public class UnitAI : MonoBehaviour
     public void Action_Die()
     {
         unitState = UnitState.Die;
-        DungeonOS.instance.partyUnit[unitNumber].isLive = false;
+        unit.isLive = false;
+        if (isplayer) DungeonOS.instance.DieCount_Ally--;
+        else DungeonOS.instance.DieCount_Enemy--;
+        DungeonOS.instance.OnStateCheck();
     }
 
 
@@ -445,7 +581,7 @@ public class UnitAI : MonoBehaviour
             case 0: // 일반공격
                 while(cooldown-- > 0)
                 {
-                    yield return delay_10;
+                    yield return delay_03;
                 }
                 onAttackAvailable = true;
                 break;

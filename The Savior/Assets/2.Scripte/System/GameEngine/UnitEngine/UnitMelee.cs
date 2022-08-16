@@ -22,8 +22,8 @@ public class UnitMelee : MonoBehaviour
     /// 기능 : 피격된 대상에대한 데이터에 접근하기위한 변수
     /// <br></br>방법 : DungeonOS.instance.partySlot[<paramref name="partyNumber"/>]
     /// </summary>
-    private int unitNumber;
-    private int partyNumber;
+    public int unitNumber;
+    public int partyNumber;
     //캐시 처리
 
     private void Start() // 상점에서도 같은 오브젝트를 사용하기때문에, Start사용시 예외처리 필수
@@ -89,7 +89,7 @@ public class UnitMelee : MonoBehaviour
         DungeonOS.instance.partyUnit[partyNumber].hp -= temp_damage;
         if (DungeonOS.instance.partyUnit[partyNumber].hp < 0)
         {
-            GetComponent<UnitAI>().Action_Die();            
+            GetComponent<UnitAI>().AutoScheduler(2,UnitAI.AIPattern.Death);            
         }
     }
 }
