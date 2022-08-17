@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 6159619489229979303}
   - component: {fileID: -5662261335109018516}
   - component: {fileID: -6172711689052733901}
+  - component: {fileID: -7983502332963989988}
   m_Layer: 0
   m_Name: Character1
   m_TagString: Untagged
@@ -158,10 +159,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPoint: {fileID: 3601309932638885304}
-  unitNumber: 1
-  partyNumber: 0
+  isplayer: 0
   aiSchedule: 
   aiPattern: 0
+  unitState: 0
 --- !u!195 &-6172711689052733901
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -184,3 +185,21 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!143 &-7983502332963989988
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3008694513614974338}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}

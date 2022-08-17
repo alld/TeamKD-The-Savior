@@ -69,6 +69,10 @@ public class UnitTable : MonoBehaviour
     /// </summary>
     public int priorities = 0;
     /// <summary>
+    /// 유닛 우선도 : 방어 인식 범위
+    /// </summary>
+    public float defRange;
+    /// <summary>
     /// 캐릭터 기본 자리 우선도 : 자리 배치
     /// </summary>
     public int positionPri = 0;
@@ -127,9 +131,9 @@ public class UnitTable : MonoBehaviour
     public int rewardGold = 0;
     public int rewardSoul = 0;
     public int rewardExp = 0;
-    public int[] rewardCard = null;
-    public int[] rewardUnit = null;
-    public int[] rewardRelic = null;
+    public List<int> rewardCard = new List<int>();
+    public List<int> rewardUnit = new List<int>();
+    public List<int> rewardRelic = new List<int>();
 
     public UnitTable(CharacterDatabase unit)
     {
@@ -146,6 +150,7 @@ public class UnitTable : MonoBehaviour
         attackRange = unit.attackRange;
         attribute = unit.attribute;
         priRange = unit.priRange;
+        defRange = unit.defRange;
         priorities = unit.priorities;
         positionPri = unit.positionPri;
         unitClass = unit.unitClass;
@@ -176,6 +181,7 @@ public class UnitTable : MonoBehaviour
         attackRange = unit.attackRange;
         attribute = unit.attribute;
         priRange = unit.priRange;
+        defRange = unit.defRange;
         priorities = unit.priorities;
         positionPri = unit.positionPri;
         basicSkillA = unit.basicSkillA;
@@ -205,6 +211,7 @@ public class UnitTable : MonoBehaviour
         unit.attackRange = attackRange;
         unit.attribute = attribute;
         unit.priRange = priRange;
+        unit.defRange = defRange;
         unit.priorities = priorities;
         unit.positionPri = positionPri;
         unit.unitClass = unitClass;
@@ -235,6 +242,7 @@ public class UnitTable : MonoBehaviour
         unit.attackRange = attackRange;
         unit.attribute = attribute;
         unit.priRange = priRange;
+        unit.defRange = defRange;
         unit.priorities = priorities;
         unit.positionPri = positionPri;
         unit.basicSkillA = basicSkillA;

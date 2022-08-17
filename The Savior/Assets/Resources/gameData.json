@@ -6,7 +6,11 @@
     "BGM": 100,
     "Sound": 100,
     "souls": 1000000,
+<<<<<<< HEAD
     "golds": 999600,
+=======
+    "golds": 996700,
+>>>>>>> 1ccfe563da3e56db7c6739b7cd5602200b4eb817
     "myPoint": 0,
     "presetName": [
         "1번 프리셋",
@@ -114,7 +118,9 @@
         0,
         0
     ],
-    "haveCharacter": [],
+    "haveCharacter": [
+        0
+    ],
     "haveRelic": [
         1,
         2,
