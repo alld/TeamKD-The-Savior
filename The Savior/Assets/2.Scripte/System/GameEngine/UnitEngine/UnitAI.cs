@@ -31,15 +31,25 @@ public class UnitAI : MonoBehaviour
     /// 기능 : 인공지능 유닛을 구분하기위한 넘버, 해당 컴포넌트들을 이 값을 기준으로 기준넘버가 변경됨
     /// <br></br>방법 : DungeonOS.instance.partySlot[<paramref name="unitNumber"/>]
     /// </summary>
+    private int UnitNumber;
     public int unitNumber 
     {
-        get { return unitNumber; }
-        set { GetComponent<UnitMelee>().unitNumber = value; }
+        get { return UnitNumber; }
+        set 
+        {
+            UnitNumber = value;
+            GetComponent<UnitMelee>().unitNumber = value; 
+        }
     }
+    private int PartyNumber;
     public int partyNumber
     {
-        get { return partyNumber; }
-        set { GetComponent<UnitMelee>().partyNumber = value; }
+        get { return PartyNumber; }
+        set 
+        {
+            PartyNumber = value;
+            GetComponent<UnitMelee>().partyNumber = value; 
+        }
     }
     public bool isplayer;
 
@@ -75,7 +85,7 @@ public class UnitAI : MonoBehaviour
     private void Start()
     {
         unitMelee = GetComponent<UnitMelee>();
-        unitControl.GetComponent<CharacterController>();
+        unitControl?.GetComponent<CharacterController>();
     }
 
     private void ResetAISetting()

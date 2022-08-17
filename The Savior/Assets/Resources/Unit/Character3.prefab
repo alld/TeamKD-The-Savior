@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1882439934251796115}
   - component: {fileID: 6159619489229979303}
   - component: {fileID: -5666567178546949951}
+  - component: {fileID: -6117324477406836523}
   m_Layer: 0
   m_Name: Character3
   m_TagString: Untagged
@@ -126,10 +127,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPoint: {fileID: 1631393281951107065}
-  unitNumber: 3
-  partyNumber: 0
+  isplayer: 0
   aiSchedule: 
   aiPattern: 0
+  unitState: 0
+--- !u!143 &-6117324477406836523
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3008694513614974338}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6307834439532629844
 GameObject:
   m_ObjectHideFlags: 0
