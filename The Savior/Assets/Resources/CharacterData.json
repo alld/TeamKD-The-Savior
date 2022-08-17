@@ -1,7 +1,29 @@
 [
   {
+    "Name_Kr": "0번 캐릭터",
+    "Name_Eng": "0번 공란",
+    "Hp_Total": "200.0f",
+    "Hp_Cur": "200.0f",
+    "Total_Damage": "10.0f",
+    "Chr_Power": "5.0f",
+    "Chr_AtkSpeed": "1.5f",
+    "Chr_AtkRange": "2.0f",
+    "Chr_DF": "4.0f",
+    "Chr_MS": "7.0f",
+    "Ultimate_Gauge": "100.0f",
+    "Attack_Type": 1,
+    "Attack_Priority": 5,
+    "Place_Priority": 45,
+    "Attribute": 1,
+    "Atk_Know_Range": 10,
+    "Def_Know_Range": 5,
+    "Index": 6,
+    "Skill_Able": "TRUE",
+    "Ultimate_Able": "FALSE"
+  },
+  {
     "Name_Kr": "1번 캐릭터",
-    "Name_Eng": "EX",
+    "Name_Eng": "Dauerhaft Leben",
     "Hp_Total": "200.0",
     "Hp_Cur": "200.0",
     "Total_Damage": "10",
@@ -23,7 +45,7 @@
   },
   {
     "Name_Kr": "2번 캐릭터",
-    "Name_Eng": "EX",
+    "Name_Eng": "Gebot Ordnung",
     "Hp_Total": "200.0f",
     "Hp_Cur": "200.0f",
     "Total_Damage": "10.0f",
@@ -45,7 +67,7 @@
   },
   {
     "Name_Kr": "3번 캐릭터",
-    "Name_Eng": "EX",
+    "Name_Eng": "Künstler Klang",
     "Hp_Total": "200.0f",
     "Hp_Cur": "200.0f",
     "Total_Damage": "10.0f",
@@ -67,7 +89,7 @@
   },
   {
     "Name_Kr": "4번 캐릭터",
-    "Name_Eng": "EX",
+    "Name_Eng": "Ordonnanz Schnell",
     "Hp_Total": "200.0f",
     "Hp_Cur": "200.0f",
     "Total_Damage": "10.0f",

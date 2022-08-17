@@ -40,8 +40,9 @@ public class InfoCharacter : MonoBehaviour
 
     private TextAsset json;
     private string jsonData;
-
-    private CharacterDatabase charData;
+    //private CharacterDatabase charData; // 이전
+    private CharacterDatabase.Data charData; // 수정
+    private CharacterDatabase CharData; // 수정
 
     // 상세정보에 활성화 된 캐릭터 이미지
     private Image character;
@@ -55,8 +56,8 @@ public class InfoCharacter : MonoBehaviour
 
         json = Resources.Load<TextAsset>("CharacterData");
         jsonData = json.text;
-
-        charData = GameObject.Find("GameManager").GetComponent<CharacterDatabase>();
+        //charData = GameObject.Find("GameManager").GetComponent<CharacterDatabase>(); 이전
+        CharData = GameObject.Find("GameManager").GetComponent<CharacterDatabase>(); // 수정
     }
 
     /// <summary>
@@ -67,7 +68,8 @@ public class InfoCharacter : MonoBehaviour
         charInfo.SetActive(true);
 
         // 이 함수를 호출한 캐릭터의 번호에 맞는 데이터를 가져온다.
-        charData = new CharacterDatabase(num-1);
+        //charData = new CharacterDatabase(num-1); // 이전
+        charData = new CharacterDatabase.Data(num - 1); // 수정
         character = copyImg;
         character = Instantiate(character, imgTr);
         InitRectSize(character);

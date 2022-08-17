@@ -262,6 +262,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4941108922421983367}
   - component: {fileID: 1329253166134616829}
+  - component: {fileID: -2161432109861378623}
+  - component: {fileID: -3936115131158005751}
   m_Layer: 0
   m_Name: Stage01_Monster_01
   m_TagString: Untagged
@@ -307,6 +309,37 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-2161432109861378623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5753780418894225981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b94db90fc14be24fa447e9d5709c9d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
+  isplayer: 0
+  aiSchedule: 
+  aiPattern: 0
+  unitState: 0
+--- !u!114 &-3936115131158005751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5753780418894225981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56edd8ca523415648b82bb11d2c8c685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitNumber: 0
+  partyNumber: 0
 --- !u!1 &7354426255461490634
 GameObject:
   m_ObjectHideFlags: 0

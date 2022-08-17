@@ -24,8 +24,8 @@ public class CardEvent : MonoBehaviour
     private Button cardButton;
 
     private EventTrigger eventTrigger;
-    private EventTrigger.Entry eventMouseEnter;
-    private EventTrigger.Entry eventMouseExit;
+    private EventTrigger.Entry eventMouseEnter = new EventTrigger.Entry();
+    private EventTrigger.Entry eventMouseExit = new EventTrigger.Entry();
 
     private void Start()
     {
@@ -74,7 +74,7 @@ public class CardEvent : MonoBehaviour
     private void EventMouseEnter()
     {
         DungeonOS.instance.HandUIReset();
-        DungeonController.instance.playerExpectationsGauage.fillAmount = cost / 10;
+        DungeonController.instance.playerExpectationsGauage.fillAmount = (DungeonOS.instance.costDGP - cost) / (float)10;
     }
 
     private void EventMouseExit()

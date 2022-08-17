@@ -9,11 +9,11 @@ public class UnitAI : MonoBehaviour
 
     #region AI 계산값
     public Transform targetPoint;
-    private UnitTable targetObj;
+    private UnitTable.Data targetObj;
     private UnitMelee unitMelee;
 
     private float targetDistance;
-    private UnitTable unit;
+    private UnitTable.Data unit;
     private CharacterController unitControl;
     #endregion
 
@@ -87,8 +87,22 @@ public class UnitAI : MonoBehaviour
         unitMelee = GetComponent<UnitMelee>();
         unitControl?.GetComponent<CharacterController>();
 
-
+        if (GameManager.instance.dungeonOS != null) AIDeleSetting();
     }
+
+    public void AIDeleSetting()
+    {
+        DungeonOS.instance.dele_RoundStart += OnStartAI;
+        DungeonOS.instance.dele_RoundEnd += OnEndAI;
+    }
+
+
+    private void OnDestroy()
+    {
+        DungeonOS.instance.dele_RoundStart -= OnStartAI;
+        DungeonOS.instance.dele_RoundEnd -= OnEndAI;
+    }
+
 
     private void ResetAISetting()
     {
@@ -105,6 +119,7 @@ public class UnitAI : MonoBehaviour
             unit = DungeonOS.instance.partyUnit[partyNumber];
         }
         else unit = DungeonOS.instance.monsterGroup[partyNumber];
+        AutoScheduler(0, 0);
     }
 
     public void OnEndAI()
@@ -124,7 +139,7 @@ public class UnitAI : MonoBehaviour
     /// <br> - 1 : 행동 추가</br>
     /// <br> - 2 : 끼어 들기</br>
     /// <br> - 3 : 행동 탐색</br>
-    /// <br> - 4 : 현재 행동 제거</br>
+    /// <br> - 4 : 현재 행동 제거</br></param>
     /// <returns></returns>
     public bool AutoScheduler(int PatternNumber, AIPattern Pattern)
     {
@@ -466,7 +481,7 @@ public class UnitAI : MonoBehaviour
         targetObj = null;
         foreach (var item in DungeonOS.instance.monsterGroup)
         {
-            targetDistance = Vector3.Distance(transform.position, item.transform.position);
+            targetDistance = Vector3.Distance(transform.position, item.charObject.transform.position);
             if (targetDistance <= unit.attackRange)
             {
                 if(item.priorities > temp)
@@ -484,11 +499,11 @@ public class UnitAI : MonoBehaviour
         Vector3 tempPoint = Vector3.zero;
         foreach (var item in DungeonOS.instance.monsterGroup)
         {
-            targetDistance = Vector3.Distance(transform.position, item.transform.position);
+            targetDistance = Vector3.Distance(transform.position, item.charObject.transform.position);
             if (targetDistance < tempDistance)
             {
                 tempDistance = targetDistance;
-                tempPoint = item.transform.position;
+                tempPoint = item.charObject.transform.position;
             }
         }
         targetPoint.transform.position = tempPoint;
@@ -502,11 +517,11 @@ public class UnitAI : MonoBehaviour
             Vector3 tempPoint = Vector3.zero;
             foreach (var item in DungeonOS.instance.monsterGroup)
             {
-                targetDistance = Vector3.Distance(transform.position, item.transform.position);
+                targetDistance = Vector3.Distance(transform.position, item.charObject.transform.position);
                 if (targetDistance < tempDistance)
                 {
                     tempDistance = targetDistance;
-                    tempPoint = item.transform.position;
+                    tempPoint = item.charObject.transform.position;
                 }
             }
             targetPoint.transform.position = tempPoint;
@@ -523,7 +538,7 @@ public class UnitAI : MonoBehaviour
         targetObj = null;
         foreach (var item in DungeonOS.instance.monsterGroup)
         {
-            tempPoint += item.transform.position;
+            tempPoint += item.charObject.transform.position;
         }
         tempPoint = tempPoint / DungeonOS.instance.monsterGroup.Count;
         tempPoint = transform.position - tempPoint;

@@ -367,6 +367,10 @@ GameObject:
   - component: {fileID: 600042788}
   - component: {fileID: 600042789}
   - component: {fileID: 600042790}
+  - component: {fileID: 600042794}
+  - component: {fileID: 600042793}
+  - component: {fileID: 600042792}
+  - component: {fileID: 600042791}
   m_Layer: 0
   m_Name: DungeonManager
   m_TagString: Untagged
@@ -404,19 +408,22 @@ MonoBehaviour:
   DungeonOSObj: {fileID: 0}
   dungeonNumber: 0
   errorList: []
-  stagePrefabGroupDG: []
+  stagePrefabGroupDG:
+  - {fileID: 5558801787681939250, guid: 83f3d6710ce664d4bbeee6f8d4993d68, type: 3}
+  - {fileID: 5558801787681939250, guid: 83f3d6710ce664d4bbeee6f8d4993d68, type: 3}
+  - {fileID: 5558801787681939250, guid: 83f3d6710ce664d4bbeee6f8d4993d68, type: 3}
+  - {fileID: 5558801787681939250, guid: 83f3d6710ce664d4bbeee6f8d4993d68, type: 3}
+  - {fileID: 5558801787681939250, guid: 83f3d6710ce664d4bbeee6f8d4993d68, type: 3}
   stageGroupDG:
-  - {fileID: 5558801787681939250, guid: 83f3d6710ce664d4bbeee6f8d4993d68, type: 3}
-  - {fileID: 5558801787681939250, guid: 83f3d6710ce664d4bbeee6f8d4993d68, type: 3}
-  - {fileID: 5558801787681939250, guid: 83f3d6710ce664d4bbeee6f8d4993d68, type: 3}
-  - {fileID: 5558801787681939250, guid: 83f3d6710ce664d4bbeee6f8d4993d68, type: 3}
-  - {fileID: 5558801787681939250, guid: 83f3d6710ce664d4bbeee6f8d4993d68, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   slotStageDG: {fileID: 0}
   playerStagePointGroup: {fileID: 1327760378}
   monsterStagePointGroup: {fileID: 69969054}
-  monsterBoxMin: 
-  monsterBoxMax: 
-  monsterBoxCount: 
+  handSlot: 000000
   roundInfoDG: 
   monsterGroup: []
   characterGroup: []
@@ -427,15 +434,17 @@ MonoBehaviour:
   accrueSoulDGP: 0
   costDGP: 0
   timerOnDGP: 0
-  timeLevelDGP: 0
   remainingCardDGP: 0
   eaGetSoulDGP: 
-  eaIsDieDGP: 
+  DieCount_Ally: 0
+  DieCount_Enemy: 0
   eaDamagedDGP: []
   eaDamageDGP: []
   eaKillCountDGP: []
+  handCard: []
   addCount: 0
   partyUnit: []
+  equipRelic: []
   useDeckDGP: 
 --- !u!114 &600042790
 MonoBehaviour:
@@ -475,6 +484,61 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &600042791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600042787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c34d2e0c0c2e774c984509040d87944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &600042792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600042787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dc5554e2db5562429f4df7d02be01b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &600042793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600042787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f78b69bace2854485e48ee7c1f16c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  relicEffectCount: 0
+  tempSkillTime: 0
+  relicStart_ALWAY: 
+  relicStart_FIRST: 
+  relicStart_MIDDLE: 
+  relicStart_HALF: 
+  relicStart_LAST: 
+--- !u!114 &600042794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600042787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf9409d50a7f6049a373325b4522b72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &617554973
 GameObject:
   m_ObjectHideFlags: 0

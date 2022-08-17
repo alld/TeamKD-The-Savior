@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class DungeonOS : MonoBehaviour
 {
     public static DungeonOS instance = null;
-    public GameObject DungeonOSObj = null;
     #region 환경 변수
     [Header("환경 변수")]
     public int dungeonNumber = 0;
@@ -22,18 +21,18 @@ public class DungeonOS : MonoBehaviour
 
     #region 던전 기본 데이터
 
-    List<UnitTable> monsterBox = new List<UnitTable>();
+    List<UnitTable.Data> monsterBox = new List<UnitTable.Data>();
     List<int> rewardHeroBox = new List<int>();
     List<int> rewardCardBox = new List<int>();
     List<int> rewardRelicBox = new List<int>();
 
-    List<UnitTable> stageSlotPlayerBottom = new List<UnitTable>(); 
-    List<UnitTable> stageSlotPlayerTop = new List<UnitTable>();
-    List<UnitTable> stageSlotPlayerMid = new List<UnitTable>();
+    List<UnitTable.Data> stageSlotPlayerBottom = new List<UnitTable.Data>(); 
+    List<UnitTable.Data> stageSlotPlayerTop = new List<UnitTable.Data>();
+    List<UnitTable.Data> stageSlotPlayerMid = new List<UnitTable.Data>();
 
-    List<UnitTable> stageSlotMonsterBottom = new List<UnitTable>();
-    List<UnitTable> stageSlotMonsterTop = new List<UnitTable>();
-    List<UnitTable> stageSlotMonsterMid = new List<UnitTable>();
+    List<UnitTable.Data> stageSlotMonsterBottom = new List<UnitTable.Data>();
+    List<UnitTable.Data> stageSlotMonsterTop = new List<UnitTable.Data>();
+    List<UnitTable.Data> stageSlotMonsterMid = new List<UnitTable.Data>();
 
 
     public delegate void StateCheck();
@@ -56,9 +55,10 @@ public class DungeonOS : MonoBehaviour
     public GameObject monsterStagePointGroup;
     private Transform[] playerStagePoint;
     private Transform[] monsterStagePoint;
-    public int[] monsterBoxMin; // 설정해줘야함
-    public int[] monsterBoxMax; // 설정해줘야함
-    public int[] monsterBoxCount; // 설정해줘야함
+    public DungeonData.data dungeonData;
+    //public int[] monsterBoxMin; // 설정해줘야함
+    //public int[] monsterBoxMax; // 설정해줘야함
+    //public int[] monsterBoxCount; // 설정해줘야함
     public bool[] handSlot = { false, false, false };
     /// <summary>
     /// 각라운드가 가지고있는 정보
@@ -75,11 +75,11 @@ public class DungeonOS : MonoBehaviour
     /// <summary>
     /// 현재 라운드에 생존해있는 몬스터 그룹
     /// </summary>
-    public List<UnitTable> monsterGroup = new List<UnitTable>();
+    public List<UnitTable.Data> monsterGroup = new List<UnitTable.Data>();
     /// <summary>
     /// 플레이어 유닛 그룹
     /// </summary>
-    public List<UnitTable> characterGroup = new List<UnitTable>(); // 오브젝트로 설정
+    public List<UnitTable.Data> characterGroup = new List<UnitTable.Data>(); // 오브젝트로 설정
     /// <summary>
     /// 게임 분기 확인 스테이지가 순서대로 들어있기때문에, 게임분기 컷팅시키는 변수
     /// </summary>
@@ -94,11 +94,13 @@ public class DungeonOS : MonoBehaviour
     /// <summary>
     /// 현재 라운드 진행 여부
     /// </summary>
+    public bool ISRoundPlaying;
     public bool isRoundPlaying
     {
-        get { return isRoundPlaying; }
+        get { return ISRoundPlaying; }
         set
         {
+            ISRoundPlaying = value;
             if (value)
             {
                 dele_RoundStart();
@@ -120,15 +122,26 @@ public class DungeonOS : MonoBehaviour
     /// <summary>
     /// 현재 보유한 코스트 (최대치 10)
     /// </summary>
-    public int costDGP;
+    private int CostDGP;
+    public int costDGP
+    {
+        get { return CostDGP; }
+        set 
+        {
+            CostDGP = value; 
+            HandUIReset();
+        }
+    }
     /// <summary>
     /// 라운드 동안 지속된 시간 
     /// </summary>
-    public float progressTimeDGP 
+    private float ProgressTimeDGP;
+    public float progressTimeDGP
     {
-        get { return progressTimeDGP; }
+        get { return ProgressTimeDGP; }
         set 
-        { 
+        {
+            ProgressTimeDGP = value;
             DungeonCtrl.gameTimerText.text = progressTimeDGP.ToString("F0");
         }
     }
@@ -185,7 +198,11 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     public float[] eaKillCountDGP;
 
-    public List<CardDataBase> handCard = new List<CardDataBase>();
+    public List<CardDataBase.Data> handCard = new List<CardDataBase.Data>();
+
+    WaitForSeconds delay_01 = new WaitForSeconds(0.1f);
+    WaitForSeconds delay_03 = new WaitForSeconds(0.3f);
+
     #endregion
 
     #region 던전 가중치 데이터
@@ -282,8 +299,8 @@ public class DungeonOS : MonoBehaviour
     //        new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[2].number),
     //        new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[3].number)
     //    };
-    public List<UnitTable> partyUnit = new List<UnitTable>();
-    public List<RelicData> equipRelic = new List<RelicData>();
+    public List<UnitTable.Data> partyUnit = new List<UnitTable.Data>();
+    public List<RelicData.Data> equipRelic = new List<RelicData.Data>();
     //덱정보
     public List<int> useDeckDGP = new List<int>();
     //유물 정보
@@ -296,6 +313,7 @@ public class DungeonOS : MonoBehaviour
 
     private void Awake()
     {
+        dungeonData = new DungeonData.data(dungeonNumber);
         instance = this; 
         jsonData = Resources.Load<TextAsset>("CharacterData");
         jsonText = jsonData.text;
@@ -306,10 +324,9 @@ public class DungeonOS : MonoBehaviour
     {
         #region 캐시처리 //합칠때 다시한번 설정해줘야함..
         DungeonCtrl = DungeonController.instance;
-        DungeonDatabase.InfoDungeon infoDungeon = new DungeonDatabase.InfoDungeon(dungeonNumber);
-        foreach (var item in infoDungeon.dungeonMonsterBox)
+        foreach (var item in dungeonData.dungeonMonsterBox)
         {
-            monsterBox.Add(new UnitTable(item));
+            monsterBox.Add(new UnitTable.Data(item));
         }
         playerStagePoint = playerStagePointGroup.GetComponentsInChildren<Transform>();
         monsterStagePoint = monsterStagePointGroup.GetComponentsInChildren<Transform>();
@@ -337,6 +354,7 @@ public class DungeonOS : MonoBehaviour
 
     public void OnRoundVictory()
     {
+        isRoundPlaying = false;
         if (roundDGP == 10)
         {
             OnDungeonAllClear();
@@ -358,6 +376,7 @@ public class DungeonOS : MonoBehaviour
 
     void NextRound(int num)
     {
+        isRoundPlaying = true;
         StartCoroutine(FadeIn());
         if (++roundDGP % 10 == 5) StageReset(5);
         else if (roundDGP % 10 != 0)
@@ -444,10 +463,11 @@ public class DungeonOS : MonoBehaviour
         int temp = roundDGP % 10;
         DungeonCtrl.gameRoundbarArrow.transform.SetParent(DungeonCtrl.gameRoundbarPoint[temp].transform);
         DungeonCtrl.gameRoundbarArrow.transform.position = Vector3.zero;
-        DungeonCtrl.playerCostGauage.fillAmount = costDGP / 10;
-        DungeonCtrl.playerExpectationsGauage.fillAmount = costDGP / 10;
+        DungeonCtrl.playerCostGauage.fillAmount = (float)costDGP / 10f;
+        DungeonCtrl.playerExpectationsGauage.fillAmount = (float)costDGP / 10f;
         DungeonCtrl.gameCostNumber.text = costDGP.ToString();
     }
+
 
     // 외부에서 체력 변동시 해당값을 호출할것 
     public void PartyUIReset()
@@ -523,13 +543,13 @@ public class DungeonOS : MonoBehaviour
             tempCharNumber = GameManager.instance.data.equipCharacter[i];
             if (tempCharNumber != 0)
             {
-                partyUnit.Add(new UnitTable(new CharacterDatabase(tempCharNumber)));
+                partyUnit.Add(new UnitTable.Data(new CharacterDatabase.Data(tempCharNumber)));
                 partyUnit[partyUnit.Count-1].isLive = true;
             }
         }
         foreach (var item in GameManager.instance.data.equipRelic)
         {
-            equipRelic.Add(new RelicData(item));
+            equipRelic.Add(new RelicData.Data(item));
         }
 
         int temp = 0;
@@ -551,7 +571,7 @@ public class DungeonOS : MonoBehaviour
     /// <param name="stageNum"></param>
     void StageReset(int stageNum)
     {
-        slotStageDG?.SetActive(false);
+        if (slotStageDG != null) slotStageDG.SetActive(false);
         slotStageDG = stageGroupDG[stageNum];
         slotStageDG.SetActive(true);
         Camera.main.transform.position = slotStageDG.GetComponentInChildren<Camera>().transform.position;
@@ -560,7 +580,7 @@ public class DungeonOS : MonoBehaviour
         PlayerUnitSetting();
         MonsterCreate();
         MonsterSetting();
-
+        isRoundPlaying = true;
     }
 
     /// <summary>
@@ -579,8 +599,8 @@ public class DungeonOS : MonoBehaviour
                     }
                     else
                     {
-                        UnitTable moveSlot = item;
-                        UnitTable tempSlot = item;
+                        UnitTable.Data moveSlot = item;
+                        UnitTable.Data tempSlot = item;
                         //내부 비교 밀어내기식 자리배치 // 작은수치가 우선
                         for (int i = 0; i < stageSlotPlayerBottom.Count; i++)
                         {
@@ -628,8 +648,8 @@ public class DungeonOS : MonoBehaviour
                     }
                     else
                     {
-                        UnitTable moveSlot = item;
-                        UnitTable tempSlot = item;
+                        UnitTable.Data moveSlot = item;
+                        UnitTable.Data tempSlot = item;
                         // 수치가 낮은 경우 
                         if (item.positionPri >= 30)
                         {
@@ -720,8 +740,8 @@ public class DungeonOS : MonoBehaviour
                     }
                     else
                     {
-                        UnitTable moveSlot = item;
-                        UnitTable tempSlot = item;
+                        UnitTable.Data moveSlot = item;
+                        UnitTable.Data tempSlot = item;
                         //내부 비교 밀어내기식 자리배치 // 큰수치가 우선
                         for (int i = 0; i < stageSlotPlayerTop.Count; i++)
                         {
@@ -769,15 +789,15 @@ public class DungeonOS : MonoBehaviour
         }
         for (int i = 0; i < stageSlotPlayerBottom.Count; i++)
         {
-            stageSlotPlayerBottom[i].gameObject.transform.position = playerStagePoint[i + 1].position;
+            stageSlotPlayerBottom[i].charObject.transform.position = playerStagePoint[i + 1].position;
         }
         for (int i = 0; i < stageSlotPlayerMid.Count; i++)
         {
-            stageSlotPlayerMid[i].gameObject.transform.position = playerStagePoint[i + 4].position;
+            stageSlotPlayerMid[i].charObject.transform.position = playerStagePoint[i + 4].position;
         }
         for (int i = 0; i < stageSlotPlayerTop.Count; i++)
         {
-            stageSlotPlayerTop[i].gameObject.transform.position = playerStagePoint[i + 7].position;
+            stageSlotPlayerTop[i].charObject.transform.position = playerStagePoint[i + 7].position;
         }
     }
     /// <summary>
@@ -785,11 +805,15 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void PlayerUnitCreate()
     {
+        UnitAI tempUnitAI;
         foreach (var item in partyUnit.Select((value, index) => new { value, index }))
         {
-            item.value.charObject = Instantiate(item.value.gameObject);
-            item.value.GetComponent<UnitAI>().unitNumber = item.value.number;
-            item.value.GetComponent<UnitAI>().partyNumber = item.index;
+            item.value.charObject = Instantiate(item.value.charObject);
+            item.value.charObject.AddComponent<CharacterController>();
+            item.value.charObject.AddComponent<UnitMelee>();
+            tempUnitAI = item.value.charObject.AddComponent<UnitAI>();
+            tempUnitAI.unitNumber = item.value.number;
+            tempUnitAI.partyNumber = item.index;
         }
     }
 
@@ -809,8 +833,8 @@ public class DungeonOS : MonoBehaviour
                     }
                     else
                     {
-                        UnitTable moveSlot = item;
-                        UnitTable tempSlot = item;
+                        UnitTable.Data moveSlot = item;
+                        UnitTable.Data tempSlot = item;
                         //내부 비교 밀어내기식 자리배치 // 작은수치가 우선
                         for (int i = 0; i < stageSlotMonsterBottom.Count; i++)
                         {
@@ -858,8 +882,8 @@ public class DungeonOS : MonoBehaviour
                     }
                     else
                     {
-                        UnitTable moveSlot = item;
-                        UnitTable tempSlot = item;
+                        UnitTable.Data moveSlot = item;
+                        UnitTable.Data tempSlot = item;
                         // 수치가 낮은 경우 
                         if (item.attackType >= 30)
                         {
@@ -950,8 +974,8 @@ public class DungeonOS : MonoBehaviour
                     }
                     else
                     {
-                        UnitTable moveSlot = item;
-                        UnitTable tempSlot = item;
+                        UnitTable.Data moveSlot = item;
+                        UnitTable.Data tempSlot = item;
                         //내부 비교 밀어내기식 자리배치 // 큰수치가 우선
                         for (int i = 0; i < stageSlotMonsterTop.Count; i++)
                         {
@@ -999,15 +1023,15 @@ public class DungeonOS : MonoBehaviour
         }
         for (int i = 0; i < stageSlotMonsterBottom.Count; i++)
         {
-            stageSlotMonsterBottom[i].gameObject.transform.position = monsterStagePoint[i + 2].position;
+            stageSlotMonsterBottom[i].charObject.transform.position = monsterStagePoint[i + 2].position;
         }
         for (int i = 0; i < stageSlotMonsterMid.Count; i++)
         {
-            stageSlotMonsterMid[i].gameObject.transform.position = monsterStagePoint[i + 6].position;
+            stageSlotMonsterMid[i].charObject.transform.position = monsterStagePoint[i + 6].position;
         }
         for (int i = 0; i < stageSlotMonsterTop.Count; i++)
         {
-            stageSlotMonsterTop[i].gameObject.transform.position = monsterStagePoint[i + 10].position;
+            stageSlotMonsterTop[i].charObject.transform.position = monsterStagePoint[i + 10].position;
         }
     }
 
@@ -1017,27 +1041,27 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void MonsterCreate()
     {
-        for (int i = 0; i < monsterBoxCount[roundDGP]; i++)
+        for (int i = 0; i < dungeonData.monsterBoxCount[roundDGP]; i++)
         {
-            int tempint = Random.Range(monsterBoxMin[roundDGP], monsterBoxMax[roundDGP]);
-            monsterGroup.Add(new UnitTable(new MonsterDatabase(monsterBox[tempint].number)));
+            int tempint = Random.Range(dungeonData.monsterBoxMin[roundDGP], dungeonData.monsterBoxMax[roundDGP]);
+            monsterGroup.Add(new UnitTable.Data(new MonsterDatabase.Data(monsterBox[tempint].number)));
             monsterGroup[i].charObject = Instantiate(monsterGroup[i].charObject);
-            monsterGroup[i].GetComponent<UnitAI>().unitNumber = monsterGroup[i].number;
-            monsterGroup[i].GetComponent<UnitAI>().partyNumber = i;
+            monsterGroup[i].charObject.GetComponent<UnitAI>().unitNumber = monsterGroup[i].number;
+            monsterGroup[i].charObject.GetComponent<UnitAI>().partyNumber = i;
         }
         if (roundDGP % 10 == 5)
         {
-            monsterGroup.Add(new UnitTable(new MonsterDatabase(monsterBox[1].number)));
+            monsterGroup.Add(new UnitTable.Data(new MonsterDatabase.Data(monsterBox[1].number)));
             monsterGroup[monsterBox.Count].charObject = Instantiate(monsterBox[1].charObject);
-            monsterGroup[monsterBox.Count].gameObject.transform.position = monsterStagePoint[1].position;
-            monsterGroup[monsterBox.Count].gameObject.transform.rotation = monsterStagePoint[1].rotation;
+            monsterGroup[monsterBox.Count].charObject.transform.position = monsterStagePoint[1].position;
+            monsterGroup[monsterBox.Count].charObject.transform.rotation = monsterStagePoint[1].rotation;
         }
         else if (roundDGP % 10 == 0)
         {
-            monsterGroup.Add(new UnitTable(new MonsterDatabase(monsterBox[0].number)));
+            monsterGroup.Add(new UnitTable.Data(new MonsterDatabase.Data(monsterBox[0].number)));
             monsterGroup[monsterBox.Count].charObject = Instantiate(monsterBox[0].charObject);
-            monsterGroup[monsterBox.Count].gameObject.transform.position = monsterStagePoint[1].position;
-            monsterGroup[monsterBox.Count].gameObject.transform.rotation = monsterStagePoint[1].rotation;
+            monsterGroup[monsterBox.Count].charObject.transform.position = monsterStagePoint[1].position;
+            monsterGroup[monsterBox.Count].charObject.transform.rotation = monsterStagePoint[1].rotation;
         }
     }
 
@@ -1089,7 +1113,7 @@ public class DungeonOS : MonoBehaviour
         {
             if (useDeckDGP.Count != 0)
             {
-                CardDataBase card = new CardDataBase(useDeckDGP[0]+1);
+                CardDataBase.Data card = new CardDataBase.Data(useDeckDGP[0]+1);
                 handCard.Add(card);
                 if (!handSlot[0])
                 {
@@ -1132,33 +1156,34 @@ public class DungeonOS : MonoBehaviour
     {
         if (useDeckDGP.Count != 0)
         {
-            CardDataBase card = new CardDataBase(useDeckDGP[0]+1);
+            CardDataBase.Data card = new CardDataBase.Data(useDeckDGP[0]+1);
+            CardEvent tempCardEvent;
             handCard.Add(card);
             if (handSlot[0])
             {
                 card.Icon = Instantiate(Resources.Load<Image>("Card/Card_" + card.number), DungeonCtrl.cardSlot[0].transform);
-                card.Icon.gameObject.AddComponent<CardEvent>();
-                card.GetComponent<CardEvent>().card_handnumber = 0;
+                tempCardEvent = card.Icon.gameObject.AddComponent<CardEvent>();
+                tempCardEvent.card_handnumber = 0;
                 handSlot[0] = true;
-                card.GetComponent<CardEvent>().cost = card.cost;
+                tempCardEvent.cost = card.cost;
             }
             else if (handSlot[1])
             {
                 card.Icon = Instantiate(Resources.Load<Image>("Card/Card_" + card.number), DungeonCtrl.cardSlot[1].transform);
-                card.Icon.gameObject.AddComponent<CardEvent>();
-                card.GetComponent<CardEvent>().card_handnumber = 1;
+                tempCardEvent = card.Icon.gameObject.AddComponent<CardEvent>();
+                tempCardEvent.card_handnumber = 1;
                 handSlot[1] = true;
-                card.GetComponent<CardEvent>().cost = card.cost;
+                tempCardEvent.cost = card.cost;
             }
             else
             {
                 card.Icon = Instantiate(Resources.Load<Image>("Card/Card_" + card.number), DungeonCtrl.cardSlot[2].transform);
-                card.Icon.gameObject.AddComponent<CardEvent>();
-                card.GetComponent<CardEvent>().card_handnumber = 2;
+                tempCardEvent = card.Icon.gameObject.AddComponent<CardEvent>();
+                tempCardEvent.card_handnumber = 2;
                 handSlot[2] = true;
-                card.GetComponent<CardEvent>().cost = card.cost;
+                tempCardEvent.cost = card.cost;
             }
-            card.GetComponent<CardEvent>().card_number = card.number;
+            tempCardEvent.card_number = card.number;
             useDeckDGP.RemoveAt(0);
             remainingCardDGP++;
         }
@@ -1195,10 +1220,9 @@ public class DungeonOS : MonoBehaviour
         float cycleTime = 0f;
         while (timerOnDGP)
         {
-            yield return null;
-            cycleTime += Time.deltaTime;
-            progressTimeDGP += Time.deltaTime;
-            if (timeLevelDGP == 3)
+            cycleTime += 0.1f;
+            progressTimeDGP += 0.1f;
+            if (timeLevelDGP != 3)
             {
                 DGTimerUIReset();
             }
@@ -1207,24 +1231,21 @@ public class DungeonOS : MonoBehaviour
                 cycleTime = 0f;
                 HandRefill();
                 if (costDGP <= 7) costDGP += 3;
-                else costDGP = 10;
-                HandUIReset();
-                
+                else costDGP = 10;                
                 switch (timeLevelDGP)
                 {
                     case 0:
                         timeLevelDGP = 1;
-                        DGTimerUIReset();
                         break;
                     case 1:
                         timeLevelDGP = 2;
-                        DGTimerUIReset();
                         break;
                     default:
                         timeLevelDGP = 3;
                         break;
                 }
             }
+            yield return delay_01;
         }
     }
     /// <summary>
@@ -1264,7 +1285,7 @@ public class DungeonOS : MonoBehaviour
         {
             if (GameManager.instance.partySlot[i] != null)
             {
-                GameManager.instance.partySlot[i].exp = partyUnit[i].exp;
+                //GameManager.instance.partySlot[i].exp = partyUnit[i].exp;
             }
         }
 
@@ -1274,7 +1295,7 @@ public class DungeonOS : MonoBehaviour
             {
                 if (GameManager.instance.currentCardList[item] == null)
                 {
-                    GameManager.instance.currentCardList.Add(item, new CardDataBase(item));
+                    GameManager.instance.currentCardList.Add(item, new CardDataBase.Data(item));
                 }
                 else
                 {
@@ -1288,12 +1309,12 @@ public class DungeonOS : MonoBehaviour
             {
                 if (GameManager.instance.currentRelicList[item] == null)
                 {
-                    GameManager.instance.currentRelicList.Add(item, new RelicDataBase.InfoRelic(item));
+                    GameManager.instance.currentRelicList.Add(item, new RelicData.Data(item));
                 }
                 else
                 {
-                    GameManager.instance.currentRelicList[item].overlapValueA += accrueGoldDGP;
-                    GameManager.instance.currentRelicList[item].overlapValueB += accrueSoulDGP;
+                    //GameManager.instance.currentRelicList[item].overlapValueA += accrueGoldDGP;
+                    //GameManager.instance.currentRelicList[item].overlapValueB += accrueSoulDGP;
                 }
             }
         }
@@ -1303,7 +1324,7 @@ public class DungeonOS : MonoBehaviour
             {
                 if (GameManager.instance.currentHeroList[item] == null)
                 {
-                    GameManager.instance.currentHeroList.Add(item, new CharacterDatabase(item));
+                    GameManager.instance.currentHeroList.Add(item, new CharacterDatabase.Data(item));
                 }
                 else
                 {

@@ -8088,6 +8088,82 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 345895898}
   m_CullTransparentMesh: 1
+--- !u!1 &356082370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 356082371}
+  - component: {fileID: 356082373}
+  - component: {fileID: 356082372}
+  m_Layer: 5
+  m_Name: dummy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &356082371
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356082370}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1200981320}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &356082372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356082370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &356082373
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356082370}
+  m_CullTransparentMesh: 1
 --- !u!1 &359965045
 GameObject:
   m_ObjectHideFlags: 0
@@ -12516,11 +12592,12 @@ GameObject:
   - component: {fileID: 580982183}
   - component: {fileID: 580982187}
   - component: {fileID: 580982188}
-  - component: {fileID: 580982192}
   - component: {fileID: 580982191}
-  - component: {fileID: 580982190}
-  - component: {fileID: 580982189}
+  - component: {fileID: 580982196}
+  - component: {fileID: 580982195}
+  - component: {fileID: 580982194}
   - component: {fileID: 580982193}
+  - component: {fileID: 580982192}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -12617,31 +12694,6 @@ MonoBehaviour:
   cardIdx: 0
   partySlot: []
   currentlyScene: Main
---- !u!114 &580982189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580982182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7df3a630d614eda44841dc6f6c294b78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  n: 0
---- !u!114 &580982190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580982182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ffda49af5899e146af95f6c2c47a623, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &580982191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12654,35 +12706,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61ab392cf7ec4244b4a774140611403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  number: 0
-  icon: {fileID: 0}
-  charName: 
-  hp: 0
-  maxHP: 0
-  damage: 0
-  charObject: {fileID: 0}
-  attackSpeed: 0
-  moveSpeed: 0
-  defense: 0
-  attackType: 0
-  attackRange: 0
-  attribute: 0
-  priRange: 0
-  priorities: 0
-  defRange: 0
-  positionPri: 0
-  unitClass: 0
-  level: 0
-  exp: 0
-  partySet: 0
-  islock: 0
-  isLive: 0
-  basicSkill: 0
-  speialSkill: 0
-  overlapValueA: 0
-  overlapValueB: 0
-  identity: 0
 --- !u!114 &580982192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580982182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0113757dd579e6f4292baae04b6c368b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &580982193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580982182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ffda49af5899e146af95f6c2c47a623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &580982194
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12694,32 +12742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d775217d53fa8864dbcbfd87bc86fd37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  number: 0
-  Icon: {fileID: 0}
-  cardName: 
-  cardCount: 0
-  cost: 0
-  propertie: 0
-  effectTypeA: 0
-  effectTypeB: 0
-  effectTypeC: 0
-  effectTypeD: 0
-  cardString1: 
-  cardString2: 
-  effectValue_intA: 0
-  effectValue_intB: 0
-  effectValue_floatA: 0
-  effectValue_floatB: 0
-  effectValue_floatC: 0
-  effectValue_floatD: 0
-  effectValue_bool: 0
-  sellValueA: 0
-  sellValueB: 0
-  recycle: 0
-  dataCount: 0
-  buffCount: 0
-  buffindex: 0
---- !u!114 &580982193
+--- !u!114 &580982195
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12731,33 +12754,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c5fe87c10e90f47ae77cfcfd499831, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterType: 0
+--- !u!114 &580982196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580982182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8781033149c931440bd090d56908cc82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   number: 0
-  charObject: {fileID: 0}
-  charName: 
-  hp: 0
-  maxHP: 0
-  damage: 0
-  attackSpeed: 0
-  moveSpeed: 0
-  defense: 0
-  attackType: 0
-  attackRange: 0
-  attribute: 0
-  priRange: 0
+  ID: 0
   priorities: 0
-  defRange: 0
-  positionPri: 0
-  basicSkillA: 0
-  basicSkillB: 0
-  basicSkillC: 0
-  speialSkill: 0
-  rewardGold: 0
-  rewardSoul: 0
-  rewardExp: 0
-  rewardCard: 
-  rewardUnit: 
-  rewardRelic: 
 --- !u!1 &590144826
 GameObject:
   m_ObjectHideFlags: 0
@@ -25059,6 +25070,7 @@ RectTransform:
   - {fileID: 106220344}
   - {fileID: 513273386}
   - {fileID: 2128469195}
+  - {fileID: 356082371}
   m_Father: {fileID: 989298342}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -26722,13 +26734,14 @@ MonoBehaviour:
   - {fileID: 1922014699}
   - {fileID: 1485527616}
   - {fileID: 2142246453}
-  playerCostGauage: {fileID: 0}
-  playerExpectationsGauage: {fileID: 0}
+  playerCostGauage: {fileID: 1224270290230850994}
+  playerExpectationsGauage: {fileID: 1224270290659139967}
   gameTimerBG:
   - {fileID: 2128469197}
   - {fileID: 513273388}
+  - {fileID: 356082372}
   gameTimerText: {fileID: 317615200}
-  gameCostNumber: {fileID: 0}
+  gameCostNumber: {fileID: 1224270290895660899}
   gameRoundbarArrow: {fileID: 596918145}
   gameRoundbarPoint:
   - {fileID: 480204121}

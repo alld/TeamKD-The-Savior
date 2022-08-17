@@ -6,7 +6,7 @@ using UnityEngine;
 public class CardSkill : MonoBehaviour
 {
     public static CardSkill instance = null;
-    CardDataBase card;
+    CardDataBase.Data card;
     void Awake()
     {
         instance = this;
@@ -21,7 +21,7 @@ public class CardSkill : MonoBehaviour
     /// <returns></returns>
     public bool UseCard(int cardNumber)
     {
-        card = new CardDataBase(cardNumber);
+        card = new CardDataBase.Data(cardNumber);
 
         return CardSkillSetting();
     }
@@ -35,16 +35,17 @@ public class CardSkill : MonoBehaviour
             return false;
         }
         DungeonOS.instance.costDGP -= card.cost;
+        DungeonOS.instance.HandUIReset();
         // 스킬의 지속상태의 설정값을 지정함
         switch (card.effectTypeB)
         {
-            case CardDataBase.EffectTypeB.NOW:
+            case CardDataBase.Data.EffectTypeB.NOW:
                 skill_ActiveTime = 0;
                 break;
-            case CardDataBase.EffectTypeB.CONTINUE:
+            case CardDataBase.Data.EffectTypeB.CONTINUE:
                 skill_ActiveTime = -card.effectValue_floatD;
                 break;
-            case CardDataBase.EffectTypeB.DELAY:
+            case CardDataBase.Data.EffectTypeB.DELAY:
                 skill_ActiveTime = card.effectValue_floatD;
                 break;
             default:
@@ -57,20 +58,20 @@ public class CardSkill : MonoBehaviour
         // 버프 효과 적용하여 재분류 작업 (버프 유무 체크시 버프로 형태 변환)
         switch (card.effectTypeA)
         {
-            case CardDataBase.EffectTypeA.HEAL:
-                if (card.effectValue_bool && buffCount.Length > 3) card.effectTypeA = CardDataBase.EffectTypeA.BUFF;
+            case CardDataBase.Data.EffectTypeA.HEAL:
+                if (card.effectValue_bool && buffCount.Length > 3) card.effectTypeA = CardDataBase.Data.EffectTypeA.BUFF;
                 break;
-            case CardDataBase.EffectTypeA.PROTECT:
-                if (card.effectValue_bool && buffCount.Length > 3) card.effectTypeA = CardDataBase.EffectTypeA.BUFF;
+            case CardDataBase.Data.EffectTypeA.PROTECT:
+                if (card.effectValue_bool && buffCount.Length > 3) card.effectTypeA = CardDataBase.Data.EffectTypeA.BUFF;
                 break;
-            case CardDataBase.EffectTypeA.BUFF:
+            case CardDataBase.Data.EffectTypeA.BUFF:
                 break;
-            case CardDataBase.EffectTypeA.DEBUFF:
+            case CardDataBase.Data.EffectTypeA.DEBUFF:
                 break;
-            case CardDataBase.EffectTypeA.DAMAGE:
-                if (card.effectValue_bool && buffCount.Length > 3) card.effectTypeA = CardDataBase.EffectTypeA.DEBUFF;
+            case CardDataBase.Data.EffectTypeA.DAMAGE:
+                if (card.effectValue_bool && buffCount.Length > 3) card.effectTypeA = CardDataBase.Data.EffectTypeA.DEBUFF;
                 break;
-            case CardDataBase.EffectTypeA.SPEIAL:
+            case CardDataBase.Data.EffectTypeA.SPEIAL:
                 break;
             default:
                 break;
@@ -79,22 +80,22 @@ public class CardSkill : MonoBehaviour
         // 어떤 스킬 효과를 적용할지를 분류함
         switch (card.effectTypeA)
         {
-            case CardDataBase.EffectTypeA.HEAL:
+            case CardDataBase.Data.EffectTypeA.HEAL:
                 StartCoroutine(CardSkill_Heal(skill_ActiveTime));
                 break;
-            case CardDataBase.EffectTypeA.PROTECT:
+            case CardDataBase.Data.EffectTypeA.PROTECT:
                 StartCoroutine(CardSkill_PROTECT(skill_ActiveTime));
                 break;
-            case CardDataBase.EffectTypeA.BUFF:
+            case CardDataBase.Data.EffectTypeA.BUFF:
                 StartCoroutine(CardSkill_BUFF(skill_ActiveTime, buffCount));
                 break;
-            case CardDataBase.EffectTypeA.DEBUFF:
+            case CardDataBase.Data.EffectTypeA.DEBUFF:
                 StartCoroutine(CardSkill_DEBUFF(skill_ActiveTime, buffCount));
                 break;
-            case CardDataBase.EffectTypeA.DAMAGE:
+            case CardDataBase.Data.EffectTypeA.DAMAGE:
                 StartCoroutine(CardSkill_DAMAGE(skill_ActiveTime));
                 break;
-            case CardDataBase.EffectTypeA.SPEIAL:
+            case CardDataBase.Data.EffectTypeA.SPEIAL:
                 break;
             default:
                 DungeonOS.instance.GameError("카드 스킬 : 분류값 (A)가 제대로 할당되지 않았습니다.");
@@ -109,17 +110,17 @@ public class CardSkill : MonoBehaviour
     /// </summary>
     /// <param name="targetType"></param>
     /// <returns></returns>
-    private int AllyTargetCheck(CardDataBase.EffectTypeD targetType)
+    private int AllyTargetCheck(CardDataBase.Data.EffectTypeD targetType)
     {
         int temp = 0;
         float tempValue = 0;
         switch (targetType)
         {
-            case CardDataBase.EffectTypeD.TOTAL:
+            case CardDataBase.Data.EffectTypeD.TOTAL:
                 break;
-            case CardDataBase.EffectTypeD.RANDOM:
+            case CardDataBase.Data.EffectTypeD.RANDOM:
                 return Random.Range(0, DungeonOS.instance.partyUnit.Count);
-            case CardDataBase.EffectTypeD.HP_HIGH:
+            case CardDataBase.Data.EffectTypeD.HP_HIGH:
                 tempValue = DungeonOS.instance.partyUnit[0].hp;
                 for (int i = 1; i < DungeonOS.instance.partyUnit.Count; i++)
                 {
@@ -130,7 +131,7 @@ public class CardSkill : MonoBehaviour
                     }
                 }
                 return temp;
-            case CardDataBase.EffectTypeD.HP_LOW:
+            case CardDataBase.Data.EffectTypeD.HP_LOW:
                 tempValue = DungeonOS.instance.partyUnit[0].hp;
                 for (int i = 1; i < DungeonOS.instance.partyUnit.Count; i++)
                 {
@@ -141,7 +142,7 @@ public class CardSkill : MonoBehaviour
                     }
                 }
                 return temp;
-            case CardDataBase.EffectTypeD.DAMAGE_HIGH:
+            case CardDataBase.Data.EffectTypeD.DAMAGE_HIGH:
                 tempValue = DungeonOS.instance.partyUnit[0].damage;
                 for (int i = 1; i < DungeonOS.instance.partyUnit.Count; i++)
                 {
@@ -152,7 +153,7 @@ public class CardSkill : MonoBehaviour
                     }
                 }
                 return temp;
-            case CardDataBase.EffectTypeD.DAMAGE_LOW:
+            case CardDataBase.Data.EffectTypeD.DAMAGE_LOW:
                 tempValue = DungeonOS.instance.partyUnit[0].damage;
                 for (int i = 1; i < DungeonOS.instance.partyUnit.Count; i++)
                 {
@@ -173,17 +174,17 @@ public class CardSkill : MonoBehaviour
     /// </summary>
     /// <param name="targetType"></param>
     /// <returns></returns>
-    private int EnemyTargetCheck(CardDataBase.EffectTypeD targetType)
+    private int EnemyTargetCheck(CardDataBase.Data.EffectTypeD targetType)
     {
         int temp = 0;
         float tempValue = 0;
         switch (targetType)
         {
-            case CardDataBase.EffectTypeD.TOTAL:
+            case CardDataBase.Data.EffectTypeD.TOTAL:
                 break;
-            case CardDataBase.EffectTypeD.RANDOM:
+            case CardDataBase.Data.EffectTypeD.RANDOM:
                 return Random.Range(0, DungeonOS.instance.monsterGroup.Count);
-            case CardDataBase.EffectTypeD.HP_HIGH:
+            case CardDataBase.Data.EffectTypeD.HP_HIGH:
                 tempValue = DungeonOS.instance.monsterGroup[0].hp;
                 for (int i = 1; i < DungeonOS.instance.monsterGroup.Count; i++)
                 {
@@ -194,7 +195,7 @@ public class CardSkill : MonoBehaviour
                     }
                 }
                 return temp;
-            case CardDataBase.EffectTypeD.HP_LOW:
+            case CardDataBase.Data.EffectTypeD.HP_LOW:
                 tempValue = DungeonOS.instance.monsterGroup[0].hp;
                 for (int i = 1; i < DungeonOS.instance.monsterGroup.Count; i++)
                 {
@@ -205,7 +206,7 @@ public class CardSkill : MonoBehaviour
                     }
                 }
                 return temp;
-            case CardDataBase.EffectTypeD.DAMAGE_HIGH:
+            case CardDataBase.Data.EffectTypeD.DAMAGE_HIGH:
                 tempValue = DungeonOS.instance.monsterGroup[0].damage;
                 for (int i = 1; i < DungeonOS.instance.monsterGroup.Count; i++)
                 {
@@ -216,7 +217,7 @@ public class CardSkill : MonoBehaviour
                     }
                 }
                 return temp;
-            case CardDataBase.EffectTypeD.DAMAGE_LOW:
+            case CardDataBase.Data.EffectTypeD.DAMAGE_LOW:
                 tempValue = DungeonOS.instance.monsterGroup[0].damage;
                 for (int i = 1; i < DungeonOS.instance.monsterGroup.Count; i++)
                 {
@@ -250,7 +251,7 @@ public class CardSkill : MonoBehaviour
             int count = 0;
             switch (card.effectTypeC)
             {
-                case CardDataBase.EffectTypeC.ALLY:
+                case CardDataBase.Data.EffectTypeC.ALLY:
                     temp = AllyTargetCheck(card.effectTypeD);
                     DungeonOS.instance.partyUnit[temp].hp += card.effectValue_floatA;
                     if(DungeonOS.instance.partyUnit[temp].hp > DungeonOS.instance.partyUnit[temp].maxHP)
@@ -258,7 +259,7 @@ public class CardSkill : MonoBehaviour
                         DungeonOS.instance.partyUnit[temp].hp = DungeonOS.instance.partyUnit[temp].maxHP;
                     }
                     break;
-                case CardDataBase.EffectTypeC.ALLIES:
+                case CardDataBase.Data.EffectTypeC.ALLIES:
                     foreach (var item in DungeonOS.instance.partyUnit)
                     {
                         item.hp += card.effectValue_floatA;
@@ -268,7 +269,7 @@ public class CardSkill : MonoBehaviour
                         }
                     }
                     break;
-                case CardDataBase.EffectTypeC.ENEMY:
+                case CardDataBase.Data.EffectTypeC.ENEMY:
                     temp = EnemyTargetCheck(card.effectTypeD);
                     DungeonOS.instance.monsterGroup[temp].hp += card.effectValue_floatA;
                     if (DungeonOS.instance.monsterGroup[temp].hp > DungeonOS.instance.monsterGroup[temp].maxHP)
@@ -276,7 +277,7 @@ public class CardSkill : MonoBehaviour
                         DungeonOS.instance.monsterGroup[temp].hp = DungeonOS.instance.monsterGroup[temp].maxHP;
                     }
                     break;
-                case CardDataBase.EffectTypeC.ENEMIES:
+                case CardDataBase.Data.EffectTypeC.ENEMIES:
                     foreach (var item in DungeonOS.instance.monsterGroup)
                     {
                         item.hp += card.effectValue_floatA;
@@ -314,24 +315,24 @@ public class CardSkill : MonoBehaviour
         int count = 0;
         switch (card.effectTypeC)
         {
-            case CardDataBase.EffectTypeC.ALLY:
+            case CardDataBase.Data.EffectTypeC.ALLY:
                 temp = AllyTargetCheck(card.effectTypeD);
                 DungeonOS.instance.weightAllyUnit[temp].Current_protect += card.effectValue_floatA;
                 DungeonOS.instance.weightAllyUnit[temp].Current_protectMax += card.effectValue_floatA;
                 break;
-            case CardDataBase.EffectTypeC.ALLIES:
+            case CardDataBase.Data.EffectTypeC.ALLIES:
                 foreach (var item in DungeonOS.instance.weightAllyUnit)
                 {
                     item.Current_protect += card.effectValue_floatA;
                     item.Current_protectMax += card.effectValue_floatA;
                 }
                 break;
-            case CardDataBase.EffectTypeC.ENEMY:
+            case CardDataBase.Data.EffectTypeC.ENEMY:
                 temp = EnemyTargetCheck(card.effectTypeD);
                 DungeonOS.instance.weightEnemyGroup[temp].Current_protect += card.effectValue_floatA;
                 DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax += card.effectValue_floatA;
                 break;
-            case CardDataBase.EffectTypeC.ENEMIES:
+            case CardDataBase.Data.EffectTypeC.ENEMIES:
                 foreach (var item in DungeonOS.instance.weightEnemyGroup)
                 {
                     item.Current_protect += card.effectValue_floatA;
@@ -350,7 +351,7 @@ public class CardSkill : MonoBehaviour
                 skill_Switch = false;
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         temp = AllyTargetCheck(card.effectTypeD);
                         DungeonOS.instance.weightAllyUnit[temp].Current_protectMax -= card.effectValue_floatA;
                         if (DungeonOS.instance.weightAllyUnit[temp].Current_protect >= DungeonOS.instance.weightAllyUnit[temp].Current_protectMax)
@@ -358,7 +359,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.weightAllyUnit[temp].Current_protect = DungeonOS.instance.weightAllyUnit[temp].Current_protectMax;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             item.Current_protectMax -= card.effectValue_floatA;
@@ -368,7 +369,7 @@ public class CardSkill : MonoBehaviour
                             }
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         temp = EnemyTargetCheck(card.effectTypeD);
                         DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax -= card.effectValue_floatA;
                         if (DungeonOS.instance.weightEnemyGroup[temp].Current_protect >= DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax)
@@ -376,7 +377,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.weightEnemyGroup[temp].Current_protect = DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             item.Current_protectMax -= card.effectValue_floatA;
@@ -443,19 +444,19 @@ public class CardSkill : MonoBehaviour
         enemynum = EnemyTargetCheck(card.effectTypeD);
         switch (card.effectTypeC)
         {
-            case CardDataBase.EffectTypeC.ALLY:
+            case CardDataBase.Data.EffectTypeC.ALLY:
                 DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Add(newbuff);
                 break;
-            case CardDataBase.EffectTypeC.ALLIES:
+            case CardDataBase.Data.EffectTypeC.ALLIES:
                 foreach (var item in DungeonOS.instance.weightAllyUnit)
                 {
                     item.Current_buff.Add(newbuff);
                 }
                 break;
-            case CardDataBase.EffectTypeC.ENEMY:
+            case CardDataBase.Data.EffectTypeC.ENEMY:
                 DungeonOS.instance.weightEnemyGroup[enemynum].Current_buff.Add(newbuff);
                 break;
-            case CardDataBase.EffectTypeC.ENEMIES:
+            case CardDataBase.Data.EffectTypeC.ENEMIES:
                 foreach (var item in DungeonOS.instance.weightEnemyGroup)
                 {
                     item.Current_buff.Add(newbuff);
@@ -607,19 +608,19 @@ public class CardSkill : MonoBehaviour
         enemynum = EnemyTargetCheck(card.effectTypeD);
         switch (card.effectTypeC)
         {
-            case CardDataBase.EffectTypeC.ALLY:
+            case CardDataBase.Data.EffectTypeC.ALLY:
                 DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Add(newbuff);
                 break;
-            case CardDataBase.EffectTypeC.ALLIES:
+            case CardDataBase.Data.EffectTypeC.ALLIES:
                 foreach (var item in DungeonOS.instance.weightAllyUnit)
                 {
                     item.Current_buff.Add(newbuff);
                 }
                 break;
-            case CardDataBase.EffectTypeC.ENEMY:
+            case CardDataBase.Data.EffectTypeC.ENEMY:
                 DungeonOS.instance.weightEnemyGroup[enemynum].Current_buff.Add(newbuff);
                 break;
-            case CardDataBase.EffectTypeC.ENEMIES:
+            case CardDataBase.Data.EffectTypeC.ENEMIES:
                 foreach (var item in DungeonOS.instance.weightEnemyGroup)
                 {
                     item.Current_buff.Add(newbuff);
@@ -745,7 +746,7 @@ public class CardSkill : MonoBehaviour
             float temp_shieldDamage, temp_damage;
             switch (card.effectTypeC)
             {
-                case CardDataBase.EffectTypeC.ALLY:
+                case CardDataBase.Data.EffectTypeC.ALLY:
                     temp = EnemyTargetCheck(card.effectTypeD);
                     temp_damage = DamageEngine.instance.OnDamageCalculate(false, true, card.effectValue_floatA, temp, out temp_shieldDamage);
                     DungeonOS.instance.weightAllyUnit[temp].Current_protect -= temp_shieldDamage;
@@ -755,7 +756,7 @@ public class CardSkill : MonoBehaviour
                         DungeonOS.instance.partyUnit[temp].charObject.GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
                     }
                     break;
-                case CardDataBase.EffectTypeC.ALLIES:
+                case CardDataBase.Data.EffectTypeC.ALLIES:
                     for (int i = 0; i < DungeonOS.instance.partyUnit.Count; i++)
                     {
                         temp = EnemyTargetCheck(card.effectTypeD);
@@ -768,7 +769,7 @@ public class CardSkill : MonoBehaviour
                         }
                     }
                     break;
-                case CardDataBase.EffectTypeC.ENEMY:
+                case CardDataBase.Data.EffectTypeC.ENEMY:
                     temp = EnemyTargetCheck(card.effectTypeD);
                     temp_damage = DamageEngine.instance.OnDamageCalculate(true, true, card.effectValue_floatA, temp, out temp_shieldDamage);
                     DungeonOS.instance.weightEnemyGroup[temp].Current_protect -= temp_shieldDamage;
@@ -778,7 +779,7 @@ public class CardSkill : MonoBehaviour
                         DungeonOS.instance.monsterGroup[temp].charObject.GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
                     }
                     break;
-                case CardDataBase.EffectTypeC.ENEMIES:
+                case CardDataBase.Data.EffectTypeC.ENEMIES:
                     for (int i = 0; i < DungeonOS.instance.monsterGroup.Count; i++)
                     {
                         temp = EnemyTargetCheck(card.effectTypeD);
@@ -812,13 +813,13 @@ public class CardSkill : MonoBehaviour
             case 0: // 최대체력 증가 / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
 
                         DungeonOS.instance.partyUnit[allynum].maxHP += card.effectValue_floatA;
                         DungeonOS.instance.partyUnit[allynum].hp += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit.Select((value, index) => new { value, index }))
                         {
                             if (DungeonOS.instance.weightAllyUnit[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -826,13 +827,13 @@ public class CardSkill : MonoBehaviour
                             item.value.hp += card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[enemynum].Current_buff.Exists(x => x.ID != buffID)) break;
 
                         DungeonOS.instance.monsterGroup[enemynum].maxHP += card.effectValue_floatA;
                         DungeonOS.instance.monsterGroup[enemynum].hp += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup.Select((value, index) => new { value, index }))
                         {
                             if (DungeonOS.instance.weightEnemyGroup[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -848,7 +849,7 @@ public class CardSkill : MonoBehaviour
             case 1: // 체력 회복 / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
 
                         DungeonOS.instance.partyUnit[allynum].hp += card.effectValue_floatA;
@@ -857,7 +858,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.partyUnit[allynum].hp = DungeonOS.instance.partyUnit[allynum].maxHP;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit.Select((value, index) => new { value, index}))
                         {
                             if (DungeonOS.instance.weightAllyUnit[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -869,7 +870,7 @@ public class CardSkill : MonoBehaviour
                             }
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[enemynum].Current_buff.Exists(x => x.ID != buffID)) break;
 
                         DungeonOS.instance.monsterGroup[enemynum].hp += card.effectValue_floatA;
@@ -878,7 +879,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.monsterGroup[enemynum].hp = DungeonOS.instance.monsterGroup[enemynum].maxHP;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup.Select((value, index) => new { value, index }))
                         {
                             if (DungeonOS.instance.weightEnemyGroup[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -898,24 +899,24 @@ public class CardSkill : MonoBehaviour
             case 2: // 데미지 증가 / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
 
                         DungeonOS.instance.weightAllyUnit[allynum].Add_damage += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
                             item.Add_damage += card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_damage += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
 
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
@@ -932,11 +933,11 @@ public class CardSkill : MonoBehaviour
             case 3: // 방어력 증가 / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_defense += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -944,11 +945,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_defense += card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_defense += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -963,11 +964,11 @@ public class CardSkill : MonoBehaviour
             case 4: // 공격 속도 증가 / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_attackSpeed += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -975,11 +976,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_attackSpeed += card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_attackSpeed += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -994,11 +995,11 @@ public class CardSkill : MonoBehaviour
             case 5: // 이동 속도 증가 / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_moveSpeed += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1006,11 +1007,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_moveSpeed += card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_moveSpeed += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1025,11 +1026,11 @@ public class CardSkill : MonoBehaviour
             case 6: // 공격 우선도
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_priorities += (int)card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1037,11 +1038,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_priorities += (int)card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_priorities += (int)card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1056,11 +1057,11 @@ public class CardSkill : MonoBehaviour
             case 7: // 공격 사거리 증가 / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_attackRange += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1068,11 +1069,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_attackRange += card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_attackRange += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1087,11 +1088,11 @@ public class CardSkill : MonoBehaviour
             case 8: // 속성 추가 데미지(불)
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[1] += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1099,11 +1100,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_attributeVlaue[1] += card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[1] += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1118,11 +1119,11 @@ public class CardSkill : MonoBehaviour
             case 9: // 속성 추가 데미지(물)
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[2] += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1130,11 +1131,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_attributeVlaue[2] += card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[2] += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1149,11 +1150,11 @@ public class CardSkill : MonoBehaviour
             case 10: // 속성 추가 데미지(풀)
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[3] += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1161,11 +1162,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_attributeVlaue[3] += card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[3] += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1180,11 +1181,11 @@ public class CardSkill : MonoBehaviour
             case 11: // 속성 추가 데미지(무)
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[0] += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1192,11 +1193,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_attributeVlaue[0] += card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[0] += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1211,11 +1212,11 @@ public class CardSkill : MonoBehaviour
             case 12: // 받는 피해량 감소 / 증가
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_dropDamage += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1223,11 +1224,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_dropDamage += card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_dropDamage += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1242,12 +1243,12 @@ public class CardSkill : MonoBehaviour
             case 13: // 보호막 부여 / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Current_protect += card.effectValue_floatA;
                         DungeonOS.instance.weightAllyUnit[allynum].Current_protectMax += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1256,12 +1257,12 @@ public class CardSkill : MonoBehaviour
                             item.Current_protectMax += card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect += card.effectValue_floatA;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Current_protectMax += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1277,7 +1278,7 @@ public class CardSkill : MonoBehaviour
             case 14: // 보호막 회복 / 잔여량 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Current_protect += card.effectValue_floatA;
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_protect > DungeonOS.instance.weightAllyUnit[allynum].Current_protectMax)
@@ -1285,7 +1286,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.weightAllyUnit[allynum].Current_protect = DungeonOS.instance.weightAllyUnit[allynum].Current_protectMax;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1297,7 +1298,7 @@ public class CardSkill : MonoBehaviour
                             }
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect += card.effectValue_floatA;
                         if (DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect > DungeonOS.instance.weightEnemyGroup[enemynum].Current_protectMax)
@@ -1305,7 +1306,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect = DungeonOS.instance.weightEnemyGroup[enemynum].Current_protectMax;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1324,11 +1325,11 @@ public class CardSkill : MonoBehaviour
             case 15: // 최종데미지 증가 (크리티컬) / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_fianlDamage += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1336,11 +1337,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_fianlDamage += card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_fianlDamage += card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1355,11 +1356,11 @@ public class CardSkill : MonoBehaviour
             case 16: // 무적 
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].isinvincible = true;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1367,11 +1368,11 @@ public class CardSkill : MonoBehaviour
                             item.isinvincible = true;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].isinvincible = true;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1386,7 +1387,7 @@ public class CardSkill : MonoBehaviour
             case 17: // 데미지 부여
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         temp_damage = DamageEngine.instance.OnDamageCalculate(false, true, card.effectValue_floatA, allynum, out temp_shieldDamage);
                         DungeonOS.instance.weightAllyUnit[allynum].Current_protect -= temp_shieldDamage;
@@ -1396,7 +1397,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.partyUnit[allynum].charObject.GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         for (int i = 0; i < DungeonOS.instance.partyUnit.Count; i++)
                         {
                             if (DungeonOS.instance.weightAllyUnit[i].Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1410,7 +1411,7 @@ public class CardSkill : MonoBehaviour
                             }
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         temp_damage = DamageEngine.instance.OnDamageCalculate(true, true, card.effectValue_floatA, enemynum, out temp_shieldDamage);
                         DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect -= temp_shieldDamage;
@@ -1420,7 +1421,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.monsterGroup[enemynum].charObject.GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         for (int i = 0; i < DungeonOS.instance.monsterGroup.Count; i++)
                         {
                             if (DungeonOS.instance.weightEnemyGroup[i].Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1449,7 +1450,7 @@ public class CardSkill : MonoBehaviour
             case 0: // 최대체력 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.partyUnit[allynum].maxHP -= card.effectValue_floatA;
                         if (DungeonOS.instance.partyUnit[allynum].maxHP < 1)
@@ -1461,7 +1462,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.partyUnit[allynum].hp = DungeonOS.instance.partyUnit[allynum].maxHP;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit.Select((value, index)=> new {value, index}))
                         {
                             if (DungeonOS.instance.weightAllyUnit[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1477,7 +1478,7 @@ public class CardSkill : MonoBehaviour
                             }
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.monsterGroup[enemynum].maxHP -= card.effectValue_floatA;
                         if (DungeonOS.instance.monsterGroup[enemynum].maxHP < 1)
@@ -1489,7 +1490,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.monsterGroup[enemynum].hp = DungeonOS.instance.monsterGroup[enemynum].maxHP;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup.Select((value, index) => new { value, index}))
                         {
                             if (DungeonOS.instance.weightEnemyGroup[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1512,7 +1513,7 @@ public class CardSkill : MonoBehaviour
             case 1: // 체력 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.partyUnit[allynum].hp -= card.effectValue_floatA;
                         if (DungeonOS.instance.partyUnit[allynum].hp < 1)
@@ -1520,7 +1521,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.partyUnit[allynum].hp = 1;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit.Select((value, index) => new { value, index}))
                         {
                             if (DungeonOS.instance.weightAllyUnit[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1532,7 +1533,7 @@ public class CardSkill : MonoBehaviour
                             }
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.monsterGroup[enemynum].hp -= card.effectValue_floatA;
                         if (DungeonOS.instance.monsterGroup[enemynum].hp < 1)
@@ -1540,7 +1541,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.monsterGroup[enemynum].hp = 1;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup.Select((value, index) => new { value, index }))
                         {
                             if (DungeonOS.instance.weightEnemyGroup[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1559,11 +1560,11 @@ public class CardSkill : MonoBehaviour
             case 2: // 데미지 증가 / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_damage -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1571,11 +1572,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_damage -= card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_damage -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1590,11 +1591,11 @@ public class CardSkill : MonoBehaviour
             case 3: // 방어력 증가 / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_defense -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1602,11 +1603,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_defense -= card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_defense -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1621,11 +1622,11 @@ public class CardSkill : MonoBehaviour
             case 4: // 공격 속도 증가 / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_attackSpeed -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1633,11 +1634,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_attackSpeed -= card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_attackSpeed -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1652,11 +1653,11 @@ public class CardSkill : MonoBehaviour
             case 5: // 이동 속도 증가 / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_moveSpeed -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1664,11 +1665,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_moveSpeed -= card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_moveSpeed -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1683,11 +1684,11 @@ public class CardSkill : MonoBehaviour
             case 6: // 공격 우선도
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_priorities -= (int)card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1695,11 +1696,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_priorities -= (int)card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_priorities -= (int)card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1714,11 +1715,11 @@ public class CardSkill : MonoBehaviour
             case 7: // 공격 사거리 증가 / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_attackRange -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1726,11 +1727,11 @@ public class CardSkill : MonoBehaviour
                             item.Add_attackRange -= card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_attackRange -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1745,23 +1746,23 @@ public class CardSkill : MonoBehaviour
             case 8: // 속성 추가 데미지(불)
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[1] -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
                             item.Add_attributeVlaue[1] -= card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
 
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[1] -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1776,22 +1777,22 @@ public class CardSkill : MonoBehaviour
             case 9: // 속성 추가 데미지(물)
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[2] -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
                             item.Add_attributeVlaue[2] -= card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[2] -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1806,22 +1807,22 @@ public class CardSkill : MonoBehaviour
             case 10: // 속성 추가 데미지(풀)
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[3] -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
                             item.Add_attributeVlaue[3] -= card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[3] -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1836,22 +1837,22 @@ public class CardSkill : MonoBehaviour
             case 11: // 속성 추가 데미지(무)
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[0] -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
                             item.Add_attributeVlaue[0] -= card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[0] -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1866,22 +1867,22 @@ public class CardSkill : MonoBehaviour
             case 12: // 받는 피해량 감소 / 증가
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_dropDamage -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
                             item.Add_dropDamage -= card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_dropDamage -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1896,7 +1897,7 @@ public class CardSkill : MonoBehaviour
             case 13: // 보호막 부여 / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Current_protectMax -= card.effectValue_floatA;
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_protect > DungeonOS.instance.weightAllyUnit[allynum].Current_protectMax)
@@ -1904,7 +1905,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.weightAllyUnit[allynum].Current_protect = DungeonOS.instance.weightAllyUnit[allynum].Current_protectMax;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1915,7 +1916,7 @@ public class CardSkill : MonoBehaviour
                             }
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Current_protectMax -= card.effectValue_floatA;
                         if (DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect > DungeonOS.instance.weightEnemyGroup[enemynum].Current_protectMax)
@@ -1923,7 +1924,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect = DungeonOS.instance.weightEnemyGroup[enemynum].Current_protectMax;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1942,7 +1943,7 @@ public class CardSkill : MonoBehaviour
             case 14: // 보호막 회복 / 잔여량 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Current_protect -= card.effectValue_floatA;
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_protect < 0)
@@ -1950,7 +1951,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.weightAllyUnit[allynum].Current_protect = 0;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1961,7 +1962,7 @@ public class CardSkill : MonoBehaviour
                             }
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect -= card.effectValue_floatA;
                         if (DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect < 0)
@@ -1969,7 +1970,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect = 0;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -1988,22 +1989,22 @@ public class CardSkill : MonoBehaviour
             case 15: // 최종데미지 증가 (크리티컬) / 감소
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].Add_fianlDamage -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
                             item.Add_fianlDamage -= card.effectValue_floatA;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].Add_fianlDamage -= card.effectValue_floatA;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
@@ -2018,22 +2019,22 @@ public class CardSkill : MonoBehaviour
             case 16: // 무적 
                 switch (card.effectTypeC)
                 {
-                    case CardDataBase.EffectTypeC.ALLY:
+                    case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.weightAllyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightAllyUnit[allynum].isinvincible = false;
                         break;
-                    case CardDataBase.EffectTypeC.ALLIES:
+                    case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.weightAllyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
                             item.isinvincible = false;
                         }
                         break;
-                    case CardDataBase.EffectTypeC.ENEMY:
+                    case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.weightEnemyGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         DungeonOS.instance.weightEnemyGroup[enemynum].isinvincible = false;
                         break;
-                    case CardDataBase.EffectTypeC.ENEMIES:
+                    case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.weightEnemyGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
