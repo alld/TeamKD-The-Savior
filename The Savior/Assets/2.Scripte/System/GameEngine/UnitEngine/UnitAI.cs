@@ -86,6 +86,8 @@ public class UnitAI : MonoBehaviour
     {
         unitMelee = GetComponent<UnitMelee>();
         unitControl?.GetComponent<CharacterController>();
+
+
     }
 
     private void ResetAISetting()
@@ -423,6 +425,30 @@ public class UnitAI : MonoBehaviour
         //애니메이션 작동
         yield return delay_03;
     }
+
+    IEnumerator State_test() // 임시용
+    {
+        isOnScheduler = true;
+        StartCoroutine(IsOnGoing());
+        Action_Stand();
+        
+        while (isOnScheduler)
+        {
+            if (onSpecialSkillAvailable && onSkillAvailable & onAttackAvailable) break;
+            yield return delay_05;
+        }
+        //애니메이션 작동
+        while (!isRemove)
+        {
+            // 추가 조건으로 빠져나올것 :: 스턴 상태 종료, 특수상태 종료 같은상황
+            // 적이 다가옴 
+            yield return delay_05;
+        }
+
+        isOnScheduler = false;
+        if (aiSchedule.Count == 0) AutoScheduler(0, 0);
+    }
+
     #endregion
 
     #region 대상 탐색

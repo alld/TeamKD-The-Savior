@@ -2,9 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using SimpleJSON;
+
 
 public class MonsterDatabase : MonoBehaviour
 {
+
+    private TextAsset jsonData;
+    private string json;
+
     /// <summary>
     /// 몬스터의 기본 원형값을 가지고있는 데이터 베이스 
     /// <br>InfoMT를 통해 인스턴스를 만들어서 사용해야함. </br>
@@ -22,10 +28,6 @@ public class MonsterDatabase : MonoBehaviour
     /// 프리팹에 있는 캐릭터 오브젝트, 모델
     /// </summary>
     public GameObject charObject;
-    /// <summary>
-    /// 몬스터 기본 아이콘
-    /// </summary>
-    public Image icon;
     /// <summary>
     /// 몬스터 기본 이름
     /// </summary>
@@ -84,6 +86,10 @@ public class MonsterDatabase : MonoBehaviour
     /// </summary>
     public int priorities;
     /// <summary>
+    /// 유닛 우선도 : 방어 인식 범위
+    /// </summary>
+    public float defRange;
+    /// <summary>
     /// 몬스터 기본 자리 우선도 : 자리 배치
     /// </summary>
     public int positionPri;
@@ -110,9 +116,9 @@ public class MonsterDatabase : MonoBehaviour
     public int rewardGold;
     public int rewardSoul;
     public int rewardExp;
-    public int[] rewardCard;
-    public int[] rewardUnit;
-    public int[] rewardRelic;
+    public List<int> rewardCard = new List<int>();
+    public List<int> rewardUnit = new List<int>();
+    public List<int> rewardRelic = new List<int>();
     #endregion
 
     /// <summary>
@@ -122,37 +128,61 @@ public class MonsterDatabase : MonoBehaviour
     /// <param name="num"></param>
     public MonsterDatabase(int num)
     {
-        switch (num)
+        jsonData = Resources.Load<TextAsset>("RelicData");
+        json = jsonData.text;
+
+        var data = JSON.Parse(json);
+        //switch (GameManager.instance.data.Language)
+        //{
+        //    case 0:
+        //        charName = data[num]["Name_Kr"];
+        //        break;
+        //    case 1:
+        //        charName = data[num]["Name_Eng"];
+        //        break;
+        //}
+        charName = "";
+        number = num;
+        maxHP = data[num]["Hp_Total"];
+        hp = maxHP;
+        int temp = data[num][""];
+        monsterType = (MonsterType)temp;
+        charObject = Resources.Load<GameObject>("");
+        damage = data[num]["Total_Damage"];
+        attackSpeed = data[num]["Chr_AtkSpeed"];
+        moveSpeed = data[num]["Chr_MS"];
+        defense = data[num]["Chr_DF"];
+        attackType = data[num]["Attack_Type"];
+        attackRange = data[num]["Chr_AtkRange"];
+        attribute = data[num]["Attribute"];
+        priRange = data[num]["Atk_Know_Range"];
+        defRange = data[num]["Def_Know_Range"];
+        priorities = data[num]["Attack_Priority"];
+        positionPri = data[num]["Place_Priority"];
+        basicSkillA = data[num][""];
+        basicSkillB = data[num][""];
+        basicSkillC = data[num][""];
+        speialSkill = data[num][""];
+        rewardGold = data[num][""];
+        rewardSoul = data[num][""];
+        rewardExp = data[num][""];
+        temp = data[num][""];
+        string tempString = temp.ToString();
+        for (int i = 0; i < tempString.Length; i++)
         {
-            case 1: // 머선머선 몬스터 아직 미정
-                number = num;
-                monsterType = MonsterType.MONSTER;
-                icon = null; // 이미지 설정 검토
-                charName = "머선머선 캐릭터"; // 던전정보와 마찬가지로 텍스트 구동방식 검토
-                hp = 100;
-                damage = 10.0f;
-                charObject = Resources.Load<GameObject>("Unit/TestUnit");
-                attackSpeed = 1.0f;
-                moveSpeed = 1.0f;
-                defense = 10.0f;
-                attackType = 1;
-                attackRange = 10.0f;
-                attribute = 0;
-                priRange = 10.0f;
-                priorities = 20;
-                positionPri = 30;
-                basicSkillA = 0;
-                basicSkillB = 0;
-                basicSkillC = 0;
-                speialSkill = 0;
-                rewardGold = 1;
-                rewardSoul = 1;
-                rewardExp = 0;
-                rewardCard = null;
-                rewardUnit = null;
-                rewardRelic = null;
-                break;
+            rewardCard.Add((int)(tempString[i + 1] + tempString[i]));
+        }
+        temp = data[num][""];
+        tempString = temp.ToString();
+        for (int i = 0; i < tempString.Length; i++)
+        {
+            rewardUnit.Add((int)(tempString[i + 1] + tempString[i]));
+        }
+        temp = data[num][""];
+        tempString = temp.ToString();
+        for (int i = 0; i < tempString.Length; i++)
+        {
+            rewardRelic.Add((int)(tempString[i + 1] + tempString[i]));
         }
     }
-
 }
