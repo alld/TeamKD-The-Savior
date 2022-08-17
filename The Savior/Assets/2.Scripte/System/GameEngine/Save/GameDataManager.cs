@@ -20,6 +20,10 @@ public class GameDataManager : MonoBehaviour
     {
         GameData data = new GameData();
         string path = Path.Combine(Application.dataPath, "Resources/gameData.json");
+        if (!File.Exists(path))
+        {
+            File.Create(path);
+        }
         string jsonData = File.ReadAllText(path);
         data = JsonUtility.FromJson<GameData>(jsonData);
 
