@@ -122,7 +122,6 @@ public class GameDataManager : MonoBehaviour
         HaveCard card = new HaveCard();
         TextAsset textAsset = Resources.Load<TextAsset>("HaveCard");
         JObject j = JObject.Parse(textAsset.text);
-        Debug.Log(j.ToString());
         card = j[n.ToString()].ToObject<HaveCard>();
         return card;
     }

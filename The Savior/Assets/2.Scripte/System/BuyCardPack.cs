@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using SimpleJSON;
+
 public class BuyCardPack : MonoBehaviour
 {
-    private TextAsset jsonData;
-    private string json;
     [Header("상점 카드팩 리스트 위치")]
     public Transform shopCardPackTr;
 
@@ -23,8 +21,7 @@ public class BuyCardPack : MonoBehaviour
 
     [Header("카드팩 이미지 리스트")]
     public Image[] cardPackImg;
-    private Image[] cardImg = new Image[3];
-    private string cardName = "Card";
+    private Image[] cardImg = new Image[5];
 
     // instantiate로 생성하여 사용할 이미지
     private Image pack; // 팩 이미지
@@ -84,7 +81,7 @@ public class BuyCardPack : MonoBehaviour
     public void InitCardPack()
     {
         if (shopCardPackImageTr.childCount > 0) Destroy(shopCardPackImageTr.GetChild(0).gameObject);
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
             if (cardList[i].transform.childCount > 0)
             {
@@ -101,7 +98,7 @@ public class BuyCardPack : MonoBehaviour
     {
         InitCardPack();
         InitBuyCard();
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
             cardImg[i] = Resources.Load<Image>("Card/Card_"+ (i + 1).ToString());
             card = Instantiate(cardImg[i], cardList[i]);
@@ -146,7 +143,7 @@ public class BuyCardPack : MonoBehaviour
 
         // 난수를 생성해서 리스트에서 랜덤하게 가져오게 할 예정이지만
         // 현재 카드가 3장 밖에 없어서 그냥 넣겠읍니다.
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
             card = Instantiate(cardImg[i], buyCardList[i]);
             viewCard = card.GetComponent<ViewCard>();
@@ -161,7 +158,7 @@ public class BuyCardPack : MonoBehaviour
     /// </summary>
     private void InitBuyCard()
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
             if (buyCardList[i].childCount > 0)
             {
