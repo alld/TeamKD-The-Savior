@@ -157,7 +157,7 @@ public class WorldMapDungeon : MonoBehaviour
     {
         Debug.Log("Enter the Dungeon : " + curDungeon);
         // 튜토리얼 씬 이동
-        //GameManager.instance.SceneChange(3);
+        GameManager.instance.SceneChange(3);
     }
 
     // n버튼 클릭시 다시 던전 정보창으로 돌아감.

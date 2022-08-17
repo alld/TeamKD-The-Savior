@@ -139,11 +139,13 @@ public class DungeonOS : MonoBehaviour
     /// <br>2. 후반</br>
     /// </summary>
     public bool timerOnDGP;
+    private int TimeLevelDGP;
     public int timeLevelDGP
     {
-        get { return timeLevelDGP; }
+        get { return TimeLevelDGP; }
         set
         {
+            TimeLevelDGP = value;
             switch (value)
             {
                 case 1:
@@ -535,9 +537,9 @@ public class DungeonOS : MonoBehaviour
         {
             stageGroupDG[temp++] = Instantiate(item);
         }
+        roundDGP = 1;
         HandReset();
         PlayerUnitCreate();
-        roundDGP = 1;
         ////스테이지 설정 한번 들어가야함. 
         StageReset(roundDGP);
         //StageReset(checkCountDGGame); // 컷팅넘버 구조 재검토
@@ -1082,37 +1084,38 @@ public class DungeonOS : MonoBehaviour
 
     public void HandRefill()
     {
+        CardEvent CasheCardEvent;
         for (int i = handCard.Count; i < 3; i++)
         {
             if (useDeckDGP.Count != 0)
             {
-                CardDataBase card = new CardDataBase(useDeckDGP[0]);
+                CardDataBase card = new CardDataBase(useDeckDGP[0]+1);
                 handCard.Add(card);
-                if (handSlot[0])
+                if (!handSlot[0])
                 {
                     card.Icon = Instantiate(Resources.Load<Image>("Card/Card_" + card.number), DungeonCtrl.cardSlot[0].transform);
-                    card.Icon.gameObject.AddComponent<CardEvent>();
-                    card.GetComponent<CardEvent>().card_handnumber = 0;
+                    CasheCardEvent = card.Icon.gameObject.AddComponent<CardEvent>();
+                    CasheCardEvent.card_handnumber = 0;
                     handSlot[0] = true;
-                    card.GetComponent<CardEvent>().cost = card.cost;
+                    CasheCardEvent.cost = card.cost;
                 }
-                else if (handSlot[1])
+                else if (!handSlot[1])
                 {
                     card.Icon = Instantiate(Resources.Load<Image>("Card/Card_" + card.number), DungeonCtrl.cardSlot[1].transform);
-                    card.Icon.gameObject.AddComponent<CardEvent>();
-                    card.GetComponent<CardEvent>().card_handnumber = 1;
+                    CasheCardEvent = card.Icon.gameObject.AddComponent<CardEvent>();
+                    CasheCardEvent.card_handnumber = 1;
                     handSlot[1] = true;
-                    card.GetComponent<CardEvent>().cost = card.cost;
+                    CasheCardEvent.cost = card.cost;
                 }
                 else
                 {
                     card.Icon = Instantiate(Resources.Load<Image>("Card/Card_" + card.number), DungeonCtrl.cardSlot[2].transform);
-                    card.Icon.gameObject.AddComponent<CardEvent>();
-                    card.GetComponent<CardEvent>().card_handnumber = 2;
+                    CasheCardEvent = card.Icon.gameObject.AddComponent<CardEvent>();
+                    CasheCardEvent.card_handnumber = 2;
                     handSlot[2] = true;
-                    card.GetComponent<CardEvent>().cost = card.cost;
+                    CasheCardEvent.cost = card.cost;
                 }
-                card.GetComponent<CardEvent>().card_number = card.number;
+                CasheCardEvent.card_number = card.number;
                 useDeckDGP.RemoveAt(0);
                 remainingCardDGP++;
             }
@@ -1129,7 +1132,7 @@ public class DungeonOS : MonoBehaviour
     {
         if (useDeckDGP.Count != 0)
         {
-            CardDataBase card = new CardDataBase(useDeckDGP[0]);
+            CardDataBase card = new CardDataBase(useDeckDGP[0]+1);
             handCard.Add(card);
             if (handSlot[0])
             {
