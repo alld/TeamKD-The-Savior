@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Linq;
 
-public class TestScripte : MonoBehaviour
+public class TestScripte : MonoBehaviour, IPointerEnterHandler
 {
 
     private EventTrigger eventTrigger;
@@ -52,5 +52,10 @@ public class TestScripte : MonoBehaviour
     {
         Debug.Log("ABC");
         //Debug.Log(data);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("asdsf");
     }
 }

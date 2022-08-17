@@ -1,13 +1,24 @@
 {
+<<<<<<< HEAD
     "CurrentScene": -1,
     "gameProgress": -1,
+=======
+    "CurrentScene": 3,
+    "gameProgress": 2,
+>>>>>>> 6e636cde3d4196dec4d96de408e16212c80a0d06
     "Language": 0,
     "SFX": 100,
     "BGM": 100,
     "Sound": 100,
+<<<<<<< HEAD
     "souls": 10000,
     "golds": 10000,
     "myPoint": 0,
+=======
+    "souls": 100000,
+    "golds": 99800,
+    "myPoint": 1,
+>>>>>>> 6e636cde3d4196dec4d96de408e16212c80a0d06
     "presetName": [
         "1번 프리셋",
         "2번 프리셋",
@@ -17,17 +28,17 @@
     ],
     "presset": 1,
     "equipCard1": [
+        1,
         0,
         0,
         0,
         0,
+        1,
         0,
         0,
         0,
         0,
-        0,
-        0,
-        0,
+        1,
         0,
         0,
         0,
@@ -105,7 +116,7 @@
         0,
         0,
         0,
-        0,
+        4,
         0
     ],
     "equipCharacter": [
@@ -115,10 +126,8 @@
         0
     ],
     "haveCharacter": [
-        1,
-        2,
-        3,
-        4
+        0,
+        0
     ],
     "haveRelic": [
         1,

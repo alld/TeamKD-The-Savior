@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using SimpleJSON;
 
 public class CardDataBase : MonoBehaviour
 {
+    private TextAsset jsonData, jsonTextData;
+    private string json, textjson;
+
     /// <summary>
     /// 카드의 기본 원형값을 가지고있는 데이터 베이스 
     /// <br>InfoCard를 통해 인스턴스를 만들어서 사용해야함. </br>
     /// <br>InfoCard(int) : int == 데이터베이스상 캐릭터 고유넘버 </br>
     /// </summary>
-    public static CardDataBase instance = null;
-    //public Sprite[] ImagefulSet;
+    /// //public Sprite[] ImagefulSet;
     //public static List<Sprite> Imageful = null;
 
     #region 카드 기본 설정값
@@ -140,36 +143,52 @@ public class CardDataBase : MonoBehaviour
     /// <param name="num"></param>
     public CardDataBase(int num)
     {
+        int temp;
+        jsonData = Resources.Load<TextAsset>("CardDataTable");
+        jsonTextData = Resources.Load<TextAsset>("CardData");
+        json = jsonData.text;
+        textjson = jsonTextData.text;
+        var data = JSON.Parse(json);
+        var textdata = JSON.Parse(textjson);
         number = num;
-        Icon = null;
-        name = " ";
+        Icon = Resources.Load<Image>("Card/Card_" + num.ToString());
+        switch (GameManager.instance.data.Language)
+        {
+            case 0:
+                cardName = textdata[num]["Name_Kr"];
+                break;
+            case 1:
+                cardName = textdata[num]["Name_Eng"];
+                break;
+            default:
+                break;
+        }
         cardCount = 0;
-        cost = 0;
+        cost = (byte)data[num]["Card_Cost"];
         propertie = 0;
-        effectTypeA = 0;
-        effectTypeB = 0;
-        effectTypeC = 0;
-        effectTypeD = 0;
+        temp = data[num]["EffectTypeA"];
+        effectTypeA = (EffectTypeA)temp;
+        temp = data[num]["EffectTypeB"];
+        effectTypeB = (EffectTypeB)temp;
+        temp = data[num]["EffectTypeC"];
+        effectTypeC = (EffectTypeC)temp;
+        temp = data[num]["EffectTypeD"];
+        effectTypeD = (EffectTypeD)temp;
         cardString1 = "";
         cardString2 = "";
-        effectValue_intA = 0;
-        effectValue_intB = 0;
-        effectValue_floatA = 0;
-        effectValue_floatB = 0;
-        effectValue_floatC = 0;
-        effectValue_floatD = 0;
-        effectValue_bool = false;
+        effectValue_intA = data[num]["effectDataA1"];
+        effectValue_intB = data[num]["effectDataA2"];
+        effectValue_floatA = data[num]["effectDataB1"];
+        effectValue_floatB = data[num]["effectDataB2"];
+        effectValue_floatC = data[num]["effectDataB3"];
+        effectValue_floatD = data[num]["effectDataB4"];
+        effectValue_bool = data[num]["effectDataD1"];
         sellValueA = 0;
         sellValueB = 0;
         recycle = 0;
         dataCount = 0;
-        buffCount = 0;
-        buffindex = 0;
-    }
-
-    private void Awake()
-    {
-        instance = this;
+        buffCount = (double)data[num]["effectCount"];
+        buffindex = data[num]["BF_Num"];
     }
 }
 

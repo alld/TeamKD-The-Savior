@@ -6,6 +6,10 @@ using SimpleJSON;
 
 public class CharacterDatabase : MonoBehaviour
 {
+    private TextAsset jsonData;
+    private string json;
+
+
     #region 캐릭터 기본 설정값
     public int number;
     /// <summary>
@@ -133,9 +137,11 @@ public class CharacterDatabase : MonoBehaviour
     /// <br>(int = num -1) : 캐릭터 고유의 넘버링값</br>
     /// </summary>
     /// <param name="num"></param>
-    public CharacterDatabase(int num, JSONNode data)
+    public CharacterDatabase(int num)
     {
-        //var data = JSON.Parse(jsonData.text));
+        jsonData = Resources.Load<TextAsset>("CharacterData");
+        json = jsonData.text;
+        var data = JSON.Parse(json);
         number = num;
         icon = Resources.Load<Image>("Unit/Character_" + num.ToString());
         switch (GameManager.instance.data.Language)

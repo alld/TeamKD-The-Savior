@@ -521,7 +521,7 @@ public class DungeonOS : MonoBehaviour
             tempCharNumber = GameManager.instance.data.equipCharacter[i];
             if (tempCharNumber != 0)
             {
-                partyUnit.Add(new UnitTable(new CharacterDatabase(tempCharNumber, jsonCH)));
+                partyUnit.Add(new UnitTable(new CharacterDatabase(tempCharNumber)));
                 partyUnit[partyUnit.Count-1].isLive = true;
             }
         }
@@ -1091,6 +1091,7 @@ public class DungeonOS : MonoBehaviour
                 if (handSlot[0])
                 {
                     card.Icon = Instantiate(Resources.Load<Image>("Card/Card_" + card.number), DungeonCtrl.cardSlot[0].transform);
+                    card.Icon.gameObject.AddComponent<CardEvent>();
                     card.GetComponent<CardEvent>().card_handnumber = 0;
                     handSlot[0] = true;
                     card.GetComponent<CardEvent>().cost = card.cost;
@@ -1098,6 +1099,7 @@ public class DungeonOS : MonoBehaviour
                 else if (handSlot[1])
                 {
                     card.Icon = Instantiate(Resources.Load<Image>("Card/Card_" + card.number), DungeonCtrl.cardSlot[1].transform);
+                    card.Icon.gameObject.AddComponent<CardEvent>();
                     card.GetComponent<CardEvent>().card_handnumber = 1;
                     handSlot[1] = true;
                     card.GetComponent<CardEvent>().cost = card.cost;
@@ -1105,6 +1107,7 @@ public class DungeonOS : MonoBehaviour
                 else
                 {
                     card.Icon = Instantiate(Resources.Load<Image>("Card/Card_" + card.number), DungeonCtrl.cardSlot[2].transform);
+                    card.Icon.gameObject.AddComponent<CardEvent>();
                     card.GetComponent<CardEvent>().card_handnumber = 2;
                     handSlot[2] = true;
                     card.GetComponent<CardEvent>().cost = card.cost;
@@ -1131,6 +1134,7 @@ public class DungeonOS : MonoBehaviour
             if (handSlot[0])
             {
                 card.Icon = Instantiate(Resources.Load<Image>("Card/Card_" + card.number), DungeonCtrl.cardSlot[0].transform);
+                card.Icon.gameObject.AddComponent<CardEvent>();
                 card.GetComponent<CardEvent>().card_handnumber = 0;
                 handSlot[0] = true;
                 card.GetComponent<CardEvent>().cost = card.cost;
@@ -1138,6 +1142,7 @@ public class DungeonOS : MonoBehaviour
             else if (handSlot[1])
             {
                 card.Icon = Instantiate(Resources.Load<Image>("Card/Card_" + card.number), DungeonCtrl.cardSlot[1].transform);
+                card.Icon.gameObject.AddComponent<CardEvent>();
                 card.GetComponent<CardEvent>().card_handnumber = 1;
                 handSlot[1] = true;
                 card.GetComponent<CardEvent>().cost = card.cost;
@@ -1145,6 +1150,7 @@ public class DungeonOS : MonoBehaviour
             else
             {
                 card.Icon = Instantiate(Resources.Load<Image>("Card/Card_" + card.number), DungeonCtrl.cardSlot[2].transform);
+                card.Icon.gameObject.AddComponent<CardEvent>();
                 card.GetComponent<CardEvent>().card_handnumber = 2;
                 handSlot[2] = true;
                 card.GetComponent<CardEvent>().cost = card.cost;
@@ -1294,7 +1300,7 @@ public class DungeonOS : MonoBehaviour
             {
                 if (GameManager.instance.currentHeroList[item] == null)
                 {
-                    GameManager.instance.currentHeroList.Add(item, new CharacterDatabase(item, jsonCH));
+                    GameManager.instance.currentHeroList.Add(item, new CharacterDatabase(item));
                 }
                 else
                 {
