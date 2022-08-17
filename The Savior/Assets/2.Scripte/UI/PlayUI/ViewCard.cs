@@ -14,6 +14,7 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     private Transform tr;
     private Transform curTr;
     private Transform moveTr;
+    private Image[] childImg;
     private int curIdx;
     private int equipIdx;
 
@@ -33,15 +34,23 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     {
         tr.position = Input.mousePosition;
         tr.GetComponent<Image>().raycastTarget = false;
+        childImg = tr.GetComponentsInChildren<Image>();
+        for (int i = 0; i < childImg.Length; i++)
+        {
+            childImg[i].raycastTarget = false;
+        }
+        Debug.Log("드래그");
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         this.transform.SetParent(moveTr);
         dragItem = this.gameObject;
+        Debug.Log("드래그 하는 중");
     }
     public void OnEndDrag(PointerEventData eventData)
     {
+        Debug.Log("드래그 끝남");
         dragItem = null;
         tr.GetComponent<Image>().raycastTarget = true;
         if (tr.parent == moveTr)

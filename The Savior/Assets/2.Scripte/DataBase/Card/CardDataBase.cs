@@ -140,39 +140,31 @@ public class CardDataBase : MonoBehaviour
     /// <param name="num"></param>
     public CardDataBase(int num)
     {
-        switch (num)
-        {
-            case 1: // 머선머선 카드 아직 미정
-                number = num;
-                Icon = null;
-                name = "";
-                cardCount = 0;
-                cost = 0;
-                propertie = 0;
-                effectTypeA = 0;
-                effectTypeB = 0;
-                effectTypeC = 0;
-                effectTypeD = 0;
-                cardString1 = "";
-                cardString2 = "";
-                effectValue_intA = 0;
-                effectValue_intB = 0;
-                effectValue_floatA = 0;
-                effectValue_floatB = 0;
-                effectValue_floatC = 0;
-                effectValue_floatD = 0;
-                effectValue_bool = false;
-                sellValueA = 0;
-                sellValueB = 0;
-                recycle = 0;
-                dataCount = 0;
-                buffCount = 0;
-                buffindex = 0;
-
-                break;
-            default:
-                break;
-        }
+        number = num;
+        Icon = null;
+        name = "";
+        cardCount = 0;
+        cost = 0;
+        propertie = 0;
+        effectTypeA = 0;
+        effectTypeB = 0;
+        effectTypeC = 0;
+        effectTypeD = 0;
+        cardString1 = "";
+        cardString2 = "";
+        effectValue_intA = 0;
+        effectValue_intB = 0;
+        effectValue_floatA = 0;
+        effectValue_floatB = 0;
+        effectValue_floatC = 0;
+        effectValue_floatD = 0;
+        effectValue_bool = false;
+        sellValueA = 0;
+        sellValueB = 0;
+        recycle = 0;
+        dataCount = 0;
+        buffCount = 0;
+        buffindex = 0;
     }
 
     private void Awake()

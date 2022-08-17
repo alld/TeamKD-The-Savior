@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
     public List<CharExp> charExp = new List<CharExp>(); // Json 파일에 저장되어야 하는 캐릭터의 데이터
     public List<HaveCard> card = new List<HaveCard>();  // Json 파일에 저장되어야 하는 카드의 데이터
     public int cardIdx = 0;  // Json 파일에 저장되어있는 카드의 인덱스
-
     // Play씬의 UI를 특정 상황에 따라 활성화 하기 위한 함수.
     private PlayUI playUI;
 

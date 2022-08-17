@@ -14,6 +14,7 @@ public class DropCard : MonoBehaviour, IDropHandler
     {
         if (transform.childCount == 0 && ViewCard.dragItem != null)
         {
+            Debug.Log("카드 장착 성공");
             ViewCard.dragItem.transform.SetParent(this.transform);
             ViewCard.dragItem.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(100, 100);
             ViewCard.dragItem.transform.position = this.transform.position;

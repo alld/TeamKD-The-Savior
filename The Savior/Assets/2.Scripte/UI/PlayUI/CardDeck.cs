@@ -31,10 +31,14 @@ public class CardDeck : MonoBehaviour
         // 게임 시작시 데이터에 저장되어있는 카드를 인벤토리에 생성
         for (int i = 0; i < GameManager.instance.cardIdx - 1; i++)
         {
-            for (int j = 0; j < GameManager.instance.card[i].haveCard; j++)
+            if (GameManager.instance.card[i].haveCard != 0)
             {
-                cardImg = Resources.Load<Image>("Card/Card_" + GameManager.instance.card[i].id);
-                cardImg = Instantiate(cardImg, cardDeckTr);
+                for (int j = 0; j < GameManager.instance.card[i].haveCard; j++)
+                {
+                    cardImg = Resources.Load<Image>("Card/Card_" + GameManager.instance.card[i].id);
+                    Debug.Log(cardImg);
+                    cardImg = Instantiate(cardImg, cardDeckTr);
+                }
             }
         }
         OnClick_PresetChangeBtn((GameManager.instance.data.presset -1));

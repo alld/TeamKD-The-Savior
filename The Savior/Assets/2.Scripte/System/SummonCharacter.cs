@@ -10,6 +10,7 @@ public class SummonCharacter : MonoBehaviour
     public int input = 5;
     // 난수
     private int rnd;
+    private int stop;
     // 소환될 캐릭터의 오브젝트
     private GameObject character;
     private Image charImg;
@@ -25,15 +26,19 @@ public class SummonCharacter : MonoBehaviour
     /// <returns></returns>
     public void SummonRandom(int price)
     {
-        //if (GameManager.instance.data.golds < price) 
-        //{
-        //    Debug.Log("골드가 부족합니다.");
-        //    return;
-        //} 
-        //GameManager.instance.data.golds -= price;
+        if (GameManager.instance.data.golds < price)
+        {
+            Debug.Log("골드가 부족합니다.");
+            return;
+        }
+        stop = DuplicateSummon();
+        if(stop == 1)
+        {
+            return;
+        }
 
-        // 캐릭터 생성
-        rnd = Random.Range(1, input);
+        GameManager.instance.data.golds -= price;
+
         character = Resources.Load<GameObject>("Unit/Character" + rnd.ToString());
         character = Instantiate(character, summonCharTr);
         
@@ -41,7 +46,32 @@ public class SummonCharacter : MonoBehaviour
         GameManager.instance.data.haveCharacter.Add(character.GetComponent<UnitAI>().unitNumber);
         //Debug.Log(character.GetComponent<UnitAI>().unitNumber);
         GameManager.instance.GameSave();
+    }
 
+    public int DuplicateSummon()
+    {
+        int max = 0;
+        // 캐릭터 생성
+        rnd = Random.Range(1, input);
+
+
+        for (int i = 0; i < GameManager.instance.data.haveCharacter.Count; i++)
+        {
+            if (GameManager.instance.data.haveCharacter[i] == rnd)
+            {
+                if (GameManager.instance.data.haveCharacter[i] == 0)
+                {
+                    DuplicateSummon();
+                }
+                else
+                {
+                    Debug.Log("모든 캐릭터를 소지하여 더 이상 뽑기를 할 수 없습니다.");
+                    max = 1;
+                    break;
+                }
+            }
+        }
+        return max;
     }
 
     public void InitSummon()

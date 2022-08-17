@@ -158,6 +158,7 @@ namespace GameDataTable
         public int Sound = 100;
         public int souls = 0;
         public int golds = 0;
+        public int myPoint = 0;
         public string[] presetName = new string[] { "1번 프리셋", "2번 프리셋", "3번 프리셋", "4번 프리셋", "5번 프리셋" };
         public int presset = 1;
         // 장착 카드 프리셋
