@@ -1,13 +1,13 @@
 {
-    "CurrentScene": 2,
+    "CurrentScene": 3,
     "gameProgress": 2,
     "Language": 0,
     "SFX": 100,
     "BGM": 100,
     "Sound": 100,
-    "souls": 1000000,
-    "golds": 1000000,
-    "myPoint": 0,
+    "souls": 100000,
+    "golds": 99800,
+    "myPoint": 1,
     "presetName": [
         "1번 프리셋",
         "2번 프리셋",
@@ -17,17 +17,17 @@
     ],
     "presset": 1,
     "equipCard1": [
+        1,
         0,
         0,
         0,
         0,
+        1,
         0,
         0,
         0,
         0,
-        0,
-        0,
-        0,
+        1,
         0,
         0,
         0,
@@ -105,7 +105,7 @@
         0,
         0,
         0,
-        0,
+        4,
         0
     ],
     "equipCharacter": [
@@ -115,10 +115,8 @@
         0
     ],
     "haveCharacter": [
-        1,
-        2,
-        3,
-        4
+        0,
+        0
     ],
     "haveRelic": [
         1,

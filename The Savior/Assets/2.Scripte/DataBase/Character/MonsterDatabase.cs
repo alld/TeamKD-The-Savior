@@ -10,7 +10,8 @@ public class MonsterDatabase : MonoBehaviour
 
     private TextAsset jsonData;
     private string json;
-
+    private TextAsset jsonTextData;
+    private string jsonText;
     /// <summary>
     /// 몬스터의 기본 원형값을 가지고있는 데이터 베이스 
     /// <br>InfoMT를 통해 인스턴스를 만들어서 사용해야함. </br>
@@ -128,20 +129,21 @@ public class MonsterDatabase : MonoBehaviour
     /// <param name="num"></param>
     public MonsterDatabase(int num)
     {
-        jsonData = Resources.Load<TextAsset>("RelicData");
+        jsonData = Resources.Load<TextAsset>("MonsterData");
         json = jsonData.text;
-
+        jsonTextData = Resources.Load<TextAsset>("MonsterTextData");
+        jsonText = jsonTextData.text;
+        var textdata = JSON.Parse(jsonText);
         var data = JSON.Parse(json);
-        //switch (GameManager.instance.data.Language)
-        //{
-        //    case 0:
-        //        charName = data[num]["Name_Kr"];
-        //        break;
-        //    case 1:
-        //        charName = data[num]["Name_Eng"];
-        //        break;
-        //}
-        charName = "";
+        switch (GameManager.instance.data.Language)
+        {
+            case 0:
+                charName = textdata[num]["Name_Kr"];
+                break;
+            case 1:
+                charName = textdata[num]["Name_Eng"];
+                break;
+        }
         number = num;
         maxHP = data[num]["Hp_Total"];
         hp = maxHP;
@@ -168,21 +170,30 @@ public class MonsterDatabase : MonoBehaviour
         rewardExp = data[num][""];
         temp = data[num][""];
         string tempString = temp.ToString();
-        for (int i = 0; i < tempString.Length; i++)
+        if (tempString.Length < 1)
         {
-            rewardCard.Add((int)(tempString[i + 1] + tempString[i]));
+            for (int i = 0; i < tempString.Length / 2; i++)
+            {
+                rewardCard.Add((int)(tempString[(i * 2) + 1] + tempString[(i * 2)]));
+            }
         }
         temp = data[num][""];
         tempString = temp.ToString();
-        for (int i = 0; i < tempString.Length; i++)
+        if (tempString.Length < 1)
         {
-            rewardUnit.Add((int)(tempString[i + 1] + tempString[i]));
+            for (int i = 0; i < tempString.Length; i++)
+            {
+                rewardUnit.Add((int)(tempString[(i * 2) + 1] + tempString[(i * 2)]));
+            }
         }
         temp = data[num][""];
         tempString = temp.ToString();
-        for (int i = 0; i < tempString.Length; i++)
+        if (tempString.Length < 1)
         {
-            rewardRelic.Add((int)(tempString[i + 1] + tempString[i]));
+            for (int i = 0; i < tempString.Length; i++)
+            {
+                rewardRelic.Add((int)(tempString[(i * 2) + 1] + tempString[(i * 2)]));
+            }
         }
     }
 }
