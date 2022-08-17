@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 using SimpleJSON;
 
@@ -155,6 +156,7 @@ public class WorldMapDungeon : MonoBehaviour
     private void OnClick_YesPreset()
     {
         Debug.Log("Enter the Dungeon : " + curDungeon);
+        GameManager.instance.SceneChange(3);
     }
 
     // n버튼 클릭시 다시 던전 정보창으로 돌아감.

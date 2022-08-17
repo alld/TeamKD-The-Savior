@@ -23,8 +23,8 @@ public class CharacterPoints : MonoBehaviour
     {
         GameManager.instance.data.myPoint = n;
         myPointImg.transform.SetParent(points[n].transform);
-        myPointImg.rectTransform.anchorMax = new Vector2(0.65f, 1.0f);
-        myPointImg.rectTransform.anchorMin = new Vector2(0.35f, 0.7f);
+        myPointImg.rectTransform.anchorMax = new Vector2(0.67f, 1.2f);
+        myPointImg.rectTransform.anchorMin = new Vector2(0.33f, 0.6f);
         myPointImg.rectTransform.offsetMax = Vector3.zero;
         myPointImg.rectTransform.offsetMin = Vector3.zero;
     }

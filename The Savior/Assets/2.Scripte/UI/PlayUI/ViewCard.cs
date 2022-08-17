@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using Newtonsoft.Json.Linq;
 public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public static GameObject dragItem = null;
@@ -15,15 +16,18 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     private Transform curTr;
     private Transform moveTr;
     private Image[] childImg;
+    private TextAsset textAsset;
     private int curIdx;
     private int equipIdx;
-
+    private JArray json;
     private void Start()
     {
         moveTr = GameObject.Find("GameUI").transform;
         tr = GetComponent<Transform>();
         curTr = GameObject.Find("PUIManager").GetComponent<CardDeck>().cardDeckTr;
         nameText = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/CardInfo/CardBoxImage/CardName").GetComponent<TMP_Text>();
+        textAsset = Resources.Load<TextAsset>("CardData");
+        json = JArray.Parse(textAsset.text);
     }
 
     /*
@@ -92,7 +96,7 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     /// <param name="eventData"></param>
     public void OnPointerClick(PointerEventData eventData)
     {
-        nameText.text = this.name;
+        nameText.text = json[num - 1]["Name_Kr"].ToString();
     }
 
     private void InitImage(Image img)

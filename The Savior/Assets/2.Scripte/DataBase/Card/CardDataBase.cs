@@ -142,7 +142,7 @@ public class CardDataBase : MonoBehaviour
     {
         number = num;
         Icon = null;
-        name = "";
+        name = " ";
         cardCount = 0;
         cost = 0;
         propertie = 0;

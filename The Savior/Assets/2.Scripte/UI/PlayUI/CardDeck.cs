@@ -36,7 +36,6 @@ public class CardDeck : MonoBehaviour
                 for (int j = 0; j < GameManager.instance.card[i].haveCard; j++)
                 {
                     cardImg = Resources.Load<Image>("Card/Card_" + GameManager.instance.card[i].id);
-                    Debug.Log(cardImg);
                     cardImg = Instantiate(cardImg, cardDeckTr);
                 }
             }

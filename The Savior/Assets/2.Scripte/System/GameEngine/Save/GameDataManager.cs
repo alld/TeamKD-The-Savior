@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using GameDataTable;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SimpleJSON;
 
@@ -71,10 +72,8 @@ public class GameDataManager : MonoBehaviour
     {
         TextAsset textAsset = Resources.Load<TextAsset>("CharacterExperience");
         CharExp charExp = new CharExp();
-        var json = JSON.Parse(textAsset.text);
-        charExp.id = json[n]["id"];
-        charExp.exp = json[n]["exp"];
-        charExp.level = json[n]["level"];
+        JObject json = JObject.Parse(textAsset.text);
+        charExp = JsonConvert.DeserializeObject(json[n].ToString()) as CharExp;
         return charExp;
     }
 
@@ -97,8 +96,13 @@ public class GameDataManager : MonoBehaviour
         {
             File.Create(path);
         }
-
-        cardJson.Add(card.id.ToString(), JObject.FromObject(card)); 
+        if (cardJson.ContainsKey(card.id.ToString()))
+        {
+            // json 파일에 업데이트
+            cardJson[card.id.ToString()]["haveCard"] = JsonConvert.SerializeObject(card.haveCard);
+            return;
+        }
+        cardJson.Add(card.id.ToString(), JObject.FromObject(card));
     }
     /// <summary>
     /// Json 으로 변환된 데이터를 파일로 저장합니다.
@@ -118,7 +122,7 @@ public class GameDataManager : MonoBehaviour
         HaveCard card = new HaveCard();
         TextAsset textAsset = Resources.Load<TextAsset>("HaveCard");
         JObject j = JObject.Parse(textAsset.text);
-
+        Debug.Log(j.ToString());
         card = j[n.ToString()].ToObject<HaveCard>();
         return card;
     }
@@ -131,18 +135,10 @@ public class GameDataManager : MonoBehaviour
     {
         TextAsset textAsset = Resources.Load<TextAsset>("HaveCard");
         JObject j = JObject.Parse(textAsset.text);
-        int i = 0;
-        while (true)
-        {
-            i++;
-            if (j[i.ToString()] == null)
-            {
-                break;
-            }
-        }
+        
+        int i = j.Count;
         return i;
     }
-
 }
 
 namespace GameDataTable

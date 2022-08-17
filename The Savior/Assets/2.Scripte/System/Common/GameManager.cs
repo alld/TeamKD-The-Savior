@@ -91,11 +91,11 @@ public class GameManager : MonoBehaviour
     /// <param name="n"></param>
     public void CardSave()
     {
-        cardIdx = dataManager.CurrentCardData();
+         cardIdx = dataManager.CurrentCardData();
         // 리스트의 인덱스는 0부터 시작
         // 반환된 cardIdx는 1부터 시작하여 마지막 값의 +1 이기 때문에
         // cardIdx -2가 최대 리스트 인덱스
-        for (int cardArr = 0; cardArr < (cardIdx-1); cardArr++)
+        for (int cardArr = 0; cardArr < (cardIdx - 1); cardArr++)
         {
             dataManager.GainCard(card[cardArr]);
         }
@@ -108,13 +108,14 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void LoadCardData()
     {
-        card.Clear();        
+        card.Clear();
         cardIdx = dataManager.CurrentCardData();
-        for(int cardArr = 1; cardArr < cardIdx; cardArr++)
+        for (int cardArr = 1; cardArr <= cardIdx; cardArr++)
         {
             card.Add(dataManager.CardDataLoad(cardArr));
         }
     }
+
     #endregion
 
     #region 씬 관련
@@ -159,6 +160,7 @@ public class GameManager : MonoBehaviour
             case 3:
                 SceneManager.UnloadSceneAsync(currentlyScene);
                 currentlyScene = "Tutorial";
+                data.CurrentScene = 3;
                 SceneManager.LoadSceneAsync(currentlyScene, LoadSceneMode.Additive);
                 break;
         }
