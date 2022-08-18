@@ -281,7 +281,7 @@ public class CharacterDatabase : MonoBehaviour
             var jdata = JSON.Parse(json);
             number = num;
             icon = Resources.Load<Image>("Unit/Character_" + num.ToString());
-            switch (GameManager.instance.data.Language)
+            switch (GameManager.instance?.data.Language)
             {
                 case 0:
                     charName = jdata[num]["Name_Kr"];

@@ -13,6 +13,11 @@ public class TestScripte : MonoBehaviour, IPointerEnterHandler
 
     void Start()
     {
+
+        TestScripte2 test = new TestScripte2();
+        Debug.Log(test.B);
+
+
         eventTrigger = GetComponent<EventTrigger>();
         entry = new EventTrigger.Entry();
 
@@ -58,4 +63,11 @@ public class TestScripte : MonoBehaviour, IPointerEnterHandler
     {
         Debug.Log("asdsf");
     }
+}
+
+
+public class TestScripte2 : MonoBehaviour
+{
+
+    public int B;
 }

@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 29700506}
   m_Layer: 0
-  m_Name: SlotC1Point
+  m_Name: SlotA1Point
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -152,7 +152,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1327760379}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &69969054
 GameObject:
@@ -405,7 +405,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8a75496d77ad8c4a94caf7f00ce67e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DungeonOSObj: {fileID: 0}
   dungeonNumber: 0
   errorList: []
   stagePrefabGroupDG:
@@ -425,14 +424,12 @@ MonoBehaviour:
   monsterStagePointGroup: {fileID: 69969054}
   handSlot: 000000
   roundInfoDG: 
-  monsterGroup: []
-  characterGroup: []
   checkCountDGGame: 0
   resurrectable: 0
   roundDGP: 0
+  ISRoundPlaying: 0
   accrueGoldDGP: 0
   accrueSoulDGP: 0
-  costDGP: 0
   timerOnDGP: 0
   remainingCardDGP: 0
   eaGetSoulDGP: 
@@ -441,10 +438,7 @@ MonoBehaviour:
   eaDamagedDGP: []
   eaDamageDGP: []
   eaKillCountDGP: []
-  handCard: []
   addCount: 0
-  partyUnit: []
-  equipRelic: []
   useDeckDGP: 
 --- !u!114 &600042790
 MonoBehaviour:
@@ -642,7 +636,7 @@ GameObject:
   m_Component:
   - component: {fileID: 895690872}
   m_Layer: 0
-  m_Name: SlotA2Point
+  m_Name: SlotC2Point
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -661,7 +655,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1327760379}
-  m_RootOrder: 1
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &947662237
 GameObject:
@@ -797,7 +791,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1223950254}
   m_Layer: 0
-  m_Name: SlotC3Point
+  m_Name: SlotA3Point
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -816,7 +810,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1327760379}
-  m_RootOrder: 8
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1261407188
 GameObject:
@@ -859,7 +853,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1297736750}
   m_Layer: 0
-  m_Name: SlotA1Point
+  m_Name: SlotC1Point
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -878,7 +872,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1327760379}
-  m_RootOrder: 0
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1327760378
 GameObject:
@@ -908,15 +902,15 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1297736750}
-  - {fileID: 895690872}
-  - {fileID: 1757744607}
-  - {fileID: 1937864831}
-  - {fileID: 1541456739}
-  - {fileID: 414851166}
   - {fileID: 29700506}
   - {fileID: 1486053698}
   - {fileID: 1223950254}
+  - {fileID: 1937864831}
+  - {fileID: 1541456739}
+  - {fileID: 414851166}
+  - {fileID: 1297736750}
+  - {fileID: 895690872}
+  - {fileID: 1757744607}
   m_Father: {fileID: 265243710}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1055,7 +1049,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1486053698}
   m_Layer: 0
-  m_Name: SlotC2Point
+  m_Name: SlotA2Point
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1074,7 +1068,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1327760379}
-  m_RootOrder: 7
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1541456738
 GameObject:
@@ -1210,7 +1204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1757744607}
   m_Layer: 0
-  m_Name: SlotA3Point
+  m_Name: SlotC3Point
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1229,7 +1223,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1327760379}
-  m_RootOrder: 2
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1834443870
 GameObject:
