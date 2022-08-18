@@ -57,6 +57,10 @@ public class PlayToolBar : MonoBehaviour
     /// </summary>
     private void OnClick_RelicBtn()
     {
+        if (GameManager.instance.isDungeon)
+        {
+            return;
+        }
         cardImg.SetActive(false);
         partyImg.SetActive(false);
         collectImg.SetActive(false);
@@ -75,6 +79,10 @@ public class PlayToolBar : MonoBehaviour
     /// </summary>
     private void OnClick_CardBtn()
     {
+        if (GameManager.instance.isDungeon)
+        {
+            return;
+        }
         relicImg.SetActive(false);
         partyImg.SetActive(false);
         collectImg.SetActive(false);
@@ -93,6 +101,10 @@ public class PlayToolBar : MonoBehaviour
     /// </summary>
     private void OnClick_PartyBtn()
     {
+        if (GameManager.instance.isDungeon)
+        {
+            return;
+        }
         relicImg.SetActive(false);
         cardImg.SetActive(false);
         collectImg.SetActive(false);
@@ -111,6 +123,10 @@ public class PlayToolBar : MonoBehaviour
     /// </summary>
     private void OnClick_CollectBtn()
     {
+        if (GameManager.instance.isDungeon)
+        {
+            return;
+        }
         relicImg.SetActive(false);
         cardImg.SetActive(false);
         partyImg.SetActive(false);

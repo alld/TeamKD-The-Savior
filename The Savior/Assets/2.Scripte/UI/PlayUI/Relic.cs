@@ -50,6 +50,11 @@ public class Relic : MonoBehaviour
     /// <param name="idx"></param>
     private void OnClick_RelicSettingBtn(int idx)
     {
+        if (GameManager.instance.isDungeon)
+        {
+            return;
+        }
+
         curRelicTr = idx;
         isRelicSetting = true;
         relicInventory.SetActive(true);

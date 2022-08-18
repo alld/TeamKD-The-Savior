@@ -854,7 +854,7 @@ RectTransform:
   - {fileID: 158094054}
   - {fileID: 141772087}
   m_Father: {fileID: 67993926}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.01, y: 0.4}
   m_AnchorMax: {x: 0.095, y: 0.915}
@@ -1683,10 +1683,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 989298342}
   - {fileID: 1390017585}
   - {fileID: 23894231}
   - {fileID: 423630366}
-  - {fileID: 989298342}
   - {fileID: 1035605923}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -9521,7 +9521,7 @@ RectTransform:
   - {fileID: 1535899487}
   - {fileID: 654251644}
   m_Father: {fileID: 67993926}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.94}
   m_AnchorMax: {x: 1, y: 1}
@@ -12659,6 +12659,7 @@ MonoBehaviour:
   dungeonOS: {fileID: 0}
   playTime: 0
   dungeonPlayTime: 0
+  isDungeon: 0
   data:
     CurrentScene: -1
     gameProgress: -1
@@ -20564,7 +20565,7 @@ RectTransform:
   - {fileID: 323990253}
   - {fileID: 531116425}
   m_Father: {fileID: 67993926}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -30063,7 +30064,7 @@ RectTransform:
   - {fileID: 1145080277}
   - {fileID: 1850994026}
   m_Father: {fileID: 67993926}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.15, y: 0}
   m_AnchorMax: {x: 0.85, y: 0.92}

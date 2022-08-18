@@ -11,6 +11,7 @@ public class PartySetting : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (GameManager.instance.isDungeon) return;
         manager.OnPartySettingMode(idx);
     }
 

@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public DungeonOS dungeonOS = null;// 현재의 던전 매니저
     public float playTime;
     public float dungeonPlayTime;
+    public bool isDungeon = false;
     public GameData data;
     public List<CharExp> charExp = new List<CharExp>(); // Json 파일에 저장되어야 하는 캐릭터의 데이터
     public List<HaveCard> card = new List<HaveCard>();  // Json 파일에 저장되어야 하는 카드의 데이터
@@ -182,6 +183,7 @@ public class GameManager : MonoBehaviour
                 currentlyScene = "Tutorial";
                 data.CurrentScene = 3;
                 SceneManager.LoadSceneAsync(currentlyScene, LoadSceneMode.Additive);
+                isDungeon = true;
                 break;
         }
     }

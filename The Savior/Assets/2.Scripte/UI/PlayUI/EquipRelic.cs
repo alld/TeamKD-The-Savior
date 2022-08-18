@@ -14,7 +14,7 @@ public class EquipRelic : MonoBehaviour
 
     private Relic relic;
 
-    IEnumerator  Start()
+    IEnumerator Start()
     {
         relic = GameObject.Find("PUIManager").GetComponent<Relic>();
         yield return new WaitForSeconds(0.3f);
