@@ -11,7 +11,13 @@ public class PartySetting : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (GameManager.instance.isDungeon) return;
+
+
+        if (GameManager.instance.isDungeon) // 던전에 들어왔을 때.
+        {
+            Debug.Log("궁극기 사용.");
+            return;
+        }
         manager.OnPartySettingMode(idx);
     }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
 
-
 public class RelicData : MonoBehaviour
 {
     public class Data

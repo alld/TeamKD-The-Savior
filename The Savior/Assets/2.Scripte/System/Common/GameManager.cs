@@ -159,6 +159,7 @@ public class GameManager : MonoBehaviour
 
                 playUI.topBar.SetActive(false);
                 playUI.partyBar.SetActive(false);
+                isDungeon = false;
                 break;
             // ¿ÀÇÁ´× ¾ÀÀ¸·Î ÀÌµ¿ÇÑ´Ù.
             case 1:
@@ -166,6 +167,7 @@ public class GameManager : MonoBehaviour
                 currentlyScene = "Opening";
                 data.CurrentScene = 1;
                 SceneManager.LoadSceneAsync(currentlyScene, LoadSceneMode.Additive);
+                isDungeon = false;
                 break;
             // ¿ùµå¸Ê ¾ÀÀ¸·Î ÀÌµ¿ÇÑ´Ù.
             case 2:
@@ -177,6 +179,7 @@ public class GameManager : MonoBehaviour
                 playUI.topBar.SetActive(true);
                 playUI.partyBar.SetActive(true);
                 playUI.dungeonBar.SetActive(false);
+                isDungeon = false;
                 break;
             case 3:
                 SceneManager.UnloadSceneAsync(currentlyScene);
