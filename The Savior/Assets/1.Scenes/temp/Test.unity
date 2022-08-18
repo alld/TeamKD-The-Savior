@@ -310,6 +310,67 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!1 &415710458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 415710459}
+  - component: {fileID: 415710461}
+  - component: {fileID: 415710460}
+  m_Layer: 0
+  m_Name: Cylinder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &415710459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415710458}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 747917426}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &415710460
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415710458}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &415710461
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415710458}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 18.01482
+  m_Height: 36.02964
+  m_Direction: 0
+  m_Center: {x: -7.4135933, y: 1, z: 8.01482}
 --- !u!1 &747917421
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,7 +383,6 @@ GameObject:
   - component: {fileID: 747917425}
   - component: {fileID: 747917424}
   - component: {fileID: 747917423}
-  - component: {fileID: 747917427}
   - component: {fileID: 747917428}
   m_Layer: 0
   m_Name: Cube
@@ -405,56 +465,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 415710459}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &747917427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 747917421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 237dd953936b4b144ab80fcd27861869, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  number: 0
-  charName: 
-  hp: 0
-  maxHP: 0
-  damage: 0
-  attackSpeed: 0
-  moveSpeed: 0
-  defense: 0
-  attackType: 0
-  attackRange: 0
-  attribute: 0
-  priRange: 0
-  priorities: 0
-  defRange: 0
-  positionPri: 0
-  unitClass: 0
-  level: 0
-  exp: 0
-  partySet: 0
-  islock: 0
-  isLive: 0
-  overlapValueA: 0
-  overlapValueB: 0
-  identity: 0
-  basicSkillA: 0
-  basicSkillB: 0
-  basicSkillC: 0
-  speialSkill: 0
-  rewardGold: 0
-  rewardSoul: 0
-  rewardExp: 0
-  rewardCard: 
-  rewardUnit: 
-  rewardRelic: 
 --- !u!114 &747917428
 MonoBehaviour:
   m_ObjectHideFlags: 0

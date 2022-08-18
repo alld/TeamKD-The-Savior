@@ -210,6 +210,7 @@ public class UnitStateData : MonoBehaviour
         playerUnit = playerCheck;
         if (playerCheck)
         {
+            gameObject.layer = 6;
             CharacterDatabase.Data unit = new CharacterDatabase.Data(num);
             number = unit.number;
             charName = unit.charName;
@@ -242,6 +243,7 @@ public class UnitStateData : MonoBehaviour
         }
         else
         {
+            gameObject.layer = 7;
             MonsterDatabase.Data unit = new MonsterDatabase.Data(num);
             number = unit.number;
             monsterType = unit.monsterType;
@@ -274,6 +276,19 @@ public class UnitStateData : MonoBehaviour
 
     public void StagePositionReset()
     {
-
+        
     }
+/* 체력게이지 UI 관리
+ * 피격 UI도 관리 (데미지 유동텍스트)
+ * 
+ * 데이터베이스 정리 및 연동
+ * 가중치 변동 확인
+ * 변동된 카드 적용 확인
+ * 변동된 유물 적용 확인
+ * 던전 상단 진행바 확인
+ * 
+ * 
+ */
+
 }
+

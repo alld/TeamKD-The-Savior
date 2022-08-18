@@ -7,18 +7,44 @@ public class UnitAI : MonoBehaviour
     //회피 패턴, 도주 패턴, 자리 재선정
     //피격시 판단, 공격대상 재설정 (싸우고있는 대상, 아군이 피격됨)
 
+    #region 캐시처리
+
+    private CapsuleCollider collider;
+    private UnitStateData unit;
+    private UnitMelee unitMelee;
+    private CharacterController unitControl;
+    private Ray ray;
+    private RaycastHit hit;
+    #endregion
+
+
     #region AI 계산값
     public Transform targetPoint;
+    /// <summary>
+    /// 주요 타겟 
+    /// </summary>
     private UnitStateData targetObj;
-    private UnitMelee unitMelee;
 
     private float targetDistance;
-    private UnitStateData unit;
-    private CharacterController unitControl;
+    /// <summary>
+    /// 공격한 대상이 스케쥴이 공격이면서, 공격대상이 자신일경우 
+    /// 해당 대상에서 스케쥴이 변동될때 컴포넌트로 접근하여 대상을 제외시킴.
+    /// </summary>
+    private List<int> attackers = new List<int>(); // 공격하고 있는 유닛들 
+    /// <summary>
+    /// 적 한정으로 개별적으로 매겨지는 동적 수치 (주기적으로 감소 피격시 증가(증가폭 전력기준))
+    /// </summary>
+    private List<int> threatUnit; //상대 위협수치
+    /// <summary>
+    /// 트리거 범위에 포함된 범위 근접을 제외하면 원거리 사거리와 동일
+    /// </summary>
+    private List<int> perceptionAllyUnit; // 인식 대상 유닛
+    private List<int> perceptionEnemyUnit; // 인식 적 유닛
+
     #endregion
 
     #region AI 성향 변수
-    
+
     #endregion
 
     //enum UnitState { COMMON, ATTACK, ATTACK_MOVE, MOVE, SKILL, DIE, SPEIAL_SKILL }
@@ -85,10 +111,14 @@ public class UnitAI : MonoBehaviour
     // 상점에서도 같은 오브젝트를 사용하기때문에, Start사용시 예외처리 필수
     private void Start()
     {
-        unitMelee = GetComponent<UnitMelee>();
-        unitControl?.GetComponent<CharacterController>();
-
-        if (GameManager.instance.dungeonOS != null) AIDeleSetting();
+        if (GameManager.instance.dungeonOS != null)
+        {
+            AIDeleSetting();
+            unitMelee = GetComponent<UnitMelee>();
+            unitControl?.GetComponent<CharacterController>();
+            collider = gameObject.AddComponent<CapsuleCollider>();
+            unit = GetComponent<UnitStateData>();
+        }
     }
 
     public void AIDeleSetting()
@@ -107,7 +137,7 @@ public class UnitAI : MonoBehaviour
 
     private void ResetAISetting()
     {
-        
+        collider.radius = unit.Add_priRange;
         aiSchedule.Clear();
     }
 
@@ -115,11 +145,6 @@ public class UnitAI : MonoBehaviour
     public void OnStartAI()
     {
         ResetAISetting();
-        if (isplayer)
-        {
-            unit = DungeonOS.instance.partyUnit[partyNumber];
-        }
-        else unit = DungeonOS.instance.monsterGroup[partyNumber];
         AutoScheduler(0, 0);
     }
 
@@ -273,6 +298,40 @@ public class UnitAI : MonoBehaviour
     /// <returns></returns>
     private AIPattern ThinkOverPattern()
     {
+        /* 주변 공격 가능 인원수
+         * 
+         * 즉시 공격 가능인원
+         * 
+         * 자신을 공격하고 있는 체크
+         * 
+         * 인식범위의 아군이 공격받는지 체크
+         * 
+         * 공격 시기  - 스킬 쿨다운 되있다면 스킬 / 없다면 일반스킬 
+         * 
+         * 체력이 너무 낮으면 도주 판정 (확률) 기준 수치 / 적이 너무많을 경우
+         * 
+         * 적의 공격을 너무 많이 받거나, 원거리 성향일수록 회피, 주변 근거리 아군이있을경우(거리벌리기)
+         * 
+         * 일반적 적 탐지해서, 사거리 안에있을때 적을 공격함 
+         * 
+         * 우선 공격 대상(우선도 / 거리 비례 / 가중치 / 자신 피격중)
+         * 
+         * 공격 변경시기 검토 (주기적 공격 우선도 검색) // 스케쥴러 매번 검색 검토
+         * 
+         * 적이 없을 경우 대기 판정 
+         * 
+         * 주변 아군이 다굴 당할시 보호 (피격시 주변 아군의 델리게이트 호출)
+         * 
+         * 추후 잔여 체력 / 데미지 / 공격속도 비교 평균 전력 산출 전력 비교
+         * 
+         * 목표가 정해지면 해당 기준에 맞쳐서 이동이 정해짐
+         * 
+         * 가능한 이동방향으로 이동하며 중간에 가로막는 적을 우선공격함(레이캐스트)
+         * 
+         */
+
+
+
         return AIPattern.Death;
     }
     #endregion
@@ -545,6 +604,25 @@ public class UnitAI : MonoBehaviour
         tempPoint = transform.position - tempPoint;
         targetPoint.transform.position = tempPoint;
     }
+
+    #region 인식 범위 탐색 
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<UnitStateData>().playerUnit) perceptionAllyUnit.Add(other.GetComponent<UnitStateData>().partyNumber);
+        else perceptionEnemyUnit.Add(other.GetComponent<UnitStateData>().partyNumber);
+    }
+
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<UnitStateData>().playerUnit) perceptionAllyUnit.Remove(other.GetComponent<UnitStateData>().partyNumber);
+        else perceptionEnemyUnit.Remove(other.GetComponent<UnitStateData>().partyNumber);
+    }
+
+    #endregion
+
+
     #endregion
 
     #region 상태 설정
