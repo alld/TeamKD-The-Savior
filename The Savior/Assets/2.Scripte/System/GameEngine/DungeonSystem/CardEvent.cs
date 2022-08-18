@@ -75,10 +75,15 @@ public class CardEvent : MonoBehaviour
     {
         DungeonOS.instance.HandUIReset();
         DungeonController.instance.playerExpectationsGauage.fillAmount = (DungeonOS.instance.costDGP - cost) / (float)10;
+        if (DungeonOS.instance.costDGP - cost >= 0)
+        {
+            DungeonController.instance.playerLackCost.fillAmount = (DungeonOS.instance.costDGP - cost) / (float)10;
+        }
     }
 
     private void EventMouseExit()
     {
         DungeonController.instance.playerExpectationsGauage.fillAmount = DungeonController.instance.playerCostGauage.fillAmount;
+        DungeonController.instance.playerLackCost.fillAmount = DungeonController.instance.playerCostGauage.fillAmount;
     }
 }

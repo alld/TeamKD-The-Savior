@@ -15,6 +15,7 @@ public class DungeonController : MonoBehaviour
     public GameObject[] partySlotDieImage; // 사망처리 UI
     public Image playerCostGauage; //실질 게이지
     public Image playerExpectationsGauage; // 기대치바
+    public Image playerLackCost;
     public Image[] gameTimerBG; //타이머 배경
     public TMP_Text gameTimerText; //시계바늘
     public TMP_Text gameCostNumber; // 코스트 숫자

@@ -453,7 +453,8 @@ public class DungeonOS : MonoBehaviour
         DungeonCtrl.gameRoundbarArrow.transform.SetParent(DungeonCtrl.gameRoundbarPoint[temp].transform);
         DungeonCtrl.gameRoundbarArrow.transform.position = Vector3.zero;
         DungeonCtrl.playerCostGauage.fillAmount = (float)costDGP / 10f;
-        DungeonCtrl.playerExpectationsGauage.fillAmount = (float)costDGP / 10f;
+        DungeonCtrl.playerExpectationsGauage.fillAmount = DungeonCtrl.playerCostGauage.fillAmount;
+        DungeonCtrl.playerLackCost.fillAmount = DungeonCtrl.playerCostGauage.fillAmount;
         DungeonCtrl.gameCostNumber.text = costDGP.ToString();
     }
 
@@ -531,10 +532,10 @@ public class DungeonOS : MonoBehaviour
             equipRelic.Add(new RelicData.Data(item));
         }
 
-        int temp = 0;
-        foreach (var item in stagePrefabGroupDG)
+        foreach (var item in stagePrefabGroupDG.Select((value, index) => new { value, index }))
         {
-            stageGroupDG[temp++] = Instantiate(item);
+            stageGroupDG[item.index] = Instantiate(item.value);
+            SceneManager.MoveGameObjectToScene(stageGroupDG[item.index], SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
         }
         roundDGP = 1;
         HandReset();
@@ -550,6 +551,7 @@ public class DungeonOS : MonoBehaviour
     /// <param name="stageNum"></param>
     void StageReset(int stageNum)
     {
+        Animator tempAnimator;
         if (slotStageDG != null) slotStageDG.SetActive(false);
         slotStageDG = stageGroupDG[stageNum];
         slotStageDG.SetActive(true);
@@ -567,8 +569,11 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void PlayerUnitSetting()
     {
+        Animator tempAnimator;
         foreach (var item in partyUnit)
         {
+            item.TryGetComponent<Animator>(out tempAnimator);
+            tempAnimator.enabled = false;
             switch (item.attackType)
             {
                 case 1:
@@ -765,6 +770,7 @@ public class DungeonOS : MonoBehaviour
                     GameError("유닛배치 : 공격타입이 지정되지 않은 유닛이 존재함");
                     break;
             }
+            tempAnimator.enabled = true;
         }
         for (int i = 0; i < stageSlotPlayerBottom.Count; i++)
         {
@@ -778,6 +784,12 @@ public class DungeonOS : MonoBehaviour
         {
             stageSlotPlayerTop[i].gameObject.transform.position = playerStagePoint[i + 7].position;
         }
+
+
+
+        stageSlotPlayerBottom.Clear();
+        stageSlotPlayerMid.Clear();
+        stageSlotPlayerTop.Clear();
     }
     /// <summary>
     /// 플레이어 유닛 오브젝트화
@@ -806,8 +818,11 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void MonsterSetting()
     {
+        Animator tempAnimator;
         foreach (var item in monsterGroup)
         {
+            item.TryGetComponent<Animator>(out tempAnimator);
+            tempAnimator.enabled = false;
             switch (item.attackType)
             {
                 case 1:
@@ -1004,6 +1019,7 @@ public class DungeonOS : MonoBehaviour
                     GameError("몬스터 배치 : 공격타입이 지정되지 않은 몬스터가 존재함");
                     break;
             }
+            tempAnimator.enabled = true;
         }
         for (int i = 0; i < stageSlotMonsterBottom.Count; i++)
         {
@@ -1017,6 +1033,10 @@ public class DungeonOS : MonoBehaviour
         {
             stageSlotMonsterTop[i].gameObject.transform.position = monsterStagePoint[i + 10].position;
         }
+
+        stageSlotMonsterBottom.Clear();
+        stageSlotMonsterMid.Clear();
+        stageSlotMonsterTop.Clear();
     }
 
 
@@ -1369,6 +1389,7 @@ public class DungeonOS : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             PlayerUnitSetting();
+            MonsterSetting();
         }
     }
 }

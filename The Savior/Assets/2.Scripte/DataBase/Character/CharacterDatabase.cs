@@ -296,6 +296,7 @@ public class CharacterDatabase : MonoBehaviour
             maxHP = jdata[num]["Hp_Total"];
             damage = jdata[num]["Chr_Power"];
             charObject = Resources.Load<GameObject>("Unit/" + jdata[num]["Name_Eng"]);
+            //charObject = Resources.Load<GameObject>("Unit/TestBox");
             attackSpeed = jdata[num]["Chr_AtkSpeed"];
             moveSpeed = jdata[num]["Chr_MS"];
             defense = jdata[num]["Chr_DF"];
