@@ -440,11 +440,11 @@ public class RelicSkill : MonoBehaviour
             {
                 case RelicData.Data.EffectTypeC.ALLY:
                     temp = AllyTargetCheck(DungeonOS.instance.equipRelic[relicNum].effectTypeD);
-                    DungeonOS.instance.weightAllyUnit[temp].Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
-                    DungeonOS.instance.weightAllyUnit[temp].Current_protectMax += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                    DungeonOS.instance.partyUnit[temp].Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                    DungeonOS.instance.partyUnit[temp].Current_protectMax += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                     break;
                 case RelicData.Data.EffectTypeC.ALLIES:
-                    foreach (var item in DungeonOS.instance.weightAllyUnit)
+                    foreach (var item in DungeonOS.instance.partyUnit)
                     {
                         item.Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         item.Current_protectMax += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -452,11 +452,11 @@ public class RelicSkill : MonoBehaviour
                     break;
                 case RelicData.Data.EffectTypeC.ENEMY:
                     temp = EnemyTargetCheck(DungeonOS.instance.equipRelic[relicNum].effectTypeD);
-                    DungeonOS.instance.weightEnemyGroup[temp].Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
-                    DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                    DungeonOS.instance.monsterGroup[temp].Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                    DungeonOS.instance.monsterGroup[temp].Current_protectMax += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                     break;
                 case RelicData.Data.EffectTypeC.ENEMIES:
-                    foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                    foreach (var item in DungeonOS.instance.monsterGroup)
                     {
                         item.Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         item.Current_protectMax += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -600,7 +600,7 @@ public class RelicSkill : MonoBehaviour
                 case RelicData.Data.EffectTypeC.ALLY:
                     temp = EnemyTargetCheck(DungeonOS.instance.equipRelic[relicNum].effectTypeD);
                     temp_damage = DamageEngine.instance.OnDamageCalculate(false, true, DungeonOS.instance.equipRelic[relicNum].effectDataB1, temp, out temp_shieldDamage);
-                    DungeonOS.instance.weightAllyUnit[temp].Current_protect -= temp_shieldDamage;
+                    DungeonOS.instance.partyUnit[temp].Current_protect -= temp_shieldDamage;
                     DungeonOS.instance.partyUnit[temp].hp -= temp_damage;
                     if (DungeonOS.instance.partyUnit[temp].hp < 0)
                     {
@@ -612,7 +612,7 @@ public class RelicSkill : MonoBehaviour
                     {
                         temp = EnemyTargetCheck(DungeonOS.instance.equipRelic[relicNum].effectTypeD);
                         temp_damage = DamageEngine.instance.OnDamageCalculate(false, true, DungeonOS.instance.equipRelic[relicNum].effectDataB1, i, out temp_shieldDamage);
-                        DungeonOS.instance.weightAllyUnit[i].Current_protect -= temp_shieldDamage;
+                        DungeonOS.instance.partyUnit[i].Current_protect -= temp_shieldDamage;
                         DungeonOS.instance.partyUnit[i].hp -= temp_damage;
                         if (DungeonOS.instance.partyUnit[i].hp < 0)
                         {
@@ -623,7 +623,7 @@ public class RelicSkill : MonoBehaviour
                 case RelicData.Data.EffectTypeC.ENEMY:
                     temp = EnemyTargetCheck(DungeonOS.instance.equipRelic[relicNum].effectTypeD);
                     temp_damage = DamageEngine.instance.OnDamageCalculate(true, true, DungeonOS.instance.equipRelic[relicNum].effectDataB1, temp, out temp_shieldDamage);
-                    DungeonOS.instance.weightEnemyGroup[temp].Current_protect -= temp_shieldDamage;
+                    DungeonOS.instance.monsterGroup[temp].Current_protect -= temp_shieldDamage;
                     DungeonOS.instance.monsterGroup[temp].hp -= temp_damage;
                     if (DungeonOS.instance.monsterGroup[temp].hp < 0)
                     {
@@ -635,7 +635,7 @@ public class RelicSkill : MonoBehaviour
                     {
                         temp = EnemyTargetCheck(DungeonOS.instance.equipRelic[relicNum].effectTypeD);
                         temp_damage = DamageEngine.instance.OnDamageCalculate(true, true, DungeonOS.instance.equipRelic[relicNum].effectDataB1, i, out temp_shieldDamage);
-                        DungeonOS.instance.weightEnemyGroup[i].Current_protect -= temp_shieldDamage;
+                        DungeonOS.instance.monsterGroup[i].Current_protect -= temp_shieldDamage;
                         DungeonOS.instance.monsterGroup[i].hp -= temp_damage;
                         if (DungeonOS.instance.monsterGroup[i].hp < 0)
                         {
@@ -726,18 +726,18 @@ public class RelicSkill : MonoBehaviour
             {
                 case RelicData.Data.EffectTypeC.ALLY:
                     temp = AllyTargetCheck(DungeonOS.instance.equipRelic[relicNum].negEffectTypeD);
-                    DungeonOS.instance.weightAllyUnit[temp].Current_protectMax -= DungeonOS.instance.equipRelic[relicNum].negEffectDataB1;
-                    if(DungeonOS.instance.weightAllyUnit[temp].Current_protectMax < 0)
+                    DungeonOS.instance.partyUnit[temp].Current_protectMax -= DungeonOS.instance.equipRelic[relicNum].negEffectDataB1;
+                    if(DungeonOS.instance.partyUnit[temp].Current_protectMax < 0)
                     {
-                        DungeonOS.instance.weightAllyUnit[temp].Current_protectMax = 0;
+                        DungeonOS.instance.partyUnit[temp].Current_protectMax = 0;
                     }
-                    if (DungeonOS.instance.weightAllyUnit[temp].Current_protect > DungeonOS.instance.weightAllyUnit[temp].Current_protectMax)
+                    if (DungeonOS.instance.partyUnit[temp].Current_protect > DungeonOS.instance.partyUnit[temp].Current_protectMax)
                     {
-                        DungeonOS.instance.weightAllyUnit[temp].Current_protect = DungeonOS.instance.weightAllyUnit[temp].Current_protectMax;
+                        DungeonOS.instance.partyUnit[temp].Current_protect = DungeonOS.instance.partyUnit[temp].Current_protectMax;
                     }
                     break;
                 case RelicData.Data.EffectTypeC.ALLIES:
-                    foreach (var item in DungeonOS.instance.weightAllyUnit)
+                    foreach (var item in DungeonOS.instance.partyUnit)
                     {
                         item.Current_protectMax -= DungeonOS.instance.equipRelic[relicNum].negEffectDataB1;
                         if(item.Current_protectMax < 0)
@@ -752,18 +752,18 @@ public class RelicSkill : MonoBehaviour
                     break;
                 case RelicData.Data.EffectTypeC.ENEMY:
                     temp = EnemyTargetCheck(DungeonOS.instance.equipRelic[relicNum].negEffectTypeD);
-                    DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax -= DungeonOS.instance.equipRelic[relicNum].negEffectDataB1;
-                    if (DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax < 0)
+                    DungeonOS.instance.monsterGroup[temp].Current_protectMax -= DungeonOS.instance.equipRelic[relicNum].negEffectDataB1;
+                    if (DungeonOS.instance.monsterGroup[temp].Current_protectMax < 0)
                     {
-                        DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax = 0;
+                        DungeonOS.instance.monsterGroup[temp].Current_protectMax = 0;
                     }
-                    if (DungeonOS.instance.weightEnemyGroup[temp].Current_protect > DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax)
+                    if (DungeonOS.instance.monsterGroup[temp].Current_protect > DungeonOS.instance.monsterGroup[temp].Current_protectMax)
                     {
-                        DungeonOS.instance.weightEnemyGroup[temp].Current_protect = DungeonOS.instance.weightEnemyGroup[temp].Current_protectMax;
+                        DungeonOS.instance.monsterGroup[temp].Current_protect = DungeonOS.instance.monsterGroup[temp].Current_protectMax;
                     }
                     break;
                 case RelicData.Data.EffectTypeC.ENEMIES:
-                    foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                    foreach (var item in DungeonOS.instance.monsterGroup)
                     {
                         item.Current_protectMax -= DungeonOS.instance.equipRelic[relicNum].negEffectDataB1;
                         if (item.Current_protectMax < 0)
@@ -896,10 +896,10 @@ public class RelicSkill : MonoBehaviour
                     case RelicData.Data.EffectTypeC.ALLY:
                         
 
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_damage += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_damage += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
                             item.Add_damage += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -908,11 +908,11 @@ public class RelicSkill : MonoBehaviour
                     case RelicData.Data.EffectTypeC.ENEMY:
 
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_damage += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_damage += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
 
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
 
@@ -929,10 +929,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_defense += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_defense += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -941,10 +941,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_defense += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_defense += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_defense += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -960,20 +960,20 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_attackSpeed += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_attackSpeed += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             item.Add_attackSpeed += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         }
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_attackSpeed += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attackSpeed += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             item.Add_attackSpeed += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         }
@@ -987,20 +987,20 @@ public class RelicSkill : MonoBehaviour
                 switch (DungeonOS.instance.equipRelic[relicNum].effectTypeC)
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_moveSpeed += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_moveSpeed += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             item.Add_moveSpeed += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         }
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_moveSpeed += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_moveSpeed += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_moveSpeed += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1016,10 +1016,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_priorities += (int)DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_priorities += (int)DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1028,10 +1028,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_priorities += (int)DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_priorities += (int)DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_priorities += (int)DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1047,10 +1047,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_attackRange += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_attackRange += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1059,10 +1059,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_attackRange += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attackRange += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_attackRange += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1078,10 +1078,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[1] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[1] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1090,10 +1090,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[1] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[1] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_attributeVlaue[1] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1109,10 +1109,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[2] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[2] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1121,10 +1121,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[2] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[2] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_attributeVlaue[2] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1140,10 +1140,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[3] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[3] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1152,10 +1152,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[3] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[3] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_attributeVlaue[3] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1171,10 +1171,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[0] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[0] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1183,10 +1183,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[0] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[0] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_attributeVlaue[0] += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1202,10 +1202,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_dropDamage += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_dropDamage += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1214,10 +1214,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_dropDamage += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_dropDamage += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_dropDamage += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1233,11 +1233,11 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
-                        DungeonOS.instance.weightAllyUnit[allynum].Current_protectMax += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Current_protectMax += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1247,11 +1247,11 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Current_protectMax += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Current_protectMax += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1268,14 +1268,14 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
-                        if (DungeonOS.instance.weightAllyUnit[allynum].Current_protect > DungeonOS.instance.weightAllyUnit[allynum].Current_protectMax)
+                        DungeonOS.instance.partyUnit[allynum].Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        if (DungeonOS.instance.partyUnit[allynum].Current_protect > DungeonOS.instance.partyUnit[allynum].Current_protectMax)
                         {
-                            DungeonOS.instance.weightAllyUnit[allynum].Current_protect = DungeonOS.instance.weightAllyUnit[allynum].Current_protectMax;
+                            DungeonOS.instance.partyUnit[allynum].Current_protect = DungeonOS.instance.partyUnit[allynum].Current_protectMax;
                         }
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1288,14 +1288,14 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
-                        if (DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect > DungeonOS.instance.weightEnemyGroup[enemynum].Current_protectMax)
+                        DungeonOS.instance.monsterGroup[enemynum].Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        if (DungeonOS.instance.monsterGroup[enemynum].Current_protect > DungeonOS.instance.monsterGroup[enemynum].Current_protectMax)
                         {
-                            DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect = DungeonOS.instance.weightEnemyGroup[enemynum].Current_protectMax;
+                            DungeonOS.instance.monsterGroup[enemynum].Current_protect = DungeonOS.instance.monsterGroup[enemynum].Current_protectMax;
                         }
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Current_protect += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1315,10 +1315,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_fianlDamage += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_fianlDamage += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1327,10 +1327,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_fianlDamage += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_fianlDamage += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_fianlDamage += DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1346,10 +1346,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].isinvincible = true;
+                        DungeonOS.instance.partyUnit[allynum].isinvincible = true;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1358,10 +1358,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].isinvincible = true;
+                        DungeonOS.instance.monsterGroup[enemynum].isinvincible = true;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.isinvincible = true;
@@ -1378,7 +1378,7 @@ public class RelicSkill : MonoBehaviour
                     case RelicData.Data.EffectTypeC.ALLY:
                         
                         temp_damage = DamageEngine.instance.OnDamageCalculate(false, true, DungeonOS.instance.equipRelic[relicNum].effectDataB1, allynum, out temp_shieldDamage);
-                        DungeonOS.instance.weightAllyUnit[allynum].Current_protect -= temp_shieldDamage;
+                        DungeonOS.instance.partyUnit[allynum].Current_protect -= temp_shieldDamage;
                         DungeonOS.instance.partyUnit[allynum].hp -= temp_damage;
                         if (DungeonOS.instance.partyUnit[allynum].hp < 0)
                         {
@@ -1391,7 +1391,7 @@ public class RelicSkill : MonoBehaviour
 
 
                             temp_damage = DamageEngine.instance.OnDamageCalculate(false, true, DungeonOS.instance.equipRelic[relicNum].effectDataB1, i, out temp_shieldDamage);
-                            DungeonOS.instance.weightAllyUnit[i].Current_protect -= temp_shieldDamage;
+                            DungeonOS.instance.partyUnit[i].Current_protect -= temp_shieldDamage;
                             DungeonOS.instance.partyUnit[i].hp -= temp_damage;
                             if (DungeonOS.instance.partyUnit[i].hp < 0)
                             {
@@ -1402,7 +1402,7 @@ public class RelicSkill : MonoBehaviour
                     case RelicData.Data.EffectTypeC.ENEMY:
 
                         temp_damage = DamageEngine.instance.OnDamageCalculate(true, true, DungeonOS.instance.equipRelic[relicNum].effectDataB1, enemynum, out temp_shieldDamage);
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect -= temp_shieldDamage;
+                        DungeonOS.instance.monsterGroup[enemynum].Current_protect -= temp_shieldDamage;
                         DungeonOS.instance.monsterGroup[enemynum].hp -= temp_damage;
                         if (DungeonOS.instance.monsterGroup[enemynum].hp < 0)
                         {
@@ -1413,7 +1413,7 @@ public class RelicSkill : MonoBehaviour
                         for (int i = 0; i < DungeonOS.instance.monsterGroup.Count; i++)
                         {
                             temp_damage = DamageEngine.instance.OnDamageCalculate(true, true, DungeonOS.instance.equipRelic[relicNum].effectDataB1, i, out temp_shieldDamage);
-                            DungeonOS.instance.weightEnemyGroup[i].Current_protect -= temp_shieldDamage;
+                            DungeonOS.instance.monsterGroup[i].Current_protect -= temp_shieldDamage;
                             DungeonOS.instance.monsterGroup[i].hp -= temp_damage;
                             if (DungeonOS.instance.monsterGroup[i].hp < 0)
                             {
@@ -1549,10 +1549,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_damage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_damage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1561,10 +1561,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_damage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_damage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_damage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1580,10 +1580,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_defense -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_defense -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1592,10 +1592,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_defense -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_defense -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_defense -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1611,10 +1611,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_attackSpeed -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_attackSpeed -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1623,10 +1623,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_attackSpeed -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attackSpeed -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_attackSpeed -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1642,10 +1642,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_moveSpeed -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_moveSpeed -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1654,10 +1654,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_moveSpeed -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_moveSpeed -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_moveSpeed -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1673,10 +1673,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_priorities -= (int)DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_priorities -= (int)DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1685,10 +1685,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_priorities -= (int)DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_priorities -= (int)DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_priorities -= (int)DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1704,10 +1704,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_attackRange -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_attackRange -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
 
@@ -1716,10 +1716,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_attackRange -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attackRange -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_attackRange -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1735,10 +1735,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[1] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[1] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
                             item.Add_attributeVlaue[1] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1747,10 +1747,10 @@ public class RelicSkill : MonoBehaviour
                     case RelicData.Data.EffectTypeC.ENEMY:
 
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[1] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[1] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_attributeVlaue[1] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1766,10 +1766,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[2] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[2] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
                             item.Add_attributeVlaue[2] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1777,10 +1777,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[2] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[2] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_attributeVlaue[2] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1796,10 +1796,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[3] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[3] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
                             item.Add_attributeVlaue[3] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1807,10 +1807,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[3] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[3] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_attributeVlaue[3] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1826,10 +1826,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_attributeVlaue[0] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[0] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
                             item.Add_attributeVlaue[0] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1837,10 +1837,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_attributeVlaue[0] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[0] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_attributeVlaue[0] -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1856,10 +1856,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_dropDamage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_dropDamage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
                             item.Add_dropDamage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1867,10 +1867,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_dropDamage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_dropDamage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_dropDamage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1886,14 +1886,14 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Current_protectMax -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
-                        if (DungeonOS.instance.weightAllyUnit[allynum].Current_protect > DungeonOS.instance.weightAllyUnit[allynum].Current_protectMax)
+                        DungeonOS.instance.partyUnit[allynum].Current_protectMax -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        if (DungeonOS.instance.partyUnit[allynum].Current_protect > DungeonOS.instance.partyUnit[allynum].Current_protectMax)
                         {
-                            DungeonOS.instance.weightAllyUnit[allynum].Current_protect = DungeonOS.instance.weightAllyUnit[allynum].Current_protectMax;
+                            DungeonOS.instance.partyUnit[allynum].Current_protect = DungeonOS.instance.partyUnit[allynum].Current_protectMax;
                         }
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
                             item.Current_protectMax -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1905,14 +1905,14 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Current_protectMax -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
-                        if (DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect > DungeonOS.instance.weightEnemyGroup[enemynum].Current_protectMax)
+                        DungeonOS.instance.monsterGroup[enemynum].Current_protectMax -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        if (DungeonOS.instance.monsterGroup[enemynum].Current_protect > DungeonOS.instance.monsterGroup[enemynum].Current_protectMax)
                         {
-                            DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect = DungeonOS.instance.weightEnemyGroup[enemynum].Current_protectMax;
+                            DungeonOS.instance.monsterGroup[enemynum].Current_protect = DungeonOS.instance.monsterGroup[enemynum].Current_protectMax;
                         }
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Current_protectMax -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1932,14 +1932,14 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Current_protect -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
-                        if (DungeonOS.instance.weightAllyUnit[allynum].Current_protect < 0)
+                        DungeonOS.instance.partyUnit[allynum].Current_protect -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        if (DungeonOS.instance.partyUnit[allynum].Current_protect < 0)
                         {
-                            DungeonOS.instance.weightAllyUnit[allynum].Current_protect = 0;
+                            DungeonOS.instance.partyUnit[allynum].Current_protect = 0;
                         }
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
                             item.Current_protect -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1951,14 +1951,14 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
-                        if (DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect < 0)
+                        DungeonOS.instance.monsterGroup[enemynum].Current_protect -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        if (DungeonOS.instance.monsterGroup[enemynum].Current_protect < 0)
                         {
-                            DungeonOS.instance.weightEnemyGroup[enemynum].Current_protect = 0;
+                            DungeonOS.instance.monsterGroup[enemynum].Current_protect = 0;
                         }
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Current_protect -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1978,10 +1978,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].Add_fianlDamage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.partyUnit[allynum].Add_fianlDamage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
                             item.Add_fianlDamage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -1989,10 +1989,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].Add_fianlDamage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_fianlDamage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.Add_fianlDamage -= DungeonOS.instance.equipRelic[relicNum].effectDataB1;
@@ -2008,10 +2008,10 @@ public class RelicSkill : MonoBehaviour
                 {
                     case RelicData.Data.EffectTypeC.ALLY:
                         
-                        DungeonOS.instance.weightAllyUnit[allynum].isinvincible = false;
+                        DungeonOS.instance.partyUnit[allynum].isinvincible = false;
                         break;
                     case RelicData.Data.EffectTypeC.ALLIES:
-                        foreach (var item in DungeonOS.instance.weightAllyUnit)
+                        foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             
                             item.isinvincible = false;
@@ -2019,10 +2019,10 @@ public class RelicSkill : MonoBehaviour
                         break;
                     case RelicData.Data.EffectTypeC.ENEMY:
 
-                        DungeonOS.instance.weightEnemyGroup[enemynum].isinvincible = false;
+                        DungeonOS.instance.monsterGroup[enemynum].isinvincible = false;
                         break;
                     case RelicData.Data.EffectTypeC.ENEMIES:
-                        foreach (var item in DungeonOS.instance.weightEnemyGroup)
+                        foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             
                             item.isinvincible = false;

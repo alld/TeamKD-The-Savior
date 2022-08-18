@@ -37,44 +37,40 @@ public class DamageEngine : MonoBehaviour
     {
         if (playercheck) // 공격자가 플레이언지 몬스터인지 확인
         {
-            if (DungeonOS.instance.weightEnemyGroup[defender].isinvincible) return 0;
+            if (DungeonOS.instance.monsterGroup[defender].isinvincible) return 0;
             // 속성 변환 체크 후 설정값 지정
-            if (DungeonOS.instance.weightAlly.Add_attributeCheck) a_attribute = DungeonOS.instance.weightAlly.Add_attribute;
+            if (DungeonOS.instance.partyUnit[attacker].Add_attributeCheck) a_attribute = DungeonOS.instance.partyUnit[attacker].Add_attribute;
             else a_attribute = DungeonOS.instance.partyUnit[attacker].attribute;
-            if (DungeonOS.instance.weightEnemy.Add_attributeCheck) d_attribute = DungeonOS.instance.weightEnemy.Add_attribute;
+            if (DungeonOS.instance.monsterGroup[defender].Add_attributeCheck) d_attribute = DungeonOS.instance.monsterGroup[defender].Add_attribute;
             else d_attribute = DungeonOS.instance.monsterGroup[defender].attribute;
-            add_attDamageA = DungeonOS.instance.weightAlly.Add_attributeVlaue[a_attribute];
-            add_attDamageD = DungeonOS.instance.weightEnemy.Add_attributeVlaue[d_attribute];
+            add_attDamageA = DungeonOS.instance.partyUnit[attacker].Add_attributeVlaue[a_attribute];
+            add_attDamageD = DungeonOS.instance.monsterGroup[defender].Add_attributeVlaue[d_attribute];
 
 
-            dmg += DungeonOS.instance.weightAlly.Add_damage;
-            dmg += DungeonOS.instance.weightAllyUnit[attacker].Add_damage;
+            dmg += DungeonOS.instance.partyUnit[attacker].Add_damage;
             d_defense = DungeonOS.instance.monsterGroup[defender].defense;
-            d_defense += DungeonOS.instance.weightEnemy.Add_defense;
-            d_defense += DungeonOS.instance.weightEnemyGroup[defender].Add_defense;
-            add_finalDamage = DungeonOS.instance.weightAlly.Add_fianlDamage + DungeonOS.instance.weightAllyUnit[attacker].Add_fianlDamage;
-            add_DropDamage = DungeonOS.instance.weightEnemy.Add_dropDamage + DungeonOS.instance.weightEnemyGroup[defender].Add_dropDamage;
+            d_defense += DungeonOS.instance.monsterGroup[defender].Add_defense;
+            add_finalDamage = DungeonOS.instance.partyUnit[attacker].Add_fianlDamage + DungeonOS.instance.partyUnit[attacker].Add_fianlDamage;
+            add_DropDamage = DungeonOS.instance.monsterGroup[defender].Add_dropDamage + DungeonOS.instance.monsterGroup[defender].Add_dropDamage;
         }
         else 
         {
-            if (DungeonOS.instance.weightAllyUnit[defender].isinvincible) return 0;
+            if (DungeonOS.instance.partyUnit[defender].isinvincible) return 0;
             // 속성 변환 체크 후 설정값 지정 
-            if (DungeonOS.instance.weightAlly.Add_attributeCheck) d_attribute = DungeonOS.instance.weightAlly.Add_attribute;
+            if (DungeonOS.instance.partyUnit[defender].Add_attributeCheck) d_attribute = DungeonOS.instance.partyUnit[defender].Add_attribute;
             else d_attribute = DungeonOS.instance.partyUnit[defender].attribute;
-            if (DungeonOS.instance.weightEnemy.Add_attributeCheck) a_attribute = DungeonOS.instance.weightEnemy.Add_attribute;
+            if (DungeonOS.instance.monsterGroup[attacker].Add_attributeCheck) a_attribute = DungeonOS.instance.monsterGroup[attacker].Add_attribute;
             else a_attribute = DungeonOS.instance.monsterGroup[attacker].attribute;
-            add_attDamageD = DungeonOS.instance.weightAlly.Add_attributeVlaue[d_attribute];
-            add_attDamageA = DungeonOS.instance.weightEnemy.Add_attributeVlaue[a_attribute];
+            add_attDamageD = DungeonOS.instance.partyUnit[defender].Add_attributeVlaue[d_attribute];
+            add_attDamageA = DungeonOS.instance.monsterGroup[attacker].Add_attributeVlaue[a_attribute];
 
 
-            dmg += DungeonOS.instance.weightEnemy.Add_damage;
-            dmg += DungeonOS.instance.weightEnemyGroup[attacker].Add_damage;
+            dmg += DungeonOS.instance.monsterGroup[attacker].Add_damage;
             d_defense = DungeonOS.instance.partyUnit[defender].defense;
-            d_defense += DungeonOS.instance.weightAlly.Add_defense;
-            d_defense += DungeonOS.instance.weightAllyUnit[defender].Add_defense;
+            d_defense += DungeonOS.instance.partyUnit[defender].Add_defense;
 
-            add_finalDamage = DungeonOS.instance.weightEnemy.Add_fianlDamage + DungeonOS.instance.weightEnemyGroup[attacker].Add_fianlDamage;
-            add_DropDamage = DungeonOS.instance.weightAlly.Add_dropDamage + DungeonOS.instance.weightAllyUnit[defender].Add_dropDamage;
+            add_finalDamage = DungeonOS.instance.monsterGroup[attacker].Add_fianlDamage + DungeonOS.instance.monsterGroup[attacker].Add_fianlDamage;
+            add_DropDamage = DungeonOS.instance.partyUnit[defender].Add_dropDamage + DungeonOS.instance.partyUnit[defender].Add_dropDamage;
         }
         sum_attribute = (a_attribute * 10) + d_attribute;
         switch (sum_attribute) // 속성 데미지 비율 적용하는 기능
@@ -122,8 +118,8 @@ public class DamageEngine : MonoBehaviour
         float a_Damage = dmg;
         shieldDamage = 0;
         float temp_shield;
-        if (playercheck) temp_shield = DungeonOS.instance.weightAllyUnit[defender].Current_protect;
-        else temp_shield = DungeonOS.instance.weightEnemyGroup[defender].Current_protect;
+        if (playercheck) temp_shield = DungeonOS.instance.partyUnit[defender].Current_protect;
+        else temp_shield = DungeonOS.instance.monsterGroup[defender].Current_protect;
 
         if(dmg <= temp_shield)
         {
@@ -154,8 +150,8 @@ public class DamageEngine : MonoBehaviour
         float a_Damage = dmg;
         shieldDamage = 0;
         float temp_shield;
-        if (playercheck) temp_shield = DungeonOS.instance.weightAllyUnit[defender].Current_protect;
-        else temp_shield = DungeonOS.instance.weightEnemyGroup[defender].Current_protect;
+        if (playercheck) temp_shield = DungeonOS.instance.partyUnit[defender].Current_protect;
+        else temp_shield = DungeonOS.instance.monsterGroup[defender].Current_protect;
 
         if (dmg <= temp_shield)
         {
