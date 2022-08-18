@@ -22201,7 +22201,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1055881542}
   m_Layer: 5
-  m_Name: PP_special
+  m_Name: PP_debuff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26986,6 +26986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 109be7cddacbc8346abb02ae8db48e5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CardInventory: {fileID: 2092878443}
   presetButton:
   - {fileID: 787645756}
   - {fileID: 703838819}
@@ -26996,11 +26997,11 @@ MonoBehaviour:
   cardDeckTr: {fileID: 1573217479}
   presetName: {fileID: 1789137195}
   cardType:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 344883864}
+  - {fileID: 318496376}
+  - {fileID: 278752765}
+  - {fileID: 21900517}
+  - {fileID: 1079590184}
   type_Heal: 0
   type_Shield: 0
   type_Buff: 0

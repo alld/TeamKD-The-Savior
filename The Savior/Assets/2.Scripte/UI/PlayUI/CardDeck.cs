@@ -11,6 +11,8 @@ public class CardDeck : MonoBehaviour
      * Json 파일에서 가져온 데이터를 기반으로
      * haveCard의 수 만큼 카드를 생성하여 카드 덱 인벤토리에 넣는다.
      */
+
+    public GameObject CardInventory;
     public Button[] presetButton = new Button[5];   // 프리셋 버튼
 
     public Transform equipTr;       // 카드가 장착되어있는 위치
@@ -29,6 +31,7 @@ public class CardDeck : MonoBehaviour
 
     void Start()
     {
+        CardInventory.SetActive(true);
         // 게임 시작시 프리셋 버튼 연결
         for (int i = 0; i < presetButton.Length; i++)
         {
@@ -47,7 +50,8 @@ public class CardDeck : MonoBehaviour
                 }
             }
         }
-        OnClick_PresetChangeBtn((GameManager.instance.data.preset -1));
+        OnClick_PresetChangeBtn((GameManager.instance.data.preset - 1));
+        CardInventory.SetActive(false);
     }
 
     public void OnClick_PresetChangeBtn(int n)
@@ -72,6 +76,7 @@ public class CardDeck : MonoBehaviour
         {
             if (GameManager.instance.cardPreset[n].preset[i] == 0) continue;
             changePreset = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/MyCard/Viewport/Content/Card_" + GameManager.instance.cardPreset[n].preset[i].ToString() + "(Clone)");
+
             switch (changePreset.GetComponent<ViewCard>().cardType)
             {
                 case ViewCard.CARDTYPE.치유:
@@ -104,6 +109,12 @@ public class CardDeck : MonoBehaviour
             changePreset.GetComponent<Image>().rectTransform.offsetMin = Vector2.zero;
             changePreset.GetComponent<Image>().rectTransform.offsetMax = Vector2.zero;
             changePreset.transform.position = equipTr.GetChild(i).transform.position;
+
+            cardType[(int)ViewCard.CARDTYPE.치유].text = type_Heal.ToString();
+            cardType[(int)ViewCard.CARDTYPE.방어].text = type_Shield.ToString();
+            cardType[(int)ViewCard.CARDTYPE.강화].text = type_Buff.ToString();
+            cardType[(int)ViewCard.CARDTYPE.방해].text = type_Debuff.ToString();
+            cardType[(int)ViewCard.CARDTYPE.공격].text = type_Attack.ToString();
         }
     }
 }

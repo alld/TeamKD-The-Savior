@@ -2284,7 +2284,7 @@ GameObject:
   - component: {fileID: 301621656}
   - component: {fileID: 301621655}
   m_Layer: 0
-  m_Name: UIManager
+  m_Name: WUIManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2369,6 +2369,12 @@ MonoBehaviour:
   - {fileID: 1033114817}
   - {fileID: 1881841428}
   presetName: {fileID: 1386966892}
+  presetCard:
+  - {fileID: 1990370174}
+  - {fileID: 346788161}
+  - {fileID: 478806029}
+  - {fileID: 200365411}
+  - {fileID: 371856420}
 --- !u!114 &301621655
 MonoBehaviour:
   m_ObjectHideFlags: 0

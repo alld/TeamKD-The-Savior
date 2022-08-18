@@ -46,6 +46,8 @@ public class WorldMapDungeon : MonoBehaviour
     public Button noPresetButton;
     public Button[] curPresetButton = new Button[5];
     public TMP_Text presetName;
+    public TMP_Text[] presetCard;
+    private CardDeck cardDeck;
 
     private Image[] dungeonImg = new Image[4];      // 0 : 던전 이미지 //// 1 : 등장 보스 //// 2 : 기대 보상 1 //// 3 : 기대 보상 2
     void Start()
@@ -82,6 +84,8 @@ public class WorldMapDungeon : MonoBehaviour
         curPresetButton[2].onClick.AddListener(() => OnClick_Preset(2));
         curPresetButton[3].onClick.AddListener(() => OnClick_Preset(3));
         curPresetButton[4].onClick.AddListener(() => OnClick_Preset(4));
+
+        cardDeck = GameObject.Find("PUIManager").GetComponent<CardDeck>();
 
     }
 
@@ -164,7 +168,7 @@ public class WorldMapDungeon : MonoBehaviour
                 presetIdx++;
             }
         }
-        if(presetIdx < 10)
+        if (presetIdx < 10)
         {
             Debug.Log("카드를 10장 이상 장착해주세요. (" + presetIdx + "/15)");
             return;     // 팝업 창 제작 후 팝업창을 띄움.
@@ -185,5 +189,13 @@ public class WorldMapDungeon : MonoBehaviour
         GameManager.instance.data.preset = (idx + 1);
         curPresetButton[idx].Select();
         presetName.text = GameManager.instance.data.presetName[idx];
+
+        cardDeck.OnClick_PresetChangeBtn(idx);
+
+        presetCard[0].text = cardDeck.type_Heal.ToString();
+        presetCard[1].text = cardDeck.type_Shield.ToString();
+        presetCard[2].text = cardDeck.type_Buff.ToString();
+        presetCard[3].text = cardDeck.type_Debuff.ToString();
+        presetCard[4].text = cardDeck.type_Attack.ToString();
     }
 }

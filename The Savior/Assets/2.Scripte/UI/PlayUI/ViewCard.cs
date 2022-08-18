@@ -8,9 +8,10 @@ using Newtonsoft.Json.Linq;
 public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public static GameObject dragItem = null;
+    private CardDeck cardDeck;
 
     public int num;
-    public enum CARDTYPE { 치유, 방어, 강화, 방해, 공격 }
+    public enum CARDTYPE { 치유 = 0, 방어 = 1, 강화 = 2, 방해 = 3, 공격 = 4 }
     public CARDTYPE cardType;
     public TMP_Text nameText;
     public TMP_Text contentText;
@@ -24,6 +25,11 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     private int curIdx;
     private int equipIdx;
     private JArray json;
+
+    private void Awake()
+    {
+        cardType = (CARDTYPE)GameManager.instance.card[num - 1].cardType;
+    }
     private void Start()
     {
         moveTr = GameObject.Find("GameUI").transform;
@@ -34,8 +40,7 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
         typeText = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/CardInfo/CardBoxImage/CardType").GetComponent<TMP_Text>();
         textAsset = Resources.Load<TextAsset>("CardData");
         json = JArray.Parse(textAsset.text);
-        cardType = (CARDTYPE)GameManager.instance.card[num - 1].cardType;
-        Debug.Log(cardType);
+        cardDeck = GameObject.Find("PUIManager").GetComponent<CardDeck>();
     }
 
     /*
@@ -68,6 +73,33 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
             tr.SetSiblingIndex(curIdx);
             GameManager.instance.cardPreset[GameManager.instance.data.preset - 1].preset[equipIdx] = 0;
             GameManager.instance.cardPreset[GameManager.instance.data.preset - 1].index = GameManager.instance.data.preset;
+
+            switch (cardType)
+            {
+                case CARDTYPE.치유:
+                    cardDeck.type_Heal--;
+                    cardDeck.cardType[(int)CARDTYPE.치유].text = cardDeck.type_Heal.ToString();
+                    break;
+                case CARDTYPE.방어:
+                    cardDeck.type_Shield--;
+                    cardDeck.cardType[(int)CARDTYPE.방어].text = cardDeck.type_Shield.ToString();
+                    break;
+                case CARDTYPE.강화:
+                    cardDeck.type_Buff--;
+                    cardDeck.cardType[(int)CARDTYPE.강화].text = cardDeck.type_Buff.ToString();
+                    break;
+                case CARDTYPE.방해:
+                    cardDeck.type_Debuff--;
+                    cardDeck.cardType[(int)CARDTYPE.방해].text = cardDeck.type_Debuff.ToString();
+                    break;
+                case CARDTYPE.공격:
+                    cardDeck.type_Attack--;
+                    cardDeck.cardType[(int)CARDTYPE.공격].text = cardDeck.type_Attack.ToString();
+                    break;
+                default:
+                    break;
+            }
+
             GameManager.instance.PresetSave();
         }
     }
