@@ -45,6 +45,7 @@ public class PlayPause : MonoBehaviour
     {
         isPause = !isPause;
         pauseImg.SetActive(isPause);
+        pauseImg.transform.SetAsLastSibling();
         if (GameManager.instance.dungeonOS != null) Time.timeScale = (isPause == true) ? 0.0f : 1.0f; // 던전이 진행중이면 현재 관리하는 스크립트가 할당됨 없으면 null, 할당중이면 게임을 일시정지시킴. 
     }
 
