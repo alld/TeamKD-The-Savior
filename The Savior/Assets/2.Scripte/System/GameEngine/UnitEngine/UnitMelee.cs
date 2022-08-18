@@ -78,7 +78,7 @@ public class UnitMelee : MonoBehaviour
     {
         float temp_shield;
         float temp_damage = DamageEngine.instance.OnProtectCalculate(false, dmg, AttackerNumber, partyNumber, out temp_shield);
-        DungeonOS.instance.weightAllyUnit[partyNumber].Current_protect -= temp_shield;
+        DungeonOS.instance.monsterGroup[partyNumber].Current_protect -= temp_shield;
         DungeonOS.instance.partyUnit[partyNumber].hp -= temp_damage;
         if (DungeonOS.instance.partyUnit[partyNumber].hp < 0)
         {

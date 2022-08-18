@@ -14,7 +14,8 @@ public class DungeonOS : MonoBehaviour
     //private PlayUIManager PUIManager;
     private GameObject timerArrowDG;
     private GameObject[] timerlevelUI;
-    private WaitForSeconds delay = new WaitForSeconds(0.1f);
+    WaitForSeconds delay_01 = new WaitForSeconds(0.1f);
+    WaitForSeconds delay_03 = new WaitForSeconds(0.3f);
     private DungeonController DungeonCtrl;
     public List<string> errorList;
     #endregion
@@ -196,106 +197,9 @@ public class DungeonOS : MonoBehaviour
     public float[] eaKillCountDGP;
 
     public List<CardDataBase.Data> handCard = new List<CardDataBase.Data>();
-
-    WaitForSeconds delay_01 = new WaitForSeconds(0.1f);
-    WaitForSeconds delay_03 = new WaitForSeconds(0.3f);
-
     #endregion
-
-    #region 던전 가중치 데이터
-    // 가중치 횟수 체크 변수
-    public int addCount;
-    public class WeightUnit
-    {
-        // 아군
-        /// <summary>
-        /// 가중치 :: 추가 공격력
-        /// </summary>
-        public float Add_damage;
-        /// <summary>
-        /// 가중치 :: 최종 추가 공격력
-        /// </summary>
-        public float Add_fianlDamage = 1;
-        /// <summary>
-        /// 가중치 :: 피해량 감소량
-        /// </summary>
-        public float Add_dropDamage = 1;
-        /// <summary>
-        /// 가중치(추가능력) :: 보호막 수치
-        /// </summary>
-        public float Current_protect;
-        /// <summary>
-        /// 가중치(추가능력) :: 보호막 최대 수치
-        /// </summary>
-        public float Current_protectMax;
-        /// <summary>
-        /// 가중치 :: 공격 속도
-        /// </summary>
-        public float Add_attackSpeed;
-        /// <summary>
-        /// 가중치 :: 이동 속도
-        /// </summary>
-        public float Add_moveSpeed;
-        /// <summary>
-        /// 가중치 :: 방어력
-        /// </summary>
-        public float Add_defense;
-        /// <summary>
-        /// 가중치 :: 공격 범위(사거리)
-        /// </summary>
-        public float Add_attackRange;
-        /// <summary>
-        /// 가중치 :: 속성 변경 여부 (bool)
-        /// </summary>
-        public bool Add_attributeCheck;
-        /// <summary>
-        /// 가중치 :: 변경된 속성값 
-        /// </summary>
-        public int Add_attribute;
-        /// <summary>
-        /// 가중치 :: 속성 추가 데미지
-        /// </summary>
-        public float[] Add_attributeVlaue = {1, 1,1,1 };
-        /// <summary>
-        /// 가중치 :: 공격 인식 범위
-        /// </summary>
-        public float Add_priRange;
-        /// <summary>
-        /// 가중치 :: 공격 우선도
-        /// </summary>
-        public int Add_priorities;
-        /// <summary>
-        /// 가중치 :: 스킬 쿨다운
-        /// </summary>
-        public float Add_skilcoldown = 1;
-        /// <summary>
-        /// 가중치 :: 무적 유무
-        /// </summary>
-        public bool isinvincible;
-        public List<BuffDataBase> Current_buff = new List<BuffDataBase>();
-    }
-
-    public class WeightEnemy : WeightUnit
-    {
-        // 적
-        public int Add_rewardGold;
-        public int Add_rewardSoul;
-    }
-    public WeightUnit weightAlly = new WeightUnit();
-    public WeightUnit[] weightAllyUnit = new WeightUnit[3];
-    public WeightEnemy weightEnemy = new WeightEnemy();
-    public List<WeightEnemy> weightEnemyGroup = new List<WeightEnemy>();
-    #endregion
-
     #region 전달받은 GameManager의 Data
     //캐릭터 정보 
-    //public CharacterDatabase.InfoCharacter[] partyUnit = 
-    //    { 
-    //        new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[0].number),
-    //        new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[1].number),
-    //        new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[2].number),
-    //        new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[3].number)
-    //    };
     public List<UnitStateData> partyUnit = new List<UnitStateData>();
     public List<RelicData.Data> equipRelic = new List<RelicData.Data>();
     //덱정보
@@ -491,7 +395,7 @@ public class DungeonOS : MonoBehaviour
                 DungeonCtrl.fade.color = color;
             }
             else check = false;
-            yield return delay;
+            yield return delay_01;
         }
         DungeonCtrl.fade.color = new Color(0, 0, 0, 1);
         FadeOut();
@@ -514,7 +418,7 @@ public class DungeonOS : MonoBehaviour
                 DungeonCtrl.fade.color = color;
             }
             else check = false;
-            yield return delay;
+            yield return delay_01;
         }
         DungeonCtrl.fade.color = new Color(0, 0, 0, 0);
         DungeonCtrl.fadeObj.SetActive(false);
@@ -551,7 +455,6 @@ public class DungeonOS : MonoBehaviour
     /// <param name="stageNum"></param>
     void StageReset(int stageNum)
     {
-        Animator tempAnimator;
         if (slotStageDG != null) slotStageDG.SetActive(false);
         slotStageDG = stageGroupDG[stageNum];
         slotStageDG.SetActive(true);
@@ -1264,6 +1167,7 @@ public class DungeonOS : MonoBehaviour
                 {
                     case 0:
                         timeLevelDGP = 1;
+                        DungeonCtrl.gameTimerBG[0].fillAmount = 0;
                         break;
                     case 1:
                         timeLevelDGP = 2;

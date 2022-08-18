@@ -132,6 +132,77 @@ public class UnitStateData : MonoBehaviour
     public List<int> rewardUnit = new List<int>();
     public List<int> rewardRelic = new List<int>();
     #endregion
+    #region 유닛 가중치
+    // 아군
+    /// <summary>
+    /// 가중치 :: 추가 공격력
+    /// </summary>
+    public float Add_damage;
+    /// <summary>
+    /// 가중치 :: 최종 추가 공격력
+    /// </summary>
+    public float Add_fianlDamage = 1;
+    /// <summary>
+    /// 가중치 :: 피해량 감소량
+    /// </summary>
+    public float Add_dropDamage = 1;
+    /// <summary>
+    /// 가중치(추가능력) :: 보호막 수치
+    /// </summary>
+    public float Current_protect;
+    /// <summary>
+    /// 가중치(추가능력) :: 보호막 최대 수치
+    /// </summary>
+    public float Current_protectMax;
+    /// <summary>
+    /// 가중치 :: 공격 속도
+    /// </summary>
+    public float Add_attackSpeed;
+    /// <summary>
+    /// 가중치 :: 이동 속도
+    /// </summary>
+    public float Add_moveSpeed;
+    /// <summary>
+    /// 가중치 :: 방어력
+    /// </summary>
+    public float Add_defense;
+    /// <summary>
+    /// 가중치 :: 공격 범위(사거리)
+    /// </summary>
+    public float Add_attackRange;
+    /// <summary>
+    /// 가중치 :: 속성 변경 여부 (bool)
+    /// </summary>
+    public bool Add_attributeCheck;
+    /// <summary>
+    /// 가중치 :: 변경된 속성값 
+    /// </summary>
+    public int Add_attribute;
+    /// <summary>
+    /// 가중치 :: 속성 추가 데미지
+    /// </summary>
+    public float[] Add_attributeVlaue = { 1, 1, 1, 1 };
+    /// <summary>
+    /// 가중치 :: 공격 인식 범위
+    /// </summary>
+    public float Add_priRange;
+    /// <summary>
+    /// 가중치 :: 공격 우선도
+    /// </summary>
+    public int Add_priorities;
+    /// <summary>
+    /// 가중치 :: 스킬 쿨다운
+    /// </summary>
+    public float Add_skilcoldown = 1;
+    /// <summary>
+    /// 가중치 :: 무적 유무
+    /// </summary>
+    public bool isinvincible;
+    public List<BuffDataBase> Current_buff = new List<BuffDataBase>();
+    //적
+    public int Add_rewardGold;
+    public int Add_rewardSoul;
+    #endregion
     public int partyNumber;
 
     public void DataSetting(bool playerCheck, int num)
@@ -142,8 +213,8 @@ public class UnitStateData : MonoBehaviour
             CharacterDatabase.Data unit = new CharacterDatabase.Data(num);
             number = unit.number;
             charName = unit.charName;
-            hp = unit.hp;
             maxHP = unit.maxHP;
+            hp = maxHP;
             damage = unit.damage;
             attackSpeed = unit.attackSpeed;
             moveSpeed = unit.moveSpeed;
@@ -165,6 +236,9 @@ public class UnitStateData : MonoBehaviour
             speialSkill = unit.speialSkill;
             overlapValueA = unit.overlapValueA;
             overlapValueB = unit.overlapValueB;
+            Debug.Log(gameObject.name);
+            Debug.Log(hp);
+            Debug.Log(unit.hp);
         }
         else
         {
@@ -172,8 +246,8 @@ public class UnitStateData : MonoBehaviour
             number = unit.number;
             monsterType = unit.monsterType;
             charName = unit.charName;
-            hp = unit.hp;
             maxHP = unit.maxHP;
+            hp = maxHP;
             damage = unit.damage;
             attackSpeed = unit.attackSpeed;
             moveSpeed = unit.moveSpeed;
