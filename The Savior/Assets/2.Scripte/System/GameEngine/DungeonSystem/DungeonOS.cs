@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using SimpleJSON;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DungeonOS : MonoBehaviour
 {
@@ -18,21 +18,21 @@ public class DungeonOS : MonoBehaviour
     private DungeonController DungeonCtrl;
     public List<string> errorList;
     #endregion
-
     #region 던전 기본 데이터
+    public Transform UnitGroupTr;
+    public Transform MonsterGroupTr;
 
-    List<UnitTable.Data> monsterBox = new List<UnitTable.Data>();
     List<int> rewardHeroBox = new List<int>();
     List<int> rewardCardBox = new List<int>();
     List<int> rewardRelicBox = new List<int>();
 
-    List<UnitTable.Data> stageSlotPlayerBottom = new List<UnitTable.Data>(); 
-    List<UnitTable.Data> stageSlotPlayerTop = new List<UnitTable.Data>();
-    List<UnitTable.Data> stageSlotPlayerMid = new List<UnitTable.Data>();
+    List<Transform> stageSlotPlayerBottom = new List<Transform>(); 
+    List<Transform> stageSlotPlayerTop = new List<Transform>();
+    List<Transform> stageSlotPlayerMid = new List<Transform>();
 
-    List<UnitTable.Data> stageSlotMonsterBottom = new List<UnitTable.Data>();
-    List<UnitTable.Data> stageSlotMonsterTop = new List<UnitTable.Data>();
-    List<UnitTable.Data> stageSlotMonsterMid = new List<UnitTable.Data>();
+    List<Transform> stageSlotMonsterBottom = new List<Transform>();
+    List<Transform> stageSlotMonsterTop = new List<Transform>();
+    List<Transform> stageSlotMonsterMid = new List<Transform>();
 
 
     public delegate void StateCheck();
@@ -56,9 +56,6 @@ public class DungeonOS : MonoBehaviour
     private Transform[] playerStagePoint;
     private Transform[] monsterStagePoint;
     public DungeonData.data dungeonData;
-    //public int[] monsterBoxMin; // 설정해줘야함
-    //public int[] monsterBoxMax; // 설정해줘야함
-    //public int[] monsterBoxCount; // 설정해줘야함
     public bool[] handSlot = { false, false, false };
     /// <summary>
     /// 각라운드가 가지고있는 정보
@@ -75,11 +72,11 @@ public class DungeonOS : MonoBehaviour
     /// <summary>
     /// 현재 라운드에 생존해있는 몬스터 그룹
     /// </summary>
-    public List<UnitTable.Data> monsterGroup = new List<UnitTable.Data>();
+    public List<UnitStateData> monsterGroup = new List<UnitStateData>();
     /// <summary>
     /// 플레이어 유닛 그룹
     /// </summary>
-    public List<UnitTable.Data> characterGroup = new List<UnitTable.Data>(); // 오브젝트로 설정
+    public List<UnitStateData> characterGroup = new List<UnitStateData>(); // 오브젝트로 설정
     /// <summary>
     /// 게임 분기 확인 스테이지가 순서대로 들어있기때문에, 게임분기 컷팅시키는 변수
     /// </summary>
@@ -299,7 +296,7 @@ public class DungeonOS : MonoBehaviour
     //        new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[2].number),
     //        new CharacterDatabase.InfoCharacter(GameManager.instance.partySlot[3].number)
     //    };
-    public List<UnitTable.Data> partyUnit = new List<UnitTable.Data>();
+    public List<UnitStateData> partyUnit = new List<UnitStateData>();
     public List<RelicData.Data> equipRelic = new List<RelicData.Data>();
     //덱정보
     public List<int> useDeckDGP = new List<int>();
@@ -307,27 +304,19 @@ public class DungeonOS : MonoBehaviour
     //초회 보상 유무 진행상황변수와는 별개
     bool ClearkCheck;
     #endregion
-    private TextAsset jsonData;
-    private string jsonText;
-    private JSONNode jsonCH;
+
 
     private void Awake()
     {
         dungeonData = new DungeonData.data(dungeonNumber);
         instance = this; 
-        jsonData = Resources.Load<TextAsset>("CharacterData");
-        jsonText = jsonData.text;
-        jsonCH = JSON.Parse(jsonText);
+
     }
     //카드기능 제외... 카드 데이터베이스를 만들어야함. 
     void Start()
     {
         #region 캐시처리 //합칠때 다시한번 설정해줘야함..
         DungeonCtrl = DungeonController.instance;
-        foreach (var item in dungeonData.dungeonMonsterBox)
-        {
-            monsterBox.Add(new UnitTable.Data(item));
-        }
         playerStagePoint = playerStagePointGroup.GetComponentsInChildren<Transform>();
         monsterStagePoint = monsterStagePointGroup.GetComponentsInChildren<Transform>();
         #endregion
@@ -537,16 +526,6 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void GameSetting()
     {
-        int tempCharNumber;
-        for (int i = 0; i < 4; i++) // 추후 데이터 처리 방식 변경에따라 맞쳐서 변경
-        {
-            tempCharNumber = GameManager.instance.data.equipCharacter[i];
-            if (tempCharNumber != 0)
-            {
-                partyUnit.Add(new UnitTable.Data(new CharacterDatabase.Data(tempCharNumber)));
-                partyUnit[partyUnit.Count-1].isLive = true;
-            }
-        }
         foreach (var item in GameManager.instance.data.equipRelic)
         {
             equipRelic.Add(new RelicData.Data(item));
@@ -595,16 +574,16 @@ public class DungeonOS : MonoBehaviour
                 case 1:
                     if (stageSlotPlayerBottom.Count < 3)
                     {
-                        stageSlotPlayerBottom.Add(item);
+                        stageSlotPlayerBottom.Add(item.GetComponent<Transform>());
                     }
                     else
                     {
-                        UnitTable.Data moveSlot = item;
-                        UnitTable.Data tempSlot = item;
+                        Transform moveSlot = item.GetComponent<Transform>();
+                        Transform tempSlot = item.GetComponent<Transform>() ;
                         //내부 비교 밀어내기식 자리배치 // 작은수치가 우선
                         for (int i = 0; i < stageSlotPlayerBottom.Count; i++)
                         {
-                            if (stageSlotPlayerBottom[i].positionPri > moveSlot.positionPri)
+                            if (stageSlotPlayerBottom[i].GetComponent<UnitStateData>().positionPri > moveSlot.GetComponent<UnitStateData>().positionPri)
                             {
                                 tempSlot = stageSlotPlayerBottom[i];
                                 stageSlotPlayerBottom.RemoveAt(i);
@@ -621,7 +600,7 @@ public class DungeonOS : MonoBehaviour
                         {
                             for (int i = 0; i < stageSlotPlayerMid.Count; i++)
                             {
-                                if (stageSlotPlayerMid[i].positionPri > moveSlot.positionPri)
+                                if (stageSlotPlayerMid[i].GetComponent<UnitStateData>().positionPri > moveSlot.GetComponent<UnitStateData>().positionPri)
                                 {
                                     tempSlot = stageSlotPlayerMid[i];
                                     stageSlotPlayerMid.RemoveAt(i);
@@ -644,18 +623,18 @@ public class DungeonOS : MonoBehaviour
                 case 2:
                     if (stageSlotPlayerMid.Count < 3)
                     {
-                        stageSlotPlayerMid.Add(item);
+                        stageSlotPlayerMid.Add(item.GetComponent<Transform>());
                     }
                     else
                     {
-                        UnitTable.Data moveSlot = item;
-                        UnitTable.Data tempSlot = item;
+                        Transform moveSlot = item.GetComponent<Transform>();
+                        Transform tempSlot = item.GetComponent<Transform>();
                         // 수치가 낮은 경우 
                         if (item.positionPri >= 30)
                         {
                             for (int i = 0; i < stageSlotPlayerMid.Count; i++)
                             {
-                                if (stageSlotPlayerMid[i].positionPri > moveSlot.positionPri)
+                                if (stageSlotPlayerMid[i].GetComponent<UnitStateData>().positionPri > moveSlot.GetComponent<UnitStateData>().positionPri)
                                 {
                                     tempSlot = stageSlotPlayerMid[i];
                                     stageSlotPlayerMid.RemoveAt(i);
@@ -672,7 +651,7 @@ public class DungeonOS : MonoBehaviour
                             {
                                 for (int i = 0; i < stageSlotPlayerBottom.Count; i++)
                                 {
-                                    if (stageSlotPlayerBottom[i].positionPri > moveSlot.positionPri)
+                                    if (stageSlotPlayerBottom[i].GetComponent<UnitStateData>().positionPri > moveSlot.GetComponent<UnitStateData>().positionPri)
                                     {
                                         tempSlot = stageSlotPlayerBottom[i];
                                         stageSlotPlayerBottom.RemoveAt(i);
@@ -695,7 +674,7 @@ public class DungeonOS : MonoBehaviour
                         {
                             for (int i = 0; i < stageSlotPlayerMid.Count; i++)
                             {
-                                if (stageSlotPlayerMid[i].positionPri < moveSlot.positionPri)
+                                if (stageSlotPlayerMid[i].GetComponent<UnitStateData>().positionPri < moveSlot.GetComponent<UnitStateData>().positionPri)
                                 {
                                     tempSlot = stageSlotPlayerMid[i];
                                     stageSlotPlayerMid.RemoveAt(i);
@@ -712,7 +691,7 @@ public class DungeonOS : MonoBehaviour
                             {
                                 for (int i = 0; i < stageSlotPlayerTop.Count; i++)
                                 {
-                                    if (stageSlotPlayerTop[i].positionPri < moveSlot.positionPri)
+                                    if (stageSlotPlayerTop[i].GetComponent<UnitStateData>().positionPri < moveSlot.GetComponent<UnitStateData>().positionPri)
                                     {
                                         tempSlot = stageSlotPlayerTop[i];
                                         stageSlotPlayerTop.RemoveAt(i);
@@ -736,16 +715,16 @@ public class DungeonOS : MonoBehaviour
                 case 3:
                     if (stageSlotPlayerTop.Count < 3)
                     {
-                        stageSlotPlayerTop.Add(item);
+                        stageSlotPlayerTop.Add(item.GetComponent<Transform>());
                     }
                     else
                     {
-                        UnitTable.Data moveSlot = item;
-                        UnitTable.Data tempSlot = item;
+                        Transform moveSlot = item.GetComponent<Transform>();
+                        Transform tempSlot = item.GetComponent<Transform>();
                         //내부 비교 밀어내기식 자리배치 // 큰수치가 우선
                         for (int i = 0; i < stageSlotPlayerTop.Count; i++)
                         {
-                            if (stageSlotPlayerTop[i].positionPri < moveSlot.positionPri)
+                            if (stageSlotPlayerTop[i].GetComponent<UnitStateData>().positionPri < moveSlot.GetComponent<UnitStateData>().positionPri)
                             {
                                 tempSlot = stageSlotPlayerTop[i];
                                 stageSlotPlayerTop.RemoveAt(i);
@@ -762,7 +741,7 @@ public class DungeonOS : MonoBehaviour
                         {
                             for (int i = 0; i < stageSlotPlayerMid.Count; i++)
                             {
-                                if (stageSlotPlayerMid[i].positionPri < moveSlot.positionPri)
+                                if (stageSlotPlayerMid[i].GetComponent<UnitStateData>().positionPri < moveSlot.GetComponent<UnitStateData>().positionPri)
                                 {
                                     tempSlot = stageSlotPlayerMid[i];
                                     stageSlotPlayerMid.RemoveAt(i);
@@ -789,15 +768,15 @@ public class DungeonOS : MonoBehaviour
         }
         for (int i = 0; i < stageSlotPlayerBottom.Count; i++)
         {
-            stageSlotPlayerBottom[i].charObject.transform.position = playerStagePoint[i + 1].position;
+            stageSlotPlayerBottom[i].gameObject.transform.position = playerStagePoint[i + 1].position;
         }
         for (int i = 0; i < stageSlotPlayerMid.Count; i++)
         {
-            stageSlotPlayerMid[i].charObject.transform.position = playerStagePoint[i + 4].position;
+            stageSlotPlayerMid[i].gameObject.transform.position = playerStagePoint[i + 4].position;
         }
         for (int i = 0; i < stageSlotPlayerTop.Count; i++)
         {
-            stageSlotPlayerTop[i].charObject.transform.position = playerStagePoint[i + 7].position;
+            stageSlotPlayerTop[i].gameObject.transform.position = playerStagePoint[i + 7].position;
         }
     }
     /// <summary>
@@ -806,14 +785,19 @@ public class DungeonOS : MonoBehaviour
     void PlayerUnitCreate()
     {
         UnitAI tempUnitAI;
-        foreach (var item in partyUnit.Select((value, index) => new { value, index }))
+        GameObject tempUnit;
+        foreach (var item in GameManager.instance.data.equipCharacter.Select((value, index) => new { value, index }))
         {
-            item.value.charObject = Instantiate(item.value.charObject);
-            item.value.charObject.AddComponent<CharacterController>();
-            item.value.charObject.AddComponent<UnitMelee>();
-            tempUnitAI = item.value.charObject.AddComponent<UnitAI>();
-            tempUnitAI.unitNumber = item.value.number;
-            tempUnitAI.partyNumber = item.index;
+            tempUnit = Instantiate(new CharacterDatabase.Data(item.value).charObject);
+            SceneManager.MoveGameObjectToScene(tempUnit, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+            partyUnit.Add(tempUnit.AddComponent<UnitStateData>());
+            partyUnit[partyUnit.Count - 1].DataSetting(true, item.value);
+            partyUnit[partyUnit.Count - 1].gameObject.AddComponent<CharacterController>();
+            partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitMelee>();
+            tempUnitAI = partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitAI>();
+            tempUnitAI.unitNumber = item.value;
+            tempUnitAI.partyNumber = partyUnit.Count - 1;
+            partyUnit[partyUnit.Count - 1].isLive = true;
         }
     }
 
@@ -829,16 +813,16 @@ public class DungeonOS : MonoBehaviour
                 case 1:
                     if (stageSlotMonsterBottom.Count < 4)
                     {
-                        stageSlotMonsterBottom.Add(item);
+                        stageSlotMonsterBottom.Add(item.GetComponent<Transform>());
                     }
                     else
                     {
-                        UnitTable.Data moveSlot = item;
-                        UnitTable.Data tempSlot = item;
+                        Transform moveSlot = item.GetComponent<Transform>();
+                        Transform tempSlot = item.GetComponent<Transform>();
                         //내부 비교 밀어내기식 자리배치 // 작은수치가 우선
                         for (int i = 0; i < stageSlotMonsterBottom.Count; i++)
                         {
-                            if (stageSlotMonsterBottom[i].positionPri > moveSlot.positionPri)
+                            if (stageSlotMonsterBottom[i].GetComponent<UnitStateData>().positionPri > moveSlot.GetComponent<UnitStateData>().positionPri)
                             {
                                 tempSlot = stageSlotMonsterBottom[i];
                                 stageSlotMonsterBottom.RemoveAt(i);
@@ -855,7 +839,7 @@ public class DungeonOS : MonoBehaviour
                         {
                             for (int i = 0; i < stageSlotMonsterMid.Count; i++)
                             {
-                                if (stageSlotMonsterMid[i].positionPri > moveSlot.positionPri)
+                                if (stageSlotMonsterMid[i].GetComponent<UnitStateData>().positionPri > moveSlot.GetComponent<UnitStateData>().positionPri)
                                 {
                                     tempSlot = stageSlotMonsterMid[i];
                                     stageSlotMonsterMid.RemoveAt(i);
@@ -878,18 +862,18 @@ public class DungeonOS : MonoBehaviour
                 case 2:
                     if (stageSlotMonsterMid.Count < 4)
                     {
-                        stageSlotMonsterMid.Add(item);
+                        stageSlotMonsterMid.Add(item.GetComponent<Transform>());
                     }
                     else
                     {
-                        UnitTable.Data moveSlot = item;
-                        UnitTable.Data tempSlot = item;
+                        Transform moveSlot = item.GetComponent<Transform>();
+                        Transform tempSlot = item.GetComponent<Transform>();
                         // 수치가 낮은 경우 
                         if (item.attackType >= 30)
                         {
                             for (int i = 0; i < stageSlotMonsterMid.Count; i++)
                             {
-                                if (stageSlotMonsterMid[i].positionPri > moveSlot.positionPri)
+                                if (stageSlotMonsterMid[i].GetComponent<UnitStateData>().positionPri > moveSlot.GetComponent<UnitStateData>().positionPri)
                                 {
                                     tempSlot = stageSlotMonsterMid[i];
                                     stageSlotMonsterMid.RemoveAt(i);
@@ -906,7 +890,7 @@ public class DungeonOS : MonoBehaviour
                             {
                                 for (int i = 0; i < stageSlotMonsterBottom.Count; i++)
                                 {
-                                    if (stageSlotMonsterBottom[i].positionPri > moveSlot.positionPri)
+                                    if (stageSlotMonsterBottom[i].GetComponent<UnitStateData>().positionPri > moveSlot.GetComponent<UnitStateData>().positionPri)
                                     {
                                         tempSlot = stageSlotMonsterBottom[i];
                                         stageSlotMonsterBottom.RemoveAt(i);
@@ -929,7 +913,7 @@ public class DungeonOS : MonoBehaviour
                         {
                             for (int i = 0; i < stageSlotMonsterMid.Count; i++)
                             {
-                                if (stageSlotMonsterMid[i].positionPri < moveSlot.positionPri)
+                                if (stageSlotMonsterMid[i].GetComponent<UnitStateData>().positionPri < moveSlot.GetComponent<UnitStateData>().positionPri)
                                 {
                                     tempSlot = stageSlotMonsterMid[i];
                                     stageSlotMonsterMid.RemoveAt(i);
@@ -946,7 +930,7 @@ public class DungeonOS : MonoBehaviour
                             {
                                 for (int i = 0; i < stageSlotMonsterTop.Count; i++)
                                 {
-                                    if (stageSlotMonsterTop[i].positionPri < moveSlot.positionPri)
+                                    if (stageSlotMonsterTop[i].GetComponent<UnitStateData>().positionPri < moveSlot.GetComponent<UnitStateData>().positionPri)
                                     {
                                         tempSlot = stageSlotMonsterTop[i];
                                         stageSlotMonsterTop.RemoveAt(i);
@@ -970,16 +954,16 @@ public class DungeonOS : MonoBehaviour
                 case 3:
                     if (stageSlotMonsterTop.Count < 4)
                     {
-                        stageSlotMonsterTop.Add(item);
+                        stageSlotMonsterTop.Add(item.GetComponent<Transform>());
                     }
                     else
                     {
-                        UnitTable.Data moveSlot = item;
-                        UnitTable.Data tempSlot = item;
+                        Transform moveSlot = item.GetComponent<Transform>();
+                        Transform tempSlot = item.GetComponent<Transform>();
                         //내부 비교 밀어내기식 자리배치 // 큰수치가 우선
                         for (int i = 0; i < stageSlotMonsterTop.Count; i++)
                         {
-                            if (stageSlotMonsterTop[i].positionPri < moveSlot.positionPri)
+                            if (stageSlotMonsterTop[i].GetComponent<UnitStateData>().positionPri < moveSlot.GetComponent<UnitStateData>().positionPri)
                             {
                                 tempSlot = stageSlotMonsterTop[i];
                                 stageSlotMonsterTop.RemoveAt(i);
@@ -996,7 +980,7 @@ public class DungeonOS : MonoBehaviour
                         {
                             for (int i = 0; i < stageSlotMonsterMid.Count; i++)
                             {
-                                if (stageSlotMonsterMid[i].positionPri < moveSlot.positionPri)
+                                if (stageSlotMonsterMid[i].GetComponent<UnitStateData>().positionPri < moveSlot.GetComponent<UnitStateData>().positionPri)
                                 {
                                     tempSlot = stageSlotMonsterMid[i];
                                     stageSlotMonsterMid.RemoveAt(i);
@@ -1023,15 +1007,15 @@ public class DungeonOS : MonoBehaviour
         }
         for (int i = 0; i < stageSlotMonsterBottom.Count; i++)
         {
-            stageSlotMonsterBottom[i].charObject.transform.position = monsterStagePoint[i + 2].position;
+            stageSlotMonsterBottom[i].gameObject.transform.position = monsterStagePoint[i + 2].position;
         }
         for (int i = 0; i < stageSlotMonsterMid.Count; i++)
         {
-            stageSlotMonsterMid[i].charObject.transform.position = monsterStagePoint[i + 6].position;
+            stageSlotMonsterMid[i].gameObject.transform.position = monsterStagePoint[i + 6].position;
         }
         for (int i = 0; i < stageSlotMonsterTop.Count; i++)
         {
-            stageSlotMonsterTop[i].charObject.transform.position = monsterStagePoint[i + 10].position;
+            stageSlotMonsterTop[i].gameObject.transform.position = monsterStagePoint[i + 10].position;
         }
     }
 
@@ -1041,27 +1025,51 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void MonsterCreate()
     {
-        for (int i = 0; i < dungeonData.monsterBoxCount[roundDGP]; i++)
-        {
-            int tempint = Random.Range(dungeonData.monsterBoxMin[roundDGP], dungeonData.monsterBoxMax[roundDGP]);
-            monsterGroup.Add(new UnitTable.Data(new MonsterDatabase.Data(monsterBox[tempint].number)));
-            monsterGroup[i].charObject = Instantiate(monsterGroup[i].charObject);
-            monsterGroup[i].charObject.GetComponent<UnitAI>().unitNumber = monsterGroup[i].number;
-            monsterGroup[i].charObject.GetComponent<UnitAI>().partyNumber = i;
-        }
+        GameObject tempMonster;
+        UnitAI tempAI;
         if (roundDGP % 10 == 5)
         {
-            monsterGroup.Add(new UnitTable.Data(new MonsterDatabase.Data(monsterBox[1].number)));
-            monsterGroup[monsterBox.Count].charObject = Instantiate(monsterBox[1].charObject);
-            monsterGroup[monsterBox.Count].charObject.transform.position = monsterStagePoint[1].position;
-            monsterGroup[monsterBox.Count].charObject.transform.rotation = monsterStagePoint[1].rotation;
+            tempMonster = Instantiate(dungeonData.dungeonMonsterBox[1].charObject);
+            SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+            monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
+            monsterGroup[monsterGroup.Count - 1].DataSetting(false, dungeonData.dungeonMonsterBox[1].number);
+            monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<CharacterController>();
+            monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitMelee>();
+            tempAI = monsterGroup[0].gameObject.AddComponent<UnitAI>();
+            tempAI.unitNumber = monsterGroup[0].number;
+            tempAI.partyNumber = 0;
+            monsterGroup[0].transform.position = monsterStagePoint[1].position;
+            monsterGroup[0].transform.rotation = monsterStagePoint[1].rotation;
+            monsterGroup[monsterGroup.Count - 1].isLive = true;
         }
         else if (roundDGP % 10 == 0)
         {
-            monsterGroup.Add(new UnitTable.Data(new MonsterDatabase.Data(monsterBox[0].number)));
-            monsterGroup[monsterBox.Count].charObject = Instantiate(monsterBox[0].charObject);
-            monsterGroup[monsterBox.Count].charObject.transform.position = monsterStagePoint[1].position;
-            monsterGroup[monsterBox.Count].charObject.transform.rotation = monsterStagePoint[1].rotation;
+            tempMonster = Instantiate(dungeonData.dungeonMonsterBox[0].charObject);
+            SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+            monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
+            monsterGroup[monsterGroup.Count - 1].DataSetting(false, dungeonData.dungeonMonsterBox[0].number);
+            monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<CharacterController>();
+            monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitMelee>();
+            tempAI = monsterGroup[0].gameObject.AddComponent<UnitAI>();
+            tempAI.unitNumber = monsterGroup[0].number;
+            tempAI.partyNumber = 0;
+            monsterGroup[0].transform.position = monsterStagePoint[1].position;
+            monsterGroup[0].transform.rotation = monsterStagePoint[1].rotation;
+            monsterGroup[monsterGroup.Count - 1].isLive = true;
+        }
+        for (int i = 0; i < dungeonData.monsterBoxCount[roundDGP]; i++)
+        {
+            int tempint = Random.Range(dungeonData.monsterBoxMin[roundDGP], dungeonData.monsterBoxMax[roundDGP]);
+            tempMonster = Instantiate(dungeonData.dungeonMonsterBox[tempint].charObject);
+            SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+            monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
+            monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<CharacterController>();
+            monsterGroup[monsterGroup.Count -1].DataSetting(false, dungeonData.dungeonMonsterBox[tempint].number);
+            monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitMelee>();
+            tempAI = monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitAI>();
+            tempAI.unitNumber = monsterGroup[monsterGroup.Count - 1].number;
+            tempAI.partyNumber = monsterGroup.Count - 1;
+            monsterGroup[monsterGroup.Count - 1].isLive = true;
         }
     }
 
@@ -1355,4 +1363,12 @@ public class DungeonOS : MonoBehaviour
     }
     #endregion
 
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayerUnitSetting();
+        }
+    }
 }

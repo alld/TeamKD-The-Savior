@@ -407,6 +407,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonNumber: 0
   errorList: []
+  UnitGroupTr: {fileID: 1028852506}
+  MonsterGroupTr: {fileID: 1317697987}
   stagePrefabGroupDG:
   - {fileID: 5558801787681939250, guid: 83f3d6710ce664d4bbeee6f8d4993d68, type: 3}
   - {fileID: 5558801787681939250, guid: 83f3d6710ce664d4bbeee6f8d4993d68, type: 3}
@@ -424,6 +426,8 @@ MonoBehaviour:
   monsterStagePointGroup: {fileID: 69969054}
   handSlot: 000000
   roundInfoDG: 
+  monsterGroup: []
+  characterGroup: []
   checkCountDGGame: 0
   resurrectable: 0
   roundDGP: 0
@@ -439,6 +443,7 @@ MonoBehaviour:
   eaDamageDGP: []
   eaKillCountDGP: []
   addCount: 0
+  partyUnit: []
   useDeckDGP: 
 --- !u!114 &600042790
 MonoBehaviour:
@@ -719,6 +724,37 @@ Transform:
   m_Father: {fileID: 69969055}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1028852505
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1028852506}
+  m_Layer: 0
+  m_Name: PlayerUnitGroup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1028852506
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028852505}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1145193491
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,6 +908,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1327760379}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1317697986
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1317697987}
+  m_Layer: 0
+  m_Name: MonsterUnitGroup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1317697987
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317697986}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1327760378

@@ -753,7 +753,7 @@ public class CardSkill : MonoBehaviour
                     DungeonOS.instance.partyUnit[temp].hp -= temp_damage;
                     if (DungeonOS.instance.partyUnit[temp].hp < 0)
                     {
-                        DungeonOS.instance.partyUnit[temp].charObject.GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
+                        DungeonOS.instance.partyUnit[temp].GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
                     }
                     break;
                 case CardDataBase.Data.EffectTypeC.ALLIES:
@@ -765,7 +765,7 @@ public class CardSkill : MonoBehaviour
                         DungeonOS.instance.partyUnit[i].hp -= temp_damage;
                         if (DungeonOS.instance.partyUnit[i].hp < 0)
                         {
-                            DungeonOS.instance.partyUnit[i].charObject.GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
+                            DungeonOS.instance.partyUnit[i].GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
                         }
                     }
                     break;
@@ -776,7 +776,7 @@ public class CardSkill : MonoBehaviour
                     DungeonOS.instance.monsterGroup[temp].hp -= temp_damage;
                     if (DungeonOS.instance.monsterGroup[temp].hp < 0)
                     {
-                        DungeonOS.instance.monsterGroup[temp].charObject.GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
+                        DungeonOS.instance.monsterGroup[temp].GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
                     }
                     break;
                 case CardDataBase.Data.EffectTypeC.ENEMIES:
@@ -788,7 +788,7 @@ public class CardSkill : MonoBehaviour
                         DungeonOS.instance.monsterGroup[i].hp -= temp_damage;
                         if (DungeonOS.instance.monsterGroup[i].hp < 0)
                         {
-                            DungeonOS.instance.monsterGroup[i].charObject.GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
+                            DungeonOS.instance.monsterGroup[i].GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
                         }
                     }
                     break;
@@ -1394,7 +1394,7 @@ public class CardSkill : MonoBehaviour
                         DungeonOS.instance.partyUnit[allynum].hp -= temp_damage;
                         if (DungeonOS.instance.partyUnit[allynum].hp < 0)
                         {
-                            DungeonOS.instance.partyUnit[allynum].charObject.GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
+                            DungeonOS.instance.partyUnit[allynum].GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
@@ -1407,7 +1407,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.partyUnit[i].hp -= temp_damage;
                             if (DungeonOS.instance.partyUnit[i].hp < 0)
                             {
-                                DungeonOS.instance.partyUnit[i].charObject.GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
+                                DungeonOS.instance.partyUnit[i].GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
                             }
                         }
                         break;
@@ -1418,7 +1418,7 @@ public class CardSkill : MonoBehaviour
                         DungeonOS.instance.monsterGroup[enemynum].hp -= temp_damage;
                         if (DungeonOS.instance.monsterGroup[enemynum].hp < 0)
                         {
-                            DungeonOS.instance.monsterGroup[enemynum].charObject.GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
+                            DungeonOS.instance.monsterGroup[enemynum].GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
@@ -1430,7 +1430,7 @@ public class CardSkill : MonoBehaviour
                             DungeonOS.instance.monsterGroup[i].hp -= temp_damage;
                             if (DungeonOS.instance.monsterGroup[i].hp < 0)
                             {
-                                DungeonOS.instance.monsterGroup[i].charObject.GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
+                                DungeonOS.instance.monsterGroup[i].GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
                             }
                         }
                         break;

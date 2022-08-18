@@ -9,11 +9,11 @@ public class UnitAI : MonoBehaviour
 
     #region AI °è»ê°ª
     public Transform targetPoint;
-    private UnitTable.Data targetObj;
+    private UnitStateData targetObj;
     private UnitMelee unitMelee;
 
     private float targetDistance;
-    private UnitTable.Data unit;
+    private UnitStateData unit;
     private CharacterController unitControl;
     #endregion
 
@@ -49,6 +49,7 @@ public class UnitAI : MonoBehaviour
         {
             PartyNumber = value;
             GetComponent<UnitMelee>().partyNumber = value; 
+            GetComponent<UnitStateData>().partyNumber = value;
         }
     }
     public bool isplayer;
@@ -481,7 +482,7 @@ public class UnitAI : MonoBehaviour
         targetObj = null;
         foreach (var item in DungeonOS.instance.monsterGroup)
         {
-            targetDistance = Vector3.Distance(transform.position, item.charObject.transform.position);
+            targetDistance = Vector3.Distance(transform.position, item.transform.position);
             if (targetDistance <= unit.attackRange)
             {
                 if(item.priorities > temp)
@@ -499,11 +500,11 @@ public class UnitAI : MonoBehaviour
         Vector3 tempPoint = Vector3.zero;
         foreach (var item in DungeonOS.instance.monsterGroup)
         {
-            targetDistance = Vector3.Distance(transform.position, item.charObject.transform.position);
+            targetDistance = Vector3.Distance(transform.position, item.transform.position);
             if (targetDistance < tempDistance)
             {
                 tempDistance = targetDistance;
-                tempPoint = item.charObject.transform.position;
+                tempPoint = item.transform.position;
             }
         }
         targetPoint.transform.position = tempPoint;
@@ -517,11 +518,11 @@ public class UnitAI : MonoBehaviour
             Vector3 tempPoint = Vector3.zero;
             foreach (var item in DungeonOS.instance.monsterGroup)
             {
-                targetDistance = Vector3.Distance(transform.position, item.charObject.transform.position);
+                targetDistance = Vector3.Distance(transform.position, item.transform.position);
                 if (targetDistance < tempDistance)
                 {
                     tempDistance = targetDistance;
-                    tempPoint = item.charObject.transform.position;
+                    tempPoint = item.transform.position;
                 }
             }
             targetPoint.transform.position = tempPoint;
@@ -538,7 +539,7 @@ public class UnitAI : MonoBehaviour
         targetObj = null;
         foreach (var item in DungeonOS.instance.monsterGroup)
         {
-            tempPoint += item.charObject.transform.position;
+            tempPoint += item.transform.position;
         }
         tempPoint = tempPoint / DungeonOS.instance.monsterGroup.Count;
         tempPoint = transform.position - tempPoint;

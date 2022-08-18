@@ -6,6 +6,7 @@ public class UnitDataTest : MonoBehaviour
 {
 
     #region À¯´Ö ¼³Á¤°ª
+    public bool playerUnit;
     MonsterDatabase.Data.MonsterType monsterType;
     public int number = 0;
     /// <summary>
@@ -135,6 +136,7 @@ public class UnitDataTest : MonoBehaviour
 
     public void DataSetting(bool playerCheck,int num)
     {
+        playerUnit = playerCheck;
         if (playerCheck)
         {
             CharacterDatabase.Data unit = new CharacterDatabase.Data(num);
@@ -196,11 +198,9 @@ public class UnitDataTest : MonoBehaviour
         }
     }
 
-
-
-void Start()
+    public void StagePositionReset()
     {
-        DataSetting(true, 1);
+
     }
 
 }

@@ -24,13 +24,6 @@ public class UnitMelee : MonoBehaviour
     /// </summary>
     public int unitNumber;
     public int partyNumber;
-    //캐시 처리
-
-    private void Start() // 상점에서도 같은 오브젝트를 사용하기때문에, Start사용시 예외처리 필수
-    {
-        unitNumber = GetComponent<UnitAI>().unitNumber;
-        partyNumber = GetComponent<UnitAI>().partyNumber;
-    }
 
     /// <summary>
     /// 이 컴포넌트를 가지고 있는 유닛의 공격 행동을 담당하는 함수

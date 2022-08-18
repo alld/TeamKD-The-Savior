@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class UnitStateData : MonoBehaviour
 {
-
     #region À¯´Ö ¼³Á¤°ª
+    public bool playerUnit;
     MonsterDatabase.Data.MonsterType monsterType;
     public int number = 0;
     /// <summary>
@@ -132,9 +132,11 @@ public class UnitStateData : MonoBehaviour
     public List<int> rewardUnit = new List<int>();
     public List<int> rewardRelic = new List<int>();
     #endregion
+    public int partyNumber;
 
     public void DataSetting(bool playerCheck, int num)
     {
+        playerUnit = playerCheck;
         if (playerCheck)
         {
             CharacterDatabase.Data unit = new CharacterDatabase.Data(num);
@@ -196,5 +198,8 @@ public class UnitStateData : MonoBehaviour
         }
     }
 
+    public void StagePositionReset()
+    {
 
+    }
 }
