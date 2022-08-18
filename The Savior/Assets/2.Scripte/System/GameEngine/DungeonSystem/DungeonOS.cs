@@ -1082,22 +1082,22 @@ public class DungeonOS : MonoBehaviour
 
     public void HandReset()
     {
-        switch(GameManager.instance.data.presset)
+        switch(GameManager.instance.data.preset)    // 프리셋 저장 수정 하면서 조금 고쳤습니다.
         {
             case 1:
-                useDeckDGP.AddRange(GameManager.instance.data.equipCard1);
+                useDeckDGP.AddRange(GameManager.instance.cardPreset[0].preset);
                 break;
             case 2:
-                useDeckDGP.AddRange(GameManager.instance.data.equipCard2);
+                useDeckDGP.AddRange(GameManager.instance.cardPreset[1].preset);
                 break;
             case 3:
-                useDeckDGP.AddRange(GameManager.instance.data.equipCard3);
+                useDeckDGP.AddRange(GameManager.instance.cardPreset[2].preset);
                 break;
             case 4:
-                useDeckDGP.AddRange(GameManager.instance.data.equipCard4);
+                useDeckDGP.AddRange(GameManager.instance.cardPreset[3].preset);
                 break;
             case 5:
-                useDeckDGP.AddRange(GameManager.instance.data.equipCard5);
+                useDeckDGP.AddRange(GameManager.instance.cardPreset[4].preset);
                 break;
         }
         DeckShuffle();

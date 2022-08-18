@@ -148,14 +148,27 @@ public class WorldMapDungeon : MonoBehaviour
     private void OnClick_StartDungeonBtn()
     {
         cardPreset.SetActive(true);
-        curPresetButton[GameManager.instance.data.presset-1].Select();
-        OnClick_Preset(GameManager.instance.data.presset-1);
+        curPresetButton[GameManager.instance.data.preset - 1].Select();
+        OnClick_Preset(GameManager.instance.data.preset - 1);
     }
 
     // 카드 프리셋 y버튼 클릭시 던전 입장
     private void OnClick_YesPreset()
     {
-        Debug.Log("Enter the Dungeon : " + curDungeon);
+        // 현재 프리셋의 장착된 카드가 10개 이하라면 던전에 들어 갈 수 없음.
+        int presetIdx = 0;
+        for (int i = 0; i < 15; i++)
+        {
+            if (GameManager.instance.cardPreset[GameManager.instance.data.preset - 1].preset[i] != 0)
+            {
+                presetIdx++;
+            }
+        }
+        if(presetIdx < 10)
+        {
+            Debug.Log("카드를 10장 이상 장착해주세요. (" + presetIdx + "/15)");
+            return;     // 팝업 창 제작 후 팝업창을 띄움.
+        }
         // 튜토리얼 씬 이동
         GameManager.instance.SceneChange(3);
     }
@@ -169,7 +182,7 @@ public class WorldMapDungeon : MonoBehaviour
     // 카드 프리셋의 이름.
     private void OnClick_Preset(int idx)
     {
-        GameManager.instance.data.presset = (idx+1);
+        GameManager.instance.data.preset = (idx + 1);
         curPresetButton[idx].Select();
         presetName.text = GameManager.instance.data.presetName[idx];
     }

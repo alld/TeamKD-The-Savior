@@ -20,6 +20,13 @@ public class CardDeck : MonoBehaviour
     private Image cardImg;      // 리소스에서 가져올 카드
     private GameObject changePreset;  // 프리셋 변경시에 사용할 오브젝트
 
+    public TMP_Text[] cardType = new TMP_Text[5];
+    public int type_Heal;
+    public int type_Shield;
+    public int type_Buff;
+    public int type_Debuff;
+    public int type_Attack;
+
     void Start()
     {
         // 게임 시작시 프리셋 버튼 연결
@@ -40,14 +47,19 @@ public class CardDeck : MonoBehaviour
                 }
             }
         }
-        OnClick_PresetChangeBtn((GameManager.instance.data.presset -1));
+        OnClick_PresetChangeBtn((GameManager.instance.data.preset -1));
     }
 
     public void OnClick_PresetChangeBtn(int n)
     {
-        GameManager.instance.data.presset = (n + 1);
+        GameManager.instance.data.preset = (n + 1);
         presetName.text = GameManager.instance.data.presetName[n];
-
+        type_Heal = 0;
+        type_Shield = 0;
+        type_Buff = 0;
+        type_Debuff = 0;
+        type_Attack = 0;
+        // 이전 프리셋에 장착중인 카드 해제
         for (int i = 0; i < equipTr.childCount; i++)
         {
             if (equipTr.GetChild(i).childCount != 0)
@@ -55,83 +67,43 @@ public class CardDeck : MonoBehaviour
                 equipTr.GetChild(i).GetChild(0).transform.SetParent(cardDeckTr);
             }
         }
+        // 현재 프리셋의 데이터에 세팅된 카드 장착
         for (int i = 0; i < equipTr.childCount; i++)
         {
-            switch (n)
+            if (GameManager.instance.cardPreset[n].preset[i] == 0) continue;
+            changePreset = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/MyCard/Viewport/Content/Card_" + GameManager.instance.cardPreset[n].preset[i].ToString() + "(Clone)");
+            switch (changePreset.GetComponent<ViewCard>().cardType)
             {
-                case 0:
-                    if (GameManager.instance.data.equipCard1[i] != 0)
-                    {
-                        changePreset = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/MyCard/Viewport/Content/Card_" + GameManager.instance.data.equipCard1[i].ToString() + "(Clone)");
-                        if (changePreset == null)
-                        {
-                            Debug.Log("Error");
-                            continue;
-                        }
-                        changePreset.transform.SetParent(equipTr.GetChild(i).transform);
-                        changePreset.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(100, 100);
-                        changePreset.transform.position = equipTr.GetChild(i).transform.position;
-                    }
+                case ViewCard.CARDTYPE.치유:
+                    type_Heal++;
                     break;
-                case 1:
-                    if (GameManager.instance.data.equipCard2[i] != 0)
-                    {
-                        changePreset = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/MyCard/Viewport/Content/Card_" + GameManager.instance.data.equipCard2[i].ToString() + "(Clone)");
-                        if (changePreset == null)
-                        {
-                            Debug.Log("Error");
-                            continue;
-                        }
-                        changePreset.transform.SetParent(equipTr.GetChild(i).transform);
-                        changePreset.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(100, 100);
-                        changePreset.transform.position = equipTr.GetChild(i).transform.position;
-                    }
+                case ViewCard.CARDTYPE.방어:
+                    type_Shield++;
                     break;
-                case 2:
-                    if (GameManager.instance.data.equipCard3[i] != 0)
-                    {
-                        changePreset = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/MyCard/Viewport/Content/Card_" + GameManager.instance.data.equipCard3[i].ToString() + "(Clone)");
-                        if (changePreset == null)
-                        {
-                            Debug.Log("Error");
-                            continue;
-                        }
-                        changePreset.transform.SetParent(equipTr.GetChild(i).transform);
-                        changePreset.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(100, 100);
-                        changePreset.transform.position = equipTr.GetChild(i).transform.position;
-                    }
+                case ViewCard.CARDTYPE.강화:
+                    type_Buff++;
                     break;
-                case 3:
-                    if (GameManager.instance.data.equipCard4[i] != 0)
-                    {
-                        changePreset = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/MyCard/Viewport/Content/Card_" + GameManager.instance.data.equipCard4[i].ToString() + "(Clone)");
-                        if (changePreset == null)
-                        {
-                            Debug.Log("Error");
-                            continue;
-                        }
-                        changePreset.transform.SetParent(equipTr.GetChild(i).transform);
-                        changePreset.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(100, 100);
-                        changePreset.transform.position = equipTr.GetChild(i).transform.position;
-                    }
+                case ViewCard.CARDTYPE.방해:
+                    type_Debuff++;
                     break;
-                case 4:
-                    if (GameManager.instance.data.equipCard5[i] != 0)
-                    {
-                        changePreset = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/MyCard/Viewport/Content/Card_" + GameManager.instance.data.equipCard5[i].ToString() + "(Clone)");
-                        if (changePreset == null)
-                        {
-                            Debug.Log("Error");
-                            continue;
-                        }
-                        changePreset.transform.SetParent(equipTr.GetChild(i).transform);
-                        changePreset.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(100, 100);
-                        changePreset.transform.position = equipTr.GetChild(i).transform.position;
-                    }
+                case ViewCard.CARDTYPE.공격:
+                    type_Attack++;
                     break;
                 default:
                     break;
             }
+            if (changePreset == null)
+            {              
+                Debug.Log("Error : " + i + "번 인덱스");
+                GameManager.instance.cardPreset[n].preset[i] = 0;
+                continue;
+            }
+            changePreset.transform.SetParent(equipTr.GetChild(i).transform);
+            changePreset.GetComponent<Image>().rectTransform.anchorMin = new Vector2(0, 0);
+            changePreset.GetComponent<Image>().rectTransform.anchorMax = new Vector2(1, 1);
+            changePreset.GetComponent<Image>().rectTransform.offsetMin = Vector2.zero;
+            changePreset.GetComponent<Image>().rectTransform.offsetMax = Vector2.zero;
+            changePreset.transform.position = equipTr.GetChild(i).transform.position;
         }
     }
 }

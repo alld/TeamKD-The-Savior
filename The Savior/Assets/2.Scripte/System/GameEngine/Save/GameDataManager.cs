@@ -138,9 +138,57 @@ public class GameDataManager : MonoBehaviour
     {
         TextAsset textAsset = Resources.Load<TextAsset>("HaveCard");
         JObject j = JObject.Parse(textAsset.text);
-        
+
         int i = j.Count;
         return i;
+    }
+
+    JObject jPreset = new JObject();
+    /// <summary>
+    /// 카드 프리셋을 저장합니다.
+    /// 현재 프리셋이 저장되어 있을 경우 value를 업데이트합니다.
+    /// </summary>
+    /// <param name="cardPreset"></param>
+    public void SavePreset(CardPreset cardPreset)
+    {
+        string path = Path.Combine(Application.dataPath, "Resources/CardPreset.json");
+        if (!File.Exists(path))
+        {
+            File.Create(path);
+        }
+        if (jPreset.ContainsKey(cardPreset.index.ToString()))
+        {
+            // json 파일에 업데이트
+            jPreset[cardPreset.index.ToString()]= JObject.FromObject(cardPreset);
+            return;
+        }
+        jPreset.Add(cardPreset.index.ToString(), JObject.FromObject(cardPreset));
+    }
+    /// <summary>
+    /// JObject에 저장되어있는 데이터를 Json파일로 저장합니다.
+    /// </summary>
+    public void SavePresetToJson()
+    {
+        string path = Path.Combine(Application.dataPath, "Resources/CardPreset.json");
+        File.WriteAllText(path, jPreset.ToString());
+    }
+
+    /// <summary>
+    /// 현재 저장되어있는 카드 프리셋 데이터를 불러옵니다.
+    /// </summary>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    public CardPreset LoadCardPreset(int n)
+    {
+        CardPreset cardPreset = new CardPreset();
+        TextAsset textAsset = Resources.Load<TextAsset>("CardPreset");
+        if (textAsset == null)
+        {
+            return cardPreset;
+        }
+        JObject j = JObject.Parse(textAsset.text);
+        cardPreset = j[n.ToString()].ToObject<CardPreset>();
+        return cardPreset;
     }
 }
 
@@ -159,13 +207,7 @@ namespace GameDataTable
         public int golds = 0;
         public int myPoint = 0;
         public string[] presetName = new string[] { "1번 프리셋", "2번 프리셋", "3번 프리셋", "4번 프리셋", "5번 프리셋" };
-        public int presset = 1;
-        // 장착 카드 프리셋
-        public int[] equipCard1 = new int[15];
-        public int[] equipCard2 = new int[15];
-        public int[] equipCard3 = new int[15];
-        public int[] equipCard4 = new int[15];
-        public int[] equipCard5 = new int[15];
+        public int preset = 1;
         // 장착한 데이터
         public int[] equipRelic = new int[5];
         public int[] equipCharacter = new int[4];
@@ -179,6 +221,13 @@ namespace GameDataTable
     {
         public int id = 0;
         public int haveCard = 0;
+        public int cardType = 0;
+    }
+    [System.Serializable]
+    public class CardPreset
+    {
+        public int index = 0;
+        public int[] preset = new int[15];
     }
 
     [System.Serializable]

@@ -19,13 +19,14 @@ public class GameManager : MonoBehaviour
     public GameData data;
     public List<CharExp> charExp = new List<CharExp>(); // Json 파일에 저장되어야 하는 캐릭터의 데이터
     public List<HaveCard> card = new List<HaveCard>();  // Json 파일에 저장되어야 하는 카드의 데이터
+    public List<CardPreset> cardPreset = new List<CardPreset>(); // json 파일에 저장되어야 하는 카드 프리셋 데이터
     public int cardIdx = 0;  // Json 파일에 저장되어있는 카드의 인덱스
     // Play씬의 UI를 특정 상황에 따라 활성화 하기 위한 함수.
     private PlayUI playUI;
 
     #region 유동 데이터 관리
 
-    
+
     public Dictionary<int, CardDataBase.Data> currentCardList = new Dictionary<int, CardDataBase.Data>();
     public Dictionary<int, CharacterDatabase.Data> currentHeroList = new Dictionary<int, CharacterDatabase.Data>();
     public Dictionary<int, RelicData.Data> currentRelicList = new Dictionary<int, RelicData.Data>();
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
 
         GameLoad();
         LoadCardData();
+        LoadPresetData();
     }
 
     #region 데이터 저장, 불러오기, 리셋하기
@@ -91,7 +93,7 @@ public class GameManager : MonoBehaviour
     /// <param name="n"></param>
     public void CardSave()
     {
-         cardIdx = dataManager.CurrentCardData();
+        cardIdx = dataManager.CurrentCardData();
         // 리스트의 인덱스는 0부터 시작
         // 반환된 cardIdx는 1부터 시작하여 마지막 값의 +1 이기 때문에
         // cardIdx -2가 최대 리스트 인덱스
@@ -113,6 +115,24 @@ public class GameManager : MonoBehaviour
         for (int cardArr = 1; cardArr <= cardIdx; cardArr++)
         {
             card.Add(dataManager.CardDataLoad(cardArr));
+        }
+    }
+
+    public void PresetSave()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            dataManager.SavePreset(cardPreset[i]);
+        }
+        dataManager.SavePresetToJson();
+    }
+
+    public void LoadPresetData()
+    {
+        cardPreset.Clear();
+        for (int i = 0; i < 5; i++)
+        {
+            cardPreset.Add(dataManager.LoadCardPreset(i + 1));
         }
     }
 
