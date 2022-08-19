@@ -6,6 +6,8 @@ using TMPro;
 
 public class Relic : MonoBehaviour
 {
+    public RelicInfo relicInfo;
+
     public Button[] relic = new Button[5];
     public GameObject relicInventory;
 
@@ -79,6 +81,7 @@ public class Relic : MonoBehaviour
             Destroy(selectRelicImg.gameObject);
             Destroy(relicTr[curRelicTr].GetChild(0).gameObject);
             Destroy(selectTr[curRelicTr].GetChild(1).gameObject);
+            relicInfo.OnClick_RelicInfoBtn();
             relicInventory.SetActive(false);
             return;
         }
@@ -112,7 +115,7 @@ public class Relic : MonoBehaviour
         InitRectSize(selectRelicImg);
         InitRectSize(copyImg);
 
-
+        relicInfo.OnClick_RelicInfoBtn();
 
         Destroy(copyImg.GetComponent<ViewRelic>());
         relicInventory.SetActive(false);
@@ -164,6 +167,7 @@ public class Relic : MonoBehaviour
                 }
             }
         }
+        relicInfo.OnClick_RelicInfoBtn();
         isUseRelic = false;
     }
 

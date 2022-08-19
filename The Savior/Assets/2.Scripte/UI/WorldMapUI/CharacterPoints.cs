@@ -11,6 +11,7 @@ public class CharacterPoints : MonoBehaviour
 
     void Start()
     {
+        myPointImg.gameObject.SetActive(true);
         for (int i = 0; i < points.Length; i++)
         {
             int idx = i;
