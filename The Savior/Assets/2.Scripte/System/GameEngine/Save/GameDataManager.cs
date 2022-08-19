@@ -13,7 +13,15 @@ public class GameDataManager : MonoBehaviour
     {
         string jsonData = JsonUtility.ToJson(gameData, true);
         string path = Path.Combine(Application.dataPath, "Resources/gameData.json");
-        File.WriteAllText(path, jsonData);
+        if (File.Exists(path))
+        {
+            File.WriteAllText(path, jsonData);
+        }
+        else
+        {
+            File.Create(path);
+            File.WriteAllText(path, jsonData);
+        }
     }
 
     public GameData LoadGameDataFromJson()
@@ -59,10 +67,18 @@ public class GameDataManager : MonoBehaviour
         {
             File.Create(path);
         }
-
+        if (jObj.ContainsKey(charExp.id.ToString()))
+        {
+            jObj[charExp.id.ToString()] = JObject.FromObject(charExp);
+            return;
+        }
         jObj.Add(idx.ToString(), JObject.FromObject(charExp));
-        File.WriteAllText(path, jObj.ToString());
+    }
 
+    public void WriteCharExp()
+    {
+        string path = Path.Combine(Application.dataPath, "Resources/CharacterExperience.json");
+        File.WriteAllText(path, jObj.ToString());
     }
 
 
@@ -77,10 +93,19 @@ public class GameDataManager : MonoBehaviour
         TextAsset textAsset = Resources.Load<TextAsset>("CharacterExperience");
         CharExp charExp = new CharExp();
         JObject json = JObject.Parse(textAsset.text);
-        charExp = JsonConvert.DeserializeObject(json[n].ToString()) as CharExp;
+        charExp = json[(n + 1).ToString()].ToObject<CharExp>();
         return charExp;
     }
 
+
+    public int CurrentCharIndex()
+    {
+        TextAsset textAsset = Resources.Load<TextAsset>("CharacterExperience");
+        JObject j = JObject.Parse(textAsset.text);
+
+        int i = j.Count;
+        return i;
+    }
 
 
     public JObject cardJson = new JObject();
@@ -159,7 +184,7 @@ public class GameDataManager : MonoBehaviour
         if (jPreset.ContainsKey(cardPreset.index.ToString()))
         {
             // json 파일에 업데이트
-            jPreset[cardPreset.index.ToString()]= JObject.FromObject(cardPreset);
+            jPreset[cardPreset.index.ToString()] = JObject.FromObject(cardPreset);
             return;
         }
         jPreset.Add(cardPreset.index.ToString(), JObject.FromObject(cardPreset));

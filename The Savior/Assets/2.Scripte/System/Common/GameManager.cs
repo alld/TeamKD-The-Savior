@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
         playUI = GameObject.Find("PUIManager").GetComponent<PlayUI>();
 
         GameLoad();
+        LoadCharExp();
         LoadCardData();
         LoadPresetData();
     }
@@ -85,6 +86,32 @@ public class GameManager : MonoBehaviour
     public void GameReset()
     {
         data = dataManager.ResetGameData();
+    }
+
+    /// <summary>
+    /// 캐릭터 경험치 / 레벨 저장 
+    /// </summary>
+    public void SaveCharExp()
+    {
+        for (int i = 0; i < charExp.Count; i++)
+        {
+            dataManager.SaveCharExp(charExp[i]);
+        }
+
+        dataManager.WriteCharExp();
+    }
+
+    /// <summary>
+    /// 캐릭터 경험치 / 레벨 불러오기.
+    /// </summary>
+    public void LoadCharExp()
+    {
+        charExp.Clear();
+        int idx = dataManager.CurrentCharIndex();
+        for (int i = 0; i < idx; i++)
+        {
+            charExp.Add(dataManager.LoadCharExp(i));
+        }
     }
 
 

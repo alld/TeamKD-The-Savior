@@ -1,9 +1,9 @@
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 public class RelicInfo : MonoBehaviour
@@ -19,8 +19,8 @@ public class RelicInfo : MonoBehaviour
     private string[] negative = new string[5];  // 장착한 유물의 해로운 효과
 
     // 스트링에 데이터 값 연결
-    private string[] positiveRelic = new string[5];
-    private string[] negativeRelic = new string[5];
+    private string[] positiveRelic = new string[12];
+    private string[] negativeRelic = new string[12];
 
     public ScrollRect relicContentImage;
     public TMP_Text relicPositiveText;
@@ -63,35 +63,51 @@ public class RelicInfo : MonoBehaviour
     /// </summary>
     public void OnClick_RelicInfoBtn()
     {
+        relicContentImage.gameObject.SetActive(!isContent);
+
         relicPositiveContentText.text = null;
         relicNegativeContentText.text = null;
 
         for (int i = 0; i < 5; i++)
         {
             if (GameManager.instance.data.equipRelic[i] == 0) continue;
-            positive[i] = "<color=#ffdc73>" + textJson[GameManager.instance.data.equipRelic[i] - 1]["Name_Kr"].ToObject<string>()+ "</color>" + " : " + positiveRelic[GameManager.instance.data.equipRelic[i] - 1] + "\n";
-            negative[i] = "<color=#ffdc73>" + textJson[GameManager.instance.data.equipRelic[i] - 1]["Name_Kr"].ToObject<string>()+ "</color>" + " : " + negativeRelic[GameManager.instance.data.equipRelic[i] - 1] + "\n";
-            Debug.Log(GameManager.instance.data.equipRelic[i] - 1);
+            
+            // 이로운 효과 스트링
+            StringBuilder positiveStr = new StringBuilder();
+            positiveStr.Append("<color=#ffdc73>");
+            positiveStr.Append(textJson[GameManager.instance.data.equipRelic[i] - 1]["Name_Kr"].ToObject<string>());
+            positiveStr.Append("</color>");
+            positiveStr.Append(" : ");
+            positiveStr.Append(positiveRelic[GameManager.instance.data.equipRelic[i] - 1]);
+            positiveStr.Append("\n");
+
+            positive[i] = positiveStr.ToString();
+
+            // 해로운 효과 스트링
+            StringBuilder negativeStr = new StringBuilder();
+            negativeStr.Append("<color=#ffdc73>");
+            negativeStr.Append(textJson[GameManager.instance.data.equipRelic[i] - 1]["Name_Kr"].ToObject<string>());
+            negativeStr.Append("</color>");
+            negativeStr.Append(" : ");
+            negativeStr.Append(positiveRelic[GameManager.instance.data.equipRelic[i] - 1]);
+            negativeStr.Append("\n");
+
+            negative[i] = negativeStr.ToString();
+
             relicPositiveContentText.text += positive[i];
             relicNegativeContentText.text += negative[i];
-        } 
+        }
+
+        relicContentImage.gameObject.SetActive(isContent);
+
     }
 
     private void InitializeRelicData()
     {
-        positiveRelic[0] = string.Format(textJson[0]["Positive_Kr"].ToObject<string>(), dataJson[0]["effectValue"].ToObject<float>());
-        negativeRelic[0] = string.Format(textJson[0]["Negative_Kr"].ToObject<string>(), dataJson[0]["negEffectValue"].ToObject<float>());
-
-        positiveRelic[1] = string.Format(textJson[1]["Positive_Kr"].ToObject<string>(), dataJson[1]["effectValue"].ToObject<float>());
-        negativeRelic[1] = string.Format(textJson[1]["Negative_Kr"].ToObject<string>(), dataJson[1]["negEffectValue"].ToObject<float>());
-
-        positiveRelic[2] = string.Format(textJson[2]["Positive_Kr"].ToObject<string>(), dataJson[2]["effectValue"].ToObject<float>());
-        negativeRelic[2] = string.Format(textJson[2]["Negative_Kr"].ToObject<string>(), dataJson[2]["negEffectValue"].ToObject<float>());
-
-        positiveRelic[3] = string.Format(textJson[3]["Positive_Kr"].ToObject<string>(), dataJson[3]["effectValue"].ToObject<float>(), dataJson[3]["effectDataB1"].ToObject<float>());
-        negativeRelic[3] = string.Format(textJson[3]["Negative_Kr"].ToObject<string>(), dataJson[3]["negEffectValue"].ToObject<float>());
-
-        positiveRelic[4] = string.Format(textJson[4]["Positive_Kr"].ToObject<string>(), dataJson[4]["effectValue"].ToObject<float>());
-        negativeRelic[4] = string.Format(textJson[4]["Negative_Kr"].ToObject<string>(), dataJson[4]["negEffectValue"].ToObject<float>());
+        for (int i = 0; i < textJson.Count; i++)
+        {
+            positiveRelic[i] = textJson[i]["Positive_Kr"].ToObject<string>().ToString();
+            negativeRelic[i] = textJson[i]["Negative_Kr"].ToObject<string>().ToString();
+        }
     }
 }

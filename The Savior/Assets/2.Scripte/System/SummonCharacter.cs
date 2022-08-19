@@ -44,7 +44,6 @@ public class SummonCharacter : MonoBehaviour
         
         // 캐릭터 소유 유무 저장
         GameManager.instance.data.haveCharacter.Add(character.GetComponent<UnitAI>().unitNumber);
-        //Debug.Log(character.GetComponent<UnitAI>().unitNumber);
         GameManager.instance.GameSave();
     }
 

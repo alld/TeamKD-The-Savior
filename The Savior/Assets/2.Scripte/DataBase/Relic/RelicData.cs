@@ -58,7 +58,7 @@ public class RelicData : MonoBehaviour
         public Data(int num)
         {
             int tempSort;                       // 수정부분 
-            jsonData = Resources.Load<TextAsset>("RelicData");
+            jsonData = Resources.Load<TextAsset>("RelicDB/RelicData");
             json = jsonData.text;
 
             var jdata = JSON.Parse(json);
