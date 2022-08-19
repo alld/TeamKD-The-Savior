@@ -9,7 +9,7 @@ public class UnitAI : MonoBehaviour
 
     #region 캐시처리
 
-    private CapsuleCollider collider;
+    private CapsuleCollider unit_collider;
     private UnitStateData unit;
     private UnitMelee unitMelee;
     private CharacterController unitControl;
@@ -53,31 +53,14 @@ public class UnitAI : MonoBehaviour
     private WaitForSeconds delay_03 = new WaitForSeconds(0.3f);
     private WaitForSeconds delay_05 = new WaitForSeconds(0.5f);
     private WaitForSeconds delay_10 = new WaitForSeconds(1.0f);
+    public delegate AIPattern dele_AI();
+    public dele_AI dele_attacked;
     /// <summary>
     /// 기능 : 인공지능 유닛을 구분하기위한 넘버, 해당 컴포넌트들을 이 값을 기준으로 기준넘버가 변경됨
     /// <br></br>방법 : DungeonOS.instance.partySlot[<paramref name="unitNumber"/>]
     /// </summary>
-    private int UnitNumber;
-    public int unitNumber 
-    {
-        get { return UnitNumber; }
-        set 
-        {
-            UnitNumber = value;
-            GetComponent<UnitMelee>().unitNumber = value; 
-        }
-    }
-    private int PartyNumber;
-    public int partyNumber
-    {
-        get { return PartyNumber; }
-        set 
-        {
-            PartyNumber = value;
-            GetComponent<UnitMelee>().partyNumber = value; 
-            GetComponent<UnitStateData>().partyNumber = value;
-        }
-    }
+    public int unitNumber;
+    public int partyNumber;
     public bool isplayer;
 
     public List<AIPattern> aiSchedule = new List<AIPattern>();
@@ -116,7 +99,7 @@ public class UnitAI : MonoBehaviour
             AIDeleSetting();
             unitMelee = GetComponent<UnitMelee>();
             unitControl?.GetComponent<CharacterController>();
-            collider = gameObject.AddComponent<CapsuleCollider>();
+            unit_collider = gameObject.AddComponent<CapsuleCollider>();
             unit = GetComponent<UnitStateData>();
         }
     }
@@ -132,12 +115,13 @@ public class UnitAI : MonoBehaviour
     {
         DungeonOS.instance.dele_RoundStart -= OnStartAI;
         DungeonOS.instance.dele_RoundEnd -= OnEndAI;
+        dele_attacked = null;
     }
 
 
     private void ResetAISetting()
     {
-        collider.radius = unit.Add_priRange;
+        unit_collider.radius = unit.Add_priRange;
         aiSchedule.Clear();
     }
 
@@ -296,7 +280,7 @@ public class UnitAI : MonoBehaviour
     /// AI 패턴 자동 탐색 및 추가
     /// </summary>
     /// <returns></returns>
-    private AIPattern ThinkOverPattern()
+    public AIPattern ThinkOverPattern()
     {
         /* 주변 공격 가능 인원수
          * 
@@ -609,14 +593,28 @@ public class UnitAI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<UnitStateData>().playerUnit) perceptionAllyUnit.Add(other.GetComponent<UnitStateData>().partyNumber);
+        if (other.GetComponent<UnitStateData>().playerUnit)
+        {
+            perceptionAllyUnit.Add(other.GetComponent<UnitStateData>().partyNumber);
+            if(other.gameObject != this.gameObject)
+            {
+                dele_attacked += other.GetComponent<UnitAI>().ThinkOverPattern;
+            }
+        }
         else perceptionEnemyUnit.Add(other.GetComponent<UnitStateData>().partyNumber);
     }
 
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<UnitStateData>().playerUnit) perceptionAllyUnit.Remove(other.GetComponent<UnitStateData>().partyNumber);
+        if (other.GetComponent<UnitStateData>().playerUnit)
+        {
+            perceptionAllyUnit.Remove(other.GetComponent<UnitStateData>().partyNumber);
+            if (other.gameObject != this.gameObject)
+            {
+                dele_attacked -= other.GetComponent<UnitAI>().ThinkOverPattern;
+            }
+        }
         else perceptionEnemyUnit.Remove(other.GetComponent<UnitStateData>().partyNumber);
     }
 

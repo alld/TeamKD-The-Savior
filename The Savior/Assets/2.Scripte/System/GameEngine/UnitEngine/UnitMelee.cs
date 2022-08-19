@@ -48,6 +48,7 @@ public class UnitMelee : MonoBehaviour
     {
         if (other.CompareTag("PHYSICS")) // 데미지 계산의 대상인지 검사
         {
+            other.GetComponent<UnitAI>().dele_attacked();
             int Target = other.GetComponent<UnitMelee>().partyNumber; //(작업 필요)몬스터껄로 변경필요함
             float damage;
             damage = DungeonOS.instance.partyUnit[partyNumber].damage;

@@ -699,7 +699,7 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void PlayerUnitCreate()
     {
-        UnitAI tempUnitAI;
+        UnitInfo tempUnitInfo;
         GameObject tempUnit;
         foreach (var item in GameManager.instance.data.equipCharacter.Select((value, index) => new { value, index }))
         {
@@ -709,9 +709,10 @@ public class DungeonOS : MonoBehaviour
             partyUnit[partyUnit.Count - 1].DataSetting(true, item.value);
             partyUnit[partyUnit.Count - 1].gameObject.AddComponent<CharacterController>();
             partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitMelee>();
-            tempUnitAI = partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitAI>();
-            tempUnitAI.unitNumber = item.value;
-            tempUnitAI.partyNumber = partyUnit.Count - 1;
+            partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitAI>();
+            tempUnitInfo = partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitInfo>();
+            tempUnitInfo.unitNumber = item.value;
+            tempUnitInfo.partyNumber = partyUnit.Count - 1;
             partyUnit[partyUnit.Count - 1].isLive = true;
         }
     }
@@ -949,7 +950,7 @@ public class DungeonOS : MonoBehaviour
     void MonsterCreate()
     {
         GameObject tempMonster;
-        UnitAI tempAI;
+        UnitInfo tempUnitInfo;
         if (roundDGP % 10 == 5)
         {
             tempMonster = Instantiate(dungeonData.dungeonMonsterBox[1].charObject);
@@ -958,9 +959,10 @@ public class DungeonOS : MonoBehaviour
             monsterGroup[monsterGroup.Count - 1].DataSetting(false, dungeonData.dungeonMonsterBox[1].number);
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<CharacterController>();
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitMelee>();
-            tempAI = monsterGroup[0].gameObject.AddComponent<UnitAI>();
-            tempAI.unitNumber = monsterGroup[0].number;
-            tempAI.partyNumber = 0;
+            monsterGroup[0].gameObject.AddComponent<UnitAI>();
+            tempUnitInfo = monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitInfo>();
+            tempUnitInfo.unitNumber = monsterGroup[0].number;
+            tempUnitInfo.partyNumber = 0;
             monsterGroup[0].transform.position = monsterStagePoint[1].position;
             monsterGroup[0].transform.rotation = monsterStagePoint[1].rotation;
             monsterGroup[monsterGroup.Count - 1].isLive = true;
@@ -973,9 +975,10 @@ public class DungeonOS : MonoBehaviour
             monsterGroup[monsterGroup.Count - 1].DataSetting(false, dungeonData.dungeonMonsterBox[0].number);
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<CharacterController>();
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitMelee>();
-            tempAI = monsterGroup[0].gameObject.AddComponent<UnitAI>();
-            tempAI.unitNumber = monsterGroup[0].number;
-            tempAI.partyNumber = 0;
+            monsterGroup[0].gameObject.AddComponent<UnitAI>();
+            tempUnitInfo = monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitInfo>();
+            tempUnitInfo.unitNumber = monsterGroup[0].number;
+            tempUnitInfo.partyNumber = 0;
             monsterGroup[0].transform.position = monsterStagePoint[1].position;
             monsterGroup[0].transform.rotation = monsterStagePoint[1].rotation;
             monsterGroup[monsterGroup.Count - 1].isLive = true;
@@ -989,9 +992,10 @@ public class DungeonOS : MonoBehaviour
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<CharacterController>();
             monsterGroup[monsterGroup.Count -1].DataSetting(false, dungeonData.dungeonMonsterBox[tempint].number);
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitMelee>();
-            tempAI = monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitAI>();
-            tempAI.unitNumber = monsterGroup[monsterGroup.Count - 1].number;
-            tempAI.partyNumber = monsterGroup.Count - 1;
+            tempUnitInfo = monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitInfo>();
+            monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitAI>();
+            tempUnitInfo.unitNumber = monsterGroup[monsterGroup.Count - 1].number;
+            tempUnitInfo.partyNumber = monsterGroup.Count - 1;
             monsterGroup[monsterGroup.Count - 1].isLive = true;
         }
     }
