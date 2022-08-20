@@ -5,69 +5,25 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Linq;
 
-public class TestScripte : MonoBehaviour, IPointerEnterHandler
+public class TestScripte : MonoBehaviour
 {
+    public Image fire;
+    public Transform temp;
 
-    private EventTrigger eventTrigger;
-    private EventTrigger.Entry entry;
+    [Range(0, 100f)]
+    public float speed = 10f; 
+
 
     void Start()
     {
 
-        TestScripte2 test = new TestScripte2();
-        Debug.Log(test.B);
-
-
-        eventTrigger = GetComponent<EventTrigger>();
-        entry = new EventTrigger.Entry();
-
-        entry.eventID = EventTriggerType.PointerEnter;
-        entry.callback.AddListener((Data) => { OnPointerEnter(); });
-        eventTrigger?.triggers.Add(entry);
-
-        List<float> abc = new List<float>() { 0,2,5,6,4,5 };
-        foreach (var item in abc.Select((abc, def) => new { abc, def }))
-        {
-            Debug.Log("1:" + item);
-            Debug.Log("2:" + item.abc);
-            Debug.Log("3:" + item.def);
-        };
-
-
-        foreach (var item in abc.Select((abc, def) => new { abc, def }))
-        {
-            Debug.Log("1:" + item);
-            Debug.Log("2:" + item.abc);
-            Debug.Log("3:" + item.def);
-        }
-
-        List<int> abc2 = new List<int>() { 0,1,2,3,4,5 };
-        var abc3 = from item in abc2 select item + item;
-
-        foreach (var item in abc3)
-        {
-            //Debug.Log(item);
-        }
-        
 
     }
 
-
-    void OnPointerEnter ()
+    private void Update()
     {
-        Debug.Log("ABC");
-        //Debug.Log(data);
+        transform.rotation = Quaternion.Lerp(fire.transform.rotation, temp.rotation, Time.deltaTime * speed);
+        //Quaternion.Lerp(fire.transform.rotation, temp.rotation , Time.deltaTime * 10);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        Debug.Log("asdsf");
-    }
-}
-
-
-public class TestScripte2 : MonoBehaviour
-{
-
-    public int B;
 }

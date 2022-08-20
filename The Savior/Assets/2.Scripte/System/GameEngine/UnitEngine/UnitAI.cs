@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class UnitAI : MonoBehaviour
 {
@@ -15,14 +16,16 @@ public class UnitAI : MonoBehaviour
     private CharacterController unitControl;
     private Ray ray;
     private RaycastHit hit;
+    private Animator animator;
     #endregion
 
 
     #region AI 계산값
-    public Transform targetPoint;
+    private Transform targetPoint;
     /// <summary>
     /// 주요 타겟 
     /// </summary>
+    [SerializeField]
     private UnitStateData targetObj;
 
     private float targetDistance;
@@ -38,8 +41,13 @@ public class UnitAI : MonoBehaviour
     /// <summary>
     /// 트리거 범위에 포함된 범위 근접을 제외하면 원거리 사거리와 동일
     /// </summary>
-    private List<int> perceptionAllyUnit; // 인식 대상 유닛
-    private List<int> perceptionEnemyUnit; // 인식 적 유닛
+    private List<int> perceptionAllyUnit = new List<int>(); // 인식 대상 유닛
+    private List<int> perceptionEnemyUnit = new List<int>(); // 인식 적 유닛
+    private List<UnitStateData> AllyUnit;
+    private List<UnitStateData> EnemyUnit;
+
+    Vector3 Move_Yzero = new Vector3();
+    Vector3 Movetemp = new Vector3();
 
     #endregion
 
@@ -79,7 +87,7 @@ public class UnitAI : MonoBehaviour
     /// <br><paramref name="Death"/> :: 죽음</br>
     /// <br><paramref name="Stand"/> :: 대기</br>
     /// </summary>
-    public enum AIPattern { Stand, Attacking, Avoiding, RuuningAway, Follow, Push, Stern, Skill, SpecialSkill, Moving, Provocation, Death }
+    public enum AIPattern { Stand, Attacking, Avoiding, RuuningAway, Follow, Push, Stern, Skill, SpecialSkill, Moving, Provocation, Death, pass }
     public AIPattern aiPattern;
     public enum UnitState { Attack, Move, AttackMove, Skill, SpeialSkill, Die, Stand }
     public UnitState unitState;
@@ -92,15 +100,29 @@ public class UnitAI : MonoBehaviour
     private bool onSpecialSkillAvailable = false;
 
     // 상점에서도 같은 오브젝트를 사용하기때문에, Start사용시 예외처리 필수
-    private void Start()
+    public void Start()
     {
         if (GameManager.instance.dungeonOS != null)
         {
-            AIDeleSetting();
             unitMelee = GetComponent<UnitMelee>();
             unitControl = GetComponent<CharacterController>();
             unit_collider = gameObject.AddComponent<CapsuleCollider>();
             unit = GetComponent<UnitStateData>();
+            animator = GetComponentInChildren<Animator>();
+            targetPoint = Instantiate(Resources.Load<GameObject>("Unit/MovePoint")).transform;
+            targetPoint.position = transform.position;
+            if (unit.playerUnit)
+            {
+                AllyUnit = DungeonOS.instance.partyUnit;
+                EnemyUnit = DungeonOS.instance.monsterGroup;
+            }
+            else
+            {
+                Debug.Log("전환 시기 확인2");
+                AllyUnit = DungeonOS.instance.monsterGroup;
+                EnemyUnit = DungeonOS.instance.partyUnit;
+            }
+            OnStartAI();
         }
     }
 
@@ -110,12 +132,17 @@ public class UnitAI : MonoBehaviour
         DungeonOS.instance.dele_RoundEnd += OnEndAI;
     }
 
-
-    private void OnDestroy()
+    private void AIDeleDestroy()
     {
         DungeonOS.instance.dele_RoundStart -= OnStartAI;
         DungeonOS.instance.dele_RoundEnd -= OnEndAI;
         dele_attacked = null;
+    }
+
+
+    private void OnDestroy()
+    {
+        AIDeleDestroy();
     }
 
 
@@ -128,12 +155,20 @@ public class UnitAI : MonoBehaviour
 
     public void OnStartAI()
     {
+        StartCoroutine(delay_StartAI());
+    }
+
+    IEnumerator delay_StartAI()
+    {
+        yield return delay_10;
+        AIDeleSetting();
         ResetAISetting();
-        AutoScheduler(0, 0);
+        AutoScheduler(3, 0);
     }
 
     public void OnEndAI()
     {
+        AIDeleDestroy();
         isOnScheduler = false;
         ResetAISetting();
     }
@@ -162,8 +197,7 @@ public class UnitAI : MonoBehaviour
                 }
                 else if (!isOnScheduler)
                 {
-                    isOnGoing = true;
-                    switch (Pattern)
+                    switch (aiSchedule[0])
                     {
                         case AIPattern.Stand:
                             StartCoroutine(State_Stand());
@@ -206,7 +240,7 @@ public class UnitAI : MonoBehaviour
 
             case 1: // 행동 추가
                 aiSchedule.Add(Pattern);
-                if (!isOnScheduler) AutoScheduler(0, 0);
+                if (!isOnScheduler) AutoScheduler(0, AIPattern.pass);
                 return true;
 
             case 2: // 끼어 들기
@@ -219,14 +253,14 @@ public class UnitAI : MonoBehaviour
 
             case 3: // 행동 탐색
                 aiSchedule.Add(ThinkOverPattern());
-                return AutoScheduler(0, 0);
+                return AutoScheduler(0, AIPattern.pass);
 
             case 4: // 행동 제거
                 isRemove = true;
                 if (!isOnScheduler)
                 {
                     aiSchedule.RemoveAt(0);
-                    return AutoScheduler(0, 0);
+                    return AutoScheduler(0, AIPattern.pass);
                 }
                 break;
         }
@@ -282,6 +316,21 @@ public class UnitAI : MonoBehaviour
     /// <returns></returns>
     public AIPattern ThinkOverPattern()
     {
+        if (EnemyUnit.Count == 0)
+        {
+            Debug.Log("실행 확인 스탠드");
+            return AIPattern.Stand;
+        }
+        else
+        {
+            if (perceptionEnemyUnit.Count > 0)
+            {
+                return AIPattern.Attacking;
+            }
+            else return AIPattern.Attacking;
+        }
+
+
         /* 주변 공격 가능 인원수
          * 
          * 즉시 공격 가능인원
@@ -316,7 +365,7 @@ public class UnitAI : MonoBehaviour
 
 
 
-        return AIPattern.Death;
+        //return AIPattern.Death;
     }
     #endregion
 
@@ -341,11 +390,12 @@ public class UnitAI : MonoBehaviour
 
     IEnumerator State_Attacking() // 공격
     {
+        Debug.Log("실행 확인");
         isOnScheduler = true;
         StartCoroutine(IsOnGoing());
 
         while (isOnScheduler)
-        { 
+        {
             AttackTargetSearch();
             if (targetObj == null)
             {
@@ -356,7 +406,9 @@ public class UnitAI : MonoBehaviour
 
             yield return delay_10;
         }
+        isMoving = false;
         Action_Attack();
+        Debug.Log("공격넘어감");
         //애니메이션 작동
         while (!isRemove)
         {
@@ -490,7 +542,7 @@ public class UnitAI : MonoBehaviour
         isOnScheduler = true;
         StartCoroutine(IsOnGoing());
         Action_Stand();
-        
+
         while (isOnScheduler)
         {
             if (onSpecialSkillAvailable && onSkillAvailable & onAttackAvailable) break;
@@ -523,12 +575,12 @@ public class UnitAI : MonoBehaviour
     {
         int temp = 0;
         targetObj = null;
-        foreach (var item in DungeonOS.instance.monsterGroup)
+        foreach (var item in EnemyUnit)
         {
             targetDistance = Vector3.Distance(transform.position, item.transform.position);
-            if (targetDistance <= unit.attackRange)
+            if (targetDistance <= unit.attackRange + 2)
             {
-                if(item.priorities > temp)
+                if (item.priorities > temp)
                 {
                     temp = item.priorities;
                     targetObj = item;
@@ -541,7 +593,7 @@ public class UnitAI : MonoBehaviour
     {
         float tempDistance = 99999;
         Vector3 tempPoint = Vector3.zero;
-        foreach (var item in DungeonOS.instance.monsterGroup)
+        foreach (var item in EnemyUnit)
         {
             targetDistance = Vector3.Distance(transform.position, item.transform.position);
             if (targetDistance < tempDistance)
@@ -555,11 +607,11 @@ public class UnitAI : MonoBehaviour
 
     private void FollowTargetSearch(Vector3 followTargetPoint)
     {
-        if(followTargetPoint == Vector3.zero)
+        if (followTargetPoint == Vector3.zero)
         {
             float tempDistance = 99999;
             Vector3 tempPoint = Vector3.zero;
-            foreach (var item in DungeonOS.instance.monsterGroup)
+            foreach (var item in EnemyUnit)
             {
                 targetDistance = Vector3.Distance(transform.position, item.transform.position);
                 if (targetDistance < tempDistance)
@@ -580,11 +632,11 @@ public class UnitAI : MonoBehaviour
     {
         Vector3 tempPoint = Vector3.zero;
         targetObj = null;
-        foreach (var item in DungeonOS.instance.monsterGroup)
+        foreach (var item in EnemyUnit)
         {
             tempPoint += item.transform.position;
         }
-        tempPoint = tempPoint / DungeonOS.instance.monsterGroup.Count;
+        tempPoint = tempPoint / EnemyUnit.Count;
         tempPoint = transform.position - tempPoint;
         targetPoint.transform.position = tempPoint;
     }
@@ -593,29 +645,35 @@ public class UnitAI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<UnitStateData>().playerUnit)
+        if (other.CompareTag("UNIT"))
         {
-            perceptionAllyUnit.Add(other.GetComponent<UnitStateData>().partyNumber);
-            if(other.gameObject != this.gameObject)
+            if (other.GetComponent<UnitStateData>().playerUnit == unit.playerUnit)
             {
-                dele_attacked += other.GetComponent<UnitAI>().ThinkOverPattern;
+                perceptionAllyUnit.Add(other.GetComponent<UnitStateData>().partyNumber);
+                if (other.gameObject != this.gameObject)
+                {
+                    dele_attacked += other.GetComponent<UnitAI>().ThinkOverPattern;
+                }
             }
+            else perceptionEnemyUnit.Add(other.GetComponent<UnitStateData>().partyNumber);
         }
-        else perceptionEnemyUnit.Add(other.GetComponent<UnitStateData>().partyNumber);
     }
 
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<UnitStateData>().playerUnit)
+        if (other.CompareTag("UNIT"))
         {
-            perceptionAllyUnit.Remove(other.GetComponent<UnitStateData>().partyNumber);
-            if (other.gameObject != this.gameObject)
+            if (other.GetComponent<UnitStateData>().playerUnit == unit.playerUnit)
             {
-                dele_attacked -= other.GetComponent<UnitAI>().ThinkOverPattern;
+                perceptionAllyUnit.Remove(other.GetComponent<UnitStateData>().partyNumber);
+                if (other.gameObject != this.gameObject)
+                {
+                    dele_attacked -= other.GetComponent<UnitAI>().ThinkOverPattern;
+                }
             }
+            else perceptionEnemyUnit.Remove(other.GetComponent<UnitStateData>().partyNumber);
         }
-        else perceptionEnemyUnit.Remove(other.GetComponent<UnitStateData>().partyNumber);
     }
 
     #endregion
@@ -695,9 +753,6 @@ public class UnitAI : MonoBehaviour
         unitState = UnitState.Move;
         if (!isMoving) StartCoroutine(Moving());
     }
-    #endregion
-
-
     /// <summary>
     /// 공격 속도(재공격), 스킬 쿨다운을 체크하는 함수
     /// </summary>
@@ -707,7 +762,7 @@ public class UnitAI : MonoBehaviour
         switch (switchNumber)
         {
             case 0: // 일반공격
-                while(cooldown-- > 0)
+                while (cooldown-- > 0)
                 {
                     yield return delay_03;
                 }
@@ -729,18 +784,31 @@ public class UnitAI : MonoBehaviour
                 break;
         }
     }
+    #endregion
 
     #region 행동
 
     IEnumerator Moving()
     {
+        Debug.Log("이동실행");
         isMoving = true;
         while (isMoving)
         {
-            if (Vector3.Distance(transform.position, targetPoint.position) >= 0.5f)
+            if (Vector3.Distance(transform.position, targetPoint.position) >= 1f)
             {
-                unitControl.Move(targetPoint.position * Time.deltaTime);
-                transform.LookAt(targetPoint.position * Time.deltaTime);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(Move_Yzero), 600 * Time.deltaTime);
+                Movetemp = (targetPoint.position - transform.position).normalized * 20;
+                Move_Yzero = Movetemp - (Vector3.up * Movetemp.y);
+                unitControl.SimpleMove(Movetemp);
+                ////transform.TransformDirection(Move_Yzero);
+                ////unitControl.Move((targetPoint.position - (Vector3.up * 2f)) * Time.deltaTime);
+
+
+                ////unitControl.SimpleMove(this.gameObject.transform.position);
+                ///
+
+                //transform.position = targetPoint.position;
+                //unitControl.Move(Vector3.forward);
                 yield return delay_001;
             }
             else
