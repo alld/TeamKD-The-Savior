@@ -44,9 +44,9 @@ GameObject:
   - component: {fileID: 5954306407911043298}
   - component: {fileID: 1882439934251796115}
   - component: {fileID: 6159619489229979303}
-  - component: {fileID: -5662261335109018516}
   - component: {fileID: -6172711689052733901}
   - component: {fileID: -7983502332963989988}
+  - component: {fileID: 3670070148677014905}
   m_Layer: 0
   m_Name: Character1
   m_TagString: Untagged
@@ -146,23 +146,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   number: 1
---- !u!114 &-5662261335109018516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3008694513614974338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b94db90fc14be24fa447e9d5709c9d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetPoint: {fileID: 3601309932638885304}
-  isplayer: 0
-  aiSchedule: 
-  aiPattern: 0
-  unitState: 0
 --- !u!195 &-6172711689052733901
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -203,3 +186,18 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3670070148677014905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3008694513614974338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5716b60f6c4f4ab478324b38720ce029, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerUnit: 0
+  unitNumber: 1
+  partyNumber: 0

@@ -472,11 +472,8 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void PlayerUnitSetting()
     {
-        Animator tempAnimator;
         foreach (var item in partyUnit)
         {
-            item.TryGetComponent<Animator>(out tempAnimator);
-            tempAnimator.enabled = false;
             switch (item.attackType)
             {
                 case 1:
@@ -673,7 +670,6 @@ public class DungeonOS : MonoBehaviour
                     GameError("유닛배치 : 공격타입이 지정되지 않은 유닛이 존재함");
                     break;
             }
-            tempAnimator.enabled = true;
         }
         for (int i = 0; i < stageSlotPlayerBottom.Count; i++)
         {
@@ -707,11 +703,10 @@ public class DungeonOS : MonoBehaviour
             SceneManager.MoveGameObjectToScene(tempUnit, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
             partyUnit.Add(tempUnit.AddComponent<UnitStateData>());
             partyUnit[partyUnit.Count - 1].DataSetting(true, item.value);
-            partyUnit[partyUnit.Count - 1].gameObject.AddComponent<CharacterController>();
             partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitMelee>();
             partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitAI>();
-            tempUnitInfo = partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitInfo>();
-            tempUnitInfo.unitNumber = item.value;
+            tempUnitInfo = partyUnit[partyUnit.Count - 1].GetComponent<UnitInfo>();
+            tempUnitInfo.changeUnitNumber = item.value;
             tempUnitInfo.partyNumber = partyUnit.Count - 1;
             partyUnit[partyUnit.Count - 1].isLive = true;
         }
@@ -722,11 +717,8 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void MonsterSetting()
     {
-        Animator tempAnimator;
         foreach (var item in monsterGroup)
         {
-            item.TryGetComponent<Animator>(out tempAnimator);
-            tempAnimator.enabled = false;
             switch (item.attackType)
             {
                 case 1:
@@ -923,7 +915,6 @@ public class DungeonOS : MonoBehaviour
                     GameError("몬스터 배치 : 공격타입이 지정되지 않은 몬스터가 존재함");
                     break;
             }
-            tempAnimator.enabled = true;
         }
         for (int i = 0; i < stageSlotMonsterBottom.Count; i++)
         {
@@ -957,11 +948,10 @@ public class DungeonOS : MonoBehaviour
             SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
             monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
             monsterGroup[monsterGroup.Count - 1].DataSetting(false, dungeonData.dungeonMonsterBox[1].number);
-            monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<CharacterController>();
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitMelee>();
             monsterGroup[0].gameObject.AddComponent<UnitAI>();
-            tempUnitInfo = monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitInfo>();
-            tempUnitInfo.unitNumber = monsterGroup[0].number;
+            tempUnitInfo = monsterGroup[monsterGroup.Count - 1].GetComponent<UnitInfo>();
+            tempUnitInfo.changeUnitNumber = monsterGroup[0].number;
             tempUnitInfo.partyNumber = 0;
             monsterGroup[0].transform.position = monsterStagePoint[1].position;
             monsterGroup[0].transform.rotation = monsterStagePoint[1].rotation;
@@ -973,11 +963,10 @@ public class DungeonOS : MonoBehaviour
             SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
             monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
             monsterGroup[monsterGroup.Count - 1].DataSetting(false, dungeonData.dungeonMonsterBox[0].number);
-            monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<CharacterController>();
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitMelee>();
             monsterGroup[0].gameObject.AddComponent<UnitAI>();
-            tempUnitInfo = monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitInfo>();
-            tempUnitInfo.unitNumber = monsterGroup[0].number;
+            tempUnitInfo = monsterGroup[monsterGroup.Count - 1].GetComponent<UnitInfo>();
+            tempUnitInfo.changeUnitNumber = monsterGroup[0].number;
             tempUnitInfo.partyNumber = 0;
             monsterGroup[0].transform.position = monsterStagePoint[1].position;
             monsterGroup[0].transform.rotation = monsterStagePoint[1].rotation;
@@ -989,12 +978,11 @@ public class DungeonOS : MonoBehaviour
             tempMonster = Instantiate(dungeonData.dungeonMonsterBox[tempint].charObject);
             SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
             monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
-            monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<CharacterController>();
             monsterGroup[monsterGroup.Count -1].DataSetting(false, dungeonData.dungeonMonsterBox[tempint].number);
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitMelee>();
-            tempUnitInfo = monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitInfo>();
+            tempUnitInfo = monsterGroup[monsterGroup.Count - 1].GetComponent<UnitInfo>();
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitAI>();
-            tempUnitInfo.unitNumber = monsterGroup[monsterGroup.Count - 1].number;
+            tempUnitInfo.changeUnitNumber = monsterGroup[monsterGroup.Count - 1].number;
             tempUnitInfo.partyNumber = monsterGroup.Count - 1;
             monsterGroup[monsterGroup.Count - 1].isLive = true;
         }

@@ -43,7 +43,7 @@ public class SummonCharacter : MonoBehaviour
         character = Instantiate(character, summonCharTr);
         
         // 캐릭터 소유 유무 저장
-        GameManager.instance.data.haveCharacter.Add(character.GetComponent<UnitAI>().unitNumber);
+        GameManager.instance.data.haveCharacter.Add(character.GetComponent<UnitInfo>().unitNumber);
         GameManager.instance.GameSave();
     }
 

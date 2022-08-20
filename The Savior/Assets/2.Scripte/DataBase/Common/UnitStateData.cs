@@ -116,18 +116,12 @@ public class UnitStateData : MonoBehaviour
     /// </summary>
     public int basicSkillB = 0;
     /// <summary>
-    /// 몬스터가 가진 기본 스킬 인덱스 넘버
-    /// <br> 0 은 스킬이 없는것 </br>
-    /// </summary>
-    public int basicSkillC = 0;
-    /// <summary>
     /// 몬스터가 가진 궁극기 인덱스 넘버
     /// <br> 0 은 스킬이 없는것 </br>
     /// </summary>
     public int speialSkill = 0;
     public int rewardGold = 0;
     public int rewardSoul = 0;
-    public int rewardExp = 0;
     public List<int> rewardCard = new List<int>();
     public List<int> rewardUnit = new List<int>();
     public List<int> rewardRelic = new List<int>();
@@ -237,9 +231,6 @@ public class UnitStateData : MonoBehaviour
             speialSkill = unit.speialSkill;
             overlapValueA = unit.overlapValueA;
             overlapValueB = unit.overlapValueB;
-            Debug.Log(gameObject.name);
-            Debug.Log(hp);
-            Debug.Log(unit.hp);
         }
         else
         {
@@ -263,11 +254,9 @@ public class UnitStateData : MonoBehaviour
             positionPri = unit.positionPri;
             basicSkillA = unit.basicSkillA;
             basicSkillB = unit.basicSkillB;
-            basicSkillC = unit.basicSkillC;
             speialSkill = unit.speialSkill;
             rewardGold = unit.rewardGold;
             rewardSoul = unit.rewardSoul;
-            rewardExp = unit.rewardExp;
             rewardCard = unit.rewardCard;
             rewardUnit = unit.rewardUnit;
             rewardRelic = unit.rewardRelic;

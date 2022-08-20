@@ -98,7 +98,7 @@ public class UnitAI : MonoBehaviour
         {
             AIDeleSetting();
             unitMelee = GetComponent<UnitMelee>();
-            unitControl?.GetComponent<CharacterController>();
+            unitControl = GetComponent<CharacterController>();
             unit_collider = gameObject.AddComponent<CapsuleCollider>();
             unit = GetComponent<UnitStateData>();
         }

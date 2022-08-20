@@ -4,35 +4,47 @@ using UnityEngine;
 
 public class UnitInfo : MonoBehaviour
 {
-    private bool PlayerUnit;
-    public bool playerUnit
+    public bool playerUnit;
+    public bool changePlayerUnit
     {
-        get { return PlayerUnit; }
+        get { return playerUnit; }
         set 
-        { 
-            PlayerUnit = value;
-            GetComponent<UnitStateData>().playerUnit = value;
+        {
+            playerUnit = value;
+            if (GameManager.instance.dungeonOS != null)
+            {
+                GetComponent<UnitStateData>().playerUnit = value;
+            }
         }
     }
-    private int UnitNumber;
-    public int unitNumber
+    public int unitNumber;
+    public int changeUnitNumber
     {
-        get { return UnitNumber; }
+        get { return unitNumber; }
         set
         {
-            UnitNumber = value;
-            GetComponent<UnitMelee>().unitNumber = value;
+            unitNumber = value;
+            if (GameManager.instance.dungeonOS != null)
+            {
+                GetComponent<UnitStateData>().number = value;
+                GetComponent<UnitAI>().unitNumber = value;
+                GetComponent<UnitMelee>().unitNumber = value;
+            }
         }
     }
-    private int PartyNumber;
-    public int partyNumber
+    public int partyNumber;
+    public int changePartyNumber
     {
-        get { return PartyNumber; }
+        get { return partyNumber; }
         set
         {
-            PartyNumber = value;
-            GetComponent<UnitMelee>().partyNumber = value;
-            GetComponent<UnitStateData>().partyNumber = value;
+            partyNumber = value;
+            if (GameManager.instance.dungeonOS != null)
+            {
+                GetComponent<UnitMelee>().partyNumber = value;
+                GetComponent<UnitStateData>().partyNumber = value;
+                GetComponent<UnitAI>().partyNumber = value;
+            }
         }
     }
 

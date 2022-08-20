@@ -175,7 +175,8 @@ public class CharacterDatabase : MonoBehaviour
             //}
             charName = jName[num - 1]["Name_Eng"].ToObject<string>().ToString();
             //charObject = Resources.Load<GameObject>("Unit/TestBox");
-            charObject = Resources.Load<GameObject>("Unit/" + charName);
+            //Debug.Log(string.Format("Unit/Hero{0}_{1}", num.ToString("00"), charName));
+            charObject = Resources.Load<GameObject>(string.Format("Unit/Hero{0}_{1}", num.ToString("00"), charName));
             hp = maxHP;
             unitClass = 0;
             level = 1;

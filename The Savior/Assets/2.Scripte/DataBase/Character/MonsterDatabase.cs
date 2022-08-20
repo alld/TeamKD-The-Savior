@@ -2,16 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using SimpleJSON;
+using Newtonsoft.Json.Linq;
 
 
 public class MonsterDatabase : MonoBehaviour {
     public class Data
     {
         private TextAsset jsonData;
-        private string json;
         private TextAsset jsonTextData;
-        private string jsonText;
         /// <summary>
         /// 몬스터의 기본 원형값을 가지고있는 데이터 베이스 
         /// <br>InfoMT를 통해 인스턴스를 만들어서 사용해야함. </br>
@@ -105,18 +103,12 @@ public class MonsterDatabase : MonoBehaviour {
         /// </summary>
         public int basicSkillB;
         /// <summary>
-        /// 몬스터가 가진 기본 스킬 인덱스 넘버
-        /// <br> 0 은 스킬이 없는것 </br>
-        /// </summary>
-        public int basicSkillC;
-        /// <summary>
         /// 몬스터가 가진 궁극기 인덱스 넘버
         /// <br> 0 은 스킬이 없는것 </br>
         /// </summary>
         public int speialSkill;
         public int rewardGold;
         public int rewardSoul;
-        public int rewardExp;
         public List<int> rewardCard = new List<int>();
         public List<int> rewardUnit = new List<int>();
         public List<int> rewardRelic = new List<int>();
@@ -130,45 +122,41 @@ public class MonsterDatabase : MonoBehaviour {
         public Data(int num)
         {
             jsonData = Resources.Load<TextAsset>("MonsterData");
-            json = jsonData.text;
             jsonTextData = Resources.Load<TextAsset>("MonsterTextData");
-            jsonText = jsonTextData.text;
-            var textdata = JSON.Parse(jsonText);
-            var jdata = JSON.Parse(json);
+            JArray json = JArray.Parse(jsonData.text);
+            JArray jsonText = JArray.Parse(jsonTextData.text);
             switch (GameManager.instance.data.Language)
             {
                 case 0:
-                    charName = textdata[num]["Name_Kr"];
+                    charName = jsonText[num - 1]["Name_Kr"].ToObject<string>();
                     break;
                 case 1:
-                    charName = textdata[num]["Name_Eng"];
+                    charName = jsonText[num - 1]["Name_Eng"].ToObject<string>();
                     break;
             }
             number = num;
-            maxHP = jdata[num]["Hp_Total"];
+            maxHP = float.Parse(json[num - 1]["Hp_Total"].ToObject<string>());
             hp = maxHP;
-            int temp = jdata[num][""];
+            int temp = int.Parse(json[num - 1]["MonsterType"].ToObject<string>());
             monsterType = (MonsterType)temp;
-            charObject = Resources.Load<GameObject>("Unit/Monster/Stage01_Monster_0" + num);
-            damage = jdata[num]["Total_Damage"];
-            attackSpeed = jdata[num]["Chr_AtkSpeed"];
-            moveSpeed = jdata[num]["Chr_MS"];
-            defense = jdata[num]["Chr_DF"];
-            attackType = jdata[num]["Attack_Type"];
-            attackRange = jdata[num]["Chr_AtkRange"];
-            attribute = jdata[num]["Attribute"];
-            priRange = jdata[num]["Atk_Know_Range"];
-            defRange = jdata[num]["Def_Know_Range"];
-            priorities = jdata[num]["Attack_Priority"];
-            positionPri = jdata[num]["Place_Priority"];
-            basicSkillA = jdata[num][""];
-            basicSkillB = jdata[num][""];
-            basicSkillC = jdata[num][""];
-            speialSkill = jdata[num][""];
-            rewardGold = jdata[num][""];
-            rewardSoul = jdata[num][""];
-            rewardExp = jdata[num][""];
-            temp = jdata[num][""];
+            charObject = Resources.Load<GameObject>(string.Format("Unit/Monster/Monster{0}_{1}", (num).ToString("00"), jsonText[num - 1]["Name_Eng"].ToObject<string>()));
+            damage = float.Parse(json[num - 1]["Chr_Power"].ToObject<string>());
+            attackSpeed = float.Parse(json[num - 1]["Chr_AtkSpeed"].ToObject<string>());
+            moveSpeed = float.Parse(json[num - 1]["Chr_MS"].ToObject<string>());
+            defense = float.Parse(json[num - 1]["Chr_DF"].ToObject<string>());
+            attackType = int.Parse(json[num - 1]["Attack_Type"].ToObject<string>());
+            attackRange = float.Parse(json[num - 1]["Chr_AtkRange"].ToObject<string>());
+            attribute = int.Parse(json[num - 1]["Attribute"].ToObject<string>());
+            priRange = float.Parse(json[num - 1]["Atk_Know_Range"].ToObject<string>());
+            defRange = float.Parse(json[num - 1]["Def_Know_Range"].ToObject<string>());
+            priorities = int.Parse(json[num - 1]["Attack_Priority"].ToObject<string>());
+            positionPri = int.Parse(json[num - 1]["Place_Priority"].ToObject<string>());
+            basicSkillA = int.Parse(json[num - 1]["basicSkillA"].ToObject<string>());
+            int.TryParse(json[num - 1]["basicSkillB"].ToObject<string>(), out basicSkillB);
+            int.TryParse(json[num - 1]["specialSkill"].ToObject<string>(), out speialSkill);
+            int.TryParse(json[num - 1]["rewardGold"].ToObject<string>(), out rewardGold);
+            int.TryParse(json[num - 1]["rewardSoul"].ToObject<string>(), out rewardSoul);
+            int.TryParse(json[num - 1]["rewardCard"].ToObject<string>(), out temp);
             string tempString = temp.ToString();
             if (tempString.Length < 1)
             {
@@ -177,7 +165,7 @@ public class MonsterDatabase : MonoBehaviour {
                     rewardCard.Add((int)(tempString[(i * 2) + 1] + tempString[(i * 2)]));
                 }
             }
-            temp = jdata[num][""];
+            int.TryParse(json[num - 1]["rewardHero"].ToObject<string>(), out temp);
             tempString = temp.ToString();
             if (tempString.Length < 1)
             {
@@ -186,7 +174,7 @@ public class MonsterDatabase : MonoBehaviour {
                     rewardUnit.Add((int)(tempString[(i * 2) + 1] + tempString[(i * 2)]));
                 }
             }
-            temp = jdata[num][""];
+            int.TryParse(json[num - 1]["rewardRelic"].ToObject<string>(), out temp);
             tempString = temp.ToString();
             if (tempString.Length < 1)
             {

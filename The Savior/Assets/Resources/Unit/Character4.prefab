@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 5954306407911043298}
   - component: {fileID: 1882439934251796115}
   - component: {fileID: 6159619489229979303}
-  - component: {fileID: 24138641415859608}
   - component: {fileID: -5382859103929418251}
+  - component: {fileID: 6737201306334538174}
   m_Layer: 0
   m_Name: Character4
   m_TagString: Untagged
@@ -114,23 +114,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   number: 4
---- !u!114 &24138641415859608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3008694513614974338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b94db90fc14be24fa447e9d5709c9d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetPoint: {fileID: 3421489726228585457}
-  isplayer: 0
-  aiSchedule: 
-  aiPattern: 0
-  unitState: 0
 --- !u!143 &-5382859103929418251
 CharacterController:
   m_ObjectHideFlags: 0
@@ -149,6 +132,21 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6737201306334538174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3008694513614974338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5716b60f6c4f4ab478324b38720ce029, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerUnit: 0
+  unitNumber: 4
+  partyNumber: 0
 --- !u!1 &3841255591714486762
 GameObject:
   m_ObjectHideFlags: 0
