@@ -139,8 +139,8 @@ public class MonsterDatabase : MonoBehaviour {
             hp = maxHP;
             int temp = int.Parse(json[num - 1]["MonsterType"].ToObject<string>());
             monsterType = (MonsterType)temp;
-            charObject = Resources.Load<GameObject>("Unit/TestBox");
-            //charObject = Resources.Load<GameObject>(string.Format("Unit/Monster/Monster{0}_{1}", (num).ToString("00"), jsonText[num - 1]["Name_Eng"].ToObject<string>()));
+            //charObject = Resources.Load<GameObject>("Unit/TestBox");
+            charObject = Resources.Load<GameObject>(string.Format("Unit/Monster/Monster{0}_{1}", (num).ToString("00"), jsonText[num - 1]["Name_Eng"].ToObject<string>()));
             damage = float.Parse(json[num - 1]["Chr_Power"].ToObject<string>());
             attackSpeed = float.Parse(json[num - 1]["Chr_AtkSpeed"].ToObject<string>());
             moveSpeed = float.Parse(json[num - 1]["Chr_MS"].ToObject<string>());

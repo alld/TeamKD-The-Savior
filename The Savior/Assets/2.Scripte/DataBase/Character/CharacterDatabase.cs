@@ -173,10 +173,11 @@ public class CharacterDatabase : MonoBehaviour
             //    default:
             //        break;
             //}
-            charName = jName[num - 1]["Name_Eng"].ToObject<string>().ToString();
-            charObject = Resources.Load<GameObject>("Unit/TestBox");
+            charNameEng = jName[num - 1]["Name_Eng"].ToObject<string>().ToString();
+            charNameKor = jName[num - 1]["Name_Kr"].ToObject<string>().ToString();
+            //charObject = Resources.Load<GameObject>("Unit/TestBox");
             //Debug.Log(string.Format("Unit/Hero{0}_{1}", num.ToString("00"), charName));
-            //charObject = Resources.Load<GameObject>(string.Format("Unit/Hero{0}_{1}", num.ToString("00"), charName));
+            charObject = Resources.Load<GameObject>(string.Format("Unit/Hero{0}_{1}", num.ToString("00"), charNameEng));
             hp = maxHP;
             unitClass = 0;
             level = 1;

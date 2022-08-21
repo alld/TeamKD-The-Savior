@@ -355,7 +355,7 @@ public class DungeonOS : MonoBehaviour
     {
         int temp = roundDGP % 10;
         DungeonCtrl.gameRoundbarArrow.transform.SetParent(DungeonCtrl.gameRoundbarPoint[temp].transform);
-        DungeonCtrl.gameRoundbarArrow.transform.position = Vector3.zero;
+        //DungeonCtrl.gameRoundbarArrow.GetComponent<RectTransform>().Loo
         DungeonCtrl.playerCostGauage.fillAmount = (float)costDGP / 10f;
         DungeonCtrl.playerExpectationsGauage.fillAmount = DungeonCtrl.playerCostGauage.fillAmount;
         DungeonCtrl.playerLackCost.fillAmount = DungeonCtrl.playerCostGauage.fillAmount;

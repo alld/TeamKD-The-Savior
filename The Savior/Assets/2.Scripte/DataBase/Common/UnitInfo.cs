@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UnitInfo : MonoBehaviour
 {
+    public GameObject attackTriggerBox;
+    public bool thrown; // 투사체 유무
     public bool playerUnit;
     public bool changePlayerUnit
     {

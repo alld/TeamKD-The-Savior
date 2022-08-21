@@ -17,11 +17,17 @@ public class UnitAI : MonoBehaviour
     private Ray ray;
     private RaycastHit hit;
     private Animator animator;
+    private string ani_Attack = "Attack";
+    private string ani_Walk = "Walk";
+    private string ani_Skill = "Skill";
+    private string ani_Ultimate = "Ultimate";
+    private string ani_Death = "Death";
+    private string ani_Stun = "Stun";
     #endregion
 
 
     #region AI 계산값
-    private Transform targetPoint;
+    public Transform targetPoint;
     /// <summary>
     /// 주요 타겟 
     /// </summary>
@@ -118,7 +124,6 @@ public class UnitAI : MonoBehaviour
             }
             else
             {
-                Debug.Log("전환 시기 확인2");
                 AllyUnit = DungeonOS.instance.monsterGroup;
                 EnemyUnit = DungeonOS.instance.partyUnit;
             }
@@ -318,7 +323,6 @@ public class UnitAI : MonoBehaviour
     {
         if (EnemyUnit.Count == 0)
         {
-            Debug.Log("실행 확인 스탠드");
             return AIPattern.Stand;
         }
         else
@@ -390,7 +394,6 @@ public class UnitAI : MonoBehaviour
 
     IEnumerator State_Attacking() // 공격
     {
-        Debug.Log("실행 확인");
         isOnScheduler = true;
         StartCoroutine(IsOnGoing());
 
@@ -404,11 +407,11 @@ public class UnitAI : MonoBehaviour
             }
             else break;
 
-            yield return delay_10;
+            yield return delay_03;
         }
         isMoving = false;
+        animator.SetBool(ani_Attack, true);
         Action_Attack();
-        Debug.Log("공격넘어감");
         //애니메이션 작동
         while (!isRemove)
         {
@@ -416,6 +419,7 @@ public class UnitAI : MonoBehaviour
             // 적이 다가옴 
             yield return delay_05;
         }
+        //animator.SetBool(ani_Attack, true);
         isMoving = false;
         isOnScheduler = false;
         if (aiSchedule.Count == 0) AutoScheduler(0, 0);
@@ -578,7 +582,7 @@ public class UnitAI : MonoBehaviour
         foreach (var item in EnemyUnit)
         {
             targetDistance = Vector3.Distance(transform.position, item.transform.position);
-            if (targetDistance <= unit.attackRange + 2)
+            if (targetDistance <= unit.attackRange)
             {
                 if (item.priorities > temp)
                 {
@@ -790,29 +794,23 @@ public class UnitAI : MonoBehaviour
 
     IEnumerator Moving()
     {
-        Debug.Log("이동실행");
         isMoving = true;
         while (isMoving)
         {
             if (Vector3.Distance(transform.position, targetPoint.position) >= 1f)
             {
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(Move_Yzero), 600 * Time.deltaTime);
-                Movetemp = (targetPoint.position - transform.position).normalized * 20;
-                Move_Yzero = Movetemp - (Vector3.up * Movetemp.y);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetPoint.position), 20);
+                Movetemp = (targetPoint.position - transform.position).normalized  * unit.moveSpeed;
+                //Move_Yzero = Movetemp - (Vector3.up * Movetemp.y);
+                animator.SetBool(ani_Walk, true);
                 unitControl.SimpleMove(Movetemp);
-                ////transform.TransformDirection(Move_Yzero);
-                ////unitControl.Move((targetPoint.position - (Vector3.up * 2f)) * Time.deltaTime);
-
-
-                ////unitControl.SimpleMove(this.gameObject.transform.position);
-                ///
-
-                //transform.position = targetPoint.position;
-                //unitControl.Move(Vector3.forward);
                 yield return delay_001;
+
+                // 아군 빗겨나기 레이캐스트 사용 
             }
             else
             {
+                animator.SetBool(ani_Walk, false);
                 isMoving = false;
             }
         }

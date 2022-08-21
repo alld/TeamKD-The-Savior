@@ -24,20 +24,37 @@ public class UnitMelee : MonoBehaviour
     /// </summary>
     public int unitNumber;
     public int partyNumber;
+    UnitInfo unitInfo;
+    public GameObject TempThrown;
+
+    private void Start()
+    {
+        unitInfo = GetComponent<UnitInfo>();
+    }
 
     /// <summary>
     /// 이 컴포넌트를 가지고 있는 유닛의 공격 행동을 담당하는 함수
     /// </summary>
     public void OnAttack()
     {
-        int tempAType = DungeonOS.instance.partyUnit[partyNumber].attackType;
+        int tempAType = GetComponent<UnitStateData>().attackType;
         if(tempAType != 2)
         {
+            unitInfo.attackTriggerBox.SetActive(true);
             // (작업 필요)근접 공격시 근접 무기에 달려있는 트리거상자 활성화
         }
         else
         {
+            TempThrown = Instantiate(Resources.Load<GameObject>("Unit/TempThrown"));
+            TempThrown.transform.position = transform.position;
+            TempThrown.GetComponent<UnitInfo>().partyNumber = partyNumber;
+            TempThrown.GetComponent<UnitInfo>().unitNumber = unitNumber;
+            TempThrown.GetComponent<UnitInfo>().playerUnit = unitInfo.playerUnit;
+            TempThrown.GetComponent<UnitInfo>().thrown = true;
+            TempThrown.GetComponent<ThrownObjMove>().thrownSpeed = 0.2f;
+            TempThrown.GetComponent<ThrownObjMove>().targetPoint = GetComponent<UnitAI>().targetPoint;
             // (작업 필요)원거리 공격시 투사체 오브젝트 생성
+            Debug.Log("데미지 생성");
         }
     }
 
@@ -46,7 +63,8 @@ public class UnitMelee : MonoBehaviour
     /// </summary>
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PHYSICS")) // 데미지 계산의 대상인지 검사
+        Debug.Log("데미지 작동");
+        if (other.CompareTag("PHYSICS") && other.GetComponent<UnitInfo>().partyNumber == partyNumber && other.GetComponent<UnitInfo>().playerUnit != GetComponent<UnitInfo>().playerUnit) // 데미지 계산의 대상인지 검사
         {
             other.GetComponent<UnitAI>().dele_attacked();
             int Target = other.GetComponent<UnitMelee>().partyNumber; //(작업 필요)몬스터껄로 변경필요함
@@ -57,10 +75,12 @@ public class UnitMelee : MonoBehaviour
             int tempAType = DungeonOS.instance.partyUnit[Target].attackType;
             if (tempAType != 2)
             {
+                other.GetComponent<UnitInfo>().attackTriggerBox.SetActive(false);
                 // (작업 필요)근접 공격 피격시 무기에 달려있는 트리거상자 비활성화
             }
             else
             {
+                Destroy(other.gameObject);
                 //(작업 필요) 원거리 공격시 투사체 비활성화 하던가 디스트로이 하던가..
             }
 
