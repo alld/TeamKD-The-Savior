@@ -913,7 +913,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   num: 9
+  cardType: 1
   nameText: {fileID: 0}
+  contentText: {fileID: 0}
+  typeText: {fileID: 0}
 --- !u!222 &8731557204455197546
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -74,8 +74,6 @@ public class MainOptionSetting : MonoBehaviour
         changeText.TranslateLanguage();
     }
 
-    #region 옵션 버튼
-
     /// <summary>
     /// 옵션창활성화
     /// </summary>
@@ -91,9 +89,6 @@ public class MainOptionSetting : MonoBehaviour
     {
         optionImg.SetActive(false);
     }
-    #endregion
-
-    #region 사운드 및 언어 세팅
 
     /// <summary>
     /// 드롭다운을 통해 언어를 변경한다.
@@ -205,6 +200,4 @@ public class MainOptionSetting : MonoBehaviour
         }
     }
 
-
-    #endregion
 }

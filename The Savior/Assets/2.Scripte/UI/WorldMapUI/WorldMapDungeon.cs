@@ -48,6 +48,8 @@ public class WorldMapDungeon : MonoBehaviour
     public TMP_Text presetName;
     public TMP_Text[] presetCard;
     private CardDeck cardDeck;
+    public GameObject warningPreset;
+    public Button warningButton;
 
     private Image[] dungeonImg = new Image[4];      // 0 : 던전 이미지 //// 1 : 등장 보스 //// 2 : 기대 보상 1 //// 3 : 기대 보상 2
     void Start()
@@ -84,6 +86,7 @@ public class WorldMapDungeon : MonoBehaviour
         curPresetButton[2].onClick.AddListener(() => OnClick_Preset(2));
         curPresetButton[3].onClick.AddListener(() => OnClick_Preset(3));
         curPresetButton[4].onClick.AddListener(() => OnClick_Preset(4));
+        warningButton.onClick.AddListener(() => OnClick_CloseWarningBtn());
 
         cardDeck = GameObject.Find("PUIManager").GetComponent<CardDeck>();
 
@@ -156,6 +159,11 @@ public class WorldMapDungeon : MonoBehaviour
         OnClick_Preset(GameManager.instance.data.preset - 1);
     }
 
+    private void OnClick_CloseWarningBtn()
+    {
+        warningPreset.SetActive(false);
+    }
+
     // 카드 프리셋 y버튼 클릭시 던전 입장
     private void OnClick_YesPreset()
     {
@@ -170,7 +178,7 @@ public class WorldMapDungeon : MonoBehaviour
         }
         if (presetIdx < 10)
         {
-            Debug.Log("카드를 10장 이상 장착해주세요. (" + presetIdx + "/15)");
+            warningPreset.SetActive(true);
             return;     // 팝업 창 제작 후 팝업창을 띄움.
         }
         // 튜토리얼 씬 이동

@@ -11,12 +11,30 @@ public class SummonCharacter : MonoBehaviour
     // 난수
     private int rnd;
     private int stop;
+
+    public int Stop
+    {
+        get { return stop; }
+        set { stop = value; }
+    }
+
     // 소환될 캐릭터의 오브젝트
     private GameObject character;
     private Image charImg;
     // 소환된 캐릭터가 배치될 포지션
     public Transform summonCharTr; // CharacterTransform
     private Transform charInventoryTr;
+
+    // 캐릭터 최대치 소환 경고
+    public GameObject warningImg;
+    public Button warningButton;
+    public Button closeWarning;
+
+    private void Start()
+    {
+        warningButton.onClick.AddListener(() => OnClick_WarningSummonBtn());
+        closeWarning.onClick.AddListener(() => OnClick_WarningSummonBtn());
+    }
 
     /// <summary>
     /// 캐릭터 소환 버튼을 누르면 호출되는 함수.
@@ -32,7 +50,7 @@ public class SummonCharacter : MonoBehaviour
             return;
         }
         stop = DuplicateSummon();
-        if(stop == 1)
+        if (stop == 1)
         {
             return;
         }
@@ -41,12 +59,18 @@ public class SummonCharacter : MonoBehaviour
 
         character = Resources.Load<GameObject>("Unit/Character" + rnd.ToString());
         character = Instantiate(character, summonCharTr);
-        
+
         // 캐릭터 소유 유무 저장
         GameManager.instance.data.haveCharacter.Add(character.GetComponent<UnitInfo>().unitNumber);
         GameManager.instance.GameSave();
     }
 
+
+    /// <summary>
+    /// 캐릭터 중복 확인.
+    /// 이미 있는 캐릭터는 소환 되지 않음.
+    /// </summary>
+    /// <returns></returns>
     public int DuplicateSummon()
     {
         int max = 0;
@@ -64,7 +88,7 @@ public class SummonCharacter : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("모든 캐릭터를 소지하여 더 이상 뽑기를 할 수 없습니다.");
+                    warningImg.SetActive(true);
                     max = 1;
                     break;
                 }
@@ -79,6 +103,11 @@ public class SummonCharacter : MonoBehaviour
         {
             Destroy(summonCharTr.GetChild(0).gameObject);
         }
+    }
+
+    private void OnClick_WarningSummonBtn()
+    {
+        warningImg.SetActive(false);
     }
 
 }

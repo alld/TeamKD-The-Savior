@@ -138,7 +138,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   num: 21
+  cardType: 4
   nameText: {fileID: 0}
+  contentText: {fileID: 0}
+  typeText: {fileID: 0}
 --- !u!222 &-7401572851951457729
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -112,6 +112,11 @@ public class WorldMapCastle : MonoBehaviour
         }
         summon.SummonRandom(summonPrice);
 
+        if(summon.Stop == 1)
+        {
+            return;
+        }
+
         churchSummonButton.gameObject.SetActive(false);
         summonConfirmButton.gameObject.SetActive(true);
         reSummonButton.gameObject.SetActive(true);

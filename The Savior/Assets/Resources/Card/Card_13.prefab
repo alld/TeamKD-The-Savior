@@ -2018,7 +2018,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   num: 13
+  cardType: 1
   nameText: {fileID: 0}
+  contentText: {fileID: 0}
+  typeText: {fileID: 0}
 --- !u!222 &-3669789116441499717
 CanvasRenderer:
   m_ObjectHideFlags: 0

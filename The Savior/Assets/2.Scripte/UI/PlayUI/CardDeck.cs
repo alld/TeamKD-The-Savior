@@ -31,7 +31,7 @@ public class CardDeck : MonoBehaviour
 
     void Start()
     {
-        CardInventory.SetActive(true);
+        //CardInventory.SetActive(true);
         // 게임 시작시 프리셋 버튼 연결
         for (int i = 0; i < presetButton.Length; i++)
         {
@@ -51,7 +51,7 @@ public class CardDeck : MonoBehaviour
             }
         }
         OnClick_PresetChangeBtn((GameManager.instance.data.preset - 1));
-        CardInventory.SetActive(false);
+        //CardInventory.SetActive(false);
     }
 
     public void OnClick_PresetChangeBtn(int n)

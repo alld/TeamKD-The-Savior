@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public float dungeonPlayTime;
     public bool isDungeon = false;
     public GameData data;
+    public List<ReadCardData> cardData = new List<ReadCardData>();
     public List<CharExp> charExp = new List<CharExp>(); // Json 파일에 저장되어야 하는 캐릭터의 데이터
     public List<HaveCard> card = new List<HaveCard>();  // Json 파일에 저장되어야 하는 카드의 데이터
     public List<CardPreset> cardPreset = new List<CardPreset>(); // json 파일에 저장되어야 하는 카드 프리셋 데이터
@@ -61,6 +62,7 @@ public class GameManager : MonoBehaviour
         LoadCharExp();
         LoadCardData();
         LoadPresetData();
+        AddCardData();
     }
 
     #region 데이터 저장, 불러오기, 리셋하기
@@ -87,6 +89,27 @@ public class GameManager : MonoBehaviour
     {
         data = dataManager.ResetGameData();
     }
+
+
+
+    /// <summary>
+    /// 카드의 데이터가 저장되어있는 json파일에서 카드의 id와 type를 가져옵니다.
+    /// </summary>
+    public void AddCardData()
+    {
+        cardData.Clear();
+        int index = dataManager.CountCardData();
+        for (int i = 0; i < index; i++)
+        {
+            cardData.Add(dataManager.LoadCardDataFromJson(i));
+        }
+    }
+
+
+
+
+
+    /////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
     /// 캐릭터 경험치 / 레벨 저장 
@@ -217,14 +240,19 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-
+    #endregion
     private void Update()
     {
         if (currentlyScene == "Main") return;
-        if (data != dataManager.LoadGameDataFromJson()) GameSave();
+        if (data != dataManager.LoadGameDataFromJson())
+        {
+            GameSave();
+            SaveCharExp();
+            CardSave();
+            PresetSave();
+        }
 
         playTime += Time.deltaTime;
         if (dungeonOS != null) dungeonPlayTime += Time.deltaTime;
     }
-    #endregion
 }

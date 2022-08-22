@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/1.Scenes/Play.unity
+    guid: c7d9b52809569604daefb92bd2d510f5
+  - enabled: 1
     path: Assets/1.Scenes/Main.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
@@ -15,9 +18,6 @@ EditorBuildSettings:
     path: Assets/1.Scenes/WorldMap.unity
     guid: 35de416a23a6fbd4895e172f7d901b45
   - enabled: 1
-    path: Assets/1.Scenes/Play.unity
-    guid: c7d9b52809569604daefb92bd2d510f5
-  - enabled: 1
-    path: Assets/1.Scenes/Dungeon/tutorial.unity
+    path: Assets/1.Scenes/Dungeon/Tutorial.unity
     guid: b3e8641350c793b4295d89f09272cebe
   m_configObjects: {}

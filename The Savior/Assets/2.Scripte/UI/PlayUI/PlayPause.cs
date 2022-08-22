@@ -66,7 +66,9 @@ public class PlayPause : MonoBehaviour
     private void OnClick_OptionBtn()
     {
         isOption = !isOption;
+        pauseImg.SetActive(false);
         optionImg.SetActive(isOption);
+        optionImg.transform.SetAsLastSibling();
     }
 
     /// <summary>
@@ -75,6 +77,6 @@ public class PlayPause : MonoBehaviour
     private void OnClick_ExitBtn()
     {
         Application.Quit();
-        UnityEditor.EditorApplication.isPlaying = false;
+        //UnityEditor.EditorApplication.isPlaying = false;
     }
 }

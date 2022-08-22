@@ -26,10 +26,6 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     private int equipIdx;
     private JArray json;
 
-    private void Awake()
-    {
-        cardType = (CARDTYPE)GameManager.instance.card[num - 1].cardType;
-    }
     private void Start()
     {
         moveTr = GameObject.Find("GameUI").transform;

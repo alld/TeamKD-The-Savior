@@ -44,11 +44,6 @@ public class BuyCardPack : MonoBehaviour
 
         for (int i = 0; i < maxCardPack; i++)
         {
-            // 제이슨 데이터를 연결하여 사용.
-            // 나중에 필요해지면 연결.
-            //jsonData = Resources.Load<TextAsset>("CardPack");
-            //json = jsonData.text;
-            //var data = JSON.Parse(json);
 
             int idx = i + 1;
             cardPackList.Add(Resources.Load<GameObject>("PackItem"));
@@ -137,19 +132,15 @@ public class BuyCardPack : MonoBehaviour
     /// </summary>
     public void BuyCard()
     {
-        ViewCard viewCard;
         unPack.SetActive(false);
         openPack.SetActive(true);
-        // 난수를 생성해서 리스트에서 랜덤하게 가져오게 할 예정이지만
-        // 현재 카드가 3장 밖에 없어서 그냥 넣겠읍니다.
+
         for (int i = 0; i < 5; i++)
         {
             int rnd = Random.Range(1, 24);
             cardImg[i] = Resources.Load<Image>("Card/Card_" + (rnd).ToString());
             card = Instantiate(cardImg[i], buyCardList[i]);
-            viewCard = card.GetComponent<ViewCard>();
-            GameManager.instance.card[rnd].haveCard++;
-            Debug.Log(viewCard.cardType);
+            GameManager.instance.card[rnd-1].haveCard++;
         }
         GameManager.instance.CardSave();
     }
