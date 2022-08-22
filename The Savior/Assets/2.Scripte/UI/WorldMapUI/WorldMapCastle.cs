@@ -42,7 +42,7 @@ public class WorldMapCastle : MonoBehaviour
         closeCastleButton.onClick.AddListener(() => OnClick_OutCastleBtn());
         churchButton.onClick.AddListener(() => OnClick_OnChurchBtn());
         shopButton.onClick.AddListener(() => OnClick_OnShopBtn());
-        closeShopButton.onClick.AddListener(() => OnClick_OnShopBtn());
+        closeShopButton.onClick.AddListener(() => OnClick_CloseShopBtn());
         closeChurchButton.onClick.AddListener(() => OnClick_OnChurchBtn());
         shopBuyButton.onClick.AddListener(() => OnClick_OnBuyBtn());
         churchSummonButton.onClick.AddListener(() => OnClick_OnSummonBtn());
@@ -78,6 +78,13 @@ public class WorldMapCastle : MonoBehaviour
         isShop = !isShop;
         shopImg.SetActive(isShop);
         buy.OpenShop();
+    }
+
+    private void OnClick_CloseShopBtn()
+    {
+        buy.InitBuyCard();
+        isShop = false;
+        shopImg.SetActive(false);
     }
 
     /// <summary>

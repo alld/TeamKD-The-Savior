@@ -38,14 +38,16 @@ public class CardDeck : MonoBehaviour
             int idx = i;
             presetButton[i].onClick.AddListener(() => OnClick_PresetChangeBtn(idx));
         }
-        // 게임 시작시 데이터에 저장되어있는 카드를 인벤토리에 생성
-        for (int i = 0; i < GameManager.instance.cardIdx - 1; i++)
+        // 게임 시작시 데이터에 저장되어있는 카드를 검색.
+        for (int i = 1; i <= GameManager.instance.maxCardCount; i++)
         {
-            if (GameManager.instance.card[i].haveCard != 0)
+            // 해당 번호의 카드가 0개가 아니라면
+            if (GameManager.instance.cardDic[i] != 0)
             {
-                for (int j = 0; j < GameManager.instance.card[i].haveCard; j++)
+                // 해당 카드의 개수만큼 반복하여 인벤토리에 생성.
+                for (int j = 1; j <= GameManager.instance.cardDic[i]; j++)
                 {
-                    cardImg = Resources.Load<Image>("Card/Card_" + GameManager.instance.card[i].id);
+                    cardImg = Resources.Load<Image>("Card/Card_" + i);
                     cardImg = Instantiate(cardImg, cardDeckTr);
                 }
             }
@@ -98,7 +100,7 @@ public class CardDeck : MonoBehaviour
                     break;
             }
             if (changePreset == null)
-            {              
+            {
                 Debug.Log("Error : " + i + "번 인덱스");
                 GameManager.instance.cardPreset[n].preset[i] = 0;
                 continue;

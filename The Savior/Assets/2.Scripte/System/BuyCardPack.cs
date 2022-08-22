@@ -27,6 +27,8 @@ public class BuyCardPack : MonoBehaviour
     private Image pack; // 팩 이미지
     private Image card; // 카드 이미지
 
+    private Transform cardDectTr;
+
 
     private int maxCardPack = 5;
     private List<GameObject> cardPackList = new List<GameObject>();
@@ -41,6 +43,7 @@ public class BuyCardPack : MonoBehaviour
         unPack.SetActive(true);
         OnClick_SelectPackBtn(1);
         confirmButton.onClick.AddListener(() => OnClick_ConfirmBtn());
+        cardDectTr = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/MyCard/Viewport/Content").transform;
 
         for (int i = 0; i < maxCardPack; i++)
         {
@@ -134,27 +137,36 @@ public class BuyCardPack : MonoBehaviour
     {
         unPack.SetActive(false);
         openPack.SetActive(true);
-
         for (int i = 0; i < 5; i++)
         {
             int rnd = Random.Range(1, 24);
             cardImg[i] = Resources.Load<Image>("Card/Card_" + (rnd).ToString());
             card = Instantiate(cardImg[i], buyCardList[i]);
-            GameManager.instance.card[rnd-1].haveCard++;
+
+            // 획득한 카드의 데이터 저장.
+            if (GameManager.instance.cardDic.ContainsKey(rnd))
+            {
+                GameManager.instance.cardDic[rnd] += 1;
+            }
+            else if (!GameManager.instance.cardDic.ContainsKey(rnd))
+            {
+                GameManager.instance.cardDic.Add(rnd, 1);
+            }
+            GameManager.instance.SaveOrReviseCardData(rnd, GameManager.instance.cardDic[rnd]);
+
         }
-        GameManager.instance.CardSave();
     }
 
     /// <summary>
     /// 카드 구매 후 확인 버튼을 누를 경우 혹은 상점이 열릴 경우 호출
     /// </summary>
-    private void InitBuyCard()
+    public void InitBuyCard()
     {
         for (int i = 0; i < 5; i++)
         {
             if (buyCardList[i].childCount > 0)
             {
-                Destroy(buyCardList[i].GetChild(0).gameObject);
+                buyCardList[i].GetChild(0).transform.SetParent(cardDectTr);
             }
         }
     }
