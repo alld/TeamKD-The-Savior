@@ -32,7 +32,7 @@ public class UnitAI : MonoBehaviour
     /// аж©Д е╦╟ы 
     /// </summary>
     [SerializeField]
-    private UnitStateData targetObj;
+    public UnitStateData targetObj;
 
     private float targetDistance;
     /// <summary>
@@ -99,6 +99,7 @@ public class UnitAI : MonoBehaviour
     public UnitState unitState;
     private bool isOnScheduler;
     private bool isOnGoing;
+    private bool isGaze;
     private bool isRemove;
     private bool isMoving;
     private bool onAttackAvailable = false;
@@ -745,6 +746,7 @@ public class UnitAI : MonoBehaviour
         unitState = UnitState.Attack;
         unitMelee.OnAttack();
         onAttackAvailable = false;
+        if (!isGaze) StartCoroutine(TargetGaze());
         StartCoroutine(CooldownCheck(unit.attackSpeed, 0));
         return true;
     }
@@ -814,6 +816,14 @@ public class UnitAI : MonoBehaviour
                 isMoving = false;
             }
         }
+    }
+
+    IEnumerator TargetGaze()
+    {
+        isGaze = true;
+        transform.LookAt(targetPoint);
+        yield return delay_03;
+        isGaze = false;
     }
     #endregion
 }

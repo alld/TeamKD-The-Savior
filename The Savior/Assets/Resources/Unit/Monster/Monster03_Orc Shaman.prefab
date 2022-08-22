@@ -569,6 +569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackTriggerBox: {fileID: 6024887742837001049}
   thrown: 0
+  targetUnit: {fileID: 0}
   playerUnit: 0
   unitNumber: 3
   partyNumber: 0
@@ -1949,13 +1950,14 @@ GameObject:
   m_Component:
   - component: {fileID: 2943387622327522199}
   - component: {fileID: 1669827916922750811}
+  - component: {fileID: 8555882864850758013}
   m_Layer: 8
   m_Name: AttackTriggerBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2943387622327522199
 Transform:
   m_ObjectHideFlags: 0
@@ -1980,10 +1982,23 @@ BoxCollider:
   m_GameObject: {fileID: 6024887742837001049}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.2, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8555882864850758013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6024887742837001049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01918929ab530f24483bb040cb413449, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Info: {fileID: 4807809757394548898}
 --- !u!1 &8252775799645337600
 GameObject:
   m_ObjectHideFlags: 0

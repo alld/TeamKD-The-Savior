@@ -6,6 +6,7 @@ public class NewBehaviourScript : MonoBehaviour
 {
     public Transform movepoint;
     Vector3 Movetemp, Move_Yzero;
+    GameObject TempThrown;
     CharacterController unitControl;
     UnitAI unit;
     GameObject unitbox;
@@ -13,14 +14,19 @@ public class NewBehaviourScript : MonoBehaviour
     void Start()
     {
         unitControl = GetComponent<CharacterController>();
-        StartCoroutine(timer());
+        //StartCoroutine(timer());
     }
 
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            Instantiate(this.gameObject);
+            TempThrown = Instantiate(Resources.Load<GameObject>("Unit/TempThrown"));
+            TempThrown.transform.position = transform.position;
+            TempThrown.GetComponent<ThrownObjMove>().thrownSpeed = 0.2f;
+            TempThrown.GetComponent<ThrownObjMove>().targetPoint = movepoint;
+
+            //Instantiate(this.gameObject);
             //unitbox = Instantiate(Resources.Load<GameObject>("Unit/TestBox"));
             //unit = unitbox.GetComponent<UnitAI>();
             //unit.Start();

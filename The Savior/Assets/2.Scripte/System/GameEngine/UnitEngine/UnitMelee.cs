@@ -18,6 +18,7 @@ using UnityEngine;
 /// </summary>
 public class UnitMelee : MonoBehaviour
 {
+    
     /// <summary>
     /// 기능 : 피격된 대상에대한 데이터에 접근하기위한 변수
     /// <br></br>방법 : DungeonOS.instance.partySlot[<paramref name="partyNumber"/>]
@@ -26,10 +27,19 @@ public class UnitMelee : MonoBehaviour
     public int partyNumber;
     UnitInfo unitInfo;
     public GameObject TempThrown;
+    public ParentInfo parentInfo;
+
+    private UnitStateData unitdata;
+
+    private UnitStateData attackerData;
+    private GameObject attackerObj;
+    private UnitInfo attackerInfo;
+
 
     private void Start()
     {
         unitInfo = GetComponent<UnitInfo>();
+        unitdata = GetComponent<UnitStateData>();
     }
 
     /// <summary>
@@ -41,20 +51,26 @@ public class UnitMelee : MonoBehaviour
         if(tempAType != 2)
         {
             unitInfo.attackTriggerBox.SetActive(true);
+            unitInfo.targetUnit = GetComponent<UnitAI>().targetObj;
+
             // (작업 필요)근접 공격시 근접 무기에 달려있는 트리거상자 활성화
         }
         else
         {
             TempThrown = Instantiate(Resources.Load<GameObject>("Unit/TempThrown"));
             TempThrown.transform.position = transform.position;
-            TempThrown.GetComponent<UnitInfo>().partyNumber = partyNumber;
-            TempThrown.GetComponent<UnitInfo>().unitNumber = unitNumber;
-            TempThrown.GetComponent<UnitInfo>().playerUnit = unitInfo.playerUnit;
-            TempThrown.GetComponent<UnitInfo>().thrown = true;
+            UnitInfo tempInfo = TempThrown.GetComponent<UnitInfo>();
+            tempInfo.partyNumber = partyNumber;
+            tempInfo.unitNumber = unitNumber;
+            tempInfo.playerUnit = unitInfo.playerUnit;
+            tempInfo.targetUnit = GetComponent<UnitAI>().targetObj;
+            tempInfo.damage = GetComponent<UnitStateData>().damage;
+            tempInfo.thrown = true;
             TempThrown.GetComponent<ThrownObjMove>().thrownSpeed = 0.2f;
             TempThrown.GetComponent<ThrownObjMove>().targetPoint = GetComponent<UnitAI>().targetPoint;
+
+            Destroy(tempInfo, 3.0f);
             // (작업 필요)원거리 공격시 투사체 오브젝트 생성
-            Debug.Log("데미지 생성");
         }
     }
 
@@ -63,27 +79,41 @@ public class UnitMelee : MonoBehaviour
     /// </summary>
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("데미지 작동");
-        if (other.CompareTag("PHYSICS") && other.GetComponent<UnitInfo>().partyNumber == partyNumber && other.GetComponent<UnitInfo>().playerUnit != GetComponent<UnitInfo>().playerUnit) // 데미지 계산의 대상인지 검사
+        if(other.TryGetComponent<ParentInfo>(out parentInfo)) 
         {
-            other.GetComponent<UnitAI>().dele_attacked();
-            int Target = other.GetComponent<UnitMelee>().partyNumber; //(작업 필요)몬스터껄로 변경필요함
-            float damage;
-            damage = DungeonOS.instance.partyUnit[partyNumber].damage;
-            OnDamage(damage, Target);
-            // 투사체 및 트리거 박스 설정
-            int tempAType = DungeonOS.instance.partyUnit[Target].attackType;
-            if (tempAType != 2)
+            attackerObj = parentInfo.Info;
+            attackerData = attackerObj.GetComponent<UnitStateData>();
+            attackerInfo = attackerObj.GetComponent<UnitInfo>();
+            if ((attackerInfo.playerUnit != unitInfo.playerUnit) && (attackerInfo.targetUnit.unitObj == unitdata.unitObj)) // 데미지 계산의 대상인지 검사
             {
-                other.GetComponent<UnitInfo>().attackTriggerBox.SetActive(false);
-                // (작업 필요)근접 공격 피격시 무기에 달려있는 트리거상자 비활성화
+                //GetComponent<UnitAI>().dele_attacked();
+                int AttackerNumber = attackerInfo.partyNumber; //(작업 필요)몬스터껄로 변경필요함
+                if (attackerInfo.thrown)
+                {
+                    float damage = attackerInfo.damage;
+                    OnDamage(damage, AttackerNumber);
+                }
+                else 
+                {
+                    float damage = attackerData.damage;
+                    OnDamage(damage, AttackerNumber);
+                }
+                // 투사체 및 트리거 박스 설정
+                if (attackerData.attackType != 2)
+                {
+                    parentInfo.Info.GetComponent<UnitInfo>().attackTriggerBox.SetActive(false);
+                    // (작업 필요)근접 공격 피격시 무기에 달려있는 트리거상자 비활성화
+                }
+                else
+                {
+                    if(attackerInfo.thrown) Destroy(attackerObj);
+                    else
+                    {
+                        other.gameObject.SetActive(false);
+                    }
+                    //(작업 필요) 원거리 공격시 투사체 비활성화 하던가 디스트로이 하던가..
+                }
             }
-            else
-            {
-                Destroy(other.gameObject);
-                //(작업 필요) 원거리 공격시 투사체 비활성화 하던가 디스트로이 하던가..
-            }
-
         }
     }
 
@@ -97,6 +127,7 @@ public class UnitMelee : MonoBehaviour
     /// <param name="AttackerNumber"></param>
     private void OnDamage(float dmg, int AttackerNumber)
     {
+        Debug.Log("데미지" + dmg);
         float temp_shield;
         float temp_damage = DamageEngine.instance.OnProtectCalculate(false, dmg, AttackerNumber, partyNumber, out temp_shield);
         DungeonOS.instance.monsterGroup[partyNumber].Current_protect -= temp_shield;
