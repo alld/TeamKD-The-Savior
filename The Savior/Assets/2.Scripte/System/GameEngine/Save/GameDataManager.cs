@@ -12,7 +12,7 @@ public class GameDataManager : MonoBehaviour
     public IEnumerator SaveGameDataToJson(GameData gameData)
     {
         string jsonData = JsonUtility.ToJson(gameData, true);
-        string path = Path.Combine(Application.dataPath, "Resources/gameData.json");
+        string path = Path.Combine(Application.persistentDataPath, "gameData.json");
 
         File.WriteAllText(path, jsonData);
         yield return null;
@@ -21,12 +21,13 @@ public class GameDataManager : MonoBehaviour
     public GameData LoadGameDataFromJson()
     {
         GameData data = new GameData();
-        TextAsset textAsset = Resources.Load<TextAsset>("gameData");
-        if (textAsset == null)
+        string path = Path.Combine(Application.persistentDataPath, "gameData.json");
+        if (!File.Exists(path))
         {
             return data;
         }
-        data = JsonUtility.FromJson<GameData>(textAsset.text);
+        var jsonData = File.ReadAllText(path);
+        data = JsonUtility.FromJson<GameData>(jsonData);
 
         return data;
     }
@@ -35,7 +36,7 @@ public class GameDataManager : MonoBehaviour
     {
         GameData data = new GameData();
         string jsonData = JsonUtility.ToJson(data);
-        string path = Path.Combine(Application.dataPath, "Resources/gameData.json");
+        string path = Path.Combine(Application.persistentDataPath, "gameData.json");
         File.WriteAllText(path, jsonData);
 
         return data;
@@ -69,7 +70,7 @@ public class GameDataManager : MonoBehaviour
     /// </summary>
     public IEnumerator WriteCharExp()
     {
-        string path = Path.Combine(Application.dataPath, "Resources/CharacterDB/CharacterExperience.json");
+        string path = Path.Combine(Application.persistentDataPath, "CharacterExperience.json");
         File.WriteAllText(path, saveData.ToString());
         yield return null;
     }
@@ -81,21 +82,23 @@ public class GameDataManager : MonoBehaviour
     /// <returns></returns>
     public CharExp LoadCharExp(int n)
     {
-        TextAsset textAsset = Resources.Load<TextAsset>("CharacterDB/CharacterExperience.json");
+        string path = Path.Combine(Application.persistentDataPath, "CharacterExperience.json");
         CharExp charExp = new CharExp();
 
-        if (textAsset == null)
-        {;
+        if (!File.Exists(path))
+        {
             charExp.id = (n + 1);
             saveData.Add((n + 1).ToString(), JObject.FromObject(charExp));
-            StartCoroutine(WriteCharExp());
+            //StartCoroutine(WriteCharExp());
             return charExp;
         }
+        var data = File.ReadAllText(path);
 
-        JObject json = JObject.Parse(textAsset.text);
-        saveData.Add((n + 1).ToString(), json[(n+1).ToString()]);
+        JObject json = JObject.Parse(data);
+        //saveData.Add((n + 1).ToString(), JObject.FromObject(charExp));
+        //charExp = saveData[(n + 1).ToString()].ToObject<CharExp>();
         charExp = json[(n + 1).ToString()].ToObject<CharExp>();
-        StartCoroutine(WriteCharExp());
+        //StartCoroutine(WriteCharExp());
         return charExp;
     }
 
@@ -105,13 +108,13 @@ public class GameDataManager : MonoBehaviour
     /// <returns></returns>
     public int CurrentCharIndex()
     {
-        TextAsset textAsset = Resources.Load<TextAsset>("CharacterDB/CharacterExperience");
-        if (textAsset == null)
+        string path = Path.Combine(Application.persistentDataPath, "CharacterExperience.json");
+        if (!File.Exists(path))
         {
             return 0;
         }
 
-        JObject jsonData = JObject.Parse(textAsset.text);
+        JObject jsonData = JObject.Parse(path);
         int i = jsonData.Count;
         return i;
     }
@@ -159,7 +162,7 @@ public class GameDataManager : MonoBehaviour
     /// </summary>
     public IEnumerator WriteCardDataToJson()
     {
-        string path = Path.Combine(Application.dataPath, "Resources/CardDB/MyCardData.json");
+        string path = Path.Combine(Application.persistentDataPath, "MyCardData.json");
         File.WriteAllText(path, ownCard.ToString());
         yield return null;
     }
@@ -174,16 +177,16 @@ public class GameDataManager : MonoBehaviour
     public SaveCardData LoadMyCardData(int n)
     {
         SaveCardData data = new SaveCardData();
-        TextAsset textAsset = Resources.Load<TextAsset>("CardDB/MyCardData");
+        string path = Path.Combine(Application.persistentDataPath, "MyCardData.json");
 
-        if (textAsset == null)
+        if (!File.Exists(path))
         {
             ownCard.Add(n.ToString(), 0);
             data.id = n;
             return data;
         }
-
-        JObject jsonData = JObject.Parse(textAsset.text);
+        var readData = File.ReadAllText(path);
+        JObject jsonData = JObject.Parse(readData);
 
         if (!jsonData.ContainsKey(n.ToString()))
         {
@@ -199,12 +202,13 @@ public class GameDataManager : MonoBehaviour
 
     public int CountMyCardData()
     {
-        TextAsset textAsset = Resources.Load<TextAsset>("CardDB/MyCardData");
-        if (textAsset == null)
+        string path = Path.Combine(Application.persistentDataPath, "MyCardData.json");
+        if (!File.Exists(path))
         {
             return 0;
         }
-        JObject jsonData = JObject.Parse(textAsset.text);
+        var data = File.ReadAllText(path);
+        JObject jsonData = JObject.Parse(data);
 
         int idx = jsonData.Count;
 
@@ -269,7 +273,7 @@ public class GameDataManager : MonoBehaviour
     /// </summary>
     public IEnumerator SavePresetToJson()
     {
-        string path = Path.Combine(Application.dataPath, "Resources/CardDB/CardPreset.json");
+        string path = Path.Combine(Application.persistentDataPath, "CardPreset.json");
         File.WriteAllText(path, jPreset.ToString());
         yield return null;
     }
@@ -285,14 +289,15 @@ public class GameDataManager : MonoBehaviour
     public CardPreset LoadCardPreset(int n)
     {
         CardPreset cardPreset = new CardPreset();
-        TextAsset textAsset = Resources.Load<TextAsset>("CardDB/CardPreset");
-        if (textAsset == null)
+        string path = Path.Combine(Application.persistentDataPath, "CardPreset.json");
+        if (!File.Exists(path))
         {
             jPreset.Add(n.ToString(), JObject.FromObject(cardPreset));
             cardPreset.index = n;
             return cardPreset;
         }
-        JObject j = JObject.Parse(textAsset.text);
+        var data = File.ReadAllText(path);
+        JObject j = JObject.Parse(data);
         jPreset.Add(n.ToString(), JObject.FromObject(cardPreset));
         cardPreset = j[n.ToString()].ToObject<CardPreset>();
         return cardPreset;
@@ -300,12 +305,12 @@ public class GameDataManager : MonoBehaviour
 
     public int CountPresetData()
     {
-        TextAsset textAsset = Resources.Load<TextAsset>("CardDB/CardPreset");
-        if (textAsset == null)
+        string path = Path.Combine(Application.persistentDataPath, "CardPreset.json");
+        if (!File.Exists(path))
         {
             return 0;
         }
-        JObject j = JObject.Parse(textAsset.text);
+        JObject j = JObject.Parse(path);
 
         int idx = j.Count;
         return idx;

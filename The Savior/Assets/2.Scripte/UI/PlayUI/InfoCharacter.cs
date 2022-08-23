@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
-using SimpleJSON;
+using Newtonsoft.Json.Linq;
 
 public class InfoCharacter : MonoBehaviour
 {
@@ -38,8 +38,6 @@ public class InfoCharacter : MonoBehaviour
     public TMP_Text att;
     public TMP_Text def;
 
-    private TextAsset json;
-    private string jsonData;
     //private CharacterDatabase charData; // 이전
     private CharacterDatabase.Data charData; // 수정
     private CharacterDatabase CharData; // 수정
@@ -54,8 +52,6 @@ public class InfoCharacter : MonoBehaviour
         statusButton.onClick.AddListener(() => OnClick_StatusBtn());
         identityButton.onClick.AddListener(() => OnClick_IdentityBtn());
 
-        json = Resources.Load<TextAsset>("CharacterData");
-        jsonData = json.text;
         //charData = GameObject.Find("GameManager").GetComponent<CharacterDatabase>(); 이전
         CharData = GameObject.Find("GameManager").GetComponent<CharacterDatabase>(); // 수정
     }
@@ -74,7 +70,7 @@ public class InfoCharacter : MonoBehaviour
         character = Instantiate(character, imgTr);
         InitRectSize(character);
 
-        charName.text = charData.charName;
+        charName.text = charData.charNameKor;
         hp.text = "체력 : " + charData.maxHP;
         att.text = "공격력 : " + charData.damage;
         def.text = "방어력 : " + charData.defense;
