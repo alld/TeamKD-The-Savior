@@ -10,8 +10,10 @@ public class RelicInventory : MonoBehaviour
 
     private Image relicImg;
 
-    private void Start()
+    IEnumerator Start()
     {
+        yield return new WaitUntil(() => GameManager.instance.isSetting);
+
         for (int i = 0; i < GameManager.instance.data.haveRelic.Count; i++)
         {
             for (int j = 0; j < GameManager.instance.data.haveRelic.Count; j++)

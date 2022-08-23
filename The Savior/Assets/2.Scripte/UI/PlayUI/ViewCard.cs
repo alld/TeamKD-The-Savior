@@ -96,7 +96,7 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
                     break;
             }
 
-            GameManager.instance.PresetSave();
+            StartCoroutine(GameManager.instance.PresetSave());
         }
     }
 

@@ -50,7 +50,7 @@ public class DropCard : MonoBehaviour, IDropHandler
                 default:
                     break;
             }
-            GameManager.instance.PresetSave();
+            StartCoroutine(GameManager.instance.PresetSave());
         }
     }
 }

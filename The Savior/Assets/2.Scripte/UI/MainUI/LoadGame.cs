@@ -11,8 +11,9 @@ public class LoadGame : MonoBehaviour
     // 저장된 게임이 없을 경우 불러오기 버튼 비활성화.
     public GameObject blindLoadButton;
 
-    void Start()
+    IEnumerator Start()
     {
+        yield return new WaitUntil(() => GameManager.instance.isSetting);
         // 저장된 데이터가 없을 경우, 버튼을 비활성화 시킨다.
         if (GameManager.instance.data.gameProgress != -1)
         {

@@ -10,14 +10,8 @@ public class SummonCharacter : MonoBehaviour
     public int input = 5;
     // 난수
     private int rnd;
-    private int stop;
-
-    public int Stop
-    {
-        get { return stop; }
-        set { stop = value; }
-    }
-
+    public bool ishave = false;
+    int id;
     // 소환될 캐릭터의 오브젝트
     private GameObject character;
     private Image charImg;
@@ -46,23 +40,27 @@ public class SummonCharacter : MonoBehaviour
     {
         if (GameManager.instance.data.golds < price)
         {
+            Debug.Log(GameManager.instance.data.golds);
             Debug.Log("골드가 부족합니다.");
             return;
         }
-        stop = DuplicateSummon();
-        if (stop == 1)
+        id = DuplicateSummon();
+
+        if( id == 0)
         {
             return;
         }
 
         GameManager.instance.data.golds -= price;
 
-        character = Resources.Load<GameObject>("Unit/Character" + rnd.ToString());
+        character = Resources.Load<GameObject>("Unit/Character" + id.ToString());
         character = Instantiate(character, summonCharTr);
 
         // 캐릭터 소유 유무 저장
-        GameManager.instance.data.haveCharacter.Add(character.GetComponent<UnitInfo>().unitNumber);
         GameManager.instance.GameSave();
+
+        // 획득한 캐릭터의 데이터 저장.
+        StartCoroutine(GameManager.instance.SaveCharExp(character.GetComponent<UnitInfo>().unitNumber));
     }
 
 
@@ -73,28 +71,24 @@ public class SummonCharacter : MonoBehaviour
     /// <returns></returns>
     public int DuplicateSummon()
     {
-        int max = 0;
         // 캐릭터 생성
         rnd = Random.Range(1, input);
-
-
-        for (int i = 0; i < GameManager.instance.data.haveCharacter.Count; i++)
+        
+        for(int i = 0; i < GameManager.instance.maxCharacterCount; i++)     // 최대 캐릭터 수만큼 반복해서 0이 있을 경우.
         {
-            if (GameManager.instance.data.haveCharacter[i] == rnd)
+            if(GameManager.instance.data.haveCharacter[i] == 0)
             {
-                if (GameManager.instance.data.haveCharacter[i] == 0)
+                while (GameManager.instance.data.haveCharacter.Contains(rnd))       // 없는 캐릭터가 나올 때 까지 반복, rnd에서 0은 나오지 않는다.
                 {
-                    DuplicateSummon();
+                    rnd = Random.Range(1, (GameManager.instance.maxCharacterCount + 1));
                 }
-                else
-                {
-                    warningImg.SetActive(true);
-                    max = 1;
-                    break;
-                }
+                GameManager.instance.data.haveCharacter[i] = rnd;
+                return rnd;
             }
         }
-        return max;
+
+        ishave = true;
+        return 0;
     }
 
     public void InitSummon()

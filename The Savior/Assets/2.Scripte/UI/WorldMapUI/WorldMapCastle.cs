@@ -92,7 +92,7 @@ public class WorldMapCastle : MonoBehaviour
     /// </summary>
     private void OnClick_OnBuyBtn()
     {
-        buy.BuyCard();
+        StartCoroutine(buy.BuyCard());
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public class WorldMapCastle : MonoBehaviour
         }
         summon.SummonRandom(summonPrice);
 
-        if(summon.Stop == 1)
+        if (summon.ishave)      // 모든 캐릭터를 가지고 있을 때.
         {
             return;
         }

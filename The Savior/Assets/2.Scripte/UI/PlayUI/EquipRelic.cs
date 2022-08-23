@@ -17,27 +17,30 @@ public class EquipRelic : MonoBehaviour
     IEnumerator Start()
     {
         relic = GameObject.Find("PUIManager").GetComponent<Relic>();
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitUntil(() => GameManager.instance.isSetting);
         for (int i = 0; i < GameManager.instance.data.equipRelic.Length; i++)
         {
             for (int j = 0; j < GameManager.instance.data.haveRelic.Count; j++)
             {
-                if (relicInventoryTr.GetChild(j).GetChild(0).GetComponent<ViewRelic>().number == GameManager.instance.data.equipRelic[i])
+                if (relicInventoryTr.GetChild(j).childCount != 0)
                 {
+                    if (relicInventoryTr.GetChild(j).GetChild(0).GetComponent<ViewRelic>().number == GameManager.instance.data.equipRelic[i])
+                    {
 
-                    equipRelic = Resources.Load<Image>("Relic/Relic_" + GameManager.instance.data.equipRelic[i].ToString());
-                    equipRelic = Instantiate(equipRelic, equipTr.GetChild(i).GetChild(0).GetComponent<Transform>());
-                    relic.relicNum[i] = GameManager.instance.data.equipRelic[i];
+                        equipRelic = Resources.Load<Image>("Relic/Relic_" + GameManager.instance.data.equipRelic[i].ToString());
+                        equipRelic = Instantiate(equipRelic, equipTr.GetChild(i).GetChild(0).GetComponent<Transform>());
+                        relic.relicNum[i] = GameManager.instance.data.equipRelic[i];
 
 
-                    Destroy(equipRelic.GetComponent<ViewRelic>());
+                        Destroy(equipRelic.GetComponent<ViewRelic>());
 
-                    selectImg = Resources.Load<Image>("Relic/SelectRelic");
-                    selectImg = Instantiate(selectImg, relicInventoryTr.GetChild(j));
-                    relic.selectTr[i] = selectImg.transform.parent;
+                        selectImg = Resources.Load<Image>("Relic/SelectRelic");
+                        selectImg = Instantiate(selectImg, relicInventoryTr.GetChild(j));
+                        relic.selectTr[i] = selectImg.transform.parent;
 
-                    InitRect(equipRelic);
-                    break;
+                        InitRect(equipRelic);
+                        break;
+                    }
                 }
             }
         }

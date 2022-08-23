@@ -29,8 +29,10 @@ public class CardDeck : MonoBehaviour
     public int type_Debuff;
     public int type_Attack;
 
-    void Start()
+    IEnumerator Start()
     {
+        yield return new WaitUntil(() => GameManager.instance.isSetting);
+        
         //CardInventory.SetActive(true);
         // 게임 시작시 프리셋 버튼 연결
         for (int i = 0; i < presetButton.Length; i++)
@@ -41,8 +43,8 @@ public class CardDeck : MonoBehaviour
         // 게임 시작시 데이터에 저장되어있는 카드를 검색.
         for (int i = 1; i <= GameManager.instance.maxCardCount; i++)
         {
-            // 해당 번호의 카드가 0개가 아니라면
-            if (GameManager.instance.cardDic[i] != 0)
+            // 해당 번호의 카드가 있다면
+            if (GameManager.instance.cardDic.ContainsKey(i))
             {
                 // 해당 카드의 개수만큼 반복하여 인벤토리에 생성.
                 for (int j = 1; j <= GameManager.instance.cardDic[i]; j++)
@@ -76,6 +78,7 @@ public class CardDeck : MonoBehaviour
         // 현재 프리셋의 데이터에 세팅된 카드 장착
         for (int i = 0; i < equipTr.childCount; i++)
         {
+            if (GameManager.instance.cardPreset[n] == null) return;
             if (GameManager.instance.cardPreset[n].preset[i] == 0) continue;
             changePreset = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/MyCard/Viewport/Content/Card_" + GameManager.instance.cardPreset[n].preset[i].ToString() + "(Clone)");
 

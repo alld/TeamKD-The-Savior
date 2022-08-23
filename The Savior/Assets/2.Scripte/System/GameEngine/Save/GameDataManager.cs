@@ -9,31 +9,24 @@ using SimpleJSON;
 
 public class GameDataManager : MonoBehaviour
 {
-    public void SaveGameDataToJson(GameData gameData)
+    public IEnumerator SaveGameDataToJson(GameData gameData)
     {
         string jsonData = JsonUtility.ToJson(gameData, true);
         string path = Path.Combine(Application.dataPath, "Resources/gameData.json");
-        if (File.Exists(path))
-        {
-            File.WriteAllText(path, jsonData);
-        }
-        else
-        {
-            File.Create(path);
-            File.WriteAllText(path, jsonData);
-        }
+
+        File.WriteAllText(path, jsonData);
+        yield return null;
     }
 
     public GameData LoadGameDataFromJson()
     {
         GameData data = new GameData();
-        string path = Path.Combine(Application.dataPath, "Resources/gameData.json");
-        if (!File.Exists(path))
+        TextAsset textAsset = Resources.Load<TextAsset>("gameData");
+        if (textAsset == null)
         {
-            File.Create(path);
+            return data;
         }
-        string jsonData = File.ReadAllText(path);
-        data = JsonUtility.FromJson<GameData>(jsonData);
+        data = JsonUtility.FromJson<GameData>(textAsset.text);
 
         return data;
     }
@@ -74,15 +67,11 @@ public class GameDataManager : MonoBehaviour
     /// <summary>
     /// 저장된 캐릭터의 데이터를 json 파일에 작성합니다.
     /// </summary>
-    public void WriteCharExp()
+    public IEnumerator WriteCharExp()
     {
         string path = Path.Combine(Application.dataPath, "Resources/CharacterDB/CharacterExperience.json");
-
-        if (!File.Exists(path))
-        {
-            File.Create(path);
-        }
         File.WriteAllText(path, saveData.ToString());
+        yield return null;
     }
 
     /// <summary>
@@ -95,14 +84,18 @@ public class GameDataManager : MonoBehaviour
         TextAsset textAsset = Resources.Load<TextAsset>("CharacterDB/CharacterExperience.json");
         CharExp charExp = new CharExp();
 
-        if(textAsset == null)
-        {
+        if (textAsset == null)
+        {;
+            charExp.id = (n + 1);
+            saveData.Add((n + 1).ToString(), JObject.FromObject(charExp));
+            StartCoroutine(WriteCharExp());
             return charExp;
         }
 
         JObject json = JObject.Parse(textAsset.text);
+        saveData.Add((n + 1).ToString(), json[(n+1).ToString()]);
         charExp = json[(n + 1).ToString()].ToObject<CharExp>();
-
+        StartCoroutine(WriteCharExp());
         return charExp;
     }
 
@@ -113,7 +106,7 @@ public class GameDataManager : MonoBehaviour
     public int CurrentCharIndex()
     {
         TextAsset textAsset = Resources.Load<TextAsset>("CharacterDB/CharacterExperience");
-        if(textAsset == null)
+        if (textAsset == null)
         {
             return 0;
         }
@@ -147,28 +140,30 @@ public class GameDataManager : MonoBehaviour
     /// </summary>
     /// <param name="n"> 카드의 번호 </param>
     /// <param name="idx"> 카드의 개수 </param>
-    public void SaveCardData(int id, int idx)
+    public IEnumerator SaveCardData(int id, int idx)
     {
         if (ownCard.ContainsKey(id.ToString())) // 이미 동일한 키가 JObject에 있다면 해당 키의 값을 수정.
         {
             ownCard[id.ToString()] = idx;
-            return;
+            yield return StartCoroutine(WriteCardDataToJson());
         }
-        ownCard.Add(id.ToString(), idx);        // JObject에 키와 값을 저장.
+        else
+        {
+            ownCard.Add(id.ToString(), idx);        // JObject에 키와 값을 저장.
+            yield return StartCoroutine(WriteCardDataToJson());
+        }
     }
+
     /// <summary>
     /// JObject에 저장된 데이터를 json 파일에 작성한다.
     /// </summary>
-    public void WriteCardDataToJson()
+    public IEnumerator WriteCardDataToJson()
     {
         string path = Path.Combine(Application.dataPath, "Resources/CardDB/MyCardData.json");
-        if (!File.Exists(path))
-        {
-            File.Create(path);
-        }
-
         File.WriteAllText(path, ownCard.ToString());
+        yield return null;
     }
+
 
     /// <summary>
     /// json파일에 저장되어있는 자신의 카드 개수를 클래스에 담아 반환한다.
@@ -181,8 +176,10 @@ public class GameDataManager : MonoBehaviour
         SaveCardData data = new SaveCardData();
         TextAsset textAsset = Resources.Load<TextAsset>("CardDB/MyCardData");
 
-        if(textAsset == null)
+        if (textAsset == null)
         {
+            ownCard.Add(n.ToString(), 0);
+            data.id = n;
             return data;
         }
 
@@ -197,14 +194,13 @@ public class GameDataManager : MonoBehaviour
 
         data.id = n;
         data.ownCard = jsonData[n.ToString()].ToObject<int>();
-
         return data;
     }
 
     public int CountMyCardData()
     {
         TextAsset textAsset = Resources.Load<TextAsset>("CardDB/MyCardData");
-        if(textAsset == null)
+        if (textAsset == null)
         {
             return 0;
         }
@@ -250,79 +246,6 @@ public class GameDataManager : MonoBehaviour
      ***************************************************************************************
      */
 
-
-    public JObject cardJson = new JObject();
-
-
-    /// <summary>
-    /// 카드의 데이터를 Json 데이터로 변환합니다.
-    /// </summary>
-    /// <param name="card"></param>
-    public void GainCard(HaveCard card)
-    {
-        /*
-         * 게임 내에서 저장 된 데이터를 불러온다.
-         * 제이슨으로 변환한다.
-         * 텍스트로 저장한다.
-         */
-        string path = Path.Combine(Application.dataPath, "Resources/HaveCard.json");
-        if (!File.Exists(path))
-        {
-            File.Create(path);
-        }
-        if (cardJson.ContainsKey(card.id.ToString()))
-        {
-            // json 파일에 업데이트
-            cardJson[card.id.ToString()]["haveCard"] = JsonConvert.SerializeObject(card.haveCard);
-            return;
-        }
-        cardJson.Add(card.id.ToString(), JObject.FromObject(card));
-    }
-    /// <summary>
-    /// Json 으로 변환된 데이터를 파일로 저장합니다.
-    /// </summary>
-    public void SaveCard()
-    {
-        string path = Path.Combine(Application.dataPath, "Resources/HaveCard.json");
-        File.WriteAllText(path, cardJson.ToString());
-    }
-    /// <summary>
-    /// Json파일에 저장된 카드의 데이터를 불러옵니다.
-    /// </summary>
-    /// <param name="n"></param>
-    /// <returns></returns>
-    public HaveCard CardDataLoad(int n)
-    {
-        string path = Path.Combine(Application.dataPath, "Resources/HaveCard.json");
-
-        if (!File.Exists(path))
-        {
-            File.Create(path);
-
-        }
-
-
-        HaveCard card = new HaveCard();
-        TextAsset textAsset = Resources.Load<TextAsset>("HaveCard");
-        JObject j = JObject.Parse(textAsset.text);
-        card = j[n.ToString()].ToObject<HaveCard>();
-        return card;
-    }
-
-    /// <summary>
-    /// 현재 Json파일에 카드 인덱스가 몇인지 반환합니다.
-    /// </summary>
-    /// <returns></returns>
-    public int CurrentCardData()
-    {
-        TextAsset textAsset = Resources.Load<TextAsset>("HaveCard");
-        JObject j = JObject.Parse(textAsset.text);
-
-        int i = j.Count;
-        return i;
-    }
-
-
     #endregion
 
     #region 카드 프리셋
@@ -344,16 +267,14 @@ public class GameDataManager : MonoBehaviour
     /// <summary>
     /// JObject에 저장되어있는 데이터를 Json파일로 저장합니다.
     /// </summary>
-    public void SavePresetToJson()
+    public IEnumerator SavePresetToJson()
     {
         string path = Path.Combine(Application.dataPath, "Resources/CardDB/CardPreset.json");
-        if (!File.Exists(path))
-        {
-            File.Create(path);
-        }
-
         File.WriteAllText(path, jPreset.ToString());
+        yield return null;
     }
+
+
 
     /// <summary>
     /// 현재 저장되어있는 카드 프리셋 데이터를 불러옵니다.
@@ -367,9 +288,12 @@ public class GameDataManager : MonoBehaviour
         TextAsset textAsset = Resources.Load<TextAsset>("CardDB/CardPreset");
         if (textAsset == null)
         {
+            jPreset.Add(n.ToString(), JObject.FromObject(cardPreset));
+            cardPreset.index = n;
             return cardPreset;
         }
         JObject j = JObject.Parse(textAsset.text);
+        jPreset.Add(n.ToString(), JObject.FromObject(cardPreset));
         cardPreset = j[n.ToString()].ToObject<CardPreset>();
         return cardPreset;
     }
@@ -377,7 +301,7 @@ public class GameDataManager : MonoBehaviour
     public int CountPresetData()
     {
         TextAsset textAsset = Resources.Load<TextAsset>("CardDB/CardPreset");
-        if(textAsset == null)
+        if (textAsset == null)
         {
             return 0;
         }
@@ -387,21 +311,6 @@ public class GameDataManager : MonoBehaviour
         return idx;
     }
 
-    /// <summary>
-    /// 프리셋의 데이터를 불러 오기 전 초기화 시킨다.
-    /// 프리셋의 인덱스 번호로 값을 초기화 시킨다.
-    /// <br> 1번 인덱스 부터 넣도롭 합시다.</br>
-    /// </summary>
-    /// <param name="index"></param>
-    /// <returns></returns>
-    public CardPreset InitCardPreset(int index)
-    {
-        CardPreset preset = new CardPreset();
-        jPreset.Add(index.ToString(), JObject.FromObject(preset));
-        preset = jPreset[index.ToString()].ToObject<CardPreset>();
-
-        return preset;
-    }
 
     #endregion
 }
@@ -417,8 +326,8 @@ namespace GameDataTable
         public int SFX = 100;
         public int BGM = 100;
         public int Sound = 100;
-        public int souls = 0;
-        public int golds = 0;
+        public int souls = 10000;
+        public int golds = 10000;
         public int myPoint = 0;
         public string[] presetName = new string[] { "1번 프리셋", "2번 프리셋", "3번 프리셋", "4번 프리셋", "5번 프리셋" };
         public int preset = 1;

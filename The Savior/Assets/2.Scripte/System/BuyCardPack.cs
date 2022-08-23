@@ -133,7 +133,7 @@ public class BuyCardPack : MonoBehaviour
     /// <summary>
     /// 카드 구매시 호출되는 함수.
     /// </summary>
-    public void BuyCard()
+    public IEnumerator BuyCard()
     {
         unPack.SetActive(false);
         openPack.SetActive(true);
@@ -152,8 +152,7 @@ public class BuyCardPack : MonoBehaviour
             {
                 GameManager.instance.cardDic.Add(rnd, 1);
             }
-            GameManager.instance.SaveOrReviseCardData(rnd, GameManager.instance.cardDic[rnd]);
-
+            yield return StartCoroutine(GameManager.instance.SaveOrReviseCardData(rnd, GameManager.instance.cardDic[rnd]));
         }
     }
 

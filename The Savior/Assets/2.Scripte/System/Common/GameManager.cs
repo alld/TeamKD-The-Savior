@@ -20,7 +20,8 @@ public class GameManager : MonoBehaviour
     public GameData data;
 
     public int maxCardCount = 23;      // 현재 게임에 적용되어있는 카드의 수
-
+    public int maxCharacterCount = 4;  // 현재 게임에 적용되어있는 캐릭터의 수.
+    public bool isSetting = false;
 
     public List<HaveCard> card = new List<HaveCard>();  // Json 파일에 저장되어야 하는 카드의 데이터
 
@@ -60,34 +61,61 @@ public class GameManager : MonoBehaviour
         // Play씬에서 사용하는 UI 연결
         playUI = GameObject.Find("PUIManager").GetComponent<PlayUI>();
 
-        //LoadCardData();
+        StartCoroutine(GameStart());
+    }
 
-        // 현재 게임 데이터를 불러온다.
-        GameLoad();
-        // 캐릭터의 데이터를 불러온다.
-        LoadCharExp();
-        // 카드의 데이터를 불러온다.
-        AddCardData();
-        LoadOwnCardData();
-        // 카드 프리셋 데이터를 불러온다.
-        LoadPresetData();
+    public IEnumerator GameStart()
+    {
+        yield return StartCoroutine(GameLoad());
+        yield return StartCoroutine(LoadCharExp());
+        yield return StartCoroutine(AddCardData());
+        yield return StartCoroutine(LoadOwnCardData());
+        yield return StartCoroutine(LoadPresetData());
+        yield return StartCoroutine(CharacterIndexSetting());
+        yield return StartCoroutine(StartRelic());
+        isSetting = true;
+    }
+
+    private IEnumerator StartRelic()
+    {
+        if (data.haveRelic.Count < 12)
+        {
+            for (int i = 1; i <= 12; i++)
+            {
+                data.haveRelic.Add(i);
+            }
+        }
+        yield return null;
+    }
+
+    private IEnumerator CharacterIndexSetting()
+    {
+        if (data.haveCharacter.Count < maxCharacterCount)
+        {
+            for (int i = 0; i < maxCharacterCount; i++)
+            {
+                data.haveCharacter.Add(0);
+            }
+        }
+        yield return null;
     }
 
     #region 게임 데이터 저장, 불러오기, 리셋하기
     /// <summary>
     /// 데이터를 저장한다.
     /// </summary>
-    public void GameSave()
+    public IEnumerator GameSave()
     {
-        dataManager.SaveGameDataToJson(data);
+        yield return StartCoroutine(dataManager.SaveGameDataToJson(data));
     }
 
     /// <summary>
     /// 데이터를 불러온다.
     /// </summary>
-    public void GameLoad()
+    public IEnumerator GameLoad()
     {
         data = dataManager.LoadGameDataFromJson();
+        yield return null;
     }
 
     /// <summary>
@@ -110,22 +138,22 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="id"></param>
     /// <param name="idx"></param>
-    public void SaveOrReviseCardData(int _key, int _value)
+    public IEnumerator SaveOrReviseCardData(int _key, int _value)
     {
-        dataManager.SaveCardData(_key, _value);
-        dataManager.WriteCardDataToJson();
+        yield return StartCoroutine(dataManager.SaveCardData(_key, _value));
     }
 
     /// <summary>
     /// 획득하여 저장된 카드의 데이터를 불러옵니다.
     /// </summary>
-    public void LoadOwnCardData()
+    private IEnumerator LoadOwnCardData()
     {
         //int idx = dataManager.CountMyCardData();
         for (int i = 1; i <= maxCardCount; i++)
         {
             cardDic.Add(i, dataManager.LoadMyCardData(i).ownCard);
         }
+        yield return null;
     }
 
 
@@ -133,7 +161,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 카드의 데이터가 저장되어있는 json파일에서 카드의 id와 type를 가져옵니다.
     /// </summary>
-    public void AddCardData()
+    public IEnumerator AddCardData()
     {
         cardData.Clear();
         int index = dataManager.CountCardData();
@@ -141,9 +169,9 @@ public class GameManager : MonoBehaviour
         {
             cardData.Add(dataManager.ReadCardDataFromJson(i));
         }
+        yield return null;
     }
     #endregion
-
 
     #region 캐릭터 경험치, 레벨 저장
 
@@ -151,95 +179,53 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 캐릭터 경험치 / 레벨 저장 
     /// </summary>
-    public void SaveCharExp(int id)
+    public IEnumerator SaveCharExp(int id)
     {
-        dataManager.SaveCharExp(charExp[id]);
-        dataManager.WriteCharExp();
+        dataManager.SaveCharExp(charExp[id - 1]);
+        yield return StartCoroutine(dataManager.WriteCharExp());
     }
 
     /// <summary>
     /// 캐릭터 경험치 / 레벨 불러오기.
     /// </summary>
-    public void LoadCharExp()
+    public IEnumerator LoadCharExp()
     {
         charExp.Clear();
-        int idx = dataManager.CurrentCharIndex();
-        for (int i = 0; i < idx; i++)
+        //int idx = dataManager.CurrentCharIndex();
+        for (int i = 0; i < maxCharacterCount; i++)
         {
             charExp.Add(dataManager.LoadCharExp(i));
         }
+        yield return null;
     }
     #endregion
-
 
     #region 카드 프리셋
 
     public List<CardPreset> cardPreset = new List<CardPreset>(); // json 파일에 저장되어야 하는 카드 프리셋 데이터
-    public void PresetSave()
+    public IEnumerator PresetSave()
     {
         for (int i = 0; i < 5; i++)
         {
             dataManager.SavePreset(cardPreset[i]);
         }
-        dataManager.SavePresetToJson();
+        yield return StartCoroutine(dataManager.SavePresetToJson());
     }
 
     /// <summary>
     /// json파일에 저장된 프리셋의 데이터를 불러온다.
     /// </summary>
-    public void LoadPresetData()
+    public IEnumerator LoadPresetData()
     {
-        InitPresetData();
-        int idx = dataManager.CountPresetData();
-        for (int i = 0; i < idx; i++)
-        {
-            cardPreset[i] = dataManager.LoadCardPreset(i + 1);
-        }
-    }
-
-    public void InitPresetData()
-    {
-        cardPreset.Clear();
         for (int i = 1; i <= 5; i++)
         {
-            cardPreset.Add(dataManager.InitCardPreset(i));
+            cardPreset.Add(dataManager.LoadCardPreset(i));
         }
+        yield return null;
     }
 
+
     #endregion
-
-
-    ///// <summary>
-    ///// 현재 카드 상황을 Json 파일로 저장한다.
-    ///// </summary>
-    ///// <param name="n"></param>
-    //public void CardSave()
-    //{
-    //    cardIdx = dataManager.CurrentCardData();
-    //    // 리스트의 인덱스는 0부터 시작
-    //    // 반환된 cardIdx는 1부터 시작하여 마지막 값의 +1 이기 때문에
-    //    // cardIdx -2가 최대 리스트 인덱스
-    //    for (int cardArr = 0; cardArr < (cardIdx - 1); cardArr++)
-    //    {
-    //        dataManager.GainCard(card[cardArr]);
-    //    }
-    //    dataManager.SaveCard();
-    //}
-
-    ///// <summary>
-    ///// Json 파일에 카드 인덱스가 몇이나 있는지 값을 받고,
-    ///// <br>인덱스 수 만큼 데이터를 불러옵니다.</br>
-    ///// </summary>
-    //public void LoadCardData()
-    //{
-    //    card.Clear();
-    //    cardIdx = dataManager.CurrentCardData();
-    //    for (int cardArr = 1; cardArr <= cardIdx; cardArr++)
-    //    {
-    //        card.Add(dataManager.CardDataLoad(cardArr));
-    //    }
-    //}
-
 
     #region 씬 관련
     public string currentlyScene = "Main";
@@ -296,11 +282,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (currentlyScene == "Main") return;
-        if (data != dataManager.LoadGameDataFromJson())
-        {
-            GameSave();
-        }
-
+        StartCoroutine(GameSave());
         playTime += Time.deltaTime;
         if (dungeonOS != null) dungeonPlayTime += Time.deltaTime;
     }
