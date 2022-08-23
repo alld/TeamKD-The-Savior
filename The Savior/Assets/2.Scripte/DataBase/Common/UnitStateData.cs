@@ -133,7 +133,7 @@ public class UnitStateData : MonoBehaviour
     /// <summary>
     /// 가중치 :: 추가 공격력
     /// </summary>
-    public float Add_damage;
+    public float Add_damage = 0;
     /// <summary>
     /// 가중치 :: 최종 추가 공격력
     /// </summary>
@@ -145,35 +145,35 @@ public class UnitStateData : MonoBehaviour
     /// <summary>
     /// 가중치(추가능력) :: 보호막 수치
     /// </summary>
-    public float Current_protect;
+    public float Current_protect = 0;
     /// <summary>
     /// 가중치(추가능력) :: 보호막 최대 수치
     /// </summary>
-    public float Current_protectMax;
+    public float Current_protectMax = 0;
     /// <summary>
     /// 가중치 :: 공격 속도
     /// </summary>
-    public float Add_attackSpeed;
+    public float Add_attackSpeed = 1;
     /// <summary>
     /// 가중치 :: 이동 속도
     /// </summary>
-    public float Add_moveSpeed;
+    public float Add_moveSpeed = 1;
     /// <summary>
     /// 가중치 :: 방어력
     /// </summary>
-    public float Add_defense;
+    public float Add_defense = 0;
     /// <summary>
     /// 가중치 :: 공격 범위(사거리)
     /// </summary>
-    public float Add_attackRange;
+    public float Add_attackRange = 1;
     /// <summary>
     /// 가중치 :: 속성 변경 여부 (bool)
     /// </summary>
-    public bool Add_attributeCheck;
+    public bool Add_attributeCheck = false;
     /// <summary>
     /// 가중치 :: 변경된 속성값 
     /// </summary>
-    public int Add_attribute;
+    public int Add_attribute = 0;
     /// <summary>
     /// 가중치 :: 속성 추가 데미지
     /// </summary>
@@ -181,11 +181,11 @@ public class UnitStateData : MonoBehaviour
     /// <summary>
     /// 가중치 :: 공격 인식 범위
     /// </summary>
-    public float Add_priRange;
+    public float Add_priRange = 1;
     /// <summary>
     /// 가중치 :: 공격 우선도
     /// </summary>
-    public int Add_priorities;
+    public int Add_priorities = 0;
     /// <summary>
     /// 가중치 :: 스킬 쿨다운
     /// </summary>

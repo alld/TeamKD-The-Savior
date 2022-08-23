@@ -53,7 +53,7 @@ public class DamageEngine : MonoBehaviour
             add_finalDamage = DungeonOS.instance.partyUnit[attacker].Add_fianlDamage + DungeonOS.instance.partyUnit[attacker].Add_fianlDamage;
             add_DropDamage = DungeonOS.instance.monsterGroup[defender].Add_dropDamage + DungeonOS.instance.monsterGroup[defender].Add_dropDamage;
         }
-        else 
+        else
         {
             if (DungeonOS.instance.partyUnit[defender].isinvincible) return 0;
             // 속성 변환 체크 후 설정값 지정 
@@ -101,7 +101,7 @@ public class DamageEngine : MonoBehaviour
         a_Damage = (dmg - d_defense) * addDamage_attribute;
         a_Damage = a_Damage * add_finalDamage * add_DropDamage;
         // 데미지 마이너스 방지 
-        if(a_Damage < 0) return 0;
+        if (a_Damage < 0) return 0;
         else return a_Damage;
     }
     /// <summary>
@@ -121,7 +121,7 @@ public class DamageEngine : MonoBehaviour
         if (playercheck) temp_shield = DungeonOS.instance.partyUnit[defender].Current_protect;
         else temp_shield = DungeonOS.instance.monsterGroup[defender].Current_protect;
 
-        if(dmg <= temp_shield)
+        if (dmg <= temp_shield)
         {
             shieldDamage = dmg;
             a_Damage = 0;

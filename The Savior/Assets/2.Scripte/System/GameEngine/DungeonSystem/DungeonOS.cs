@@ -27,7 +27,7 @@ public class DungeonOS : MonoBehaviour
     List<int> rewardCardBox = new List<int>();
     List<int> rewardRelicBox = new List<int>();
 
-    List<UnitStateData> stageSlotPlayerBottom = new List<UnitStateData>(); 
+    List<UnitStateData> stageSlotPlayerBottom = new List<UnitStateData>();
     List<UnitStateData> stageSlotPlayerTop = new List<UnitStateData>();
     List<UnitStateData> stageSlotPlayerMid = new List<UnitStateData>();
 
@@ -124,9 +124,9 @@ public class DungeonOS : MonoBehaviour
     public int costDGP
     {
         get { return CostDGP; }
-        set 
+        set
         {
-            CostDGP = value; 
+            CostDGP = value;
             HandUIReset();
         }
     }
@@ -137,7 +137,7 @@ public class DungeonOS : MonoBehaviour
     public float progressTimeDGP
     {
         get { return ProgressTimeDGP; }
-        set 
+        set
         {
             ProgressTimeDGP = value;
             DungeonCtrl.gameTimerText.text = progressTimeDGP.ToString("F0");
@@ -213,7 +213,7 @@ public class DungeonOS : MonoBehaviour
     private void Awake()
     {
         dungeonData = new DungeonData.data(dungeonNumber);
-        instance = this; 
+        instance = this;
 
     }
     //카드기능 제외... 카드 데이터베이스를 만들어야함. 
@@ -274,7 +274,7 @@ public class DungeonOS : MonoBehaviour
         if (++roundDGP % 10 == 5) StageReset(5);
         else if (roundDGP % 10 != 0)
         {
-            if (roundInfoDG[roundDGP -1] == 6)
+            if (roundInfoDG[roundDGP - 1] == 6)
             {
                 StageReset(num);
             }
@@ -288,12 +288,12 @@ public class DungeonOS : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(clickPoint);
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             if (hit.collider.CompareTag("STAGEPOINT"))
             {
                 int temp = hit.collider.GetComponent<PointInfo>().pointNumber;
-                if(temp == 0)
+                if (temp == 0)
                 {
                     NextRound(roundDGP);
                 }
@@ -319,9 +319,9 @@ public class DungeonOS : MonoBehaviour
 
     void SelectResurrection(int partySlotN)
     {
-        if(resurrectable)
+        if (resurrectable)
         {
-            if(partyUnit != null & !partyUnit[partySlotN].isLive)
+            if (partyUnit != null & !partyUnit[partySlotN].isLive)
             {
                 resurrectable = false;
                 partyUnit[partySlotN].isLive = true;
@@ -978,7 +978,7 @@ public class DungeonOS : MonoBehaviour
             tempMonster = Instantiate(dungeonData.dungeonMonsterBox[tempint].charObject);
             SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
             monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
-            monsterGroup[monsterGroup.Count -1].DataSetting(false, dungeonData.dungeonMonsterBox[tempint].number);
+            monsterGroup[monsterGroup.Count - 1].DataSetting(false, dungeonData.dungeonMonsterBox[tempint].number);
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitMelee>();
             tempUnitInfo = monsterGroup[monsterGroup.Count - 1].GetComponent<UnitInfo>();
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitAI>();
@@ -1005,7 +1005,7 @@ public class DungeonOS : MonoBehaviour
 
     public void HandReset()
     {
-        switch(GameManager.instance.data.preset)    // 프리셋 저장 수정 하면서 조금 고쳤습니다.
+        switch (GameManager.instance.data.preset)    // 프리셋 저장 수정 하면서 조금 고쳤습니다.
         {
             case 1:
                 useDeckDGP.AddRange(GameManager.instance.cardPreset[0].preset);
@@ -1025,7 +1025,7 @@ public class DungeonOS : MonoBehaviour
         }
         DeckShuffle();
         handCard.Clear();
-        
+
         HandRefill();
     }
 
@@ -1036,7 +1036,7 @@ public class DungeonOS : MonoBehaviour
         {
             if (useDeckDGP.Count != 0)
             {
-                CardDataBase.Data card = new CardDataBase.Data(useDeckDGP[0]+1);
+                CardDataBase.Data card = new CardDataBase.Data(useDeckDGP[0] + 1);
                 handCard.Add(card);
                 if (!handSlot[0])
                 {
@@ -1079,7 +1079,7 @@ public class DungeonOS : MonoBehaviour
     {
         if (useDeckDGP.Count != 0)
         {
-            CardDataBase.Data card = new CardDataBase.Data(useDeckDGP[0]+1);
+            CardDataBase.Data card = new CardDataBase.Data(useDeckDGP[0] + 1);
             CardEvent tempCardEvent;
             handCard.Add(card);
             if (handSlot[0])
@@ -1123,7 +1123,7 @@ public class DungeonOS : MonoBehaviour
     /// <summary>
     /// 타이머 시작 기능
     /// </summary>
-    public void DGTimerStart() 
+    public void DGTimerStart()
     {
         costDGP = 3;
         progressTimeDGP = 0;
@@ -1154,7 +1154,7 @@ public class DungeonOS : MonoBehaviour
                 cycleTime = 0f;
                 HandRefill();
                 if (costDGP <= 7) costDGP += 3;
-                else costDGP = 10;                
+                else costDGP = 10;
                 switch (timeLevelDGP)
                 {
                     case 0:
@@ -1213,7 +1213,7 @@ public class DungeonOS : MonoBehaviour
             }
         }
 
-        if(rewardCardBox.Count != 0)
+        if (rewardCardBox.Count != 0)
         {
             foreach (var item in rewardCardBox)
             {
