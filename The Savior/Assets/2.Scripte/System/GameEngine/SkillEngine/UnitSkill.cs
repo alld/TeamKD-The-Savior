@@ -11,7 +11,17 @@ public class UnitSkill : MonoBehaviour
     }
 
     
+    public void OnSkill(int num)
+    {
+        switch (num)
+        {
+            case 0:
+                break;
+            default:
+                break;
 
+        }
+    }
 
 
 }
