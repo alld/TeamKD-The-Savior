@@ -30,7 +30,6 @@ public class UnitMelee : MonoBehaviour
     public ParentInfo parentInfo;
 
     private UnitStateData unitdata;
-
     private UnitStateData attackerData;
     private GameObject attackerObj;
     private UnitInfo attackerInfo;
@@ -86,32 +85,23 @@ public class UnitMelee : MonoBehaviour
             attackerInfo = attackerObj.GetComponent<UnitInfo>();
             if ((attackerInfo.playerUnit != unitInfo.playerUnit) && (attackerInfo.targetUnit.unitObj == unitdata.unitObj)) // 데미지 계산의 대상인지 검사
             {
+                //Debug.Log("입구투사체");
+
                 //GetComponent<UnitAI>().dele_attacked();
                 int AttackerNumber = attackerInfo.partyNumber; //(작업 필요)몬스터껄로 변경필요함
                 if (attackerInfo.thrown)
                 {
+                  //  Debug.Log("투사체");
+
                     float damage = attackerInfo.damage;
                     OnDamage(damage, AttackerNumber);
+                    Destroy(attackerObj);
                 }
                 else 
                 {
                     float damage = attackerData.damage;
                     OnDamage(damage, AttackerNumber);
-                }
-                // 투사체 및 트리거 박스 설정
-                if (attackerData.attackType != 2)
-                {
                     parentInfo.Info.GetComponent<UnitInfo>().attackTriggerBox.SetActive(false);
-                    // (작업 필요)근접 공격 피격시 무기에 달려있는 트리거상자 비활성화
-                }
-                else
-                {
-                    if(attackerInfo.thrown) Destroy(attackerObj);
-                    else
-                    {
-                        other.gameObject.SetActive(false);
-                    }
-                    //(작업 필요) 원거리 공격시 투사체 비활성화 하던가 디스트로이 하던가..
                 }
             }
         }
@@ -127,13 +117,15 @@ public class UnitMelee : MonoBehaviour
     /// <param name="AttackerNumber"></param>
     private void OnDamage(float dmg, int AttackerNumber)
     {
-        Debug.Log("데미지" + dmg);
         float temp_shield;
         float temp_damage = DamageEngine.instance.OnProtectCalculate(false, dmg, AttackerNumber, partyNumber, out temp_shield);
-        DungeonOS.instance.monsterGroup[partyNumber].Current_protect -= temp_shield;
-        DungeonOS.instance.partyUnit[partyNumber].hp -= temp_damage;
-        if (DungeonOS.instance.partyUnit[partyNumber].hp < 0)
+        //Debug.Log("계산전데미지" + dmg  + "계산후: " + temp_damage);
+        unitdata.Current_protect -= temp_shield;
+        unitdata.hp -= temp_damage;
+        if (unitdata.hp <= 0)
         {
+            if (unitdata.playerUnit) DungeonOS.instance.DieCount_Ally++;
+            else DungeonOS.instance.DieCount_Enemy++;
             GetComponent<UnitAI>().AutoScheduler(2,UnitAI.AIPattern.Death);            
         }
     }

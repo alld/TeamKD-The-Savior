@@ -27,6 +27,7 @@ public class CardSkill : MonoBehaviour
     
     private bool CardSkillSetting()
     {
+
         float skill_ActiveTime = 0;
 
         if (card.cost > DungeonOS.instance.costDGP) // 코스트 검사
@@ -80,18 +81,25 @@ public class CardSkill : MonoBehaviour
         {
             case CardDataBase.Data.EffectTypeA.HEAL:
                 StartCoroutine(CardSkill_Heal(skill_ActiveTime));
+                Debug.Log("실행 체크1");
                 break;
             case CardDataBase.Data.EffectTypeA.PROTECT:
                 StartCoroutine(CardSkill_PROTECT(skill_ActiveTime));
+                Debug.Log("실행 체크2");
                 break;
             case CardDataBase.Data.EffectTypeA.BUFF:
                 StartCoroutine(CardSkill_BUFF(skill_ActiveTime, buffCount));
+                Debug.Log("실행 체크3");
                 break;
             case CardDataBase.Data.EffectTypeA.DEBUFF:
                 StartCoroutine(CardSkill_DEBUFF(skill_ActiveTime, buffCount));
+                Debug.Log("실행 체크4");
+
                 break;
             case CardDataBase.Data.EffectTypeA.DAMAGE:
                 StartCoroutine(CardSkill_DAMAGE(skill_ActiveTime));
+                Debug.Log("실행 체크5");
+
                 break;
             case CardDataBase.Data.EffectTypeA.SPEIAL:
                 break;
@@ -99,6 +107,7 @@ public class CardSkill : MonoBehaviour
                 DungeonOS.instance.GameError("카드 스킬 : 분류값 (A)가 제대로 할당되지 않았습니다.");
                 return false;
         }
+
         return true;
     }
 
@@ -250,6 +259,8 @@ public class CardSkill : MonoBehaviour
             switch (card.effectTypeC)
             {
                 case CardDataBase.Data.EffectTypeC.ALLY:
+                    Debug.Log(card.effectValue_floatA);
+
                     temp = AllyTargetCheck(card.effectTypeD);
                     DungeonOS.instance.partyUnit[temp].hp += card.effectValue_floatA;
                     if(DungeonOS.instance.partyUnit[temp].hp > DungeonOS.instance.partyUnit[temp].maxHP)
@@ -260,6 +271,8 @@ public class CardSkill : MonoBehaviour
                 case CardDataBase.Data.EffectTypeC.ALLIES:
                     foreach (var item in DungeonOS.instance.partyUnit)
                     {
+                        Debug.Log(card.effectValue_floatA);
+
                         item.hp += card.effectValue_floatA;
                         if (item.hp > item.maxHP)
                         {
@@ -268,6 +281,8 @@ public class CardSkill : MonoBehaviour
                     }
                     break;
                 case CardDataBase.Data.EffectTypeC.ENEMY:
+                    Debug.Log(card.effectValue_floatA);
+
                     temp = EnemyTargetCheck(card.effectTypeD);
                     DungeonOS.instance.monsterGroup[temp].hp += card.effectValue_floatA;
                     if (DungeonOS.instance.monsterGroup[temp].hp > DungeonOS.instance.monsterGroup[temp].maxHP)
@@ -278,6 +293,7 @@ public class CardSkill : MonoBehaviour
                 case CardDataBase.Data.EffectTypeC.ENEMIES:
                     foreach (var item in DungeonOS.instance.monsterGroup)
                     {
+                        Debug.Log(card.effectValue_floatA);
                         item.hp += card.effectValue_floatA;
                         if (item.hp > item.maxHP)
                         {

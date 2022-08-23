@@ -73,7 +73,7 @@ public class DungeonOS : MonoBehaviour
     /// <summary>
     /// 현재 라운드에 생존해있는 몬스터 그룹
     /// </summary>
-    public List<UnitStateData> monsterGroup = new List<UnitStateData>();
+    public List<UnitStateData> monsterGroup;// = new List<UnitStateData>();
     /// <summary>
     /// 플레이어 유닛 그룹
     /// </summary>
@@ -200,7 +200,7 @@ public class DungeonOS : MonoBehaviour
     #endregion
     #region 전달받은 GameManager의 Data
     //캐릭터 정보 
-    public List<UnitStateData> partyUnit = new List<UnitStateData>();
+    public List<UnitStateData> partyUnit;// = new List<UnitStateData>();
     public List<RelicData.Data> equipRelic = new List<RelicData.Data>();
     //덱정보
     public List<int> useDeckDGP = new List<int>();
@@ -234,7 +234,7 @@ public class DungeonOS : MonoBehaviour
     #region 던전 이벤트(기능) // 주석처리 미흡
     public void OnStateCheck()
     {
-        dele_stateCheck();
+        if(dele_stateCheck != null)dele_stateCheck();
         if (monsterGroup.Count <= DieCount_Enemy)
         {
             OnRoundVictory();

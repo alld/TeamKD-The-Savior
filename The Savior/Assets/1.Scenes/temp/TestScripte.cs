@@ -9,6 +9,8 @@ public class TestScripte : MonoBehaviour
 {
     public Image fire;
     public Transform temp;
+    public delegate void testdele();
+    testdele Testdele;
 
     [Range(0, 100f)]
     public float speed = 10f; 
@@ -17,12 +19,15 @@ public class TestScripte : MonoBehaviour
     void Start()
     {
 
-
+        if (Testdele != null)
+        {
+            Testdele();
+        }
     }
 
     private void Update()
     {
-        transform.rotation = Quaternion.Lerp(fire.transform.rotation, temp.rotation, Time.deltaTime * speed);
+        //transform.rotation = Quaternion.Lerp(fire.transform.rotation, temp.rotation, Time.deltaTime * speed);
         //Quaternion.Lerp(fire.transform.rotation, temp.rotation , Time.deltaTime * 10);
     }
 

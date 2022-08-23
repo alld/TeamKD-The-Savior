@@ -93,7 +93,7 @@ public class UnitAI : MonoBehaviour
     /// <br><paramref name="Death"/> :: 죽음</br>
     /// <br><paramref name="Stand"/> :: 대기</br>
     /// </summary>
-    public enum AIPattern { Stand, Attacking, Avoiding, RuuningAway, Follow, Push, Stern, Skill, SpecialSkill, Moving, Provocation, Death, pass }
+    public enum AIPattern { Stand, Attacking, Avoiding, RuuningAway, Follow, Push, Stern, Skill, SpecialSkill, Moving, Provocation, Death, Pass }
     public AIPattern aiPattern;
     public enum UnitState { Attack, Move, AttackMove, Skill, SpeialSkill, Die, Stand }
     public UnitState unitState;
@@ -155,6 +155,9 @@ public class UnitAI : MonoBehaviour
     private void ResetAISetting()
     {
         unit_collider.radius = unit.Add_priRange;
+        onAttackAvailable = true;
+        onSkillAvailable = true;
+        onSpecialSkillAvailable = true;
         aiSchedule.Clear();
     }
 
@@ -197,6 +200,7 @@ public class UnitAI : MonoBehaviour
         switch (PatternNumber)
         {
             case 0: // 스케쥴리 진행
+                isRemove = false;
                 if (aiSchedule.Count == 0)
                 {
                     return AutoScheduler(3, 0);
@@ -246,7 +250,7 @@ public class UnitAI : MonoBehaviour
 
             case 1: // 행동 추가
                 aiSchedule.Add(Pattern);
-                if (!isOnScheduler) AutoScheduler(0, AIPattern.pass);
+                if (!isOnScheduler) AutoScheduler(0, AIPattern.Pass);
                 return true;
 
             case 2: // 끼어 들기
@@ -259,14 +263,14 @@ public class UnitAI : MonoBehaviour
 
             case 3: // 행동 탐색
                 aiSchedule.Add(ThinkOverPattern());
-                return AutoScheduler(0, AIPattern.pass);
+                return AutoScheduler(0, AIPattern.Pass);
 
             case 4: // 행동 제거
                 isRemove = true;
                 if (!isOnScheduler)
                 {
                     aiSchedule.RemoveAt(0);
-                    return AutoScheduler(0, AIPattern.pass);
+                    return AutoScheduler(0, AIPattern.Pass);
                 }
                 break;
         }
@@ -380,6 +384,9 @@ public class UnitAI : MonoBehaviour
     {
         isOnScheduler = true;
         StartCoroutine(IsOnGoing());
+        animator.SetBool(ani_Attack, false);
+        animator.SetBool(ani_Walk, false);
+        animator.SetBool(ani_Skill, false);
         Action_Stand();
         //애니메이션 작동
         while (!isRemove)
@@ -390,11 +397,12 @@ public class UnitAI : MonoBehaviour
         }
 
         isOnScheduler = false;
-        if (aiSchedule.Count == 0) AutoScheduler(0, 0);
+        AutoScheduler(0, AIPattern.Pass);
     }
 
     IEnumerator State_Attacking() // 공격
     {
+        
         isOnScheduler = true;
         StartCoroutine(IsOnGoing());
 
@@ -411,19 +419,23 @@ public class UnitAI : MonoBehaviour
             yield return delay_03;
         }
         isMoving = false;
-        animator.SetBool(ani_Attack, true);
-        Action_Attack();
+
         //애니메이션 작동
         while (!isRemove)
         {
-            // 추가 조건으로 빠져나올것 :: 스턴 상태 종료, 특수상태 종료 같은상황
-            // 적이 다가옴 
+            if (onAttackAvailable)
+            {
+                animator.SetTrigger(ani_Attack);
+                Action_Attack();
+            }
+            if (!targetObj.isLive) { isRemove = true; }
             yield return delay_05;
         }
         //animator.SetBool(ani_Attack, true);
         isMoving = false;
         isOnScheduler = false;
-        if (aiSchedule.Count == 0) AutoScheduler(0, 0);
+        aiSchedule.RemoveAt(0);
+        AutoScheduler(0, AIPattern.Pass);
     }
 
     IEnumerator State_Avoiding() // 회피
@@ -582,6 +594,7 @@ public class UnitAI : MonoBehaviour
         targetObj = null;
         foreach (var item in EnemyUnit)
         {
+            if (!item.isLive) continue;
             targetDistance = Vector3.Distance(transform.position, item.transform.position);
             if (targetDistance <= unit.attackRange)
             {
@@ -600,6 +613,7 @@ public class UnitAI : MonoBehaviour
         Vector3 tempPoint = Vector3.zero;
         foreach (var item in EnemyUnit)
         {
+            if (!item.isLive) continue;
             targetDistance = Vector3.Distance(transform.position, item.transform.position);
             if (targetDistance < tempDistance)
             {
@@ -652,7 +666,7 @@ public class UnitAI : MonoBehaviour
     {
         if (other.CompareTag("UNIT"))
         {
-            if (other.GetComponent<UnitStateData>().playerUnit == unit.playerUnit)
+            if ((other.GetComponent<UnitStateData>().playerUnit == unit.playerUnit) && other.GetComponent<UnitStateData>().isLive)
             {
                 perceptionAllyUnit.Add(other.GetComponent<UnitStateData>().partyNumber);
                 if (other.gameObject != this.gameObject)
@@ -669,7 +683,7 @@ public class UnitAI : MonoBehaviour
     {
         if (other.CompareTag("UNIT"))
         {
-            if (other.GetComponent<UnitStateData>().playerUnit == unit.playerUnit)
+            if ((other.GetComponent<UnitStateData>().playerUnit == unit.playerUnit) && other.GetComponent<UnitStateData>().isLive)
             {
                 perceptionAllyUnit.Remove(other.GetComponent<UnitStateData>().partyNumber);
                 if (other.gameObject != this.gameObject)
@@ -711,12 +725,13 @@ public class UnitAI : MonoBehaviour
     public void Action_Die()
     {
         unitState = UnitState.Die;
+        animator.SetBool(ani_Death, true);
         unit.isLive = false;
         if (isplayer) DungeonOS.instance.DieCount_Ally--;
         else DungeonOS.instance.DieCount_Enemy--;
         DungeonOS.instance.OnStateCheck();
     }
-
+    // 할것 :: 사망시 해당 AI 접근하여 인식 그룹에서 제외
 
     /// <summary>
     /// 유닛이 자동으로 일반스킬을 쓰는 함수

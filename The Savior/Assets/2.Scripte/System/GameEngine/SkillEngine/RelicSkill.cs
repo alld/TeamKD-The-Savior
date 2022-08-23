@@ -187,6 +187,7 @@ public class RelicSkill : MonoBehaviour
 
     private void RelicSkillSetting(int relicNum)
     {
+        Debug.Log("실행 체크");
         string effectCount = DungeonOS.instance.equipRelic[relicNum].effectCount.ToString();
         if (relicNum < 5)
         {

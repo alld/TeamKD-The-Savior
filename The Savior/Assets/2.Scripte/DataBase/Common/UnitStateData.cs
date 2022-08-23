@@ -15,7 +15,17 @@ public class UnitStateData : MonoBehaviour
     /// <summary>
     /// 캐릭터 기본 체력
     /// </summary>
-    public float hp = 0;
+    public float hp 
+    {
+        get { return display_hp; }
+        set
+        { 
+            display_hp = value;
+            HPUI();
+        }
+
+    }
+    public float display_hp = 0;
     /// <summary>
     /// 캐릭터 최대 체력
     /// </summary>
@@ -271,17 +281,23 @@ public class UnitStateData : MonoBehaviour
     {
         
     }
-/* 체력게이지 UI 관리
- * 피격 UI도 관리 (데미지 유동텍스트)
- * 
- * 데이터베이스 정리 및 연동
- * 가중치 변동 확인
- * 변동된 카드 적용 확인
- * 변동된 유물 적용 확인
- * 던전 상단 진행바 확인
- * 
- * 
- */
+
+    public void HPUI()
+    {
+        // m_goHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 0.8f, 0));
+        // 파티슬롯 기준 UI 지정/ 몬스터는 별도 UI 그룹 생성 
+    }
+    /* 체력게이지 UI 관리
+     * 피격 UI도 관리 (데미지 유동텍스트)
+     * 
+     * 데이터베이스 정리 및 연동
+     * 가중치 변동 확인
+     * 변동된 카드 적용 확인
+     * 변동된 유물 적용 확인
+     * 던전 상단 진행바 확인
+     * 
+     * 
+     */
 
 }
 

@@ -12,6 +12,7 @@ public class ThrownObjMove : MonoBehaviour
     private void Start()
     {
         StartCoroutine(Move());
+        Destroy(this.gameObject, 3.0f);
     }
 
     IEnumerator Move()
