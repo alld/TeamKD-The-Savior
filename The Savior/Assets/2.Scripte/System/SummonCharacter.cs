@@ -86,7 +86,7 @@ public class SummonCharacter : MonoBehaviour
                 return rnd;
             }
         }
-
+        warningImg.SetActive(true);
         ishave = true;
         return 0;
     }

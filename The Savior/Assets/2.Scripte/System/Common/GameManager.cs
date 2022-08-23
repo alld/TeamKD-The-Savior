@@ -282,7 +282,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (currentlyScene == "Main") return;
-        StartCoroutine(GameSave());
+        StartCoroutine(GameSave());        
         playTime += Time.deltaTime;
         if (dungeonOS != null) dungeonPlayTime += Time.deltaTime;
     }
