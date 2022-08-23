@@ -103,6 +103,19 @@ public class GameDataManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 저장되어있는 캐릭터의 데이터를 초기화 시킵니다.
+    /// </summary>
+    public CharExp ResetCharExp(int n)
+    {
+        string path = Path.Combine(Application.persistentDataPath, "CharacterExperience.json");
+        CharExp exp = new CharExp();
+        exp.id = n + 1;
+        saveData[(n + 1).ToString()] = JObject.FromObject(exp);
+        File.WriteAllText(path, saveData.ToString());
+        return exp;
+    }
+
+    /// <summary>
     /// json 파일에 저장된 캐릭터의 데이터 개수를 반환합니다.
     /// </summary>
     /// <returns></returns>
@@ -197,6 +210,21 @@ public class GameDataManager : MonoBehaviour
 
         data.id = n;
         data.ownCard = jsonData[n.ToString()].ToObject<int>();
+        return data;
+    }
+
+    /// <summary>
+    /// 저장된 카드의 데이터를 초기화 시킵니다.
+    /// </summary>
+    public SaveCardData ResetCardData(int n)
+    {
+        string path = Path.Combine(Application.persistentDataPath, "MyCardData.json");
+        SaveCardData data = new SaveCardData();
+
+
+        ownCard[(n + 1).ToString()] = 0;
+        File.WriteAllText(path, ownCard.ToString());
+
         return data;
     }
 
@@ -301,6 +329,20 @@ public class GameDataManager : MonoBehaviour
         jPreset.Add(n.ToString(), JObject.FromObject(cardPreset));
         cardPreset = j[n.ToString()].ToObject<CardPreset>();
         return cardPreset;
+    }
+
+    /// <summary>
+    /// 저장된 카드 프리셋을 초기화 시킵니다.
+    /// </summary>
+    public CardPreset ResetPreset(int n)
+    {
+        string path = Path.Combine(Application.persistentDataPath, "CardPreset.json");
+
+        CardPreset preset = new CardPreset();
+        jPreset[(n + 1).ToString()] = JObject.FromObject(preset);
+        File.WriteAllText(path, jPreset.ToString());
+
+        return preset;
     }
 
     public int CountPresetData()

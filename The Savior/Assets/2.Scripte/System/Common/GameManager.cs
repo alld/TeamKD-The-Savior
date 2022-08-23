@@ -125,7 +125,44 @@ public class GameManager : MonoBehaviour
     public void GameReset()
     {
         data = dataManager.ResetGameData();
+        InitCharExp();
+        InitCardData();
+        InitPreset();
     }
+
+    /// <summary>
+    /// 카드 프리셋 초기화
+    /// </summary>
+    private void InitPreset()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            cardPreset[i] = dataManager.ResetPreset(i);
+        }
+    }
+
+    /// <summary>
+    /// 보유 카드 데이터 초기화
+    /// </summary>
+    private void InitCardData()
+    {
+        for (int i = 0; i < maxCardCount; i++)
+        {
+            cardDic[i + 1] = dataManager.ResetCardData(i).ownCard;
+        }
+    }
+
+    /// <summary>
+    /// 보유중인 캐릭터의 데이터 초기화
+    /// </summary>
+    private void InitCharExp()
+    {
+        for(int i = 0; i < maxCharacterCount; i++)
+        {
+            charExp[i] = dataManager.ResetCharExp(i); 
+        }
+    }
+
     #endregion
 
 

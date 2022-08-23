@@ -25,30 +25,34 @@ public class DropCard : MonoBehaviour, IDropHandler
 
             GameManager.instance.cardPreset[GameManager.instance.data.preset - 1].preset[this.transform.GetSiblingIndex()] = ViewCard.dragItem.GetComponent<ViewCard>().num;
             GameManager.instance.cardPreset[GameManager.instance.data.preset - 1].index = GameManager.instance.data.preset;
-            switch (ViewCard.dragItem.GetComponent<ViewCard>().cardType)
+            if (!ViewCard.dragItem.GetComponent<ViewCard>().isSet)
             {
-                case ViewCard.CARDTYPE.치유:
-                    cardDeck.type_Heal++;
-                    cardDeck.cardType[(int)ViewCard.CARDTYPE.치유].text = cardDeck.type_Heal.ToString();
-                    break;
-                case ViewCard.CARDTYPE.방어:
-                    cardDeck.type_Shield++;
-                    cardDeck.cardType[(int)ViewCard.CARDTYPE.방어].text = cardDeck.type_Shield.ToString();
-                    break;
-                case ViewCard.CARDTYPE.강화:
-                    cardDeck.type_Buff++;
-                    cardDeck.cardType[(int)ViewCard.CARDTYPE.강화].text = cardDeck.type_Buff.ToString();
-                    break;
-                case ViewCard.CARDTYPE.방해:
-                    cardDeck.type_Debuff++;
-                    cardDeck.cardType[(int)ViewCard.CARDTYPE.방해].text = cardDeck.type_Debuff.ToString();
-                    break;
-                case ViewCard.CARDTYPE.공격:
-                    cardDeck.type_Attack++;
-                    cardDeck.cardType[(int)ViewCard.CARDTYPE.공격].text = cardDeck.type_Attack.ToString();
-                    break;
-                default:
-                    break;
+                ViewCard.dragItem.GetComponent<ViewCard>().isSet = true;
+                switch (ViewCard.dragItem.GetComponent<ViewCard>().cardType)
+                {
+                    case ViewCard.CARDTYPE.치유:
+                        cardDeck.type_Heal++;
+                        cardDeck.cardType[(int)ViewCard.CARDTYPE.치유].text = cardDeck.type_Heal.ToString();
+                        break;
+                    case ViewCard.CARDTYPE.방어:
+                        cardDeck.type_Shield++;
+                        cardDeck.cardType[(int)ViewCard.CARDTYPE.방어].text = cardDeck.type_Shield.ToString();
+                        break;
+                    case ViewCard.CARDTYPE.강화:
+                        cardDeck.type_Buff++;
+                        cardDeck.cardType[(int)ViewCard.CARDTYPE.강화].text = cardDeck.type_Buff.ToString();
+                        break;
+                    case ViewCard.CARDTYPE.방해:
+                        cardDeck.type_Debuff++;
+                        cardDeck.cardType[(int)ViewCard.CARDTYPE.방해].text = cardDeck.type_Debuff.ToString();
+                        break;
+                    case ViewCard.CARDTYPE.공격:
+                        cardDeck.type_Attack++;
+                        cardDeck.cardType[(int)ViewCard.CARDTYPE.공격].text = cardDeck.type_Attack.ToString();
+                        break;
+                    default:
+                        break;
+                }
             }
             StartCoroutine(GameManager.instance.PresetSave());
         }

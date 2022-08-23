@@ -24,10 +24,13 @@ public class SummonCharacter : MonoBehaviour
     public Button warningButton;
     public Button closeWarning;
 
+    private PlayToolBar tools;
+
     private void Start()
     {
         warningButton.onClick.AddListener(() => OnClick_WarningSummonBtn());
         closeWarning.onClick.AddListener(() => OnClick_WarningSummonBtn());
+        tools = GameObject.Find("PUIManager").GetComponent<PlayToolBar>();
     }
 
     /// <summary>
@@ -52,6 +55,7 @@ public class SummonCharacter : MonoBehaviour
         }
 
         GameManager.instance.data.golds -= price;
+        tools.Gold();
 
         character = Resources.Load<GameObject>("Unit/Character" + id.ToString());
         character = Instantiate(character, summonCharTr);

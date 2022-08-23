@@ -114,6 +114,7 @@ public class CardDeck : MonoBehaviour
             changePreset.GetComponent<Image>().rectTransform.offsetMin = Vector2.zero;
             changePreset.GetComponent<Image>().rectTransform.offsetMax = Vector2.zero;
             changePreset.transform.position = equipTr.GetChild(i).transform.position;
+            changePreset.GetComponent<ViewCard>().isSet = true;
 
             cardType[(int)ViewCard.CARDTYPE.치유].text = type_Heal.ToString();
             cardType[(int)ViewCard.CARDTYPE.방어].text = type_Shield.ToString();

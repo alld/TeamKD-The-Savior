@@ -47,7 +47,7 @@ public class PlayToolBar : MonoBehaviour
     }
 
     public void Gold()
-    {
+    { 
         souls.text = GameManager.instance.data.souls.ToString();
         golds.text = GameManager.instance.data.golds.ToString();
     }

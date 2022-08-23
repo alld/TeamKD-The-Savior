@@ -12840,7 +12840,9 @@ MonoBehaviour:
     equipCharacter: 00000000000000000000000000000000
     haveCharacter: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
     haveRelic: 
-  charExp: []
+  maxCardCount: 23
+  maxCharacterCount: 4
+  isSetting: 0
   card:
   - id: 0
     haveCard: 0
@@ -12848,9 +12850,11 @@ MonoBehaviour:
   - id: 0
     haveCard: 0
     cardType: 0
-  cardPreset: []
   cardIdx: 0
   partySlot: []
+  cardData: []
+  charExp: []
+  cardPreset: []
   currentlyScene: Main
 --- !u!114 &580982191
 MonoBehaviour:

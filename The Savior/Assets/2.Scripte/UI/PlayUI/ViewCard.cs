@@ -11,6 +11,8 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     private CardDeck cardDeck;
 
     public int num;
+
+    public bool isSet = false;
     public enum CARDTYPE { 치유 = 0, 방어 = 1, 강화 = 2, 방해 = 3, 공격 = 4 }
     public CARDTYPE cardType;
     public TMP_Text nameText;
@@ -20,6 +22,7 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     private Transform tr;
     private Transform curTr;
     private Transform moveTr;
+    private Transform actTr;
     private Image[] childImg;
     private TextAsset textAsset;
     private int curIdx;
@@ -31,6 +34,7 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
         moveTr = GameObject.Find("GameUI").transform;
         tr = GetComponent<Transform>();
         curTr = GameObject.Find("PUIManager").GetComponent<CardDeck>().cardDeckTr;
+        actTr = GameObject.Find("PUIManager").GetComponent<CardDeck>().equipTr;
         nameText = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/CardInfo/CardBoxImage/CardName").GetComponent<TMP_Text>();
         contentText = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/CardInfo/CardBoxImage/CardContent").GetComponent<TMP_Text>();
         typeText = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/CardInfo/CardBoxImage/CardType").GetComponent<TMP_Text>();
@@ -69,7 +73,7 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
             tr.SetSiblingIndex(curIdx);
             GameManager.instance.cardPreset[GameManager.instance.data.preset - 1].preset[equipIdx] = 0;
             GameManager.instance.cardPreset[GameManager.instance.data.preset - 1].index = GameManager.instance.data.preset;
-
+            //isSet = false;
             switch (cardType)
             {
                 case CARDTYPE.치유:
@@ -112,9 +116,64 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     /// <param name="eventData"></param>
     public void OnPointerClick(PointerEventData eventData)
     {
-        nameText.text = json[num - 1]["Name_Kr"].ToString();
-        contentText.text = json[num - 1]["Content_1_Kr"].ToString();
-        typeText.text = "카드 속성 : " + cardType.ToString();
+        // 좌 클릭시 카드의 정보를 출력한다.
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            nameText.text = json[num - 1]["Name_Kr"].ToString();
+            contentText.text = json[num - 1]["Content_1_Kr"].ToString();
+            typeText.text = "카드 속성 : " + cardType.ToString();
+        }
+        // 우 클릭시 카드 탈착
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            // 인벤토리에 빈 자리가 있다면 카드 장착.
+            if (!isSet)
+            {
+                for (int i = 0; i < actTr.childCount; i++)
+                {
+                    if (actTr.GetChild(i).childCount == 0)
+                    {
+                        isSet = true;
+                        this.transform.SetParent(actTr.GetChild(i));
+                        InitImage(this.GetComponent<Image>());
+                        this.transform.position = actTr.GetChild(i).position;
+
+                        GameManager.instance.cardPreset[GameManager.instance.data.preset - 1].preset[i] = this.num;
+                        switch (this.cardType)
+                        {
+                            case CARDTYPE.치유:
+                                cardDeck.type_Heal++;
+                                cardDeck.cardType[(int)ViewCard.CARDTYPE.치유].text = cardDeck.type_Heal.ToString();
+                                break;
+                            case CARDTYPE.방어:
+                                cardDeck.type_Shield++;
+                                cardDeck.cardType[(int)ViewCard.CARDTYPE.방어].text = cardDeck.type_Shield.ToString();
+                                break;
+                            case CARDTYPE.강화:
+                                cardDeck.type_Buff++;
+                                cardDeck.cardType[(int)ViewCard.CARDTYPE.강화].text = cardDeck.type_Buff.ToString();
+                                break;
+                            case CARDTYPE.방해:
+                                cardDeck.type_Debuff++;
+                                cardDeck.cardType[(int)ViewCard.CARDTYPE.방해].text = cardDeck.type_Debuff.ToString();
+                                break;
+                            case CARDTYPE.공격:
+                                cardDeck.type_Attack++;
+                                cardDeck.cardType[(int)ViewCard.CARDTYPE.공격].text = cardDeck.type_Attack.ToString();
+                                break;
+                            default:
+                                break;
+                        }
+                        StartCoroutine(GameManager.instance.PresetSave());
+                        break;
+                    }
+
+                }
+            }
+
+            // 장착중인 카드 제거하기.
+
+        }
     }
 
     private void InitImage(Image img)
