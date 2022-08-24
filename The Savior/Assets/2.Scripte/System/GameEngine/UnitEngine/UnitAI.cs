@@ -159,6 +159,8 @@ public class UnitAI : MonoBehaviour
         onSkillAvailable = true;
         onSpecialSkillAvailable = true;
         aiSchedule.Clear();
+        isMoving = false;
+        isOnScheduler = false;
     }
 
 
@@ -419,7 +421,7 @@ public class UnitAI : MonoBehaviour
             yield return delay_03;
         }
         isMoving = false;
-
+        animator.SetBool(ani_Walk, false);
         //애니메이션 작동
         while (!isRemove)
         {
@@ -434,7 +436,7 @@ public class UnitAI : MonoBehaviour
         //animator.SetBool(ani_Attack, true);
         isMoving = false;
         isOnScheduler = false;
-        aiSchedule.RemoveAt(0);
+        if(aiSchedule.Count != 0)aiSchedule.RemoveAt(0);
         AutoScheduler(0, AIPattern.Pass);
     }
 
@@ -727,8 +729,8 @@ public class UnitAI : MonoBehaviour
         unitState = UnitState.Die;
         animator.SetBool(ani_Death, true);
         unit.isLive = false;
-        if (isplayer) DungeonOS.instance.DieCount_Ally--;
-        else DungeonOS.instance.DieCount_Enemy--;
+        if (isplayer) DungeonOS.instance.DieCount_Ally++;
+        else DungeonOS.instance.DieCount_Enemy++;
         DungeonOS.instance.OnStateCheck();
     }
     // 할것 :: 사망시 해당 AI 접근하여 인식 그룹에서 제외
@@ -827,10 +829,10 @@ public class UnitAI : MonoBehaviour
             }
             else
             {
-                animator.SetBool(ani_Walk, false);
                 isMoving = false;
             }
         }
+        animator.SetBool(ani_Walk, false);
     }
 
     IEnumerator TargetGaze()
