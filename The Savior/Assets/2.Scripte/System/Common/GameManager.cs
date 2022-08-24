@@ -357,6 +357,16 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
+
+
+    /// <summary>
+    /// 메인 씬에서 언어 변환시 플레이 씬에도 값이 변경됩니다.
+    /// </summary>
+    public void MainSettingToPlay()
+    {
+        PlayOption op = GameObject.Find("PUIManager").GetComponent<PlayOption>();
+        op.OnValueChanged_LanguageSetting();
+    }
     private void Update()
     {
         if (currentlyScene == "Main") return;

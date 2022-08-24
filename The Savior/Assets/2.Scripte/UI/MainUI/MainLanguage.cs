@@ -8,6 +8,8 @@ public class MainLanguage : MonoBehaviour
 {
     public TMP_Text[] mainText;
 
+
+
     private TextAsset textAsset;
     private JArray textData;
 

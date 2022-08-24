@@ -98,6 +98,7 @@ public class MainOptionSetting : MonoBehaviour
         GameManager.instance.data.Language = languageDropDown.value;
         StartCoroutine(mainLanguage.MainLanguageChange(GameManager.instance.data.Language));
         StartCoroutine(GameManager.instance.GameSave());
+        GameManager.instance.MainSettingToPlay();
     }
 
     /// <summary>

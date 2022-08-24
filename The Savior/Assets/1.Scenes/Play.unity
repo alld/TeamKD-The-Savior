@@ -27684,6 +27684,7 @@ GameObject:
   - component: {fileID: 1261957090}
   - component: {fileID: 1261957094}
   - component: {fileID: 1261957095}
+  - component: {fileID: 1261957096}
   m_Layer: 0
   m_Name: PUIManager
   m_TagString: Untagged
@@ -28029,6 +28030,18 @@ MonoBehaviour:
   sfxMuteImg: {fileID: 1651085771}
   sfxSlider: {fileID: 425975485}
   sfxText: {fileID: 2045080048}
+--- !u!114 &1261957096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1261957082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c44a2b74ce991e04bb9acaeedcfeed00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1263042004
 GameObject:
   m_ObjectHideFlags: 0

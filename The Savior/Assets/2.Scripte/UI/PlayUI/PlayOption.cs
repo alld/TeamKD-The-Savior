@@ -24,6 +24,7 @@ public class PlayOption : MonoBehaviour
     public Slider sfxSlider;
     public TMP_Text sfxText;
 
+
     IEnumerator Start()
     {
         playLanguage = GetComponent<PlayLanguage>();
@@ -43,6 +44,7 @@ public class PlayOption : MonoBehaviour
         // 세팅 - 효과음
         sfxSlider.onValueChanged.AddListener(delegate { OnValueChanged_SFXSlider(); });
         sfxSlider.onValueChanged.AddListener(delegate { OnValueChanged_ChangeSFXText(); });
+
 
         UISetting();
     }
