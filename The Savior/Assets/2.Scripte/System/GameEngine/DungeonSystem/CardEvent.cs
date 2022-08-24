@@ -58,6 +58,14 @@ public class CardEvent : MonoBehaviour
             {
                 // 카드사용 이펙트가 있다면 이구간에서 적용
                 CardEffect();
+                foreach (var item in DungeonOS.instance.handCard)
+                {
+                    if(item.number == card_number)
+                    {
+                        DungeonOS.instance.handCard.Remove(item);
+                        break;
+                    }
+                }
                 Destroy(gameObject);
                 // [작업 할것]  핸드 카드 수량 검사 // 드로우기능 작동
                 DungeonOS.instance.handSlot[card_handnumber] = false;
