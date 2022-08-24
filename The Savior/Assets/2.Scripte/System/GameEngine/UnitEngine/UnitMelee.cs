@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 /*(작업 필요) 캐릭터 사망처리시 사용 변수 변경 (리스트 첨삭 불가능하기때문에 변경해줘야함)
@@ -57,6 +58,7 @@ public class UnitMelee : MonoBehaviour
         else
         {
             TempThrown = Instantiate(Resources.Load<GameObject>("Unit/TempThrown"));
+            SceneManager.MoveGameObjectToScene(TempThrown, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
             TempThrown.transform.position = transform.position;
             UnitInfo tempInfo = TempThrown.GetComponent<UnitInfo>();
             tempInfo.partyNumber = partyNumber;
@@ -117,16 +119,19 @@ public class UnitMelee : MonoBehaviour
     /// <param name="AttackerNumber"></param>
     private void OnDamage(float dmg, int AttackerNumber)
     {
-        float temp_shield;
-        float temp_damage = DamageEngine.instance.OnProtectCalculate(false, dmg, AttackerNumber, partyNumber, out temp_shield);
-        //Debug.Log("계산전데미지" + dmg  + "계산후: " + temp_damage);
-        unitdata.Current_protect -= temp_shield;
-        unitdata.hp -= temp_damage;
-        if (unitdata.hp <= 0)
+        if (unitdata.isLive)
         {
-            if (unitdata.playerUnit) DungeonOS.instance.DieCount_Ally++;
-            else DungeonOS.instance.DieCount_Enemy++;
-            GetComponent<UnitAI>().AutoScheduler(2,UnitAI.AIPattern.Death);            
+            float temp_shield;
+            float temp_damage = DamageEngine.instance.OnProtectCalculate(false, dmg, AttackerNumber, partyNumber, out temp_shield);
+            //Debug.Log("계산전데미지" + dmg  + "계산후: " + temp_damage);
+            unitdata.Current_protect -= temp_shield;
+            unitdata.hp -= temp_damage;
+            if (unitdata.hp <= 0)
+            {
+                if (unitdata.playerUnit) DungeonOS.instance.DieCount_Ally++;
+                else DungeonOS.instance.DieCount_Enemy++;
+                GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
+            }
         }
     }
 }

@@ -1,9 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UnitStateData : MonoBehaviour
 {
+
+    #region UnitUI
+    public Canvas canvas;
+    Image partySlotHPGauage;
+    Image unitHPGauage;
+
+    #endregion
+
     #region 유닛 설정값
     public bool playerUnit;
     MonsterDatabase.Data.MonsterType monsterType;
@@ -277,6 +286,12 @@ public class UnitStateData : MonoBehaviour
         }
     }
 
+    private void UISetting()
+    {
+        unitHPGauage = Instantiate(Resources.Load<Image>(""));
+
+    }
+
     public void StagePositionReset()
     {
         
@@ -287,6 +302,12 @@ public class UnitStateData : MonoBehaviour
         // m_goHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 0.8f, 0));
         // 파티슬롯 기준 UI 지정/ 몬스터는 별도 UI 그룹 생성 
     }
+
+    public void HPUIMove()
+    {
+
+    }
+
     /* 체력게이지 UI 관리
      * 피격 UI도 관리 (데미지 유동텍스트)
      * 

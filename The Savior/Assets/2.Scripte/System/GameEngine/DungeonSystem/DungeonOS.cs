@@ -269,6 +269,7 @@ public class DungeonOS : MonoBehaviour
 
     void NextRound(int num)
     {
+        Debug.Log("넥스트 라운ㄷ느");
         isRoundPlaying = true;
         StartCoroutine(FadeIn());
         if (++roundDGP % 10 == 5) StageReset(5);
@@ -278,10 +279,11 @@ public class DungeonOS : MonoBehaviour
             {
                 StageReset(num);
             }
-            else NextRound(roundDGP);
+            //else NextRound(roundDGP);
         }
         else StageReset(10);
         HandRefill();
+        Debug.Log("넥스트 라운ㄷ느 종료");
     }
     // 마우스 입력 버튼 아직 안했음
     void OnStageSelect(Vector2 clickPoint)
@@ -348,7 +350,8 @@ public class DungeonOS : MonoBehaviour
     #region 던전 UI 처리 // 주석기능 미흡
     void StageSelectButtonSet()
     {
-        GameObject.Find("StageSelectGroup").SetActive(true);
+        slotStageDG.GetComponent<StageInfo>().StageSelectGroup.SetActive(true);
+        //GameObject.Find("StageSelectGroup").SetActive(true);
         // 버튼 클릭하게해서 NextRound 실행시킴 
     }
     public void HandUIReset()
@@ -455,6 +458,7 @@ public class DungeonOS : MonoBehaviour
     /// <param name="stageNum"></param>
     void StageReset(int stageNum)
     {
+        Debug.Log("게임셋팅");
         if (slotStageDG != null) slotStageDG.SetActive(false);
         slotStageDG = stageGroupDG[stageNum];
         slotStageDG.SetActive(true);
@@ -940,6 +944,7 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void MonsterCreate()
     {
+        DieCount_Enemy = 0;
         GameObject tempMonster;
         UnitInfo tempUnitInfo;
         if (roundDGP % 10 == 5)
