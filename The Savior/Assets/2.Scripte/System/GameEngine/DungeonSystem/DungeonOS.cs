@@ -422,7 +422,7 @@ public class DungeonOS : MonoBehaviour
         while (check)
         {
             Color color = DungeonCtrl.fade.color;
-            colorvalue += Time.deltaTime * 5;
+            colorvalue += Time.deltaTime * 10;
             if (colorvalue < 1)
             {
                 color.a = colorvalue;
@@ -445,7 +445,7 @@ public class DungeonOS : MonoBehaviour
         while (check)
         {
             Color color = DungeonCtrl.fade.color;
-            colorvalue -= Time.deltaTime * 5;
+            colorvalue -= Time.deltaTime * 10;
             if (colorvalue > 0)
             {
                 color.a = colorvalue;
@@ -1335,12 +1335,4 @@ public class DungeonOS : MonoBehaviour
     #endregion
 
 
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        PlayerUnitSetting();
-    //        MonsterSetting();
-    //    }
-    //}
 }

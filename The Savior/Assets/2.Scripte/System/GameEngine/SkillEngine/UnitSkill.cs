@@ -23,5 +23,9 @@ public class UnitSkill : MonoBehaviour
         }
     }
 
+    public void OnSpecialSkill(int num)
+    {
+
+    }
 
 }
