@@ -21,11 +21,9 @@ public class OpeningDialog : MonoBehaviour
 
     // 대사에서 나타나는 캐릭터를 출력하기 위한 카메라
     public Camera leftCamera;
-    public Camera rightCamera;
 
     // 카메라가 찍을 오브젝트 위치
     public Transform leftTr;
-    public Transform rightTr;
 
     // 캐릭터 리스트 이름
     public enum CHARNAME { PLAYER, MATHER, SOLDIERA, SOLDIERB }
@@ -119,20 +117,20 @@ public class OpeningDialog : MonoBehaviour
             // 현재 텍스트가 6으로 넘어갈 때 병사들의 대화로 넘어가면서 background가 변환됌.
             case 6:
                 bg.ChangeBackGround(1);
-                CharSetting(CHARNAME.SOLDIERA, true, rightTr);
+                CharSetting(CHARNAME.SOLDIERA, true, leftTr);
                 CharSetting(CHARNAME.PLAYER, false, leftTr);
                 dialogTextList[1].text = TextManager.instance.ChangeLanguageText(charName_SoldierA);
                 break;
             case 7:
-                CharSetting(CHARNAME.SOLDIERA, false, rightTr);
-                CharSetting(CHARNAME.SOLDIERB, true, rightTr);
+                CharSetting(CHARNAME.SOLDIERA, false, leftTr);
+                CharSetting(CHARNAME.SOLDIERB, true, leftTr);
                 dialogTextList[1].text = TextManager.instance.ChangeLanguageText(charName_SoldierB);
                 break;
             // 현재 텍스탁 8로 넘어갈 때 플레이어와 엄마의 대화로 넘어가면서 background가 변환됌.
             case 8:
                 bg.ChangeBackGround(0);
                 CharSetting(CHARNAME.MATHER, true, leftTr);
-                CharSetting(CHARNAME.SOLDIERB, false, rightTr);
+                CharSetting(CHARNAME.SOLDIERB, false, leftTr);
                 dialogTextList[1].text = TextManager.instance.ChangeLanguageText(charName_Mother);
                 break;
             case 9:
@@ -141,13 +139,13 @@ public class OpeningDialog : MonoBehaviour
                 dialogTextList[1].text = TextManager.instance.ChangeLanguageText(player);
                 break;
             case 10:
-                CharSetting(CHARNAME.SOLDIERA, true, rightTr);
+                CharSetting(CHARNAME.SOLDIERA, true, leftTr);
                 CharSetting(CHARNAME.PLAYER, false, leftTr);
                 dialogTextList[1].text = TextManager.instance.ChangeLanguageText(charName_SoldierA);
                 break;
             case 11:
-                CharSetting(CHARNAME.SOLDIERB, true, rightTr);
-                CharSetting(CHARNAME.SOLDIERA, false, rightTr);
+                CharSetting(CHARNAME.SOLDIERB, true, leftTr);
+                CharSetting(CHARNAME.SOLDIERA, false, leftTr);
                 dialogTextList[1].text = TextManager.instance.ChangeLanguageText(charName_SoldierB);
                 break;
             // 현재 텍스트가 12일때 편지지를 띄움.
@@ -159,7 +157,7 @@ public class OpeningDialog : MonoBehaviour
                 break;
             case 13:
                 letter.SetActive(false);
-                CharSetting(CHARNAME.SOLDIERB, false, rightTr);
+                CharSetting(CHARNAME.SOLDIERB, false, leftTr);
                 CharSetting(CHARNAME.PLAYER, true, leftTr);
                 dialogTextList[1].text = TextManager.instance.ChangeLanguageText(player);
                 break;
