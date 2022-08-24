@@ -220,6 +220,15 @@ public class UnitStateData : MonoBehaviour
     public int Add_rewardSoul;
     #endregion
     public int partyNumber;
+    //{
+    //    get { return PartyNumber; }
+    //    set
+    //    {
+    //        value = PartyNumber;
+    //        if (playerUnit) partySlotHPGauage = DungeonController.instance.partySlotHPGauage[partyNumber];
+    //    }
+    //}
+    //public int PartyNumber;
 
     public void DataSetting(bool playerCheck, int num)
     {
@@ -292,7 +301,8 @@ public class UnitStateData : MonoBehaviour
         UISettingCheck = true;
         canvas = GameObject.Find("DungeonCanvas").GetComponent<Canvas>();
         unitHPGauage = Instantiate(Resources.Load<Image>("Unit/UI/HpGauage"),canvas.transform);
-        partySlotHPGauage = DungeonController.instance.partySlotHPGauage[partyNumber];
+        Debug.Log(partyNumber);
+        if(playerUnit) partySlotHPGauage = DungeonController.instance.partySlotHPGauage[partyNumber];
         HPUIMove();
     }
 
@@ -303,6 +313,8 @@ public class UnitStateData : MonoBehaviour
 
     public void HPUI()
     {
+        if (playerUnit) Debug.Log(partyNumber);
+
         if (!UISettingCheck) UISetting();
         float temp = hp / maxHP;
         unitHPGauage.fillAmount = temp;
