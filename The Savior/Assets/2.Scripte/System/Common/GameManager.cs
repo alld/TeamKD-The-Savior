@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviour
         playUI = GameObject.Find("PUIManager").GetComponent<PlayUI>();
 
         StartCoroutine(GameStart());
+
+        StartCoroutine(AutoSave());
     }
 
     /// <summary>
@@ -144,6 +146,19 @@ public class GameManager : MonoBehaviour
     }
 
     #region 게임 데이터 저장, 불러오기, 리셋하기
+
+    public IEnumerator AutoSave()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1.0f);
+            if (currentlyScene != "Main")
+            {
+                yield return StartCoroutine(dataManager.SaveGameDataToJson(data));
+            }
+        }
+    }
+
     /// <summary>
     /// 데이터를 저장한다.
     /// </summary>
@@ -369,8 +384,6 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if (currentlyScene == "Main") return;
-        StartCoroutine(GameSave());
         playTime += Time.deltaTime;
         if (dungeonOS != null) dungeonPlayTime += Time.deltaTime;
     }
