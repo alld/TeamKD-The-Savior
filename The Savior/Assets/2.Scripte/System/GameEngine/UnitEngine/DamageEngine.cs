@@ -14,6 +14,7 @@ public class DamageEngine : MonoBehaviour
     List<UnitStateData> AllyUnit, EnemyUnit;
 
 
+
     public static DamageEngine instance = null;
 
     private void Start()
@@ -39,31 +40,33 @@ public class DamageEngine : MonoBehaviour
     {
         if (playercheck)
         {
+            //AllyUnit = DungeonOS.instance.partyUnit;
             AllyUnit = DungeonOS.instance.partyUnit;
             EnemyUnit = DungeonOS.instance.monsterGroup;
         }
         else
         {
-            AllyUnit = DungeonOS.instance.monsterGroup;
+            //AllyUnit = DungeonOS.instance.monsterGroup;
+            AllyUnit = DungeonOS.instance.partyUnit;
             EnemyUnit = DungeonOS.instance.partyUnit;
         }
 
 
-        if (DungeonOS.instance.monsterGroup[defender].isinvincible) return 0;
+        if (EnemyUnit[defender].isinvincible) return 0;
         // 속성 변환 체크 후 설정값 지정
-        if (DungeonOS.instance.partyUnit[attacker].Add_attributeCheck) a_attribute = DungeonOS.instance.partyUnit[attacker].Add_attribute;
-        else a_attribute = DungeonOS.instance.partyUnit[attacker].attribute;
-        if (DungeonOS.instance.monsterGroup[defender].Add_attributeCheck) d_attribute = DungeonOS.instance.monsterGroup[defender].Add_attribute;
-        else d_attribute = DungeonOS.instance.monsterGroup[defender].attribute;
-        add_attDamageA = DungeonOS.instance.partyUnit[attacker].Add_attributeVlaue[a_attribute];
-        add_attDamageD = DungeonOS.instance.monsterGroup[defender].Add_attributeVlaue[d_attribute];
+        if (AllyUnit[attacker].Add_attributeCheck) a_attribute = AllyUnit[attacker].Add_attribute;
+        else a_attribute = AllyUnit[attacker].attribute;
+        if (EnemyUnit[defender].Add_attributeCheck) d_attribute = EnemyUnit[defender].Add_attribute;
+        else d_attribute = EnemyUnit[defender].attribute;
+        add_attDamageA = AllyUnit[attacker].Add_attributeVlaue[a_attribute];
+        add_attDamageD = EnemyUnit[defender].Add_attributeVlaue[d_attribute];
 
 
-        dmg += DungeonOS.instance.partyUnit[attacker].Add_damage;
-        d_defense = DungeonOS.instance.monsterGroup[defender].defense;
-        d_defense += DungeonOS.instance.monsterGroup[defender].Add_defense;
-        add_finalDamage = DungeonOS.instance.partyUnit[attacker].Add_fianlDamage + DungeonOS.instance.partyUnit[attacker].Add_fianlDamage;
-        add_DropDamage = DungeonOS.instance.monsterGroup[defender].Add_dropDamage + DungeonOS.instance.monsterGroup[defender].Add_dropDamage;
+        dmg += AllyUnit[attacker].Add_damage;
+        d_defense = EnemyUnit[defender].defense;
+        d_defense += EnemyUnit[defender].Add_defense;
+        add_finalDamage = AllyUnit[attacker].Add_fianlDamage + AllyUnit[attacker].Add_fianlDamage;
+        add_DropDamage = EnemyUnit[defender].Add_dropDamage + EnemyUnit[defender].Add_dropDamage;
 
 
         sum_attribute = (a_attribute * 10) + d_attribute;

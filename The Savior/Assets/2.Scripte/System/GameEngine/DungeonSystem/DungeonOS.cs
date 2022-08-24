@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class DungeonOS : MonoBehaviour
 {
@@ -18,6 +19,11 @@ public class DungeonOS : MonoBehaviour
     WaitForSeconds delay_03 = new WaitForSeconds(0.3f);
     private DungeonController DungeonCtrl;
     public List<string> errorList;
+    private Vector2 mousePoint = new Vector2();
+    private PlayerInput playerInput;
+    private InputActionMap playerMap;
+    private InputAction clickAction;
+    private InputAction mouseMoveAction;
     #endregion
     #region 던전 기본 데이터
     public Transform UnitGroupTr;
@@ -223,6 +229,22 @@ public class DungeonOS : MonoBehaviour
         DungeonCtrl = DungeonController.instance;
         playerStagePoint = playerStagePointGroup.GetComponentsInChildren<Transform>();
         monsterStagePoint = monsterStagePointGroup.GetComponentsInChildren<Transform>();
+
+        playerInput = GetComponent<PlayerInput>();
+        playerMap = playerInput.actions.FindActionMap("Player");
+        clickAction = playerMap.FindAction("Click");
+        mouseMoveAction = playerMap.FindAction("Mouse");
+
+        mouseMoveAction.performed += ctx =>
+        {
+            mousePoint = ctx.ReadValue<Vector2>();
+        };
+
+        clickAction.performed += ctx =>
+        {
+            OnStageSelect();
+        };
+
         #endregion
 
         GameManager.instance.dungeonOS = this;
@@ -231,6 +253,7 @@ public class DungeonOS : MonoBehaviour
         DungeonCtrl.dungeonUI.SetActive(true);
         GameSetting();
     }
+
     #region 던전 이벤트(기능) // 주석처리 미흡
     public void OnStateCheck()
     {
@@ -286,14 +309,17 @@ public class DungeonOS : MonoBehaviour
         Debug.Log("넥스트 라운ㄷ느 종료");
     }
     // 마우스 입력 버튼 아직 안했음
-    void OnStageSelect(Vector2 clickPoint)
+    void OnStageSelect()
     {
-        Ray ray = Camera.main.ScreenPointToRay(clickPoint);
+        Debug.Log("레이캐스트 작동확인");
+        Ray ray = Camera.main.ScreenPointToRay(mousePoint);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
+            Debug.Log("레이캐스트 대상확인");
             if (hit.collider.CompareTag("STAGEPOINT"))
             {
+                Debug.Log("최종");
                 int temp = hit.collider.GetComponent<PointInfo>().pointNumber;
                 if (temp == 0)
                 {
@@ -458,7 +484,6 @@ public class DungeonOS : MonoBehaviour
     /// <param name="stageNum"></param>
     void StageReset(int stageNum)
     {
-        Debug.Log("게임셋팅");
         if (slotStageDG != null) slotStageDG.SetActive(false);
         slotStageDG = stageGroupDG[stageNum];
         slotStageDG.SetActive(true);
@@ -1028,6 +1053,8 @@ public class DungeonOS : MonoBehaviour
                 useDeckDGP.AddRange(GameManager.instance.cardPreset[4].preset);
                 break;
         }
+        useDeckDGP.RemoveAll(x => x == 0);
+
         DeckShuffle();
         handCard.Clear();
 
@@ -1041,7 +1068,7 @@ public class DungeonOS : MonoBehaviour
         {
             if (useDeckDGP.Count != 0)
             {
-                CardDataBase.Data card = new CardDataBase.Data(useDeckDGP[0] + 1);
+                CardDataBase.Data card = new CardDataBase.Data(useDeckDGP[0]);
                 handCard.Add(card);
                 if (!handSlot[0])
                 {

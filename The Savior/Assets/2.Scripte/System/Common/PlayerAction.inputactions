@@ -7,12 +7,12 @@
             "actions": [
                 {
                     "name": "Mouse",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "f15305cb-335b-4b5c-a3a5-c04f6ef36861",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Skill",
@@ -22,30 +22,28 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "f9b4d781-db17-4b9a-98fb-c1bb2f8ae80a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
-                    "name": "Button With One Modifier",
-                    "id": "58898162-d800-4764-b926-07abe6d3818a",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Mouse",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "button",
-                    "id": "4c965cd4-2151-4224-a220-9d0c66793b4f",
-                    "path": "<Mouse>/leftButton",
+                    "name": "",
+                    "id": "aaa4b6c4-a143-4cf0-a709-ee52b9d1ae4e",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "PC",
                     "action": "Mouse",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -88,6 +86,17 @@
                     "processors": "",
                     "groups": "PC",
                     "action": "Skill",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d5a68a9a-72df-43e3-92b2-39bd382764a0",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

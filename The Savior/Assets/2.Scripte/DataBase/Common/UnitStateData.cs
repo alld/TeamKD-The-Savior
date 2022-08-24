@@ -7,9 +7,10 @@ public class UnitStateData : MonoBehaviour
 {
 
     #region UnitUI
-    public Canvas canvas;
+    private Canvas canvas;
     Image partySlotHPGauage;
     Image unitHPGauage;
+    bool UISettingCheck = false;
 
     #endregion
 
@@ -286,10 +287,13 @@ public class UnitStateData : MonoBehaviour
         }
     }
 
-    private void UISetting()
+    public void UISetting()
     {
-        unitHPGauage = Instantiate(Resources.Load<Image>(""));
-
+        UISettingCheck = true;
+        canvas = GameObject.Find("DungeonCanvas").GetComponent<Canvas>();
+        unitHPGauage = Instantiate(Resources.Load<Image>("Unit/UI/HpGauage"),canvas.transform);
+        partySlotHPGauage = DungeonController.instance.partySlotHPGauage[partyNumber];
+        HPUIMove();
     }
 
     public void StagePositionReset()
@@ -299,15 +303,23 @@ public class UnitStateData : MonoBehaviour
 
     public void HPUI()
     {
-        // m_goHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 0.8f, 0));
+        if (!UISettingCheck) UISetting();
+        float temp = hp / maxHP;
+        unitHPGauage.fillAmount = temp;
+        if(playerUnit) partySlotHPGauage.fillAmount = temp;
         // 파티슬롯 기준 UI 지정/ 몬스터는 별도 UI 그룹 생성 
     }
 
     public void HPUIMove()
     {
-
+        unitHPGauage.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 2f, 0));
     }
 
+
+    private void OnDestroy()
+    {
+        Destroy(unitHPGauage);
+    }
     /* 체력게이지 UI 관리
      * 피격 UI도 관리 (데미지 유동텍스트)
      * 

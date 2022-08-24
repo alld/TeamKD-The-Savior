@@ -202,6 +202,13 @@ public class UnitAI : MonoBehaviour
         switch (PatternNumber)
         {
             case 0: // 스케쥴리 진행
+                // 할것 :: 스케쥴 종료 처리 검토;;, 사망처리 분리 
+                if (!DungeonOS.instance.isRoundPlaying)
+                {
+                    Debug.Log("라운드 종료 확인");
+                    aiSchedule.Clear();
+                    aiSchedule.Add(AIPattern.Stand);
+                }
                 isRemove = false;
                 if (aiSchedule.Count == 0)
                 {
@@ -552,6 +559,7 @@ public class UnitAI : MonoBehaviour
     IEnumerator State_Death() // 사망
     {
         Action_Die();
+        animator.SetBool(ani_Death, true);
         //애니메이션 작동
         yield return delay_03;
     }
@@ -823,6 +831,7 @@ public class UnitAI : MonoBehaviour
                 //Move_Yzero = Movetemp - (Vector3.up * Movetemp.y);
                 animator.SetBool(ani_Walk, true);
                 unitControl.SimpleMove(Movetemp);
+                unit.HPUIMove();
                 yield return delay_001;
 
                 // 아군 빗겨나기 레이캐스트 사용 
