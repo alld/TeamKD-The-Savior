@@ -55,7 +55,7 @@ public class SummonCharacter : MonoBehaviour
         }
 
         GameManager.instance.data.golds -= price;
-        tools.Gold();
+        StartCoroutine(tools.Gold());
 
         character = Resources.Load<GameObject>("Unit/Character" + id.ToString());
         character = Instantiate(character, summonCharTr);

@@ -38,7 +38,6 @@ public class GameDataManager : MonoBehaviour
         string jsonData = JsonUtility.ToJson(data);
         string path = Path.Combine(Application.persistentDataPath, "gameData.json");
         File.WriteAllText(path, jsonData);
-
         return data;
     }
 
@@ -62,7 +61,7 @@ public class GameDataManager : MonoBehaviour
             saveData[charExp.id.ToString()] = JObject.FromObject(charExp);
             return;
         }
-        saveData.Add(charExp.id.ToString(), JObject.FromObject(charExp));
+        //saveData.Add(charExp.id.ToString(), JObject.FromObject(charExp));
     }
 
     /// <summary>
@@ -89,16 +88,13 @@ public class GameDataManager : MonoBehaviour
         {
             charExp.id = (n + 1);
             saveData.Add((n + 1).ToString(), JObject.FromObject(charExp));
-            //StartCoroutine(WriteCharExp());
             return charExp;
         }
         var data = File.ReadAllText(path);
 
         JObject json = JObject.Parse(data);
-        //saveData.Add((n + 1).ToString(), JObject.FromObject(charExp));
-        //charExp = saveData[(n + 1).ToString()].ToObject<CharExp>();
+        saveData.Add((n + 1).ToString(), JObject.FromObject(charExp));
         charExp = json[(n + 1).ToString()].ToObject<CharExp>();
-        //StartCoroutine(WriteCharExp());
         return charExp;
     }
 
@@ -107,11 +103,9 @@ public class GameDataManager : MonoBehaviour
     /// </summary>
     public CharExp ResetCharExp(int n)
     {
-        string path = Path.Combine(Application.persistentDataPath, "CharacterExperience.json");
         CharExp exp = new CharExp();
         exp.id = n + 1;
         saveData[(n + 1).ToString()] = JObject.FromObject(exp);
-        File.WriteAllText(path, saveData.ToString());
         return exp;
     }
 
@@ -216,16 +210,13 @@ public class GameDataManager : MonoBehaviour
     /// <summary>
     /// 저장된 카드의 데이터를 초기화 시킵니다.
     /// </summary>
-    public SaveCardData ResetCardData(int n)
+    public IEnumerator ResetCardData()
     {
-        string path = Path.Combine(Application.persistentDataPath, "MyCardData.json");
-        SaveCardData data = new SaveCardData();
-
-
-        ownCard[(n + 1).ToString()] = 0;
-        File.WriteAllText(path, ownCard.ToString());
-
-        return data;
+        for (int i = 1; i <= GameManager.instance.maxCardCount; i++)
+        {
+            ownCard[(i).ToString()] = 0;
+        }
+        yield return null;
     }
 
     public int CountMyCardData()
@@ -340,8 +331,6 @@ public class GameDataManager : MonoBehaviour
 
         CardPreset preset = new CardPreset();
         jPreset[(n + 1).ToString()] = JObject.FromObject(preset);
-        File.WriteAllText(path, jPreset.ToString());
-
         return preset;
     }
 

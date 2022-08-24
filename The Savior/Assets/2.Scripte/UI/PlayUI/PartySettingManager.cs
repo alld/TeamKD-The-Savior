@@ -17,10 +17,26 @@ public class PartySettingManager : MonoBehaviour
     // 현재 선택한 파티 편성창의 번호. 0 ~ 3
     private int idx;
 
-    private void Start()
+    IEnumerator Start()
     {
+        yield return new WaitUntil(() => GameManager.instance.isSetting);
+        StartCoroutine(PartySettingInit());
+    }
+
+    public IEnumerator PartySettingInit()
+    {
+        // 파티 창의 개수 만큼 반복 하여 검사.
         for (int i = 0; i < GameManager.instance.data.equipCharacter.Length; i++)
         {
+            // 데이터 초기화 시 기존에 장착 되어있는 캐릭터의 이미지 파괴 해야함.
+            if(partyTr[i].childCount != 0)
+            {
+                Destroy(partyTr[i].GetChild(0).gameObject);
+            }
+
+            //Debug.Log(GameManager.instance.data.haveCharacter[i]);
+            //Debug.Log(GameManager.instance.data.equipCharacter[i]);
+            // 현재 캐릭터를 장착 중인 데이터가 있을 때.
             if (GameManager.instance.data.equipCharacter[i] != 0)
             {
                 character = Resources.Load<Image>("Unit/Image/Character_" + GameManager.instance.data.equipCharacter[i].ToString());
@@ -29,6 +45,7 @@ public class PartySettingManager : MonoBehaviour
                 Destroy(character.GetComponent<ViewCharacterInfo>());
             }
         }
+        yield return null;
     }
 
 
