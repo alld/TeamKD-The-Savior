@@ -32,7 +32,6 @@ public class CardDeck : MonoBehaviour
     IEnumerator Start()
     {
         yield return new WaitUntil(() => GameManager.instance.isSetting);
-        
         //CardInventory.SetActive(true);
         // 게임 시작시 프리셋 버튼 연결
         for (int i = 0; i < presetButton.Length; i++)
@@ -86,18 +85,23 @@ public class CardDeck : MonoBehaviour
             {
                 case ViewCard.CARDTYPE.치유:
                     type_Heal++;
+                    cardType[(int)ViewCard.CARDTYPE.치유].text = type_Heal.ToString();
                     break;
                 case ViewCard.CARDTYPE.방어:
+                    cardType[(int)ViewCard.CARDTYPE.방어].text = type_Shield.ToString();
                     type_Shield++;
                     break;
                 case ViewCard.CARDTYPE.강화:
                     type_Buff++;
+                    cardType[(int)ViewCard.CARDTYPE.강화].text = type_Buff.ToString();
                     break;
                 case ViewCard.CARDTYPE.방해:
                     type_Debuff++;
+                    cardType[(int)ViewCard.CARDTYPE.방해].text = type_Debuff.ToString();
                     break;
                 case ViewCard.CARDTYPE.공격:
                     type_Attack++;
+                    cardType[(int)ViewCard.CARDTYPE.공격].text = type_Attack.ToString();
                     break;
                 default:
                     break;
@@ -116,11 +120,7 @@ public class CardDeck : MonoBehaviour
             changePreset.transform.position = equipTr.GetChild(i).transform.position;
             changePreset.GetComponent<ViewCard>().isSet = true;
 
-            cardType[(int)ViewCard.CARDTYPE.치유].text = type_Heal.ToString();
-            cardType[(int)ViewCard.CARDTYPE.방어].text = type_Shield.ToString();
-            cardType[(int)ViewCard.CARDTYPE.강화].text = type_Buff.ToString();
-            cardType[(int)ViewCard.CARDTYPE.방해].text = type_Debuff.ToString();
-            cardType[(int)ViewCard.CARDTYPE.공격].text = type_Attack.ToString();
+
         }
     }
 }
