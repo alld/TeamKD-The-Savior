@@ -43,13 +43,14 @@ public class PlayToolBar : MonoBehaviour
         collectButton.onClick.AddListener(() => OnClick_CollectBtn());
         closeCollectButton.onClick.AddListener(() => OnClick_CloseCollectBtn());
 
-        Gold();
+        StartCoroutine(Gold());
     }
 
-    public void Gold()
+    public IEnumerator Gold()
     { 
         souls.text = GameManager.instance.data.souls.ToString();
         golds.text = GameManager.instance.data.golds.ToString();
+        yield return null;
     }
 
     /// <summary>

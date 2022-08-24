@@ -4,25 +4,34 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Linq;
+using UnityEngine.InputSystem;
 
 public class TestScripte : MonoBehaviour
 {
-    public Image fire;
-    public Transform temp;
-    public delegate void testdele();
-    testdele Testdele;
-
-    [Range(0, 100f)]
-    public float speed = 10f; 
-
+    private PlayerInput playerInput;
+    private InputActionMap playerMap;
+    private InputAction clickAction;
+    private InputAction mouseMoveAction;
 
     void Start()
     {
 
-        if (Testdele != null)
+        playerInput = GetComponent<PlayerInput>();
+        playerMap = playerInput.actions.FindActionMap("Player");
+        clickAction = playerMap.FindAction("Click");
+        mouseMoveAction = playerMap.FindAction("Mouse");
+
+        clickAction.performed += ctx =>
         {
-            Testdele();
-        }
+            Debug.Log(ctx);
+        };
+
+        mouseMoveAction.performed += ctx =>
+        {
+            Debug.Log(ctx.ReadValue<Vector2>());
+        };
+
+
     }
 
     private void Update()

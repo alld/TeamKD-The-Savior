@@ -65,6 +65,10 @@ public class GameManager : MonoBehaviour
         StartCoroutine(GameStart());
     }
 
+    /// <summary>
+    /// 게임 데이터를 순차적으로 연결시킨다.
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator GameStart()
     {
         yield return StartCoroutine(GameLoad());
@@ -77,6 +81,39 @@ public class GameManager : MonoBehaviour
         isSetting = true;
     }
 
+    // 현재 카드 인벤토리가 초기화가 안됨.
+    public CharacterInventory inven;
+    PartySettingManager partySetting;
+    CardDeck cardDeck;
+    PlayToolBar tools;
+    /// <summary>
+    /// 데이터를 순차적으로 초기화 시킨다.
+    /// </summary>
+    public IEnumerator GameReset()
+    {
+        partySetting = GameObject.Find("PUIManager").GetComponent<PartySettingManager>();
+        cardDeck = partySetting.gameObject.GetComponent<CardDeck>();
+        tools = partySetting.gameObject.GetComponent<PlayToolBar>();
+        // 게임 데이터 초기화
+        data = dataManager.ResetGameData();
+        yield return StartCoroutine(InitCharExp());
+        yield return StartCoroutine(InitCardData());
+        yield return StartCoroutine(InitPreset());
+        //게임 내 오브젝트 세팅 초기화.
+        yield return StartCoroutine(partySetting.PartySettingInit());
+        yield return StartCoroutine(inven.DestroyCharacterInventory());
+        yield return StartCoroutine(CharacterIndexSetting());
+        yield return StartCoroutine(cardDeck.PresetInit(data.preset - 1));
+        yield return StartCoroutine(tools.Gold());
+        yield return StartCoroutine(cardDeck.DestroyCardDeck());
+    }
+
+
+    /// <summary>
+    /// 게임 시작시 data의 haveRelic의 인덱스를 생성시킴.
+    /// 현재 유물을 얻을 방법이 없어 모든 유물을 보유한 상태로 게임을 시작함.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator StartRelic()
     {
         if (data.haveRelic.Count < 12)
@@ -89,6 +126,11 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
+    /// <summary>
+    /// 게임 시작시 data의 haveCharacter의 인덱스를 생성시킴.
+    /// 중복된 캐릭터를 뽑지 않기 위해 설계됨.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator CharacterIndexSetting()
     {
         if (data.haveCharacter.Count < maxCharacterCount)
@@ -119,48 +161,46 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
-    /// <summary>
-    /// 데이터를 초기화 시킨다.
-    /// </summary>
-    public void GameReset()
-    {
-        data = dataManager.ResetGameData();
-        InitCharExp();
-        InitCardData();
-        InitPreset();
-    }
 
+   
     /// <summary>
     /// 카드 프리셋 초기화
     /// </summary>
-    private void InitPreset()
+    private IEnumerator InitPreset()
     {
         for (int i = 0; i < 5; i++)
         {
             cardPreset[i] = dataManager.ResetPreset(i);
         }
+        StartCoroutine(dataManager.SavePresetToJson());
+        yield return null;
     }
 
     /// <summary>
     /// 보유 카드 데이터 초기화
     /// </summary>
-    private void InitCardData()
+    private IEnumerator InitCardData()
     {
         for (int i = 0; i < maxCardCount; i++)
         {
-            cardDic[i + 1] = dataManager.ResetCardData(i).ownCard;
+            cardDic[i + 1] = 0;
         }
+        yield return StartCoroutine(dataManager.ResetCardData());
+        yield return StartCoroutine(dataManager.WriteCardDataToJson());
+        yield return null;
     }
 
     /// <summary>
     /// 보유중인 캐릭터의 데이터 초기화
     /// </summary>
-    private void InitCharExp()
+    private IEnumerator InitCharExp()
     {
-        for(int i = 0; i < maxCharacterCount; i++)
+        for (int i = 0; i < maxCharacterCount; i++)
         {
-            charExp[i] = dataManager.ResetCharExp(i); 
+            charExp[i] = dataManager.ResetCharExp(i);
         }
+        yield return StartCoroutine(dataManager.WriteCharExp());
+        yield return null;
     }
 
     #endregion
@@ -320,7 +360,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (currentlyScene == "Main") return;
-        StartCoroutine(GameSave());        
+        StartCoroutine(GameSave());
         playTime += Time.deltaTime;
         if (dungeonOS != null) dungeonPlayTime += Time.deltaTime;
     }

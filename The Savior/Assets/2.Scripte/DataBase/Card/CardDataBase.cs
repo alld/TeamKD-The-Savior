@@ -153,44 +153,44 @@ public class CardDataBase : MonoBehaviour
             var jdata = JSON.Parse(json);
             var textdata = JSON.Parse(textjson);
             number = num;
-            Icon = Resources.Load<Image>("Card/Card_" + num.ToString());
+            Icon = Resources.Load<Image>("Card/Card_" + (num).ToString());
             switch (GameManager.instance.data.Language)
             {
                 case 0:
-                    cardName = textdata[num]["Name_Kr"];
+                    cardName = textdata[num-1]["Name_Kr"];
                     break;
                 case 1:
-                    cardName = textdata[num]["Name_Eng"];
+                    cardName = textdata[num-1]["Name_Eng"];
                     break;
                 default:
                     break;
             }
             cardCount = 0;
-            cost = (byte)jdata[num]["Card_Cost"];
+            cost = (byte)jdata[num -1]["Card_Cost"];
             propertie = 0;
-            temp = jdata[num]["EffectTypeA"];
+            temp = jdata[num - 1]["EffectTypeA"];
             effectTypeA = (EffectTypeA)temp;
-            temp = jdata[num]["EffectTypeB"];
+            temp = jdata[num - 1]["EffectTypeB"];
             effectTypeB = (EffectTypeB)temp;
-            temp = jdata[num]["EffectTypeC"];
+            temp = jdata[num - 1]["EffectTypeC"];
             effectTypeC = (EffectTypeC)temp;
-            temp = jdata[num]["EffectTypeD"];
+            temp = jdata[num - 1]["EffectTypeD"];
             effectTypeD = (EffectTypeD)temp;
             cardString1 = "";
             cardString2 = "";
-            effectValue_intA = jdata[num]["effectDataA1"];
-            effectValue_intB = jdata[num]["effectDataA2"];
-            effectValue_floatA = jdata[num]["effectDataB1"];
-            effectValue_floatB = jdata[num]["effectDataB2"];
-            effectValue_floatC = jdata[num]["effectDataB3"];
-            effectValue_floatD = jdata[num]["effectDataB4"];
-            effectValue_bool = jdata[num]["effectDataD1"];
+            effectValue_intA = jdata[num - 1]["effectDataA1"];
+            effectValue_intB = jdata[num - 1]["effectDataA2"];
+            effectValue_floatA = jdata[num - 1]["effectDataB1"];
+            effectValue_floatB = jdata[num - 1]["effectDataB2"];
+            effectValue_floatC = jdata[num - 1]["effectDataB3"];
+            effectValue_floatD = jdata[num - 1]["effectDataB4"];
+            effectValue_bool = jdata[num - 1]["effectDataD1"];
             sellValueA = 0;
             sellValueB = 0;
             recycle = 0;
             dataCount = 0;
-            buffCount = (double)jdata[num]["effectCount"];
-            buffindex = jdata[num]["BF_Num"];
+            buffCount = (double)jdata[num - 1]["effectCount"];
+            buffindex = jdata[num - 1]["BF_Num"];
         }
     }
 }

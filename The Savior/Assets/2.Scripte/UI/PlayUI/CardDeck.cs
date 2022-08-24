@@ -39,6 +39,38 @@ public class CardDeck : MonoBehaviour
             int idx = i;
             presetButton[i].onClick.AddListener(() => OnClick_PresetChangeBtn(idx));
         }
+
+        StartCoroutine(CardSettingInit());
+        
+        OnClick_PresetChangeBtn((GameManager.instance.data.preset - 1));
+
+        //CardInventory.SetActive(false);
+    }
+
+    public IEnumerator DestroyCardDeck()
+    {
+        for (int i = 0; i < 5; i++)     // 장착중인 카드의 타입 개수를 알려주는 텍스트 초기화.
+        {
+            cardType[i].text = "0";
+        }
+
+        Debug.Log(cardDeckTr.childCount);
+        for(int i = 0; i < cardDeckTr.childCount; i++)
+        {
+            Destroy(cardDeckTr.GetChild(i).gameObject);
+        }
+
+
+        yield return null;
+    }
+
+    public IEnumerator CardSettingInit()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            cardType[i].text = "0";
+        }
+
         // 게임 시작시 데이터에 저장되어있는 카드를 검색.
         for (int i = 1; i <= GameManager.instance.maxCardCount; i++)
         {
@@ -53,11 +85,10 @@ public class CardDeck : MonoBehaviour
                 }
             }
         }
-        OnClick_PresetChangeBtn((GameManager.instance.data.preset - 1));
-        //CardInventory.SetActive(false);
+        yield return null;
     }
 
-    public void OnClick_PresetChangeBtn(int n)
+    public IEnumerator PresetInit(int n)
     {
         GameManager.instance.data.preset = (n + 1);
         presetName.text = GameManager.instance.data.presetName[n];
@@ -77,10 +108,9 @@ public class CardDeck : MonoBehaviour
         // 현재 프리셋의 데이터에 세팅된 카드 장착
         for (int i = 0; i < equipTr.childCount; i++)
         {
-            if (GameManager.instance.cardPreset[n] == null) return;
+            if (GameManager.instance.cardPreset[n] == null) yield break;
             if (GameManager.instance.cardPreset[n].preset[i] == 0) continue;
             changePreset = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/MyCard/Viewport/Content/Card_" + GameManager.instance.cardPreset[n].preset[i].ToString() + "(Clone)");
-
             switch (changePreset.GetComponent<ViewCard>().cardType)
             {
                 case ViewCard.CARDTYPE.치유:
@@ -88,8 +118,8 @@ public class CardDeck : MonoBehaviour
                     cardType[(int)ViewCard.CARDTYPE.치유].text = type_Heal.ToString();
                     break;
                 case ViewCard.CARDTYPE.방어:
-                    cardType[(int)ViewCard.CARDTYPE.방어].text = type_Shield.ToString();
                     type_Shield++;
+                    cardType[(int)ViewCard.CARDTYPE.방어].text = type_Shield.ToString();
                     break;
                 case ViewCard.CARDTYPE.강화:
                     type_Buff++;
@@ -119,8 +149,12 @@ public class CardDeck : MonoBehaviour
             changePreset.GetComponent<Image>().rectTransform.offsetMax = Vector2.zero;
             changePreset.transform.position = equipTr.GetChild(i).transform.position;
             changePreset.GetComponent<ViewCard>().isSet = true;
-
-
         }
+        yield return null;
+    }
+
+    public void OnClick_PresetChangeBtn(int n)
+    {
+        StartCoroutine(PresetInit(n));
     }
 }

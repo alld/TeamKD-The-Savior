@@ -30,9 +30,9 @@ public class NewGame : MonoBehaviour
     /// </summary>
     private void OnClick_NewGameBtn()
     {
-        if(GameManager.instance.data.gameProgress != -1)
+        if (GameManager.instance.data.gameProgress != -1)
         {
-            warnningNewGame.SetActive(true);            
+            warnningNewGame.SetActive(true);
         }
         else
         {
@@ -54,9 +54,14 @@ public class NewGame : MonoBehaviour
     /// </summary>
     private void OnClick_NewGameWarnningBtn()
     {
+        StartCoroutine(NewStart());
+    }
+
+    private IEnumerator NewStart()
+    {
         warnningNewGame.SetActive(false);
         // 새 게임 시작시 데이터 초기화
-        GameManager.instance.GameReset();
+        yield return StartCoroutine(GameManager.instance.GameReset());
         GameManager.instance.SceneChange(1);
     }
 }
