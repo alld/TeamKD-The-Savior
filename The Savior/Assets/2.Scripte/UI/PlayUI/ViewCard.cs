@@ -147,7 +147,7 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
                     {
                         isSet = true;
                         this.transform.SetParent(actTr.GetChild(i));
-                        InitImage(this.GetComponent<Image>());
+                        GetComponent<Image>().rectTransform.sizeDelta = new Vector2(80, 113);
                         this.transform.position = actTr.GetChild(i).position;
 
                         GameManager.instance.cardPreset[GameManager.instance.data.preset - 1].preset[i] = this.num;                                                
@@ -191,7 +191,6 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
                 isSet = false;
                 this.transform.SetParent(myCardTr);
                 GameManager.instance.cardPreset[GameManager.instance.data.preset - 1].preset[equipIdx] = 0;
-                Debug.Log(GameManager.instance.cardPreset[GameManager.instance.data.preset - 1].preset[equipIdx]);
 
                 // 해당 카드의 타입에 맞춰 분류
                 switch (cardType)
@@ -224,8 +223,4 @@ public class ViewCard : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
         }
     }
 
-    private void InitImage(Image img)
-    {
-        img.rectTransform.sizeDelta = new Vector2(100, 100);
-    }
 }
