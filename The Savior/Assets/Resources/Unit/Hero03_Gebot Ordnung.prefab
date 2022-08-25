@@ -206,6 +206,7 @@ MonoBehaviour:
   attackTriggerBox: {fileID: 187956751885809799}
   thrown: 0
   targetUnit: {fileID: 0}
+  damage: 0
   playerUnit: 1
   unitNumber: 3
   partyNumber: 0
@@ -3924,7 +3925,6 @@ GameObject:
   - component: {fileID: 708532844790906908}
   - component: {fileID: 3858187200178077178}
   - component: {fileID: 527233488148306310}
-  - component: {fileID: 857188126490778084}
   m_Layer: 0
   m_Name: Quad
   m_TagString: Untagged
@@ -3997,20 +3997,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &857188126490778084
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3835281159257766066}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &3864107217579454074
 GameObject:
   m_ObjectHideFlags: 0
