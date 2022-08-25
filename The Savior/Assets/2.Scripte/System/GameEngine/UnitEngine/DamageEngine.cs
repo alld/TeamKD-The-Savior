@@ -115,6 +115,11 @@ public class DamageEngine : MonoBehaviour
         float a_Damage = dmg;
         shieldDamage = 0;
         float temp_shield;
+        Debug.Log(attacker + "aa" + defender + "dd");
+        foreach (var item in DungeonOS.instance.monsterGroup)
+        {
+            Debug.Log("몬스터" + item);
+        }
         if (DungeonOS.instance.monsterGroup.Count == 0) return 0; // 적전멸 예외 처리
         if (playercheck) temp_shield = DungeonOS.instance.partyUnit[defender].Current_protect;
         else temp_shield = DungeonOS.instance.monsterGroup[defender].Current_protect;

@@ -17,11 +17,17 @@ public class ThrownObjMove : MonoBehaviour
 
     IEnumerator Move()
     {
+        RaycastHit hit;
+        LayerMask mask = (1 << 6) + (1 << 7);
         transform.LookAt(targetPoint);
         tempMovePoint = targetPoint.position - transform.position;
         while (true)
         {
             transform.Translate(tempMovePoint.normalized * thrownSpeed, Space.World);
+            if (Physics.Raycast(transform.position, targetPoint.position, out hit, 2.0f, mask))
+            {
+                if (hit.collider.GetComponent<UnitMelee>().ThrownTriggerCheck(transform)) Destroy(gameObject);
+            }
             yield return delay_001;
         }
     }
