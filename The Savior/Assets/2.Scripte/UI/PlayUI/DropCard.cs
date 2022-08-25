@@ -20,7 +20,7 @@ public class DropCard : MonoBehaviour, IDropHandler
         if (transform.childCount == 0 && ViewCard.dragItem != null)
         {
             ViewCard.dragItem.transform.SetParent(this.transform);
-            ViewCard.dragItem.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(77, 110);
+            ViewCard.dragItem.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(80, 113);
             ViewCard.dragItem.transform.position = this.transform.position;
 
             GameManager.instance.cardPreset[GameManager.instance.data.preset - 1].preset[this.transform.GetSiblingIndex()] = ViewCard.dragItem.GetComponent<ViewCard>().num;
