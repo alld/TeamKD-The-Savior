@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 2693139e74e530841bced5a4043842b2, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -13122,7 +13122,6 @@ MonoBehaviour:
     haveCard: 0
     cardType: 0
   cardIdx: 0
-  partySlot: []
   inven: {fileID: 1896660263}
   cardData: []
   charExp: []
