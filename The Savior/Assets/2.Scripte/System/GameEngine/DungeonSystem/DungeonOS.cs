@@ -469,12 +469,13 @@ public class DungeonOS : MonoBehaviour
         stageIndexDG = dungeonData.stageDataIndex;
         foreach (var item in GameManager.instance.data.equipRelic)
         {
-            equipRelic.Add(new RelicData.Data(item));
+            if(item != 0) equipRelic.Add(new RelicData.Data(item));
         }
 
         foreach (var item in stagePrefabGroupDG.Select((value, index) => new { value, index }))
         {
             stageGroupDG[item.index] = Instantiate(item.value);
+            stageGroupDG[item.index].SetActive(false);
             SceneManager.MoveGameObjectToScene(stageGroupDG[item.index], SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
         }
         roundDGP = 1;

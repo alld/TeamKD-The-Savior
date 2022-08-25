@@ -187,7 +187,6 @@ public class RelicSkill : MonoBehaviour
 
     private void RelicSkillSetting(int relicNum)
     {
-        Debug.Log("실행 체크");
         string effectCount;
         if (relicNum < 5)
         {
@@ -218,8 +217,9 @@ public class RelicSkill : MonoBehaviour
         }
         else
         {
-            effectCount = DungeonOS.instance.equipRelic[relicNum].negEffectCount.ToString();
-            if (DungeonOS.instance.equipRelic[relicNum].negLoopEffect) tempSkillTime = DungeonOS.instance.equipRelic[relicNum].negEffectDataB4;
+            Debug.Log("1." + DungeonOS.instance.equipRelic.Count + "::" + relicNum);
+            effectCount = DungeonOS.instance.equipRelic[relicNum-5].negEffectCount.ToString();
+            if (DungeonOS.instance.equipRelic[relicNum-5].negLoopEffect) tempSkillTime = DungeonOS.instance.equipRelic[relicNum-5].negEffectDataB4;
             switch (DungeonOS.instance.equipRelic[relicNum-5].negEffectTypeA)
             {
                 case RelicData.Data.EffectTypeA.HEAL:

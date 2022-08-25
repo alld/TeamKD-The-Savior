@@ -157,17 +157,17 @@ public class CardDataBase : MonoBehaviour
             switch (GameManager.instance.data.Language)
             {
                 case 0:
-                    cardName = textdata[num-1]["Name_Kr"].ToObject<string>();
+                    cardName = textdata[num - 1]["Name_Kr"].ToObject<string>();
                     break;
                 case 1:
-                    cardName = textdata[num-1]["Name_Eng"].ToObject<string>();
+                    cardName = textdata[num - 1]["Name_Eng"].ToObject<string>();
                     break;
                 default:
                     break;
             }
             cardCount = 0;
 
-            cost = byte.Parse(jdata[num -1]["Card_Cost"].ToObject<string>());
+            cost = byte.Parse(jdata[num - 1]["Card_Cost"].ToObject<string>());
             propertie = 0;
             temp = byte.Parse(jdata[num - 1]["EffectTypeA"].ToObject<string>());
             effectTypeA = (EffectTypeA)temp;
@@ -179,20 +179,20 @@ public class CardDataBase : MonoBehaviour
             effectTypeD = (EffectTypeD)temp;
             cardString1 = "";
             cardString2 = "";
-            effectValue = float.Parse(jdata[num - 1]["effectValue"].ToObject<string>());
-            effectValue_intA = int.Parse(jdata[num - 1]["effectDataA1"].ToObject<string>());
-            effectValue_intB = int.Parse(jdata[num - 1]["effectDataA2"].ToObject<string>());
-            effectValue_floatA = float.Parse(jdata[num - 1]["effectDataB1"].ToObject<string>());
-            effectValue_floatB = float.Parse(jdata[num - 1]["effectDataB2"].ToObject<string>());
-            effectValue_floatC = float.Parse(jdata[num - 1]["effectDataB3"].ToObject<string>());
-            effectValue_floatD = float.Parse(jdata[num - 1]["effectDataB4"].ToObject<string>());
-            effectValue_bool = bool.Parse(jdata[num - 1]["effectDataD1"].ToObject<string>());
+            float.TryParse(jdata[num - 1]["effectValue"].ToObject<string>(), out effectValue);
+            int.TryParse(jdata[num - 1]["effectDataA1"].ToObject<string>(), out effectValue_intA);
+            int.TryParse(jdata[num - 1]["effectDataA2"].ToObject<string>(), out effectValue_intB);
+            float.TryParse(jdata[num - 1]["effectDataB1"].ToObject<string>(), out effectValue_floatA);
+            float.TryParse(jdata[num - 1]["effectDataB2"].ToObject<string>(), out effectValue_floatB);
+            float.TryParse(jdata[num - 1]["effectDataB3"].ToObject<string>(), out effectValue_floatC);
+            float.TryParse(jdata[num - 1]["effectDataB4"].ToObject<string>(), out effectValue_floatD);
+            bool.TryParse(jdata[num - 1]["effectDataD1"].ToObject<string>(), out effectValue_bool);
             sellValueA = 0;
             sellValueB = 0;
             recycle = 0;
             dataCount = 0;
-            buffCount = double.Parse(jdata[num - 1]["effectCount"].ToObject<string>());
-            buffindex = int.Parse(jdata[num - 1]["BF_Num"].ToObject<string>());
+            double.TryParse(jdata[num - 1]["effectCount"].ToObject<string>(), out buffCount);
+            int.TryParse(jdata[num - 1]["BF_Num"].ToObject<string>(), out buffindex);
         }
     }
 }

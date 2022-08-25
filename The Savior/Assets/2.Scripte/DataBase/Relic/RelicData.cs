@@ -9,7 +9,7 @@ public class RelicData : MonoBehaviour
     {
         private TextAsset jsonData, jsonTextData;
 
-        public int number = 0;
+        public int number;
         public int idx = 0;
         public string relicName;
         public string content;
@@ -56,8 +56,9 @@ public class RelicData : MonoBehaviour
 
         public Data(int num)
         {
+            if (num == 0) return;
             number = num;
-            int tempSort;                       // 수정부분 
+            byte tempSort;                       // 수정부분 
             jsonData = Resources.Load<TextAsset>("RelicDB/RelicData");
             jsonTextData = Resources.Load<TextAsset>("RelicDB/RelicText");
             JArray jdata = JArray.Parse(jsonData.text);
@@ -66,60 +67,60 @@ public class RelicData : MonoBehaviour
             switch (GameManager.instance.data.Language)
             {
                 case 0:
-                    relicName = textdata[num]["Name_Kr"].ToObject<string>();
-                    content = textdata[num]["Positive_Kr"].ToObject<string>();
-                    addContent = textdata[num]["Negative_Kr"].ToObject<string>();
+                    relicName = textdata[num - 1]["Name_Kr"].ToObject<string>();
+                    content = textdata[num - 1]["Positive_Kr"].ToObject<string>();
+                    addContent = textdata[num - 1]["Negative_Kr"].ToObject<string>();
                     break;
                 case 1:
-                    relicName = textdata[num]["Name_Eng"].ToObject<string>();
-                    content = textdata[num]["Positive_Eng"].ToObject<string>();
-                    addContent = textdata[num]["Negative_Eng"].ToObject<string>();
+                    relicName = textdata[num - 1]["Name_Eng"].ToObject<string>();
+                    content = textdata[num - 1]["Positive_Eng"].ToObject<string>();
+                    addContent = textdata[num - 1]["Negative_Eng"].ToObject<string>();
                     break;
                 default:
                     break;
             }
 
 
-            usingTime = int.Parse(jdata[num]["usingTime"].ToObject<string>());
-            dataRange = int.Parse(jdata[num]["dataRange"].ToObject<string>());
-            attribute = int.Parse(jdata[num]["attribute"].ToObject<string>());
-            tempSort = byte.Parse(jdata[num]["EffectTypeA"].ToObject<string>());
+            usingTime = int.Parse(jdata[num - 1]["usingTime"].ToObject<string>());
+            dataRange = int.Parse(jdata[num - 1]["dataRange"].ToObject<string>());
+            int.TryParse(jdata[num - 1]["attribute"].ToObject<string>(), out attribute);
+            byte.TryParse(jdata[num - 1]["EffectTypeA"].ToObject<string>(), out tempSort);
             effectTypeA = (EffectTypeA)tempSort;
-            tempSort = byte.Parse(jdata[num]["EffectTypeB"].ToObject<string>());
+            byte.TryParse(jdata[num - 1]["EffectTypeB"].ToObject<string>(), out tempSort);
             effectTypeB = (EffectTypeB)tempSort;
-            tempSort = byte.Parse(jdata[num]["EffectTypeC"].ToObject<string>());
+            byte.TryParse(jdata[num - 1]["EffectTypeC"].ToObject<string>(), out tempSort);
             effectTypeC = (EffectTypeC)tempSort;
-            tempSort = byte.Parse(jdata[num]["EffectTypeD"].ToObject<string>());
+            byte.TryParse(jdata[num - 1]["EffectTypeD"].ToObject<string>(), out tempSort);
             effectTypeD = (EffectTypeD)tempSort;
-            effectDataA1 = int.Parse(jdata[num]["effectDataA1"].ToObject<string>());
-            effectDataA2 = int.Parse(jdata[num]["effectDataA2"].ToObject<string>());
-            effectValue = float.Parse(jdata[num]["effectValue"].ToObject<string>());
-            effectDataB1 = float.Parse(jdata[num]["effectDataB1"].ToObject<string>());
-            effectDataB2 = float.Parse(jdata[num]["effectDataB2"].ToObject<string>());
-            effectDataB3 = float.Parse(jdata[num]["effectDataB3"].ToObject<string>());
-            effectDataB4 = float.Parse(jdata[num]["effectDataB4"].ToObject<string>());
-            effectDataC1 = float.Parse(jdata[num]["effectDataC1"].ToObject<string>());
-            loopEffect = bool.Parse(jdata[num]["loopEffect"].ToObject<string>());
-            effectCount = double.Parse(jdata[num]["effectCount"].ToObject<string>());
+            int.TryParse(jdata[num - 1]["effectDataA1"].ToObject<string>(), out effectDataA1);
+            int.TryParse(jdata[num - 1]["effectDataA2"].ToObject<string>(), out effectDataA2);
+            float.TryParse(jdata[num - 1]["effectValue"].ToObject<string>(), out effectValue);
+            float.TryParse(jdata[num - 1]["effectDataB1"].ToObject<string>(), out effectDataB1);
+            float.TryParse(jdata[num - 1]["effectDataB2"].ToObject<string>(), out effectDataB2);
+            float.TryParse(jdata[num - 1]["effectDataB3"].ToObject<string>(), out effectDataB3);
+            float.TryParse(jdata[num - 1]["effectDataB4"].ToObject<string>(), out effectDataB4);
+            float.TryParse(jdata[num - 1]["effectDataC1"].ToObject<string>(), out effectDataC1);
+            bool.TryParse(jdata[num - 1]["loopEffect"].ToObject<string>(), out loopEffect);
+            double.TryParse(jdata[num - 1]["effectCount"].ToObject<string>(), out effectCount);
             EffectCycle = 0; // 인겜용 데이터 값 할당 X
-            tempSort = byte.Parse(jdata[num]["NegEffectTypeA"].ToObject<string>());
+            byte.TryParse(jdata[num - 1]["NegEffectTypeA"].ToObject<string>(), out tempSort);
             negEffectTypeA = (EffectTypeA)tempSort;
-            tempSort = byte.Parse(jdata[num]["NegEffectTypeB"].ToObject<string>());
+            byte.TryParse(jdata[num - 1]["NegEffectTypeB"].ToObject<string>(), out tempSort);
             negEffectTypeB = (EffectTypeB)tempSort;
-            tempSort = byte.Parse(jdata[num]["NegEffectTypeC"].ToObject<string>());
+            byte.TryParse(jdata[num - 1]["NegEffectTypeC"].ToObject<string>(), out tempSort);
             negEffectTypeC = (EffectTypeC)tempSort;
-            tempSort = byte.Parse(jdata[num]["NegEffectTypeD"].ToObject<string>());
+            byte.TryParse(jdata[num - 1]["NegEffectTypeD"].ToObject<string>(), out tempSort);
             negEffectTypeD = (EffectTypeD)tempSort;
-            negEffectDataA1 = int.Parse(jdata[num]["negEffectDataA1"].ToObject<string>());
-            negEffectDataA2 = int.Parse(jdata[num]["negEffectDataA2"].ToObject<string>());
-            negEffectValue = float.Parse(jdata[num]["negEffectValue"].ToObject<string>());
-            negEffectDataB1 = float.Parse(jdata[num]["negEffectDataB1"].ToObject<string>());
-            negEffectDataB2 = float.Parse(jdata[num]["negEffectDataB2"].ToObject<string>());
-            negEffectDataB3 = float.Parse(jdata[num]["negEffectDataB3"].ToObject<string>());
-            negEffectDataB4 = float.Parse(jdata[num]["negEffectDataB4"].ToObject<string>());
-            negEffectDataC1 = float.Parse(jdata[num]["negEffectDataC1"].ToObject<string>());
-            negLoopEffect = bool.Parse(jdata[num]["negLoopEffect"].ToObject<string>());
-            negEffectCount= double.Parse(jdata[num]["negEffectCount"].ToObject<string>());
+            int.TryParse(jdata[num - 1]["negEffectDataA1"].ToObject<string>(), out negEffectDataA1);
+            int.TryParse(jdata[num - 1]["negEffectDataA2"].ToObject<string>(), out negEffectDataA2);
+            float.TryParse(jdata[num - 1]["negEffectValue"].ToObject<string>(), out negEffectValue);
+            float.TryParse(jdata[num - 1]["negEffectDataB1"].ToObject<string>(), out negEffectDataB1);
+            float.TryParse(jdata[num - 1]["negEffectDataB2"].ToObject<string>(), out negEffectDataB2);
+            float.TryParse(jdata[num - 1]["negEffectDataB3"].ToObject<string>(), out negEffectDataB3);
+            float.TryParse(jdata[num - 1]["negEffectDataB4"].ToObject<string>(), out negEffectDataB4);
+            float.TryParse(jdata[num - 1]["negEffectDataC1"].ToObject<string>(), out negEffectDataC1);
+            bool.TryParse(jdata[num - 1]["negLoopEffect"].ToObject<string>(), out negLoopEffect);
+            double.TryParse(jdata[num - 1]["negEffectCount"].ToObject<string>(), out negEffectCount);
             negEffectCycle = 0; // 인겜용 데이터 값 할당 X
 
             // 데이터 베이스도 같이 수정해야될거같아서 이부분은 추가를 안했어욥
