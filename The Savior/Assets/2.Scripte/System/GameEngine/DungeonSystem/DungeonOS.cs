@@ -499,6 +499,7 @@ public class DungeonOS : MonoBehaviour
                 Destroy(monsterGroup[i].unitObj);
             }
             monsterGroup.Clear();
+            Debug.Log("몬스터그룹 클리어확인" + monsterGroup.Count);
         }
         if (slotStageDG != null) slotStageDG.SetActive(false);
         slotStageDG = stageGroupDG[stageIndexDG[stageNum]];

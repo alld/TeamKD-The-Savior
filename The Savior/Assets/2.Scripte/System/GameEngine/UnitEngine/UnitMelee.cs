@@ -86,12 +86,14 @@ public class UnitMelee : MonoBehaviour
             attackerObj = parentInfo.Info;
             attackerData = attackerObj.GetComponent<UnitStateData>();
             attackerInfo = attackerObj.GetComponent<UnitInfo>();
+            if (!unitdata.isLive) return;
             if ((attackerInfo.playerUnit != unitInfo.playerUnit) && (attackerInfo.targetUnit.unitObj == unitdata.unitObj)) // 데미지 계산의 대상인지 검사
             {
                 //Debug.Log("입구투사체");
 
                 //GetComponent<UnitAI>().dele_attacked();
                 int AttackerNumber = attackerInfo.partyNumber; //(작업 필요)몬스터껄로 변경필요함
+                
                 if (attackerInfo.thrown)
                 {
                   //  Debug.Log("투사체");
@@ -108,6 +110,25 @@ public class UnitMelee : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// 투사체 전용 레이캐스트로 전달한 데미지 피해 
+    /// </summary>
+    /// <param name="other"></param>
+    public bool ThrownTriggerCheck(Transform other)
+    {
+            attackerInfo = other.GetComponent<UnitInfo>();
+            if (!unitdata.isLive) return false;
+            if ((attackerInfo.playerUnit != unitInfo.playerUnit) && (attackerInfo.targetUnit.unitObj == unitdata.unitObj)) // 데미지 계산의 대상인지 검사
+            {
+                //GetComponent<UnitAI>().dele_attacked();
+                int AttackerNumber = attackerInfo.partyNumber; //(작업 필요)몬스터껄로 변경필요함
+                float damage = attackerInfo.damage;
+                OnDamage(damage, AttackerNumber);
+                return true;
+            }
+        return false;
     }
 
     /// <summary>
