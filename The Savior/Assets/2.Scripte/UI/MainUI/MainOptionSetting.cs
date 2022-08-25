@@ -6,9 +6,6 @@ using TMPro;
 
 public class MainOptionSetting : MonoBehaviour
 {
-    MainChangeText changeText;
-
-
     [Header("옵션")]
     // 버튼
     public Button optionButton;
@@ -19,6 +16,7 @@ public class MainOptionSetting : MonoBehaviour
 
     [Header("세팅 - 언어")]
     public TMP_Dropdown languageDropDown;
+    private MainLanguage mainLanguage;
 
     [Header("세팅 - 전체 사운드")]
     public GameObject soundMuteImg;
@@ -35,10 +33,11 @@ public class MainOptionSetting : MonoBehaviour
     public Slider sfxSlider;
     public TMP_Text sfxText;
 
-    void Start()
+    IEnumerator Start()
     {
-        changeText = GetComponent<MainChangeText>();
-
+        mainLanguage = GetComponent<MainLanguage>();
+        // MainLanguage의 세팅이 모두 끝날 때 까지 기다림. -> 텍스트 데이터가 연결되어야 언어 변경이 가능.
+        yield return new WaitUntil(() => mainLanguage.isMainLanguageSetting);
         // 옵션 창
         optionButton.onClick.AddListener(() => OnClick_OptionBtn());
         closeOptionButton.onClick.AddListener(() => OnClick_CloseOptionBtn());
@@ -48,15 +47,16 @@ public class MainOptionSetting : MonoBehaviour
 
         // 세팅 - 사운드
         soundSlider.onValueChanged.AddListener(delegate { OnValueChanged_SoundSlider(); });
-        soundSlider.onValueChanged.AddListener(delegate { OnValueChanged_ChangeSoundText();});
+        soundSlider.onValueChanged.AddListener(delegate { OnValueChanged_ChangeSoundText(); });
 
         // 세팅 - 배경음
         bgmSlider.onValueChanged.AddListener(delegate { OnValueChanged_BGMSlider(); });
-        bgmSlider.onValueChanged.AddListener(delegate { OnValueChanged_ChangeBGMText();});
+        bgmSlider.onValueChanged.AddListener(delegate { OnValueChanged_ChangeBGMText(); });
 
         // 세팅 - 효과음
         sfxSlider.onValueChanged.AddListener(delegate { OnValueChanged_SFXSlider(); });
         sfxSlider.onValueChanged.AddListener(delegate { OnValueChanged_ChangeSFXText(); });
+
 
         UISetting();
     }
@@ -71,7 +71,6 @@ public class MainOptionSetting : MonoBehaviour
         OnValueChanged_ChangeBGMText();
         OnValueChanged_ChangeSFXText();
         OnValueChanged_LanguageSetting();
-        changeText.TranslateLanguage();
     }
 
     /// <summary>
@@ -97,8 +96,9 @@ public class MainOptionSetting : MonoBehaviour
     private void OnValueChanged_LanguageDropDown()
     {
         GameManager.instance.data.Language = languageDropDown.value;
-        changeText.TranslateLanguage();
-        GameManager.instance.GameSave();
+        StartCoroutine(mainLanguage.MainLanguageChange(GameManager.instance.data.Language));
+        StartCoroutine(GameManager.instance.GameSave());
+        GameManager.instance.MainSettingToPlay();
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ public class MainOptionSetting : MonoBehaviour
     private void OnValueChanged_SoundSlider()
     {
         GameManager.instance.data.Sound = (int)soundSlider.value;
-        GameManager.instance.GameSave();
+        StartCoroutine(GameManager.instance.GameSave());
     }
 
     /// <summary>
@@ -127,7 +127,7 @@ public class MainOptionSetting : MonoBehaviour
     private void OnValueChanged_BGMSlider()
     {
         GameManager.instance.data.BGM = (int)bgmSlider.value;
-        GameManager.instance.GameSave();
+        StartCoroutine(GameManager.instance.GameSave());
     }
 
     /// <summary>
@@ -137,7 +137,7 @@ public class MainOptionSetting : MonoBehaviour
     private void OnValueChanged_SFXSlider()
     {
         GameManager.instance.data.SFX = (int)sfxSlider.value;
-        GameManager.instance.GameSave();
+        StartCoroutine(GameManager.instance.GameSave());
     }
 
     /// <summary>
