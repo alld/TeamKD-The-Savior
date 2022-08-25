@@ -311,15 +311,12 @@ public class DungeonOS : MonoBehaviour
     // 마우스 입력 버튼 아직 안했음
     void OnStageSelect()
     {
-        Debug.Log("레이캐스트 작동확인");
         Ray ray = Camera.main.ScreenPointToRay(mousePoint);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            Debug.Log("레이캐스트 대상확인");
             if (hit.collider.CompareTag("STAGEPOINT"))
             {
-                Debug.Log("최종");
                 int temp = hit.collider.GetComponent<PointInfo>().pointNumber;
                 if (temp == 0)
                 {
@@ -1240,68 +1237,68 @@ public class DungeonOS : MonoBehaviour
     /// <br><b>구조 : </b></br> 게임매니저가 가지고있는 인스턴스에 접근하여
     /// DungeonOS가 가지고있는 일부값을 넣어줌. 
     /// </summary>
-    void DungeonEnd()
-    {
-        DungeonCtrl.dungeonUI.SetActive(false);
-        GameManager.instance.dungeonOS = null;
-        // 데이터 전달 
-        // 세이브 1회 실행
+    //void DungeonEnd()
+    //{
+    //    DungeonCtrl.dungeonUI.SetActive(false);
+    //    GameManager.instance.dungeonOS = null;
+    //    // 데이터 전달 
+    //    // 세이브 1회 실행
 
-        for (int i = 0; i < 4; i++)
-        {
-            if (GameManager.instance.partySlot[i] != null)
-            {
-                //GameManager.instance.partySlot[i].exp = partyUnit[i].exp;
-            }
-        }
+    //    for (int i = 0; i < 4; i++)
+    //    {
+    //        if (GameManager.instance.partySlot[i] != null)
+    //        {
+    //            //GameManager.instance.partySlot[i].exp = partyUnit[i].exp;
+    //        }
+    //    }
 
-        if (rewardCardBox.Count != 0)
-        {
-            foreach (var item in rewardCardBox)
-            {
-                if (GameManager.instance.currentCardList[item] == null)
-                {
-                    GameManager.instance.currentCardList.Add(item, new CardDataBase.Data(item));
-                }
-                else
-                {
-                    GameManager.instance.currentCardList[item].cardCount++;
-                }
-            }
-        }
-        if (rewardRelicBox.Count != 0)
-        {
-            foreach (var item in rewardRelicBox)
-            {
-                if (GameManager.instance.currentRelicList[item] == null)
-                {
-                    GameManager.instance.currentRelicList.Add(item, new RelicData.Data(item));
-                }
-                else
-                {
-                    //GameManager.instance.currentRelicList[item].overlapValueA += accrueGoldDGP;
-                    //GameManager.instance.currentRelicList[item].overlapValueB += accrueSoulDGP;
-                }
-            }
-        }
-        if (rewardCardBox.Count != 0)
-        {
-            foreach (var item in rewardHeroBox)
-            {
-                if (GameManager.instance.currentHeroList[item] == null)
-                {
-                    GameManager.instance.currentHeroList.Add(item, new CharacterDatabase.Data(item));
-                }
-                else
-                {
-                    GameManager.instance.currentHeroList[item].overlapValueA += accrueGoldDGP;
-                    GameManager.instance.currentHeroList[item].overlapValueB += accrueSoulDGP;
-                }
-            }
-        }
-        GameManager.instance.data.souls += accrueSoulDGP;
-        GameManager.instance.data.golds += accrueGoldDGP;
-    }
+    //    if (rewardCardBox.Count != 0)
+    //    {
+    //        foreach (var item in rewardCardBox)
+    //        {
+    //            if (GameManager.instance.currentCardList[item] == null)
+    //            {
+    //                GameManager.instance.currentCardList.Add(item, new CardDataBase.Data(item));
+    //            }
+    //            else
+    //            {
+    //                GameManager.instance.currentCardList[item].cardCount++;
+    //            }
+    //        }
+    //    }
+    //    if (rewardRelicBox.Count != 0)
+    //    {
+    //        foreach (var item in rewardRelicBox)
+    //        {
+    //            if (GameManager.instance.currentRelicList[item] == null)
+    //            {
+    //                GameManager.instance.currentRelicList.Add(item, new RelicData.Data(item));
+    //            }
+    //            else
+    //            {
+    //                //GameManager.instance.currentRelicList[item].overlapValueA += accrueGoldDGP;
+    //                //GameManager.instance.currentRelicList[item].overlapValueB += accrueSoulDGP;
+    //            }
+    //        }
+    //    }
+    //    if (rewardCardBox.Count != 0)
+    //    {
+    //        foreach (var item in rewardHeroBox)
+    //        {
+    //            if (GameManager.instance.currentHeroList[item] == null)
+    //            {
+    //                GameManager.instance.currentHeroList.Add(item, new CharacterDatabase.Data(item));
+    //            }
+    //            else
+    //            {
+    //                GameManager.instance.currentHeroList[item].overlapValueA += accrueGoldDGP;
+    //                GameManager.instance.currentHeroList[item].overlapValueB += accrueSoulDGP;
+    //            }
+    //        }
+    //    }
+    //    GameManager.instance.data.souls += accrueSoulDGP;
+    //    GameManager.instance.data.golds += accrueGoldDGP;
+    //}
     #endregion
     #region 게임 에러 기록
     /// <summary>
