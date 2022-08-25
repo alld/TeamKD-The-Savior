@@ -2768,7 +2768,7 @@ GameObject:
   - component: {fileID: 301621658}
   - component: {fileID: 301621654}
   - component: {fileID: 301621656}
-  - component: {fileID: 301621655}
+  - component: {fileID: 301621659}
   m_Layer: 0
   m_Name: WUIManager
   m_TagString: Untagged
@@ -2863,19 +2863,6 @@ MonoBehaviour:
   - {fileID: 371856420}
   warningPreset: {fileID: 2021632083}
   warningButton: {fileID: 273824714}
---- !u!114 &301621655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 301621651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba297fb428ed7d44e92582317d607645, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textList: []
 --- !u!114 &301621656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2889,6 +2876,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: 5
+  ishave: 0
   summonCharTr: {fileID: 208793171}
   warningImg: {fileID: 1398336108}
   warningButton: {fileID: 1540207712}
@@ -2949,6 +2937,41 @@ MonoBehaviour:
   - {fileID: 1034933190}
   - {fileID: 76200157}
   - {fileID: 580048793}
+--- !u!114 &301621659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301621651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08a6251420142b44fa470ef359afd61f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldText:
+  - {fileID: 1067240447}
+  - {fileID: 934473387}
+  - {fileID: 1146503588}
+  - {fileID: 1372274089}
+  - {fileID: 588952627}
+  - {fileID: 1825385529}
+  - {fileID: 1182428740}
+  - {fileID: 1098867085}
+  - {fileID: 1208082460}
+  - {fileID: 1287938950}
+  - {fileID: 802047645}
+  - {fileID: 352435856}
+  - {fileID: 909118738}
+  - {fileID: 73855299}
+  - {fileID: 288420657}
+  - {fileID: 936430274}
+  - {fileID: 665234642}
+  - {fileID: 226485017}
+  - {fileID: 856364238}
+  - {fileID: 134437551}
+  - {fileID: 1615511517}
+  isWorldTextSetting: 0
 --- !u!1 &318448324
 GameObject:
   m_ObjectHideFlags: 0
@@ -4232,7 +4255,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &473937642
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12051,7 +12074,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1398336109
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15307,7 +15330,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2021632084
 RectTransform:
   m_ObjectHideFlags: 0

@@ -3,20 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
-public class MainOptionSetting : MonoBehaviour
+public class PlayOption : MonoBehaviour
 {
-    [Header("옵션")]
-    // 버튼
-    public Button optionButton;
-    public Button closeOptionButton;
-    // 옵션창 이미지
-    public GameObject optionImg;
-
-
     [Header("세팅 - 언어")]
     public TMP_Dropdown languageDropDown;
-    private MainLanguage mainLanguage;
+    private PlayLanguage playLanguage;
 
     [Header("세팅 - 전체 사운드")]
     public GameObject soundMuteImg;
@@ -33,14 +24,11 @@ public class MainOptionSetting : MonoBehaviour
     public Slider sfxSlider;
     public TMP_Text sfxText;
 
+
     IEnumerator Start()
     {
-        mainLanguage = GetComponent<MainLanguage>();
-        // MainLanguage의 세팅이 모두 끝날 때 까지 기다림. -> 텍스트 데이터가 연결되어야 언어 변경이 가능.
-        yield return new WaitUntil(() => mainLanguage.isMainLanguageSetting);
-        // 옵션 창
-        optionButton.onClick.AddListener(() => OnClick_OptionBtn());
-        closeOptionButton.onClick.AddListener(() => OnClick_CloseOptionBtn());
+        playLanguage = GetComponent<PlayLanguage>();
+        yield return new WaitUntil(() => playLanguage.isPlayLanguageSetting);
 
         // 세팅 - 언어
         languageDropDown.onValueChanged.AddListener(delegate { OnValueChanged_LanguageDropDown(); });
@@ -61,7 +49,6 @@ public class MainOptionSetting : MonoBehaviour
         UISetting();
     }
 
-
     /// <summary>
     /// 저장된 데이터에 따라 UI를 세팅해준다.
     /// </summary>
@@ -74,31 +61,21 @@ public class MainOptionSetting : MonoBehaviour
     }
 
     /// <summary>
-    /// 옵션창활성화
-    /// </summary>
-    private void OnClick_OptionBtn()
-    {
-        optionImg.SetActive(true);
-    }
-
-    /// <summary>
-    /// 옵션창 비활성화
-    /// </summary>
-    private void OnClick_CloseOptionBtn()
-    {
-        optionImg.SetActive(false);
-    }
-
-    /// <summary>
     /// 드롭다운을 통해 언어를 변경한다.
     /// 변경된 값을 저장한다.
     /// </summary>
     private void OnValueChanged_LanguageDropDown()
     {
         GameManager.instance.data.Language = languageDropDown.value;
-        StartCoroutine(mainLanguage.MainLanguageChange(GameManager.instance.data.Language));
+        playLanguage.PlayLanguageChange(GameManager.instance.data.Language);
+
+        if (GameManager.instance.currentlyScene == "WorldMap")
+        {
+            WorldMapLanguage world = GameObject.Find("WUIManager").GetComponent<WorldMapLanguage>();
+            world.WorldLanguageChange(GameManager.instance.data.Language);
+        }
+
         StartCoroutine(GameManager.instance.GameSave());
-        GameManager.instance.MainSettingToPlay();
     }
 
     /// <summary>
@@ -199,5 +176,4 @@ public class MainOptionSetting : MonoBehaviour
             sfxMuteImg.SetActive(false);
         }
     }
-
 }
