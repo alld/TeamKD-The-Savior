@@ -259,10 +259,10 @@ public class CardSkill : MonoBehaviour
             switch (card.effectTypeC)
             {
                 case CardDataBase.Data.EffectTypeC.ALLY:
-                    Debug.Log(card.effectValue_floatA);
+                    Debug.Log(card.effectValue);
 
                     temp = AllyTargetCheck(card.effectTypeD);
-                    DungeonOS.instance.partyUnit[temp].hp += card.effectValue_floatA;
+                    DungeonOS.instance.partyUnit[temp].hp += card.effectValue;
                     if(DungeonOS.instance.partyUnit[temp].hp > DungeonOS.instance.partyUnit[temp].maxHP)
                     {
                         DungeonOS.instance.partyUnit[temp].hp = DungeonOS.instance.partyUnit[temp].maxHP;
@@ -271,9 +271,9 @@ public class CardSkill : MonoBehaviour
                 case CardDataBase.Data.EffectTypeC.ALLIES:
                     foreach (var item in DungeonOS.instance.partyUnit)
                     {
-                        Debug.Log(card.effectValue_floatA);
+                        Debug.Log(card.effectValue);
 
-                        item.hp += card.effectValue_floatA;
+                        item.hp += card.effectValue;
                         if (item.hp > item.maxHP)
                         {
                             item.hp = item.maxHP;
@@ -281,10 +281,10 @@ public class CardSkill : MonoBehaviour
                     }
                     break;
                 case CardDataBase.Data.EffectTypeC.ENEMY:
-                    Debug.Log(card.effectValue_floatA);
+                    Debug.Log(card.effectValue);
 
                     temp = EnemyTargetCheck(card.effectTypeD);
-                    DungeonOS.instance.monsterGroup[temp].hp += card.effectValue_floatA;
+                    DungeonOS.instance.monsterGroup[temp].hp += card.effectValue;
                     if (DungeonOS.instance.monsterGroup[temp].hp > DungeonOS.instance.monsterGroup[temp].maxHP)
                     {
                         DungeonOS.instance.monsterGroup[temp].hp = DungeonOS.instance.monsterGroup[temp].maxHP;
@@ -293,8 +293,8 @@ public class CardSkill : MonoBehaviour
                 case CardDataBase.Data.EffectTypeC.ENEMIES:
                     foreach (var item in DungeonOS.instance.monsterGroup)
                     {
-                        Debug.Log(card.effectValue_floatA);
-                        item.hp += card.effectValue_floatA;
+                        Debug.Log(card.effectValue);
+                        item.hp += card.effectValue;
                         if (item.hp > item.maxHP)
                         {
                             item.hp = item.maxHP;
@@ -331,26 +331,26 @@ public class CardSkill : MonoBehaviour
         {
             case CardDataBase.Data.EffectTypeC.ALLY:
                 temp = AllyTargetCheck(card.effectTypeD);
-                DungeonOS.instance.partyUnit[temp].Current_protect += card.effectValue_floatA;
-                DungeonOS.instance.partyUnit[temp].Current_protectMax += card.effectValue_floatA;
+                DungeonOS.instance.partyUnit[temp].Current_protect += card.effectValue;
+                DungeonOS.instance.partyUnit[temp].Current_protectMax += card.effectValue;
                 break;
             case CardDataBase.Data.EffectTypeC.ALLIES:
                 foreach (var item in DungeonOS.instance.partyUnit)
                 {
-                    item.Current_protect += card.effectValue_floatA;
-                    item.Current_protectMax += card.effectValue_floatA;
+                    item.Current_protect += card.effectValue;
+                    item.Current_protectMax += card.effectValue;
                 }
                 break;
             case CardDataBase.Data.EffectTypeC.ENEMY:
                 temp = EnemyTargetCheck(card.effectTypeD);
-                DungeonOS.instance.monsterGroup[temp].Current_protect += card.effectValue_floatA;
-                DungeonOS.instance.monsterGroup[temp].Current_protectMax += card.effectValue_floatA;
+                DungeonOS.instance.monsterGroup[temp].Current_protect += card.effectValue;
+                DungeonOS.instance.monsterGroup[temp].Current_protectMax += card.effectValue;
                 break;
             case CardDataBase.Data.EffectTypeC.ENEMIES:
                 foreach (var item in DungeonOS.instance.monsterGroup)
                 {
-                    item.Current_protect += card.effectValue_floatA;
-                    item.Current_protectMax += card.effectValue_floatA;
+                    item.Current_protect += card.effectValue;
+                    item.Current_protectMax += card.effectValue;
                 }
                 break;
             default:
@@ -367,7 +367,7 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         temp = AllyTargetCheck(card.effectTypeD);
-                        DungeonOS.instance.partyUnit[temp].Current_protectMax -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[temp].Current_protectMax -= card.effectValue;
                         if (DungeonOS.instance.partyUnit[temp].Current_protect >= DungeonOS.instance.partyUnit[temp].Current_protectMax)
                         {
                             DungeonOS.instance.partyUnit[temp].Current_protect = DungeonOS.instance.partyUnit[temp].Current_protectMax;
@@ -376,7 +376,7 @@ public class CardSkill : MonoBehaviour
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
-                            item.Current_protectMax -= card.effectValue_floatA;
+                            item.Current_protectMax -= card.effectValue;
                             if (item.Current_protect >= item.Current_protectMax)
                             {
                                 item.Current_protect = item.Current_protectMax;
@@ -385,7 +385,7 @@ public class CardSkill : MonoBehaviour
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         temp = EnemyTargetCheck(card.effectTypeD);
-                        DungeonOS.instance.monsterGroup[temp].Current_protectMax -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[temp].Current_protectMax -= card.effectValue;
                         if (DungeonOS.instance.monsterGroup[temp].Current_protect >= DungeonOS.instance.monsterGroup[temp].Current_protectMax)
                         {
                             DungeonOS.instance.monsterGroup[temp].Current_protect = DungeonOS.instance.monsterGroup[temp].Current_protectMax;
@@ -394,7 +394,7 @@ public class CardSkill : MonoBehaviour
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
-                            item.Current_protectMax -= card.effectValue_floatA;
+                            item.Current_protectMax -= card.effectValue;
                             if (item.Current_protect >= item.Current_protectMax)
                             {
                                 item.Current_protect = item.Current_protectMax;
@@ -762,7 +762,7 @@ public class CardSkill : MonoBehaviour
             {
                 case CardDataBase.Data.EffectTypeC.ALLY:
                     temp = EnemyTargetCheck(card.effectTypeD);
-                    temp_damage = DamageEngine.instance.OnDamageCalculate(false, true, card.effectValue_floatA, temp, out temp_shieldDamage);
+                    temp_damage = DamageEngine.instance.OnDamageCalculate(false, true, card.effectValue, temp, out temp_shieldDamage);
                     DungeonOS.instance.partyUnit[temp].Current_protect -= temp_shieldDamage;
                     DungeonOS.instance.partyUnit[temp].hp -= temp_damage;
                     if (DungeonOS.instance.partyUnit[temp].hp < 0)
@@ -774,7 +774,7 @@ public class CardSkill : MonoBehaviour
                     for (int i = 0; i < DungeonOS.instance.partyUnit.Count; i++)
                     {
                         temp = EnemyTargetCheck(card.effectTypeD);
-                        temp_damage = DamageEngine.instance.OnDamageCalculate(false, true, card.effectValue_floatA, i, out temp_shieldDamage);
+                        temp_damage = DamageEngine.instance.OnDamageCalculate(false, true, card.effectValue, i, out temp_shieldDamage);
                         DungeonOS.instance.partyUnit[i].Current_protect -= temp_shieldDamage;
                         DungeonOS.instance.partyUnit[i].hp -= temp_damage;
                         if (DungeonOS.instance.partyUnit[i].hp < 0)
@@ -785,7 +785,7 @@ public class CardSkill : MonoBehaviour
                     break;
                 case CardDataBase.Data.EffectTypeC.ENEMY:
                     temp = EnemyTargetCheck(card.effectTypeD);
-                    temp_damage = DamageEngine.instance.OnDamageCalculate(true, true, card.effectValue_floatA, temp, out temp_shieldDamage);
+                    temp_damage = DamageEngine.instance.OnDamageCalculate(true, true, card.effectValue, temp, out temp_shieldDamage);
                     DungeonOS.instance.monsterGroup[temp].Current_protect -= temp_shieldDamage;
                     DungeonOS.instance.monsterGroup[temp].hp -= temp_damage;
                     if (DungeonOS.instance.monsterGroup[temp].hp < 0)
@@ -797,7 +797,7 @@ public class CardSkill : MonoBehaviour
                     for (int i = 0; i < DungeonOS.instance.monsterGroup.Count; i++)
                     {
                         temp = EnemyTargetCheck(card.effectTypeD);
-                        temp_damage = DamageEngine.instance.OnDamageCalculate(true, true, card.effectValue_floatA, i, out temp_shieldDamage);
+                        temp_damage = DamageEngine.instance.OnDamageCalculate(true, true, card.effectValue, i, out temp_shieldDamage);
                         DungeonOS.instance.monsterGroup[i].Current_protect -= temp_shieldDamage;
                         DungeonOS.instance.monsterGroup[i].hp -= temp_damage;
                         if (DungeonOS.instance.monsterGroup[i].hp < 0)
@@ -830,29 +830,29 @@ public class CardSkill : MonoBehaviour
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
 
-                        DungeonOS.instance.partyUnit[allynum].maxHP += card.effectValue_floatA;
-                        DungeonOS.instance.partyUnit[allynum].hp += card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].maxHP += card.effectValue;
+                        DungeonOS.instance.partyUnit[allynum].hp += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit.Select((value, index) => new { value, index }))
                         {
                             if (DungeonOS.instance.partyUnit[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.value.maxHP += card.effectValue_floatA;
-                            item.value.hp += card.effectValue_floatA;
+                            item.value.maxHP += card.effectValue;
+                            item.value.hp += card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[enemynum].Current_buff.Exists(x => x.ID != buffID)) break;
 
-                        DungeonOS.instance.monsterGroup[enemynum].maxHP += card.effectValue_floatA;
-                        DungeonOS.instance.monsterGroup[enemynum].hp += card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].maxHP += card.effectValue;
+                        DungeonOS.instance.monsterGroup[enemynum].hp += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup.Select((value, index) => new { value, index }))
                         {
                             if (DungeonOS.instance.monsterGroup[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.value.maxHP += card.effectValue_floatA;
-                            item.value.hp += card.effectValue_floatA;
+                            item.value.maxHP += card.effectValue;
+                            item.value.hp += card.effectValue;
                         }
                         break;
                     default:
@@ -866,7 +866,7 @@ public class CardSkill : MonoBehaviour
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
 
-                        DungeonOS.instance.partyUnit[allynum].hp += card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].hp += card.effectValue;
                         if (DungeonOS.instance.partyUnit[allynum].hp > DungeonOS.instance.partyUnit[allynum].maxHP)
                         {
                             DungeonOS.instance.partyUnit[allynum].hp = DungeonOS.instance.partyUnit[allynum].maxHP;
@@ -877,7 +877,7 @@ public class CardSkill : MonoBehaviour
                         {
                             if (DungeonOS.instance.partyUnit[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.value.hp += card.effectValue_floatA;
+                            item.value.hp += card.effectValue;
                             if (item.value.hp > item.value.maxHP)
                             {
                                 item.value.hp = item.value.maxHP;
@@ -887,7 +887,7 @@ public class CardSkill : MonoBehaviour
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[enemynum].Current_buff.Exists(x => x.ID != buffID)) break;
 
-                        DungeonOS.instance.monsterGroup[enemynum].hp += card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].hp += card.effectValue;
                         if (DungeonOS.instance.monsterGroup[enemynum].hp > DungeonOS.instance.monsterGroup[enemynum].maxHP)
                         {
                             DungeonOS.instance.monsterGroup[enemynum].hp = DungeonOS.instance.monsterGroup[enemynum].maxHP;
@@ -898,7 +898,7 @@ public class CardSkill : MonoBehaviour
                         {
                             if (DungeonOS.instance.monsterGroup[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.value.hp += card.effectValue_floatA;
+                            item.value.hp += card.effectValue;
                             if (item.value.hp > item.value.maxHP)
                             {
                                 item.value.hp = item.value.maxHP;
@@ -916,19 +916,19 @@ public class CardSkill : MonoBehaviour
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
 
-                        DungeonOS.instance.partyUnit[allynum].Add_damage += card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_damage += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_damage += card.effectValue_floatA;
+                            item.Add_damage += card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
                         
-                        DungeonOS.instance.monsterGroup[enemynum].Add_damage += card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_damage += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
 
@@ -936,7 +936,7 @@ public class CardSkill : MonoBehaviour
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_damage += card.effectValue_floatA;
+                            item.Add_damage += card.effectValue;
                         }
                         break;
                     default:
@@ -949,25 +949,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_defense += card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_defense += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_defense += card.effectValue_floatA;
+                            item.Add_defense += card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_defense += card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_defense += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_defense += card.effectValue_floatA;
+                            item.Add_defense += card.effectValue;
                         }
                         break;
                     default:
@@ -980,25 +980,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_attackSpeed += card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_attackSpeed += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_attackSpeed += card.effectValue_floatA;
+                            item.Add_attackSpeed += card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_attackSpeed += card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attackSpeed += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attackSpeed += card.effectValue_floatA;
+                            item.Add_attackSpeed += card.effectValue;
                         }
                         break;
                     default:
@@ -1011,25 +1011,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_moveSpeed += card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_moveSpeed += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_moveSpeed += card.effectValue_floatA;
+                            item.Add_moveSpeed += card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_moveSpeed += card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_moveSpeed += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_moveSpeed += card.effectValue_floatA;
+                            item.Add_moveSpeed += card.effectValue;
                         }
                         break;
                     default:
@@ -1042,25 +1042,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_priorities += (int)card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_priorities += (int)card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_priorities += (int)card.effectValue_floatA;
+                            item.Add_priorities += (int)card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_priorities += (int)card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_priorities += (int)card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_priorities += (int)card.effectValue_floatA;
+                            item.Add_priorities += (int)card.effectValue;
                         }
                         break;
                     default:
@@ -1073,25 +1073,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_attackRange += card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_attackRange += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_attackRange += card.effectValue_floatA;
+                            item.Add_attackRange += card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_attackRange += card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attackRange += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attackRange += card.effectValue_floatA;
+                            item.Add_attackRange += card.effectValue;
                         }
                         break;
                     default:
@@ -1104,25 +1104,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[1] += card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[1] += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_attributeVlaue[1] += card.effectValue_floatA;
+                            item.Add_attributeVlaue[1] += card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[1] += card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[1] += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attributeVlaue[1] += card.effectValue_floatA;
+                            item.Add_attributeVlaue[1] += card.effectValue;
                         }
                         break;
                     default:
@@ -1135,25 +1135,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[2] += card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[2] += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_attributeVlaue[2] += card.effectValue_floatA;
+                            item.Add_attributeVlaue[2] += card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[2] += card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[2] += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attributeVlaue[2] += card.effectValue_floatA;
+                            item.Add_attributeVlaue[2] += card.effectValue;
                         }
                         break;
                     default:
@@ -1166,25 +1166,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[3] += card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[3] += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_attributeVlaue[3] += card.effectValue_floatA;
+                            item.Add_attributeVlaue[3] += card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[3] += card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[3] += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attributeVlaue[3] += card.effectValue_floatA;
+                            item.Add_attributeVlaue[3] += card.effectValue;
                         }
                         break;
                     default:
@@ -1197,25 +1197,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[0] += card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[0] += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_attributeVlaue[0] += card.effectValue_floatA;
+                            item.Add_attributeVlaue[0] += card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[0] += card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[0] += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attributeVlaue[0] += card.effectValue_floatA;
+                            item.Add_attributeVlaue[0] += card.effectValue;
                         }
                         break;
                     default:
@@ -1228,25 +1228,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_dropDamage += card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_dropDamage += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_dropDamage += card.effectValue_floatA;
+                            item.Add_dropDamage += card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_dropDamage += card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_dropDamage += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_dropDamage += card.effectValue_floatA;
+                            item.Add_dropDamage += card.effectValue;
                         }
                         break;
                     default:
@@ -1259,29 +1259,29 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Current_protect += card.effectValue_floatA;
-                        DungeonOS.instance.partyUnit[allynum].Current_protectMax += card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Current_protect += card.effectValue;
+                        DungeonOS.instance.partyUnit[allynum].Current_protectMax += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Current_protect += card.effectValue_floatA;
-                            item.Current_protectMax += card.effectValue_floatA;
+                            item.Current_protect += card.effectValue;
+                            item.Current_protectMax += card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Current_protect += card.effectValue_floatA;
-                        DungeonOS.instance.monsterGroup[enemynum].Current_protectMax += card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Current_protect += card.effectValue;
+                        DungeonOS.instance.monsterGroup[enemynum].Current_protectMax += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Current_protect += card.effectValue_floatA;
-                            item.Current_protectMax += card.effectValue_floatA;
+                            item.Current_protect += card.effectValue;
+                            item.Current_protectMax += card.effectValue;
                         }
                         break;
                     default:
@@ -1294,7 +1294,7 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Current_protect += card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Current_protect += card.effectValue;
                         if (DungeonOS.instance.partyUnit[allynum].Current_protect > DungeonOS.instance.partyUnit[allynum].Current_protectMax)
                         {
                             DungeonOS.instance.partyUnit[allynum].Current_protect = DungeonOS.instance.partyUnit[allynum].Current_protectMax;
@@ -1305,7 +1305,7 @@ public class CardSkill : MonoBehaviour
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Current_protect += card.effectValue_floatA;
+                            item.Current_protect += card.effectValue;
                             if (item.Current_protect > item.Current_protectMax)
                             {
                                 item.Current_protect = item.Current_protectMax;
@@ -1314,7 +1314,7 @@ public class CardSkill : MonoBehaviour
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Current_protect += card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Current_protect += card.effectValue;
                         if (DungeonOS.instance.monsterGroup[enemynum].Current_protect > DungeonOS.instance.monsterGroup[enemynum].Current_protectMax)
                         {
                             DungeonOS.instance.monsterGroup[enemynum].Current_protect = DungeonOS.instance.monsterGroup[enemynum].Current_protectMax;
@@ -1324,7 +1324,7 @@ public class CardSkill : MonoBehaviour
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Current_protect += card.effectValue_floatA;
+                            item.Current_protect += card.effectValue;
                             if (item.Current_protect > item.Current_protectMax)
                             {
                                 item.Current_protect = item.Current_protectMax;
@@ -1341,25 +1341,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_fianlDamage += card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_fianlDamage += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_fianlDamage += card.effectValue_floatA;
+                            item.Add_fianlDamage += card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_fianlDamage += card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_fianlDamage += card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_fianlDamage += card.effectValue_floatA;
+                            item.Add_fianlDamage += card.effectValue;
                         }
                         break;
                     default:
@@ -1403,7 +1403,7 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        temp_damage = DamageEngine.instance.OnDamageCalculate(false, true, card.effectValue_floatA, allynum, out temp_shieldDamage);
+                        temp_damage = DamageEngine.instance.OnDamageCalculate(false, true, card.effectValue, allynum, out temp_shieldDamage);
                         DungeonOS.instance.partyUnit[allynum].Current_protect -= temp_shieldDamage;
                         DungeonOS.instance.partyUnit[allynum].hp -= temp_damage;
                         if (DungeonOS.instance.partyUnit[allynum].hp < 0)
@@ -1416,7 +1416,7 @@ public class CardSkill : MonoBehaviour
                         {
                             if (DungeonOS.instance.partyUnit[i].Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            temp_damage = DamageEngine.instance.OnDamageCalculate(false, true, card.effectValue_floatA, i, out temp_shieldDamage);
+                            temp_damage = DamageEngine.instance.OnDamageCalculate(false, true, card.effectValue, i, out temp_shieldDamage);
                             DungeonOS.instance.partyUnit[i].Current_protect -= temp_shieldDamage;
                             DungeonOS.instance.partyUnit[i].hp -= temp_damage;
                             if (DungeonOS.instance.partyUnit[i].hp < 0)
@@ -1427,7 +1427,7 @@ public class CardSkill : MonoBehaviour
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        temp_damage = DamageEngine.instance.OnDamageCalculate(true, true, card.effectValue_floatA, enemynum, out temp_shieldDamage);
+                        temp_damage = DamageEngine.instance.OnDamageCalculate(true, true, card.effectValue, enemynum, out temp_shieldDamage);
                         DungeonOS.instance.monsterGroup[enemynum].Current_protect -= temp_shieldDamage;
                         DungeonOS.instance.monsterGroup[enemynum].hp -= temp_damage;
                         if (DungeonOS.instance.monsterGroup[enemynum].hp < 0)
@@ -1439,7 +1439,7 @@ public class CardSkill : MonoBehaviour
                         for (int i = 0; i < DungeonOS.instance.monsterGroup.Count; i++)
                         {
                             if (DungeonOS.instance.monsterGroup[i].Current_buff.Exists(x => x.ID != buffID)) continue;
-                            temp_damage = DamageEngine.instance.OnDamageCalculate(true, true, card.effectValue_floatA, i, out temp_shieldDamage);
+                            temp_damage = DamageEngine.instance.OnDamageCalculate(true, true, card.effectValue, i, out temp_shieldDamage);
                             DungeonOS.instance.monsterGroup[i].Current_protect -= temp_shieldDamage;
                             DungeonOS.instance.monsterGroup[i].hp -= temp_damage;
                             if (DungeonOS.instance.monsterGroup[i].hp < 0)
@@ -1466,7 +1466,7 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].maxHP -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].maxHP -= card.effectValue;
                         if (DungeonOS.instance.partyUnit[allynum].maxHP < 1)
                         {
                             DungeonOS.instance.partyUnit[allynum].maxHP = 1;
@@ -1481,7 +1481,7 @@ public class CardSkill : MonoBehaviour
                         {
                             if (DungeonOS.instance.partyUnit[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.value.maxHP -= card.effectValue_floatA;
+                            item.value.maxHP -= card.effectValue;
                             if (item.value.maxHP < 1)
                             {
                                 item.value.maxHP = 1;
@@ -1494,7 +1494,7 @@ public class CardSkill : MonoBehaviour
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].maxHP -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].maxHP -= card.effectValue;
                         if (DungeonOS.instance.monsterGroup[enemynum].maxHP < 1)
                         {
                             DungeonOS.instance.monsterGroup[enemynum].maxHP = 1;
@@ -1508,7 +1508,7 @@ public class CardSkill : MonoBehaviour
                         foreach (var item in DungeonOS.instance.monsterGroup.Select((value, index) => new { value, index}))
                         {
                             if (DungeonOS.instance.monsterGroup[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.value.maxHP -= card.effectValue_floatA;
+                            item.value.maxHP -= card.effectValue;
                             if (item.value.maxHP < 1)
                             {
                                 item.value.maxHP = 1;
@@ -1529,7 +1529,7 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].hp -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].hp -= card.effectValue;
                         if (DungeonOS.instance.partyUnit[allynum].hp < 1)
                         {
                             DungeonOS.instance.partyUnit[allynum].hp = 1;
@@ -1540,7 +1540,7 @@ public class CardSkill : MonoBehaviour
                         {
                             if (DungeonOS.instance.partyUnit[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.value.hp -= card.effectValue_floatA;
+                            item.value.hp -= card.effectValue;
                             if (item.value.hp < 1)
                             {
                                 item.value.hp = 1;
@@ -1549,7 +1549,7 @@ public class CardSkill : MonoBehaviour
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].hp -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].hp -= card.effectValue;
                         if (DungeonOS.instance.monsterGroup[enemynum].hp < 1)
                         {
                             DungeonOS.instance.monsterGroup[enemynum].hp = 1;
@@ -1559,7 +1559,7 @@ public class CardSkill : MonoBehaviour
                         foreach (var item in DungeonOS.instance.monsterGroup.Select((value, index) => new { value, index }))
                         {
                             if (DungeonOS.instance.monsterGroup[item.index].Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.value.hp -= card.effectValue_floatA;
+                            item.value.hp -= card.effectValue;
                             if (item.value.hp < 1)
                             {
                                 item.value.hp = 1;
@@ -1576,25 +1576,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_damage -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_damage -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_damage -= card.effectValue_floatA;
+                            item.Add_damage -= card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_damage -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_damage -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_damage -= card.effectValue_floatA;
+                            item.Add_damage -= card.effectValue;
                         }
                         break;
                     default:
@@ -1607,25 +1607,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_defense -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_defense -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_defense -= card.effectValue_floatA;
+                            item.Add_defense -= card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_defense -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_defense -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_defense -= card.effectValue_floatA;
+                            item.Add_defense -= card.effectValue;
                         }
                         break;
                     default:
@@ -1638,25 +1638,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_attackSpeed -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_attackSpeed -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_attackSpeed -= card.effectValue_floatA;
+                            item.Add_attackSpeed -= card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_attackSpeed -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attackSpeed -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attackSpeed -= card.effectValue_floatA;
+                            item.Add_attackSpeed -= card.effectValue;
                         }
                         break;
                     default:
@@ -1669,25 +1669,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_moveSpeed -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_moveSpeed -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_moveSpeed -= card.effectValue_floatA;
+                            item.Add_moveSpeed -= card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_moveSpeed -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_moveSpeed -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_moveSpeed -= card.effectValue_floatA;
+                            item.Add_moveSpeed -= card.effectValue;
                         }
                         break;
                     default:
@@ -1700,25 +1700,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_priorities -= (int)card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_priorities -= (int)card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_priorities -= (int)card.effectValue_floatA;
+                            item.Add_priorities -= (int)card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_priorities -= (int)card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_priorities -= (int)card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_priorities -= (int)card.effectValue_floatA;
+                            item.Add_priorities -= (int)card.effectValue;
                         }
                         break;
                     default:
@@ -1731,25 +1731,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_attackRange -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_attackRange -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
 
-                            item.Add_attackRange -= card.effectValue_floatA;
+                            item.Add_attackRange -= card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_attackRange -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attackRange -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attackRange -= card.effectValue_floatA;
+                            item.Add_attackRange -= card.effectValue;
                         }
                         break;
                     default:
@@ -1762,25 +1762,25 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[1] -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[1] -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attributeVlaue[1] -= card.effectValue_floatA;
+                            item.Add_attributeVlaue[1] -= card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
 
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[1] -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[1] -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attributeVlaue[1] -= card.effectValue_floatA;
+                            item.Add_attributeVlaue[1] -= card.effectValue;
                         }
                         break;
                     default:
@@ -1793,24 +1793,24 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[2] -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[2] -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attributeVlaue[2] -= card.effectValue_floatA;
+                            item.Add_attributeVlaue[2] -= card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[2] -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[2] -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attributeVlaue[2] -= card.effectValue_floatA;
+                            item.Add_attributeVlaue[2] -= card.effectValue;
                         }
                         break;
                     default:
@@ -1823,24 +1823,24 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[3] -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[3] -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attributeVlaue[3] -= card.effectValue_floatA;
+                            item.Add_attributeVlaue[3] -= card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[3] -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[3] -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attributeVlaue[3] -= card.effectValue_floatA;
+                            item.Add_attributeVlaue[3] -= card.effectValue;
                         }
                         break;
                     default:
@@ -1853,24 +1853,24 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[0] -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_attributeVlaue[0] -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attributeVlaue[0] -= card.effectValue_floatA;
+                            item.Add_attributeVlaue[0] -= card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[0] -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_attributeVlaue[0] -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_attributeVlaue[0] -= card.effectValue_floatA;
+                            item.Add_attributeVlaue[0] -= card.effectValue;
                         }
                         break;
                     default:
@@ -1883,24 +1883,24 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_dropDamage -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_dropDamage -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_dropDamage -= card.effectValue_floatA;
+                            item.Add_dropDamage -= card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_dropDamage -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_dropDamage -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_dropDamage -= card.effectValue_floatA;
+                            item.Add_dropDamage -= card.effectValue;
                         }
                         break;
                     default:
@@ -1913,7 +1913,7 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Current_protectMax -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Current_protectMax -= card.effectValue;
                         if (DungeonOS.instance.partyUnit[allynum].Current_protect > DungeonOS.instance.partyUnit[allynum].Current_protectMax)
                         {
                             DungeonOS.instance.partyUnit[allynum].Current_protect = DungeonOS.instance.partyUnit[allynum].Current_protectMax;
@@ -1923,7 +1923,7 @@ public class CardSkill : MonoBehaviour
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Current_protectMax -= card.effectValue_floatA;
+                            item.Current_protectMax -= card.effectValue;
                             if (item.Current_protect > item.Current_protectMax)
                             {
                                 item.Current_protect = item.Current_protectMax;
@@ -1932,7 +1932,7 @@ public class CardSkill : MonoBehaviour
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Current_protectMax -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Current_protectMax -= card.effectValue;
                         if (DungeonOS.instance.monsterGroup[enemynum].Current_protect > DungeonOS.instance.monsterGroup[enemynum].Current_protectMax)
                         {
                             DungeonOS.instance.monsterGroup[enemynum].Current_protect = DungeonOS.instance.monsterGroup[enemynum].Current_protectMax;
@@ -1942,7 +1942,7 @@ public class CardSkill : MonoBehaviour
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Current_protectMax -= card.effectValue_floatA;
+                            item.Current_protectMax -= card.effectValue;
                             if (item.Current_protect > item.Current_protectMax)
                             {
                                 item.Current_protect = item.Current_protectMax;
@@ -1959,7 +1959,7 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Current_protect -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Current_protect -= card.effectValue;
                         if (DungeonOS.instance.partyUnit[allynum].Current_protect < 0)
                         {
                             DungeonOS.instance.partyUnit[allynum].Current_protect = 0;
@@ -1969,7 +1969,7 @@ public class CardSkill : MonoBehaviour
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Current_protect -= card.effectValue_floatA;
+                            item.Current_protect -= card.effectValue;
                             if (item.Current_protect < 0)
                             {
                                 item.Current_protect = 0;
@@ -1978,7 +1978,7 @@ public class CardSkill : MonoBehaviour
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Current_protect -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Current_protect -= card.effectValue;
                         if (DungeonOS.instance.monsterGroup[enemynum].Current_protect < 0)
                         {
                             DungeonOS.instance.monsterGroup[enemynum].Current_protect = 0;
@@ -1988,7 +1988,7 @@ public class CardSkill : MonoBehaviour
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Current_protect -= card.effectValue_floatA;
+                            item.Current_protect -= card.effectValue;
                             if (item.Current_protect < 0)
                             {
                                 item.Current_protect = 0;
@@ -2005,24 +2005,24 @@ public class CardSkill : MonoBehaviour
                 {
                     case CardDataBase.Data.EffectTypeC.ALLY:
                         if (DungeonOS.instance.partyUnit[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.partyUnit[allynum].Add_fianlDamage -= card.effectValue_floatA;
+                        DungeonOS.instance.partyUnit[allynum].Add_fianlDamage -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ALLIES:
                         foreach (var item in DungeonOS.instance.partyUnit)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_fianlDamage -= card.effectValue_floatA;
+                            item.Add_fianlDamage -= card.effectValue;
                         }
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMY:
                         if (DungeonOS.instance.monsterGroup[allynum].Current_buff.Exists(x => x.ID != buffID)) break;
-                        DungeonOS.instance.monsterGroup[enemynum].Add_fianlDamage -= card.effectValue_floatA;
+                        DungeonOS.instance.monsterGroup[enemynum].Add_fianlDamage -= card.effectValue;
                         break;
                     case CardDataBase.Data.EffectTypeC.ENEMIES:
                         foreach (var item in DungeonOS.instance.monsterGroup)
                         {
                             if (item.Current_buff.Exists(x => x.ID != buffID)) continue;
-                            item.Add_fianlDamage -= card.effectValue_floatA;
+                            item.Add_fianlDamage -= card.effectValue;
                         }
                         break;
                     default:

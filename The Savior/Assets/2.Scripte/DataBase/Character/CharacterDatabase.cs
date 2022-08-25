@@ -139,7 +139,7 @@ public class CharacterDatabase : MonoBehaviour
 
         public Data(int num)
         {
-            jsonData = Resources.Load<TextAsset>("CharacterData");
+            jsonData = Resources.Load<TextAsset>("CharacterDB/CharacterData");
             nameData = Resources.Load<TextAsset>("CharacterDB/CharacterNameData");
             JArray json = JArray.Parse(jsonData.text);
             JArray jName = JArray.Parse(nameData.text);

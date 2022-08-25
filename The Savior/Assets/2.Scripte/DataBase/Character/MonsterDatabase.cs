@@ -121,8 +121,8 @@ public class MonsterDatabase : MonoBehaviour {
         /// <param name="num"></param>
         public Data(int num)
         {
-            jsonData = Resources.Load<TextAsset>("MonsterData");
-            jsonTextData = Resources.Load<TextAsset>("MonsterTextData");
+            jsonData = Resources.Load<TextAsset>("CharacterDB/MonsterData");
+            jsonTextData = Resources.Load<TextAsset>("CharacterDB/MonsterTextData");
             JArray json = JArray.Parse(jsonData.text);
             JArray jsonText = JArray.Parse(jsonTextData.text);
             switch (GameManager.instance.data.Language)
