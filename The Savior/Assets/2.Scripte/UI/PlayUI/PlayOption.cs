@@ -67,7 +67,14 @@ public class PlayOption : MonoBehaviour
     private void OnValueChanged_LanguageDropDown()
     {
         GameManager.instance.data.Language = languageDropDown.value;
-        StartCoroutine(playLanguage.PlayLanguageChange(GameManager.instance.data.Language));
+        playLanguage.PlayLanguageChange(GameManager.instance.data.Language);
+
+        if(GameManager.instance.currentlyScene == "WorldMap")
+        {
+            WorldMapLanguage world = GameObject.Find("WUIManager").GetComponent<WorldMapLanguage>();
+            world.WorldLanguageChange(GameManager.instance.data.Language);
+        }
+
         StartCoroutine(GameManager.instance.GameSave());
     }
 
