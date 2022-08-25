@@ -8306,7 +8306,7 @@ GameObject:
   - component: {fileID: 1662698043}
   - component: {fileID: 1662698046}
   - component: {fileID: 1662698044}
-  - component: {fileID: 1662698045}
+  - component: {fileID: 1662698047}
   m_Layer: 0
   m_Name: MainUIManager
   m_TagString: Untagged
@@ -8399,34 +8399,6 @@ MonoBehaviour:
   sfxMuteImg: {fileID: 1929756501}
   sfxSlider: {fileID: 1368204965}
   sfxText: {fileID: 754278022}
---- !u!114 &1662698045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1662698038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0814a5df891aacb44b28ff8a7046a2bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  changeTextList:
-  - {fileID: 1619043633}
-  - {fileID: 1982658837}
-  - {fileID: 2000835667}
-  - {fileID: 63026157}
-  - {fileID: 1339723795}
-  - {fileID: 250598272}
-  - {fileID: 2043692199}
-  - {fileID: 503312662}
-  - {fileID: 417385036}
-  - {fileID: 314828896}
-  - {fileID: 2006488820}
-  - {fileID: 930705370}
-  - {fileID: 1969926220}
-  - {fileID: 1659563375}
-  - {fileID: 769821574}
 --- !u!114 &1662698046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8440,6 +8412,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ExitButton: {fileID: 1094410713}
+--- !u!114 &1662698047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662698038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e661ed6ed8d8c47ac73640de11a1af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainText:
+  - {fileID: 1619043633}
+  - {fileID: 1982658837}
+  - {fileID: 2000835667}
+  - {fileID: 63026157}
+  - {fileID: 1339723795}
+  - {fileID: 250598272}
+  - {fileID: 2043692199}
+  - {fileID: 503312662}
+  - {fileID: 417385036}
+  - {fileID: 314828896}
+  - {fileID: 2006488820}
+  - {fileID: 1969926220}
+  - {fileID: 1659563375}
+  - {fileID: 769821574}
+  - {fileID: 2138675637}
+  isMainLanguageSetting: 0
 --- !u!1 &1694942709
 GameObject:
   m_ObjectHideFlags: 0

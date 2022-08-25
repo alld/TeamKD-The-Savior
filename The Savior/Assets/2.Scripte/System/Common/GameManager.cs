@@ -33,22 +33,6 @@ public class GameManager : MonoBehaviour
     #region 유동 데이터 관리
 
 
-    public Dictionary<int, CardDataBase.Data> currentCardList = new Dictionary<int, CardDataBase.Data>();
-    public Dictionary<int, CharacterDatabase.Data> currentHeroList = new Dictionary<int, CharacterDatabase.Data>();
-    public Dictionary<int, RelicData.Data> currentRelicList = new Dictionary<int, RelicData.Data>();
-    public List<int>[] currentDeck =
-        {
-            new List<int>(),
-            new List<int>(),
-            new List<int>(),
-            new List<int>(),
-            new List<int>(),
-        };
-    public CharacterDatabase[] partySlot =
-        {
-
-        };
-
     #endregion
 
     private void Awake()
@@ -357,6 +341,16 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
+
+
+    /// <summary>
+    /// 메인 씬에서 언어변환시 플레이씬에도 적용.
+    /// </summary>
+    public void MainSettingToPlay()
+    {
+        PlayOption playOp = GameObject.Find("PUIManager").GetComponent<PlayOption>();
+        playOp.OnValueChanged_LanguageSetting();
+    }
     private void Update()
     {
         if (currentlyScene == "Main") return;
