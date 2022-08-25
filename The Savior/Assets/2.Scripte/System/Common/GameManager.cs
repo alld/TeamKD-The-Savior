@@ -379,8 +379,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void MainSettingToPlay()
     {
-        PlayOption op = GameObject.Find("PUIManager").GetComponent<PlayOption>();
-        op.OnValueChanged_LanguageSetting();
+        PlayOption playOp = GameObject.Find("PUIManager").GetComponent<PlayOption>();
+        playOp.OnValueChanged_LanguageSetting();
     }
     private void Update()
     {

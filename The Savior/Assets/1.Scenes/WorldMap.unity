@@ -2768,7 +2768,7 @@ GameObject:
   - component: {fileID: 301621658}
   - component: {fileID: 301621654}
   - component: {fileID: 301621656}
-  - component: {fileID: 301621655}
+  - component: {fileID: 301621659}
   m_Layer: 0
   m_Name: WUIManager
   m_TagString: Untagged
@@ -2863,19 +2863,6 @@ MonoBehaviour:
   - {fileID: 371856420}
   warningPreset: {fileID: 2021632083}
   warningButton: {fileID: 273824714}
---- !u!114 &301621655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 301621651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba297fb428ed7d44e92582317d607645, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textList: []
 --- !u!114 &301621656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2950,6 +2937,41 @@ MonoBehaviour:
   - {fileID: 1034933190}
   - {fileID: 76200157}
   - {fileID: 580048793}
+--- !u!114 &301621659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301621651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08a6251420142b44fa470ef359afd61f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldText:
+  - {fileID: 1067240447}
+  - {fileID: 934473387}
+  - {fileID: 1146503588}
+  - {fileID: 1372274089}
+  - {fileID: 588952627}
+  - {fileID: 1825385529}
+  - {fileID: 1182428740}
+  - {fileID: 1098867085}
+  - {fileID: 1208082460}
+  - {fileID: 1287938950}
+  - {fileID: 802047645}
+  - {fileID: 352435856}
+  - {fileID: 909118738}
+  - {fileID: 73855299}
+  - {fileID: 288420657}
+  - {fileID: 936430274}
+  - {fileID: 665234642}
+  - {fileID: 226485017}
+  - {fileID: 856364238}
+  - {fileID: 134437551}
+  - {fileID: 1615511517}
+  isWorldTextSetting: 0
 --- !u!1 &318448324
 GameObject:
   m_ObjectHideFlags: 0
@@ -11929,20 +11951,6 @@ MonoBehaviour:
   - {fileID: 447339452963171550, guid: 57fcdf427a3afd243af09e8ca933b425, type: 3}
   - {fileID: 3074224223989386138, guid: 1fd29ff1c5f380f47a2bfb39a837c65d, type: 3}
   - {fileID: 8069576049204078074, guid: 7bc6dc6856eaa3745b31b5046d9ded5b, type: 3}
-  nameDungeon:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  contactDungeon:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
   bossImg:
   - {fileID: 5759041787285764817, guid: 9e4c6489182a1bc468bf168a02be7de1, type: 3}
   - {fileID: 5759041787285764817, guid: b731027095401cc4c9cb87ef2c53bdd8, type: 3}

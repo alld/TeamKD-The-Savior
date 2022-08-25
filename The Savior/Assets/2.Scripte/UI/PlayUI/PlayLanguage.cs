@@ -29,7 +29,7 @@ public class PlayLanguage : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator PlayLanguageChange(int language)
+    public void PlayLanguageChange(int language)
     {
         switch (language)
         {
@@ -42,7 +42,6 @@ public class PlayLanguage : MonoBehaviour
             default:
                 break;
         }
-        yield return null;
     }
 
     private void KoreaPlayTextSetting()
