@@ -3,18 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System;
+using System.Text;
 using Newtonsoft.Json.Linq;
 
 public class InfoCharacter : MonoBehaviour
 {
+    TextAsset textAsset_infoData;
+    TextAsset textAsset_name;
+    TextAsset textAsset_skill;
+    TextAsset textAsset_ultimate;
+    JArray textInfoData;
+    JArray textNameData;
+    JArray textSkillData;
+    JArray textUltimateData;
+
+
+    StringBuilder skillBuilder = new StringBuilder();
+    StringBuilder ultimateBuilder = new StringBuilder();
+
+
+
     // 버튼
     public Button closeInfoButton;
     public Button skillButton;
     public Button statusButton;
     public Button identityButton;
 
-    // 해당 이미지
+    // 인포 창 이미지
     public GameObject charInfo; // : CharacterInfo Image  
     public GameObject skillImg;
     public GameObject statusImg;
@@ -29,18 +44,23 @@ public class InfoCharacter : MonoBehaviour
     public TMP_Text skillText;
     public TMP_Text spetialText;
 
+    // 캐릭터의 스킬 이미지
+    private Image skillImage;
+    private Image ultimateImage;
 
     [Header("캐릭터 정보")]
     // 캐릭터 이름 텍스트
     public TMP_Text charName;
     // 캐릭터 스탯 텍스트
-    public TMP_Text hp;
-    public TMP_Text att;
-    public TMP_Text def;
+    public TMP_Text hp;         // 체력           hp
+    public TMP_Text att;        // 공격력         attackPower
+    public TMP_Text def;        // 방어력         defense
+    public TMP_Text AS;         // 공격 속도      attackSpeed
+    public TMP_Text AR;         // 공격 범위      attackRange
+    public TMP_Text MS;         // 이동 속도      moveSpeed
+    private int attackType;
+    private string attackTypeToString;
 
-    //private CharacterDatabase charData; // 이전
-    private CharacterDatabase.Data charData; // 수정
-    private CharacterDatabase CharData; // 수정
 
     // 상세정보에 활성화 된 캐릭터 이미지
     private Image character;
@@ -52,8 +72,17 @@ public class InfoCharacter : MonoBehaviour
         statusButton.onClick.AddListener(() => OnClick_StatusBtn());
         identityButton.onClick.AddListener(() => OnClick_IdentityBtn());
 
-        //charData = GameObject.Find("GameManager").GetComponent<CharacterDatabase>(); 이전
-        CharData = GameObject.Find("GameManager").GetComponent<CharacterDatabase>(); // 수정
+        textAsset_infoData = Resources.Load<TextAsset>("CharacterDB/CharacterInfoData");
+        textAsset_name = Resources.Load<TextAsset>("CharacterDB/CharacterNameData");
+        textAsset_skill = Resources.Load<TextAsset>("CharacterDB/SkillTextData");
+        textAsset_ultimate = Resources.Load<TextAsset>("CharacterDB/UltimateTextData");
+        textInfoData = JArray.Parse(textAsset_infoData.text);
+        textNameData = JArray.Parse(textAsset_name.text);
+        textSkillData = JArray.Parse(textAsset_skill.text);
+        textUltimateData = JArray.Parse(textAsset_ultimate.text);
+
+        OnClick_SkillBtn();
+
     }
 
     /// <summary>
@@ -65,16 +94,119 @@ public class InfoCharacter : MonoBehaviour
 
         // 이 함수를 호출한 캐릭터의 번호에 맞는 데이터를 가져온다.
         //charData = new CharacterDatabase(num-1); // 이전
-        charData = new CharacterDatabase.Data(num); // 수정
         character = copyImg;
         character = Instantiate(character, imgTr);
         InitRectSize(character);
 
-        charName.text = charData.charNameKor;
-        hp.text = "체력 : " + charData.maxHP;
-        att.text = "공격력 : " + charData.damage;
-        def.text = "방어력 : " + charData.defense;
+        skillImage = Resources.Load<Image>("Unit/Skill/Skill_" + num);
+        ultimateImage = Resources.Load<Image>("Unit/Skill/Ultimate_" + num);
+        skillImage = Instantiate(skillImage, skillTr);
+        ultimateImage = Instantiate(ultimateImage, spetialTr);
 
+
+        attackType = textInfoData[num - 1]["Attack_Type"].ToObject<int>();
+
+        switch (GameManager.instance.data.Language)
+        {
+            case 0:
+                switch (attackType)
+                {
+                    case 0:
+                        attackTypeToString = "탱커";
+                        break;
+                    case 1:
+                        attackTypeToString = "근거리 딜러";
+                        break;
+                    case 2:
+                        attackTypeToString = "원거리 딜러";
+                        break;
+                    default:
+                        break;
+                }
+
+
+                skillBuilder.Clear();
+                ultimateBuilder.Clear();
+
+                skillBuilder.Append(textSkillData[num-1]["Name"]);
+                skillBuilder.Append("\n");
+                skillBuilder.Append("\n");
+                skillBuilder.Append(textSkillData[num-1]["Content_1"]);
+                skillBuilder.Append("\n");
+                skillBuilder.Append(textSkillData[num - 1]["Content_2"]);
+                    
+                skillText.text = skillBuilder.ToString();               
+
+                ultimateBuilder.Append(textUltimateData[num-1]["Name"]);
+                ultimateBuilder.Append("\n");
+                ultimateBuilder.Append("\n");
+                ultimateBuilder.Append(textUltimateData[num - 1]["Content_1"]);
+                ultimateBuilder.Append("\n");
+                ultimateBuilder.Append(textUltimateData[num - 1]["Content_2"]);
+
+                spetialText.text = ultimateBuilder.ToString();
+
+                charName.text = textNameData[num - 1]["Name_Kr"].ToString() + " / " + attackTypeToString;
+                hp.text = "체력 : " + textInfoData[num - 1]["Hp_Total"].ToString();
+                att.text = "공격력 : " + textInfoData[num - 1]["Chr_Power"].ToString();
+                def.text = "방어력 : " + textInfoData[num - 1]["Chr_DF"].ToString();
+                AS.text = "공격 속도 : " + textInfoData[num - 1]["Chr_AtkSpeed"].ToString();
+                AR.text = "공격 범위 : " + textInfoData[num - 1]["Chr_AtkRange"].ToString();
+                MS.text = "이동 속도 : " + textInfoData[num - 1]["Chr_MS"].ToString();
+
+                break;
+            case 1:
+                switch (attackType)
+                {
+                    case 0:
+                        attackTypeToString = "Tanker";
+                        break;
+                    case 1:
+                        attackTypeToString = "Short-Range Dealer";
+                        break;
+                    case 2:
+                        attackTypeToString = "Long-Range Dealer";
+                        break;
+                    default:
+                        break;
+                }
+
+
+                skillBuilder.Clear();
+                ultimateBuilder.Clear();
+
+                skillBuilder.Append(textSkillData[num - 1]["Name_ENG"]);
+                skillBuilder.Append("\n");
+                skillBuilder.Append("\n");
+                skillBuilder.Append(textSkillData[num - 1]["Content_1_ENG"]);
+                skillBuilder.Append("\n");
+                skillBuilder.Append(textSkillData[num - 1]["Content_2_ENG"]);
+
+                skillText.text = skillBuilder.ToString();
+
+                ultimateBuilder.Append(textUltimateData[num - 1]["Name_ENG"]);
+                ultimateBuilder.Append("\n");
+                ultimateBuilder.Append("\n");
+                ultimateBuilder.Append(textUltimateData[num - 1]["Content_1_ENG"]);
+                ultimateBuilder.Append("\n");
+                ultimateBuilder.Append(textUltimateData[num - 1]["Content_2_ENG"]);
+
+                spetialText.text = ultimateBuilder.ToString();
+
+                charName.text = textNameData[num - 1]["Name_Eng"].ToString() + " / " + attackTypeToString;
+                hp.text = "HP : " + textInfoData[num - 1]["Hp_Total"].ToString();
+                att.text = "AttackPower : " + textInfoData[num - 1]["Chr_Power"].ToString();
+                def.text = "Defense : " + textInfoData[num - 1]["Chr_DF"].ToString();
+                AS.text = "AttackSpeed : " + textInfoData[num - 1]["Chr_AtkSpeed"].ToString();
+                AR.text = "AttackRange : " + textInfoData[num - 1]["Chr_AtkRange"].ToString();
+                MS.text = "MoveSpeed : " + textInfoData[num - 1]["Chr_MS"].ToString();
+
+
+                break;
+            default:
+                break;
+        }
+        
 
         Destroy(character.GetComponent<ViewCharacterInfo>());
     }

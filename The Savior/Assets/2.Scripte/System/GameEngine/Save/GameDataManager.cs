@@ -356,8 +356,10 @@ namespace GameDataTable
     [System.Serializable]
     public class GameData
     {
+        public bool[] isDungeonClear = new bool[6];
         public int CurrentScene = -1;
         public int gameProgress = -1;
+        public int storyProgress = 0;
         public int Language = 0;
         public int SFX = 100;
         public int BGM = 100;

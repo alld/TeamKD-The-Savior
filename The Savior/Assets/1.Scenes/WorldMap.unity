@@ -2971,6 +2971,10 @@ MonoBehaviour:
   - {fileID: 856364238}
   - {fileID: 134437551}
   - {fileID: 1615511517}
+  - {fileID: 248211128}
+  - {fileID: 1253358671}
+  - {fileID: 1202029130}
+  - {fileID: 79002052}
   isWorldTextSetting: 0
 --- !u!1 &318448324
 GameObject:
@@ -4255,7 +4259,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &473937642
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12074,7 +12078,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1398336109
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15330,7 +15334,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2021632084
 RectTransform:
   m_ObjectHideFlags: 0
