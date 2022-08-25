@@ -23,7 +23,8 @@ public class DungeonOS : MonoBehaviour
     private PlayerInput playerInput;
     private InputActionMap playerMap;
     private InputAction clickAction;
-    private InputAction mouseMoveAction;
+
+    private IEnumerator Timer;
     #endregion
     #region 던전 기본 데이터
     public Transform UnitGroupTr;
@@ -53,6 +54,10 @@ public class DungeonOS : MonoBehaviour
     [Header("던전정보")]
     public GameObject[] stagePrefabGroupDG;
     public GameObject[] stageGroupDG;
+    /// <summary>
+    /// 특정 스테이지가 몇번째 프리팹을 가지는지에대한 정보
+    /// </summary>
+    public int[] stageIndexDG;
     /// <summary>
     /// 현재 던전이 사용중인 스테이지
     /// </summary>
@@ -233,12 +238,12 @@ public class DungeonOS : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         playerMap = playerInput.actions.FindActionMap("Player");
         clickAction = playerMap.FindAction("Click");
-        mouseMoveAction = playerMap.FindAction("Mouse");
 
-        mouseMoveAction.performed += ctx =>
-        {
-            mousePoint = ctx.ReadValue<Vector2>();
-        };
+        Timer = DGTimer();
+        //mouseMoveAction.performed += ctx =>
+        //{
+        //    mousePoint = ctx.ReadValue<Vector2>();
+        //};
 
         clickAction.performed += ctx =>
         {
@@ -257,7 +262,7 @@ public class DungeonOS : MonoBehaviour
     #region 던전 이벤트(기능) // 주석처리 미흡
     public void OnStateCheck()
     {
-        if(dele_stateCheck != null)dele_stateCheck();
+        if (dele_stateCheck != null) dele_stateCheck();
         if (monsterGroup.Count <= DieCount_Enemy)
         {
             OnRoundVictory();
@@ -294,15 +299,16 @@ public class DungeonOS : MonoBehaviour
     {
         Debug.Log("넥스트 라운ㄷ느");
         isRoundPlaying = true;
+        DGTimerEnd();
         StartCoroutine(FadeIn());
         if (++roundDGP % 10 == 5) StageReset(5);
         else if (roundDGP % 10 != 0)
         {
-            if (roundInfoDG[roundDGP - 1] == 6)
+            if (num + 1 != roundDGP)
             {
                 StageReset(num);
             }
-            //else NextRound(roundDGP);
+            else StageReset(roundDGP);
         }
         else StageReset(10);
         HandRefill();
@@ -311,9 +317,9 @@ public class DungeonOS : MonoBehaviour
     // 마우스 입력 버튼 아직 안했음
     void OnStageSelect()
     {
-        Ray ray = Camera.main.ScreenPointToRay(mousePoint);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("StagePoint")))
         {
             if (hit.collider.CompareTag("STAGEPOINT"))
             {
@@ -380,8 +386,10 @@ public class DungeonOS : MonoBehaviour
     public void HandUIReset()
     {
         int temp = roundDGP % 10;
-        DungeonCtrl.gameRoundbarArrow.transform.SetParent(DungeonCtrl.gameRoundbarPoint[temp].transform);
-        //DungeonCtrl.gameRoundbarArrow.GetComponent<RectTransform>().Loo
+        DungeonCtrl.gameRoundbarArrow.transform.SetParent(DungeonCtrl.gameRoundbarPoint[temp - 1].transform);
+
+        DungeonCtrl.gameRoundbarArrow.GetComponent<RectTransform>().offsetMin = Vector2.zero;
+        DungeonCtrl.gameRoundbarArrow.GetComponent<RectTransform>().offsetMax = Vector2.zero;
         DungeonCtrl.playerCostGauage.fillAmount = (float)costDGP / 10f;
         DungeonCtrl.playerExpectationsGauage.fillAmount = DungeonCtrl.playerCostGauage.fillAmount;
         DungeonCtrl.playerLackCost.fillAmount = DungeonCtrl.playerCostGauage.fillAmount;
@@ -424,7 +432,7 @@ public class DungeonOS : MonoBehaviour
             yield return delay_01;
         }
         DungeonCtrl.fade.color = new Color(0, 0, 0, 1);
-        FadeOut();
+        StartCoroutine(FadeOut());
     }
     /// <summary>
     /// 페이드인 처리후 페이드아웃 
@@ -457,6 +465,8 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void GameSetting()
     {
+        roundInfoDG = dungeonData.stageDataInfo;
+        stageIndexDG = dungeonData.stageDataIndex;
         foreach (var item in GameManager.instance.data.equipRelic)
         {
             equipRelic.Add(new RelicData.Data(item));
@@ -481,7 +491,7 @@ public class DungeonOS : MonoBehaviour
     /// <param name="stageNum"></param>
     void StageReset(int stageNum)
     {
-        if(roundDGP != 1)
+        if (roundDGP != 1)
         {
             for (int i = monsterGroup.Count - 1; i >= 0; i--)
             {
@@ -489,10 +499,9 @@ public class DungeonOS : MonoBehaviour
                 Destroy(monsterGroup[i].unitObj);
             }
             monsterGroup.Clear();
-            Debug.Log("몬스터그룹 클리어확인" + monsterGroup.Count);
         }
         if (slotStageDG != null) slotStageDG.SetActive(false);
-        slotStageDG = stageGroupDG[stageNum];
+        slotStageDG = stageGroupDG[stageIndexDG[stageNum]];
         slotStageDG.SetActive(true);
         Camera.main.transform.position = slotStageDG.GetComponentInChildren<Camera>().transform.position;
         Camera.main.transform.rotation = slotStageDG.GetComponentInChildren<Camera>().transform.rotation;
@@ -710,14 +719,17 @@ public class DungeonOS : MonoBehaviour
         for (int i = 0; i < stageSlotPlayerBottom.Count; i++)
         {
             stageSlotPlayerBottom[i].gameObject.transform.position = playerStagePoint[i + 1].position;
+            stageSlotPlayerBottom[i].HPUIMove();
         }
         for (int i = 0; i < stageSlotPlayerMid.Count; i++)
         {
             stageSlotPlayerMid[i].gameObject.transform.position = playerStagePoint[i + 4].position;
+            stageSlotPlayerMid[i].HPUIMove();
         }
         for (int i = 0; i < stageSlotPlayerTop.Count; i++)
         {
             stageSlotPlayerTop[i].gameObject.transform.position = playerStagePoint[i + 7].position;
+            stageSlotPlayerTop[i].HPUIMove();
         }
 
 
@@ -743,7 +755,7 @@ public class DungeonOS : MonoBehaviour
             partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitAI>();
             tempUnitInfo = partyUnit[partyUnit.Count - 1].GetComponent<UnitInfo>();
             tempUnitInfo.changeUnitNumber = item.value;
-            tempUnitInfo.partyNumber = partyUnit.Count - 1;
+            tempUnitInfo.changePartyNumber = partyUnit.Count - 1;
             partyUnit[partyUnit.Count - 1].isLive = true;
         }
     }
@@ -955,14 +967,17 @@ public class DungeonOS : MonoBehaviour
         for (int i = 0; i < stageSlotMonsterBottom.Count; i++)
         {
             stageSlotMonsterBottom[i].gameObject.transform.position = monsterStagePoint[i + 2].position;
+            stageSlotMonsterBottom[i].HPUIMove();
         }
         for (int i = 0; i < stageSlotMonsterMid.Count; i++)
         {
             stageSlotMonsterMid[i].gameObject.transform.position = monsterStagePoint[i + 6].position;
+            stageSlotMonsterMid[i].HPUIMove();
         }
         for (int i = 0; i < stageSlotMonsterTop.Count; i++)
         {
             stageSlotMonsterTop[i].gameObject.transform.position = monsterStagePoint[i + 10].position;
+            stageSlotMonsterTop[i].HPUIMove();
         }
 
         stageSlotMonsterBottom.Clear();
@@ -989,7 +1004,7 @@ public class DungeonOS : MonoBehaviour
             monsterGroup[0].gameObject.AddComponent<UnitAI>();
             tempUnitInfo = monsterGroup[monsterGroup.Count - 1].GetComponent<UnitInfo>();
             tempUnitInfo.changeUnitNumber = monsterGroup[0].number;
-            tempUnitInfo.partyNumber = 0;
+            tempUnitInfo.changePartyNumber = 0;
             monsterGroup[0].transform.position = monsterStagePoint[1].position;
             monsterGroup[0].transform.rotation = monsterStagePoint[1].rotation;
             monsterGroup[monsterGroup.Count - 1].isLive = true;
@@ -1004,7 +1019,7 @@ public class DungeonOS : MonoBehaviour
             monsterGroup[0].gameObject.AddComponent<UnitAI>();
             tempUnitInfo = monsterGroup[monsterGroup.Count - 1].GetComponent<UnitInfo>();
             tempUnitInfo.changeUnitNumber = monsterGroup[0].number;
-            tempUnitInfo.partyNumber = 0;
+            tempUnitInfo.changePartyNumber = 0;
             monsterGroup[0].transform.position = monsterStagePoint[1].position;
             monsterGroup[0].transform.rotation = monsterStagePoint[1].rotation;
             monsterGroup[monsterGroup.Count - 1].isLive = true;
@@ -1020,7 +1035,7 @@ public class DungeonOS : MonoBehaviour
             tempUnitInfo = monsterGroup[monsterGroup.Count - 1].GetComponent<UnitInfo>();
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitAI>();
             tempUnitInfo.changeUnitNumber = monsterGroup[monsterGroup.Count - 1].number;
-            tempUnitInfo.partyNumber = monsterGroup.Count - 1;
+            tempUnitInfo.changePartyNumber = monsterGroup.Count - 1;
             monsterGroup[monsterGroup.Count - 1].isLive = true;
         }
     }
@@ -1170,7 +1185,7 @@ public class DungeonOS : MonoBehaviour
         timeLevelDGP = 0;
         DungeonCtrl.gameTimerBG[0].fillAmount = 1;
         DungeonCtrl.gameTimerBG[1].fillAmount = 1;
-        StartCoroutine(DGTimer());
+        StartCoroutine(Timer);
     }
     /// <summary>
     /// 타이머 작동 기능
@@ -1216,6 +1231,7 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     public void DGTimerEnd()
     {
+        StopCoroutine(Timer);
         timerOnDGP = false;
     }
     /// <summary>
@@ -1237,68 +1253,68 @@ public class DungeonOS : MonoBehaviour
     /// <br><b>구조 : </b></br> 게임매니저가 가지고있는 인스턴스에 접근하여
     /// DungeonOS가 가지고있는 일부값을 넣어줌. 
     /// </summary>
-    //void DungeonEnd()
-    //{
-    //    DungeonCtrl.dungeonUI.SetActive(false);
-    //    GameManager.instance.dungeonOS = null;
-    //    // 데이터 전달 
-    //    // 세이브 1회 실행
+    void DungeonEnd()
+    {
+        //DungeonCtrl.dungeonUI.SetActive(false);
+        //GameManager.instance.dungeonOS = null;
+        //// 데이터 전달 
+        //// 세이브 1회 실행
 
-    //    for (int i = 0; i < 4; i++)
-    //    {
-    //        if (GameManager.instance.partySlot[i] != null)
-    //        {
-    //            //GameManager.instance.partySlot[i].exp = partyUnit[i].exp;
-    //        }
-    //    }
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    if (GameManager.instance.partySlot[i] != null)
+        //    {
+        //        //GameManager.instance.partySlot[i].exp = partyUnit[i].exp;
+        //    }
+        //}
 
-    //    if (rewardCardBox.Count != 0)
-    //    {
-    //        foreach (var item in rewardCardBox)
-    //        {
-    //            if (GameManager.instance.currentCardList[item] == null)
-    //            {
-    //                GameManager.instance.currentCardList.Add(item, new CardDataBase.Data(item));
-    //            }
-    //            else
-    //            {
-    //                GameManager.instance.currentCardList[item].cardCount++;
-    //            }
-    //        }
-    //    }
-    //    if (rewardRelicBox.Count != 0)
-    //    {
-    //        foreach (var item in rewardRelicBox)
-    //        {
-    //            if (GameManager.instance.currentRelicList[item] == null)
-    //            {
-    //                GameManager.instance.currentRelicList.Add(item, new RelicData.Data(item));
-    //            }
-    //            else
-    //            {
-    //                //GameManager.instance.currentRelicList[item].overlapValueA += accrueGoldDGP;
-    //                //GameManager.instance.currentRelicList[item].overlapValueB += accrueSoulDGP;
-    //            }
-    //        }
-    //    }
-    //    if (rewardCardBox.Count != 0)
-    //    {
-    //        foreach (var item in rewardHeroBox)
-    //        {
-    //            if (GameManager.instance.currentHeroList[item] == null)
-    //            {
-    //                GameManager.instance.currentHeroList.Add(item, new CharacterDatabase.Data(item));
-    //            }
-    //            else
-    //            {
-    //                GameManager.instance.currentHeroList[item].overlapValueA += accrueGoldDGP;
-    //                GameManager.instance.currentHeroList[item].overlapValueB += accrueSoulDGP;
-    //            }
-    //        }
-    //    }
-    //    GameManager.instance.data.souls += accrueSoulDGP;
-    //    GameManager.instance.data.golds += accrueGoldDGP;
-    //}
+        //if (rewardCardBox.Count != 0)
+        //{
+        //    foreach (var item in rewardCardBox)
+        //    {
+        //        if (GameManager.instance.currentCardList[item] == null)
+        //        {
+        //            GameManager.instance.currentCardList.Add(item, new CardDataBase.Data(item));
+        //        }
+        //        else
+        //        {
+        //            GameManager.instance.currentCardList[item].cardCount++;
+        //        }
+        //    }
+        //}
+        //if (rewardRelicBox.Count != 0)
+        //{
+        //    foreach (var item in rewardRelicBox)
+        //    {
+        //        if (GameManager.instance.currentRelicList[item] == null)
+        //        {
+        //            GameManager.instance.currentRelicList.Add(item, new RelicData.Data(item));
+        //        }
+        //        else
+        //        {
+        //            //GameManager.instance.currentRelicList[item].overlapValueA += accrueGoldDGP;
+        //            //GameManager.instance.currentRelicList[item].overlapValueB += accrueSoulDGP;
+        //        }
+        //    }
+        //}
+        //if (rewardCardBox.Count != 0)
+        //{
+        //    foreach (var item in rewardHeroBox)
+        //    {
+        //        if (GameManager.instance.currentHeroList[item] == null)
+        //        {
+        //            GameManager.instance.currentHeroList.Add(item, new CharacterDatabase.Data(item));
+        //        }
+        //        else
+        //        {
+        //            GameManager.instance.currentHeroList[item].overlapValueA += accrueGoldDGP;
+        //            GameManager.instance.currentHeroList[item].overlapValueB += accrueSoulDGP;
+        //        }
+        //    }
+        //}
+        //GameManager.instance.data.souls += accrueSoulDGP;
+        //GameManager.instance.data.golds += accrueGoldDGP;
+    }
     #endregion
     #region 게임 에러 기록
     /// <summary>
@@ -1319,12 +1335,4 @@ public class DungeonOS : MonoBehaviour
     #endregion
 
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PlayerUnitSetting();
-            MonsterSetting();
-        }
-    }
 }

@@ -292,8 +292,7 @@ public class UnitStateData : MonoBehaviour
         UISettingCheck = true;
         canvas = GameObject.Find("DungeonCanvas").GetComponent<Canvas>();
         unitHPGauage = Instantiate(Resources.Load<Image>("Unit/UI/HpGauage"),canvas.transform);
-        partySlotHPGauage = DungeonController.instance.partySlotHPGauage[partyNumber];
-        HPUIMove();
+        if (playerUnit) partySlotHPGauage = DungeonController.instance.partySlotHPGauage[partyNumber]; HPUIMove();
     }
 
     public void StagePositionReset()
