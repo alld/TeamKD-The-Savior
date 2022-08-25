@@ -54,6 +54,7 @@ public class CardDeck : MonoBehaviour
             cardType[i].text = "0";
         }
 
+        Debug.Log(cardDeckTr.childCount);
         for(int i = 0; i < cardDeckTr.childCount; i++)
         {
             Destroy(cardDeckTr.GetChild(i).gameObject);

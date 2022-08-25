@@ -5,14 +5,14 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using SimpleJSON;
-using Newtonsoft.Json.Linq;
 
 public class WorldMapDungeon : MonoBehaviour
 {
     DungeonInfo info;   // 던전 정보 스크립트
 
-    private TextAsset textAsset;
-    private JArray textData;
+    private TextAsset jsonData;
+    private string json;
+
     public enum EDungeonName { Grotta, First, Second, Third, Fourth, Fifth }    // 던전 이름
     public EDungeonName curDungeon = EDungeonName.Grotta;
 
@@ -38,6 +38,8 @@ public class WorldMapDungeon : MonoBehaviour
     public TMP_Text dungeonName;
     public TMP_Text contactText;
 
+    private string dgName;
+
     [Header("카드 프리셋")]
     public GameObject cardPreset;
     public Button yesPresetButton;
@@ -54,8 +56,8 @@ public class WorldMapDungeon : MonoBehaviour
     {
         info = GameObject.Find("DungeonInfo").GetComponent<DungeonInfo>();
 
-        textAsset = Resources.Load<TextAsset>("TextDB/DungeonNameData");
-        textData = JArray.Parse(textAsset.text);
+        jsonData = Resources.Load<TextAsset>("DungeonNameData");
+        json = jsonData.text;
 
         // 튜토리얼 던전
         EnterTheDungeonButton[(int)EDungeonName.Grotta].onClick.AddListener(() => OnClick_EnterTheDungeonBtn(0));
@@ -88,8 +90,6 @@ public class WorldMapDungeon : MonoBehaviour
 
         cardDeck = GameObject.Find("PUIManager").GetComponent<CardDeck>();
 
-
-
     }
 
     /// <summary>
@@ -98,6 +98,7 @@ public class WorldMapDungeon : MonoBehaviour
     /// </summary>
     private void OnClick_EnterTheDungeonBtn(int idx)
     {
+        var data = JSON.Parse(json);
         // 이미지 생성
         dungeonImg[0] = Instantiate(info.dungeonImg[idx].GetComponent<Image>());
         dungeonImg[1] = Instantiate(info.bossImg[idx].GetComponent<Image>());
@@ -116,21 +117,10 @@ public class WorldMapDungeon : MonoBehaviour
         InitRectSize(dungeonImg[2]);
         InitRectSize(dungeonImg[3]);
 
-
         // 던전 설명
-        switch (GameManager.instance.data.Language)
-        {
-            case 0:
-                contactText.text = textData[idx]["던전설명"].ToString();
-                dungeonName.text = textData[idx]["던전이름"].ToString();
-                break;
-            case 1:
-                contactText.text = textData[idx]["DungeonContent"].ToString();
-                dungeonName.text = textData[idx]["DungeonName"].ToString();
-                break;
-            default:
-                break;
-        }
+        contactText.text = info.contactDungeon[idx];
+        dungeonName.text = data[idx]["던전이름"];
+
         curDungeon = (EDungeonName)idx;
 
         // 던전 이미지 활성화.

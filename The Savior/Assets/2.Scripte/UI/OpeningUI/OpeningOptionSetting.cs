@@ -48,11 +48,11 @@ public class OpeningOptionSetting : MonoBehaviour
 
         // 세팅 - 사운드
         soundSlider.onValueChanged.AddListener(delegate { OnValueChanged_SoundSlider(); });
-        soundSlider.onValueChanged.AddListener(delegate { OnValueChanged_ChangeSoundText(); });
+        soundSlider.onValueChanged.AddListener(delegate { OnValueChanged_ChangeSoundText();});
 
         // 세팅 - 배경음
         bgmSlider.onValueChanged.AddListener(delegate { OnValueChanged_BGMSlider(); });
-        bgmSlider.onValueChanged.AddListener(delegate { OnValueChanged_ChangeBGMText(); });
+        bgmSlider.onValueChanged.AddListener(delegate { OnValueChanged_ChangeBGMText();});
 
         // 세팅 - 효과음
         sfxSlider.onValueChanged.AddListener(delegate { OnValueChanged_SFXSlider(); });
@@ -107,7 +107,7 @@ public class OpeningOptionSetting : MonoBehaviour
         GameManager.instance.data.Language = languageDropDown.value;
         changeText.LanguageTranslate();
         dialog.ChangeLanguageDialog();
-        StartCoroutine(GameManager.instance.GameSave());
+        GameManager.instance.GameSave();
     }
 
     /// <summary>
@@ -126,7 +126,7 @@ public class OpeningOptionSetting : MonoBehaviour
     private void OnValueChanged_SoundSlider()
     {
         GameManager.instance.data.Sound = (int)soundSlider.value;
-        StartCoroutine(GameManager.instance.GameSave());
+        GameManager.instance.GameSave();
     }
 
     /// <summary>
@@ -136,7 +136,7 @@ public class OpeningOptionSetting : MonoBehaviour
     private void OnValueChanged_BGMSlider()
     {
         GameManager.instance.data.BGM = (int)bgmSlider.value;
-        StartCoroutine(GameManager.instance.GameSave());
+        GameManager.instance.GameSave();
     }
 
     /// <summary>
@@ -146,7 +146,7 @@ public class OpeningOptionSetting : MonoBehaviour
     private void OnValueChanged_SFXSlider()
     {
         GameManager.instance.data.SFX = (int)sfxSlider.value;
-        StartCoroutine(GameManager.instance.GameSave());
+        GameManager.instance.GameSave();
     }
 
     /// <summary>

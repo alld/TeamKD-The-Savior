@@ -12,9 +12,6 @@ public class DungeonData : MonoBehaviour
         public List<int> monsterBoxMax = new List<int>();
         public List<int> monsterBoxCount = new List<int>();
 
-        public int[] stageDataInfo = { 1, 1, 1, 1, 2, 1, 1, 1, 1, 10, 1, 1, 1, 1, 2, 1, 1, 1, 1, 10 };
-        public int[] stageDataIndex = { 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 5, 5, 5, 5, 5 };
-
         public data(int num)
         {
             switch (num)

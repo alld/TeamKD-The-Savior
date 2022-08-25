@@ -13,9 +13,6 @@ public class TestScripte : MonoBehaviour
     private InputAction clickAction;
     private InputAction mouseMoveAction;
 
-    public GameObject box;
-    Vector2 mousePoint;
-
     void Start()
     {
 
@@ -26,40 +23,16 @@ public class TestScripte : MonoBehaviour
 
         clickAction.performed += ctx =>
         {
-            OnStageSelect();
+            Debug.Log(ctx);
         };
 
         mouseMoveAction.performed += ctx =>
         {
-            //Debug.Log(ctx.ReadValue<Vector2>());
-            mousePoint = ctx.ReadValue<Vector2>();
+            Debug.Log(ctx.ReadValue<Vector2>());
         };
 
 
     }
-
-    void OnStageSelect()
-    {
-        //Debug.Log("레이캐스트 작동확인");
-        Debug.Log(Input.mousePosition);
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        int laymask = 1 << LayerMask.NameToLayer("StagePoint");
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
-        {
-            GameObject box2;
-            box2 = Instantiate(box);
-            box2.transform.position = new Vector3(mousePoint.x, 0, mousePoint.y);
-
-            Debug.Log("레이캐스트 대상확인" + hit.collider.name + "대상레이어 : " + hit.collider.gameObject.layer);
-            if (hit.collider.CompareTag("STAGEPOINT"))
-            {
-                Debug.Log("최종");
-                
-            }
-        }
-    }
-
 
     private void Update()
     {

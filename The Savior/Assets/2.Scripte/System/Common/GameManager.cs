@@ -63,8 +63,6 @@ public class GameManager : MonoBehaviour
         playUI = GameObject.Find("PUIManager").GetComponent<PlayUI>();
 
         StartCoroutine(GameStart());
-
-        StartCoroutine(AutoSave());
     }
 
     /// <summary>
@@ -146,19 +144,6 @@ public class GameManager : MonoBehaviour
     }
 
     #region 게임 데이터 저장, 불러오기, 리셋하기
-
-    public IEnumerator AutoSave()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(1.0f);
-            if (currentlyScene != "Main")
-            {
-                yield return StartCoroutine(dataManager.SaveGameDataToJson(data));
-            }
-        }
-    }
-
     /// <summary>
     /// 데이터를 저장한다.
     /// </summary>
@@ -372,18 +357,10 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
-
-
-    /// <summary>
-    /// 메인 씬에서 언어 변환시 플레이 씬에도 값이 변경됩니다.
-    /// </summary>
-    public void MainSettingToPlay()
-    {
-        PlayOption playOp = GameObject.Find("PUIManager").GetComponent<PlayOption>();
-        playOp.OnValueChanged_LanguageSetting();
-    }
     private void Update()
     {
+        if (currentlyScene == "Main") return;
+        StartCoroutine(GameSave());
         playTime += Time.deltaTime;
         if (dungeonOS != null) dungeonPlayTime += Time.deltaTime;
     }

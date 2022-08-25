@@ -114,7 +114,6 @@ public class UnitAI : MonoBehaviour
             unitMelee = GetComponent<UnitMelee>();
             unitControl = GetComponent<CharacterController>();
             unit_collider = gameObject.AddComponent<CapsuleCollider>();
-            unit_collider.isTrigger = true;
             unit = GetComponent<UnitStateData>();
             animator = GetComponentInChildren<Animator>();
             targetPoint = Instantiate(Resources.Load<GameObject>("Unit/MovePoint")).transform;
