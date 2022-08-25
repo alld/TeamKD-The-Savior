@@ -401,7 +401,7 @@ namespace GameDataTable
     public class CardPreset
     {
         public int index = 0;
-        public int[] preset = new int[15];
+        public int[] preset = new int[24];
     }
 
     [System.Serializable]

@@ -41,7 +41,6 @@ public class CharacterInventory : MonoBehaviour
                     // 인벤토리에 남은 자리가 있는지 검사
                     if (charInventoryTr.GetChild(j).childCount == 0)
                     {
-                        Debug.Log("초기화!!");
                         characterImg = Resources.Load<Image>("Unit/Image/Character_" + GameManager.instance.data.haveCharacter[i].ToString());
                         characterImg = Instantiate(characterImg, charInventoryTr.GetChild(j).GetComponent<Transform>());
                         InitRect(characterImg);
