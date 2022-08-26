@@ -27,6 +27,10 @@ public class ThrownObjMove : MonoBehaviour
             if (Physics.Raycast(transform.position, targetPoint.position, out hit, 2.0f, mask))
             {
                 if (hit.collider.GetComponent<UnitMelee>().ThrownTriggerCheck(transform)) Destroy(gameObject);
+            }else if((Vector3.Distance(transform.position, targetPoint.position) < 1.0f))
+            {
+                //targetPoint.GetComponent<UnitMelee>().ThrownTriggerCheck(transform);
+                //Destroy(gameObject);
             }
             yield return delay_001;
         }

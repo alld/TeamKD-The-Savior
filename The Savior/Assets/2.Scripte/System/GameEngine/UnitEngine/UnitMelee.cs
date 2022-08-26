@@ -143,15 +143,21 @@ public class UnitMelee : MonoBehaviour
         if (unitdata.isLive)
         {
             float temp_shield;
-            float temp_damage = DamageEngine.instance.OnProtectCalculate(false, dmg, AttackerNumber, partyNumber, out temp_shield);
+            float temp_damage = DamageEngine.instance.OnProtectCalculate(unitdata.playerUnit, dmg, AttackerNumber, partyNumber, out temp_shield);
             //Debug.Log("계산전데미지" + dmg  + "계산후: " + temp_damage);
             unitdata.Current_protect -= temp_shield;
             unitdata.hp -= temp_damage;
             if (unitdata.hp <= 0)
             {
-                if (unitdata.playerUnit) DungeonOS.instance.DieCount_Ally++;
-                else DungeonOS.instance.DieCount_Enemy++;
                 GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
+                foreach (var item in DungeonOS.instance.partyUnit)
+                {
+                    item.GetComponent<UnitAI>().AITargetLiveCheck();
+                }
+                foreach (var item in DungeonOS.instance.monsterGroup)
+                {
+                    item.GetComponent<UnitAI>().AITargetLiveCheck();
+                }
             }
         }
     }

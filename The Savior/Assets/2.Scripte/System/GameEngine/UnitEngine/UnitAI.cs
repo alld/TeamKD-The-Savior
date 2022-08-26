@@ -20,9 +20,9 @@ public class UnitAI : MonoBehaviour
     private string ani_Attack = "Attack";
     private string ani_Walk = "Walk";
     private string ani_Skill = "Skill";
-    private string ani_Ultimate = "Ultimate";
+    //private string ani_Ultimate = "Ultimate";
     private string ani_Death = "Death";
-    private string ani_Stun = "Stun";
+    //private string ani_Stun = "Stun";
     #endregion
 
 
@@ -52,7 +52,7 @@ public class UnitAI : MonoBehaviour
     private List<UnitStateData> AllyUnit;
     private List<UnitStateData> EnemyUnit;
 
-    Vector3 Move_Yzero = new Vector3();
+    //Vector3 Move_Yzero = new Vector3();
     Vector3 Movetemp = new Vector3();
 
     #endregion
@@ -101,10 +101,12 @@ public class UnitAI : MonoBehaviour
     private bool isOnGoing;
     private bool isGaze;
     private bool isRemove;
+    private bool isRoundCheck = false;
     private bool isMoving;
     private bool onAttackAvailable = false;
     private bool onSkillAvailable = false;
     private bool onSpecialSkillAvailable = false;
+    private bool settingCehck = true;
 
     // 상점에서도 같은 오브젝트를 사용하기때문에, Start사용시 예외처리 필수
     public void Start()
@@ -137,6 +139,7 @@ public class UnitAI : MonoBehaviour
     {
         DungeonOS.instance.dele_RoundStart += OnStartAI;
         DungeonOS.instance.dele_RoundEnd += OnEndAI;
+        settingCehck = false;
     }
 
     private void AIDeleDestroy()
@@ -147,9 +150,15 @@ public class UnitAI : MonoBehaviour
     }
 
 
+    public void AITargetLiveCheck()
+    {
+        if(targetObj != null) if (!targetObj.GetComponent<UnitStateData>().isLive) targetObj = null;
+    }
+
+
     private void OnDestroy()
     {
-        AIDeleDestroy();
+        //AIDeleDestroy();
     }
 
 
@@ -161,7 +170,9 @@ public class UnitAI : MonoBehaviour
         onSpecialSkillAvailable = true;
         aiSchedule.Clear();
         isMoving = false;
+        isRemove = true;
         isOnScheduler = false;
+        isRoundCheck = true;
     }
 
 
@@ -172,16 +183,19 @@ public class UnitAI : MonoBehaviour
 
     IEnumerator delay_StartAI()
     {
-        yield return delay_10;
-        AIDeleSetting();
+        if (settingCehck)AIDeleSetting();
         ResetAISetting();
+        yield return delay_10;
+        yield return delay_10;
+        yield return delay_10;
         AutoScheduler(3, 0);
+        isRoundCheck = false;
     }
 
     public void OnEndAI()
     {
-        AIDeleDestroy();
-        isOnScheduler = false;
+        if(!unit.isLive) AIDeleDestroy();
+        isOnScheduler = true;
         ResetAISetting();
     }
 
@@ -206,9 +220,11 @@ public class UnitAI : MonoBehaviour
                 // 할것 :: 스케쥴 종료 처리 검토;;, 사망처리 분리 
                 if (!DungeonOS.instance.isRoundPlaying)
                 {
-                    Debug.Log("라운드 종료 확인");
-                    aiSchedule.Clear();
-                    aiSchedule.Add(AIPattern.Stand);
+                    if (unitState != UnitState.Die)
+                    {
+                        aiSchedule.Clear();
+                        aiSchedule.Add(AIPattern.Stand);
+                    }
                 }
                 isRemove = false;
                 if (aiSchedule.Count == 0)
@@ -250,6 +266,9 @@ public class UnitAI : MonoBehaviour
                             break;
                         case AIPattern.Death:
                             StartCoroutine(State_Death());
+                            break;
+                        case AIPattern.Pass:
+                            //StartCoroutine(State_Stand());
                             break;
                         default:
                             break;
@@ -392,6 +411,7 @@ public class UnitAI : MonoBehaviour
 
     IEnumerator State_Stand() // 대기
     {
+
         isOnScheduler = true;
         StartCoroutine(IsOnGoing());
         animator.SetBool(ani_Attack, false);
@@ -401,13 +421,17 @@ public class UnitAI : MonoBehaviour
         //애니메이션 작동
         while (!isRemove)
         {
+            if (isRoundCheck)
+            {
+                break;
+            }
             // 추가 조건으로 빠져나올것 :: 스턴 상태 종료, 특수상태 종료 같은상황
             // 적이 다가옴 
             yield return delay_05;
         }
 
         isOnScheduler = false;
-        AutoScheduler(0, AIPattern.Pass);
+        if(!isRoundCheck) AutoScheduler(0, AIPattern.Pass);
     }
 
     IEnumerator State_Attacking() // 공격
@@ -561,7 +585,10 @@ public class UnitAI : MonoBehaviour
     {
         Action_Die();
         animator.SetBool(ani_Death, true);
-        OnEndAI();
+        if (!unit.isLive)
+        {
+            OnEndAI();
+        }
         //애니메이션 작동
         yield return delay_03;
     }
