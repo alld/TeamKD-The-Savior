@@ -306,6 +306,8 @@ public class UnitStateData : MonoBehaviour
         float temp = hp / maxHP;
         unitHPGauage.fillAmount = temp;
         if(playerUnit) partySlotHPGauage.fillAmount = temp;
+        if (hp <= 0) unitHPGauage.gameObject.SetActive(false);
+        else if (hp > 1) unitHPGauage.gameObject.SetActive(true);
         // 파티슬롯 기준 UI 지정/ 몬스터는 별도 UI 그룹 생성 
     }
 
@@ -317,7 +319,7 @@ public class UnitStateData : MonoBehaviour
 
     private void OnDestroy()
     {
-        Destroy(unitHPGauage);
+        Destroy(unitHPGauage.gameObject);
     }
     /* 체력게이지 UI 관리
      * 피격 UI도 관리 (데미지 유동텍스트)

@@ -435,10 +435,10 @@ public class UnitAI : MonoBehaviour
         {
             if (onAttackAvailable)
             {
-                animator.SetTrigger(ani_Attack);
                 Action_Attack();
             }
-            if(targetObj != null) if (!targetObj.isLive) { isRemove = true; }
+            if (targetObj == null) isRemove = true;
+            else if (!targetObj.isLive) { isRemove = true; }
             yield return delay_05;
         }
         //animator.SetBool(ani_Attack, true);
@@ -561,6 +561,7 @@ public class UnitAI : MonoBehaviour
     {
         Action_Die();
         animator.SetBool(ani_Death, true);
+        OnEndAI();
         //애니메이션 작동
         yield return delay_03;
     }
@@ -770,6 +771,7 @@ public class UnitAI : MonoBehaviour
     public bool Action_Attack()
     {
         unitState = UnitState.Attack;
+        animator.SetTrigger(ani_Attack);
         unitMelee.OnAttack();
         onAttackAvailable = false;
         if (!isGaze) StartCoroutine(TargetGaze());
