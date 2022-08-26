@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5294602220687812705}
   - component: {fileID: 3656877654527970620}
+  - component: {fileID: 2739439914134966543}
   m_Layer: 10
   m_Name: SelectPoint02
   m_TagString: STAGEPOINT
@@ -45,6 +46,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2739439914134966543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491967414268939132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c508899ad91eb41ad6c2a6750e833d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointNumber: 1
 --- !u!1 &1414264012758238506
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,6 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7744142382452142265}
   - component: {fileID: 9032318115105161298}
+  - component: {fileID: 2730272144480300634}
   m_Layer: 10
   m_Name: SelectPoint01
   m_TagString: STAGEPOINT
@@ -221,6 +236,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2730272144480300634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3593775213800953529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c508899ad91eb41ad6c2a6750e833d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointNumber: 0
 --- !u!1 &6809456218046445468
 GameObject:
   m_ObjectHideFlags: 0
