@@ -21,6 +21,8 @@ public class WorldMapCastle : MonoBehaviour
     public Button closeChurchButton;
     public Button summonConfirmButton;
     public Button reSummonButton;
+    public Button castle;       // 성 내부의 왕성
+
     //public Button kingsCastle;
 
     [Header("성 이미지")]
@@ -35,6 +37,9 @@ public class WorldMapCastle : MonoBehaviour
     private int summonPrice = 100;
 
 
+    PlayStory story;
+
+
 
     void Start()
     {
@@ -43,15 +48,25 @@ public class WorldMapCastle : MonoBehaviour
         churchButton.onClick.AddListener(() => OnClick_OnChurchBtn());
         shopButton.onClick.AddListener(() => OnClick_OnShopBtn());
         closeShopButton.onClick.AddListener(() => OnClick_CloseShopBtn());
-        closeChurchButton.onClick.AddListener(() => OnClick_OnChurchBtn());
+        closeChurchButton.onClick.AddListener(() => OnClick_CloseChurchBtn());
         shopBuyButton.onClick.AddListener(() => OnClick_OnBuyBtn());
         churchSummonButton.onClick.AddListener(() => OnClick_OnSummonBtn());
         summonConfirmButton.onClick.AddListener(() => OnClick_ConfirmSummonBtn());
         reSummonButton.onClick.AddListener(() => OnClick_ReSummonBtn());
+        castle.onClick.AddListener(() => OnClick_CastleBtn());
 
+        story = GameObject.Find("PUIManager").GetComponent<PlayStory>();
 
         summon = GetComponent<SummonCharacter>();
         buy = GetComponent<BuyCardPack>();
+    }
+
+    private void OnClick_CastleBtn()
+    {
+        if(GameManager.instance.data.storyProgress >= 0 && GameManager.instance.data.storyProgress <= 44)
+        {
+            story.OnDiaLog();
+        }
     }
 
     /// <summary>
@@ -65,7 +80,7 @@ public class WorldMapCastle : MonoBehaviour
     /// <summary>
     /// 성에서 월드맵으로 나가는 버튼
     /// </summary>
-    private void OnClick_OutCastleBtn()
+    public void OnClick_OutCastleBtn()
     {
         castleImg.SetActive(false);
     }
@@ -78,6 +93,11 @@ public class WorldMapCastle : MonoBehaviour
         isShop = !isShop;
         shopImg.SetActive(isShop);
         buy.OpenShop();
+
+        if(GameManager.instance.data.storyProgress >= 56 && GameManager.instance.data.storyProgress <= 61)
+        {
+            story.OnDiaLog();
+        }
     }
 
     private void OnClick_CloseShopBtn()
@@ -85,6 +105,11 @@ public class WorldMapCastle : MonoBehaviour
         buy.InitBuyCard();
         isShop = false;
         shopImg.SetActive(false);
+
+        if (GameManager.instance.data.storyProgress == 62)
+        {
+            story.OnDiaLog();
+        }
     }
 
     /// <summary>
@@ -101,9 +126,25 @@ public class WorldMapCastle : MonoBehaviour
     private void OnClick_OnChurchBtn()
     {
         isChurch = !isChurch;
-        churchImg.SetActive(isChurch);
+        churchImg.SetActive(true);
         summon.InitSummon();
         InitChurchButton();
+
+        if(GameManager.instance.data.storyProgress >= 46 && GameManager.instance.data.storyProgress <= 51)
+        {
+            story.OnDiaLog();
+        }
+    }
+
+    private void OnClick_CloseChurchBtn()
+    {
+        isChurch = false;
+        churchImg.SetActive(false);
+
+        if(GameManager.instance.data.storyProgress == 52)
+        {
+            story.OnDiaLog();
+        }
     }
 
     /// <summary>
