@@ -8,7 +8,7 @@ public class MainLanguage : MonoBehaviour
 {
     public TMP_Text[] mainText;
 
-
+    public string version;
 
     private TextAsset textAsset;
     private JArray textData;
@@ -49,14 +49,16 @@ public class MainLanguage : MonoBehaviour
     }
     private void KoreaMainTextSetting()
     {
-        for (int i = 0; i < mainText.Length; i++)
+        mainText[0].text = textData[0]["mainKr"].ToString() + version;
+        for (int i = 1; i < mainText.Length; i++)
         {
             mainText[i].text = textData[i]["mainKr"].ToString();
         }
     }
     private void EnglishMainTextSetting()
     {
-        for (int i = 0; i < mainText.Length; i++)
+        mainText[0].text = textData[0]["mainEng"].ToString() + version;
+        for (int i = 1; i < mainText.Length; i++)
         {
             mainText[i].text = textData[i]["mainEng"].ToString();
         }

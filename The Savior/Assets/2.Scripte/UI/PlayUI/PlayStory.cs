@@ -39,6 +39,10 @@ public class PlayStory : MonoBehaviour
     // 현재 말하고 있는 캐릭터
     private GameObject curTalker;
 
+
+    public bool isNotStoryMode = false;
+    WorldMapCastle map;
+
     void Start()
     {
         textAsset = Resources.Load<TextAsset>("TextDB/DiaLogData");
@@ -51,6 +55,32 @@ public class PlayStory : MonoBehaviour
             talker[i].transform.position = talkerTr.position;
             talker[i].SetActive(false);
         }
+
+        switch (GameManager.instance.data.storyProgress)
+        {
+            case < 47:
+                GameManager.instance.data.storyProgress = 0;
+                break;
+            case < 56:
+                GameManager.instance.data.storyProgress = 46;
+                break;
+            case < 62:
+                GameManager.instance.data.storyProgress = 55;
+                break;
+            case < 66:
+                GameManager.instance.data.storyProgress = 63;
+                break;
+            case < 90:
+                GameManager.instance.data.storyProgress = 67;
+                break;
+            case 91:
+                GameManager.instance.data.storyProgress = 67;
+                break;
+            default:
+                break;
+        }
+
+        Debug.Log(GameManager.instance.data.storyProgress);
     }
 
     public void OnDiaLog()
@@ -66,7 +96,6 @@ public class PlayStory : MonoBehaviour
 
     public void Story()
     {
-        Debug.Log(GameManager.instance.data.storyProgress);
         if (GameManager.instance.data.storyProgress != 0)
         {
             // 이 전에 말한 캐릭터 비활성화
@@ -107,29 +136,44 @@ public class PlayStory : MonoBehaviour
 
         switch (GameManager.instance.data.storyProgress)
         {
+            // 왕성으로 감.
             case 1:
                 CloseDiaLog();
+                // 왕성 강조하는 이미지
+                GameObject.Find("Basic UI/StoryBackGround/StoryBackGround_1").SetActive(true);
+                Debug.Log("11");
                 return;
+                // 왕성 대화가 끝나고 교회로 감.
             case 47:
                 CloseDiaLog();
+                GameObject.Find("Basic UI/StoryBackGround/StoryBackGround_3").SetActive(true);
                 return;
+                // 교회 대화가 끝나고 소환...
             case 52:
                 CloseDiaLog();
+
                 return;
+                // 소환 후 대화가 끝나고 상점으로 감.
             case 56:
                 CloseDiaLog();
+                GameObject.Find("Basic UI/StoryBackGround/StoryBackGround_4").SetActive(true);
                 return;
+                // 상점에서 대화가 끝남.
             case 62:
                 CloseDiaLog();
                 return;
+                // 왕성에서의 대화가 모두 끝남.
             case 67:
                 CloseDiaLog();
-                WorldMapCastle map = GameObject.Find("WUIManager").GetComponent<WorldMapCastle>();
+                map = GameObject.Find("WUIManager").GetComponent<WorldMapCastle>();
                 map.OnClick_OutCastleBtn();
                 OnDiaLog();
+                isNotStoryMode = true;
                 return;
+                // 던전 직전까지의 대화가 모두 끝났음.
             case 90:
                 CloseDiaLog();
+                GameObject.Find("Basic UI/StoryBackGround/StoryBackGround_5").SetActive(true);
                 return;
             default:
                 break;

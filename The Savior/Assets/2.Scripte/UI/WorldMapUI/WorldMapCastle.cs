@@ -30,6 +30,9 @@ public class WorldMapCastle : MonoBehaviour
     public GameObject churchImg;
     public GameObject shopImg;
 
+    [Header("던전 - 그로타")]
+    public Button grottaButton;
+
     // 해당 창이 활성화 되어있는가?
     private bool isChurch = false;
     private bool isShop = false;
@@ -39,6 +42,9 @@ public class WorldMapCastle : MonoBehaviour
 
     PlayStory story;
 
+
+    // 왕성을 강조하는 이미지.
+    public GameObject[] storyBackGound;
 
 
     void Start()
@@ -54,6 +60,7 @@ public class WorldMapCastle : MonoBehaviour
         summonConfirmButton.onClick.AddListener(() => OnClick_ConfirmSummonBtn());
         reSummonButton.onClick.AddListener(() => OnClick_ReSummonBtn());
         castle.onClick.AddListener(() => OnClick_CastleBtn());
+        grottaButton.onClick.AddListener(() => OnClick_GrottaBtn());
 
         story = GameObject.Find("PUIManager").GetComponent<PlayStory>();
 
@@ -61,10 +68,19 @@ public class WorldMapCastle : MonoBehaviour
         buy = GetComponent<BuyCardPack>();
     }
 
+    private void OnClick_GrottaBtn()
+    {
+        if (GameManager.instance.data.storyProgress == 90)
+        {
+            storyBackGound[4].SetActive(false);
+        }
+    }
+
     private void OnClick_CastleBtn()
     {
         if(GameManager.instance.data.storyProgress >= 0 && GameManager.instance.data.storyProgress <= 44)
         {
+            storyBackGound[1].SetActive(false);
             story.OnDiaLog();
         }
     }
@@ -72,9 +88,19 @@ public class WorldMapCastle : MonoBehaviour
     /// <summary>
     /// 월드맵에서 성으로 이동하는 버튼
     /// </summary>
-    private void OnClick_VisitCastleBtn()
+    public void OnClick_VisitCastleBtn()
     {
         castleImg.SetActive(true);
+        if(GameManager.instance.data.storyProgress == 1)
+        {
+            // 왕성을 강조하는 이미지.
+            storyBackGound[0].SetActive(false);
+            storyBackGound[1].SetActive(true);
+        }
+        if(!story.isNotStoryMode)
+        {
+            story.OnDiaLog();
+        }
     }
 
     /// <summary>
@@ -97,6 +123,7 @@ public class WorldMapCastle : MonoBehaviour
         if(GameManager.instance.data.storyProgress >= 56 && GameManager.instance.data.storyProgress <= 61)
         {
             story.OnDiaLog();
+            storyBackGound[3].SetActive(false);
         }
     }
 
@@ -109,6 +136,7 @@ public class WorldMapCastle : MonoBehaviour
         if (GameManager.instance.data.storyProgress == 62)
         {
             story.OnDiaLog();
+
         }
     }
 
@@ -133,6 +161,7 @@ public class WorldMapCastle : MonoBehaviour
         if(GameManager.instance.data.storyProgress >= 46 && GameManager.instance.data.storyProgress <= 51)
         {
             story.OnDiaLog();
+            storyBackGound[2].SetActive(false);
         }
     }
 
