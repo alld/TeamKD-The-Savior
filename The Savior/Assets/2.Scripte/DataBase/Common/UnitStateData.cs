@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UnitStateData : MonoBehaviour
 {
 
+
     #region UnitUI
     private Canvas canvas;
     Image partySlotHPGauage;

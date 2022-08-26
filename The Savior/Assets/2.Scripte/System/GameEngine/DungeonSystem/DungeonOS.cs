@@ -499,7 +499,7 @@ public class DungeonOS : MonoBehaviour
             monsterGroup.Clear();
         }
         if (slotStageDG != null) slotStageDG.SetActive(false);
-        slotStageDG = stageGroupDG[stageIndexDG[stageNum]];
+        slotStageDG = stageGroupDG[stageIndexDG[stageNum] -1];
         slotStageDG.SetActive(true);
         Camera.main.transform.position = slotStageDG.GetComponentInChildren<Camera>().transform.position;
         Camera.main.transform.rotation = slotStageDG.GetComponentInChildren<Camera>().transform.rotation;

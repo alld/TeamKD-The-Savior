@@ -58,6 +58,7 @@ public class UnitMelee : MonoBehaviour
         else
         {
             TempThrown = Instantiate(Resources.Load<GameObject>("Unit/TempThrown"));
+            Instantiate(unitInfo.AttackEffect, TempThrown.transform);
             SceneManager.MoveGameObjectToScene(TempThrown, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
             TempThrown.transform.position = transform.position;
             UnitInfo tempInfo = TempThrown.GetComponent<UnitInfo>();
@@ -69,6 +70,7 @@ public class UnitMelee : MonoBehaviour
             tempInfo.thrown = true;
             TempThrown.GetComponent<ThrownObjMove>().thrownSpeed = 0.2f;
             TempThrown.GetComponent<ThrownObjMove>().targetPoint = GetComponent<UnitAI>().targetPoint;
+            //else TempThrown.GetComponent<ThrownObjMove>().targetPoint = GetComponent<UnitAI>().targetPoint;
 
             Destroy(tempInfo, 3.0f);
             // (작업 필요)원거리 공격시 투사체 오브젝트 생성

@@ -28,6 +28,7 @@ public class UnitAI : MonoBehaviour
 
     #region AI 계산값
     public Transform targetPoint;
+    public Transform targetTransform;
     /// <summary>
     /// 주요 타겟 
     /// </summary>

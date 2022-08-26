@@ -24,14 +24,16 @@ public class ThrownObjMove : MonoBehaviour
         while (true)
         {
             transform.Translate(tempMovePoint.normalized * thrownSpeed, Space.World);
-            if (Physics.Raycast(transform.position, targetPoint.position, out hit, 2.0f, mask))
+            if (Physics.Raycast(transform.position, targetPoint.position, out hit, 2.0f, mask) || Physics.Raycast(transform.position, new Vector3(targetPoint.position.x + 0.5f, targetPoint.position.y, targetPoint.position.z), out hit, 2.0f, mask) || Physics.Raycast(transform.position, new Vector3(targetPoint.position.x - 0.5f, targetPoint.position.y, targetPoint.position.z), out hit, 2.0f, mask))
             {
                 if (hit.collider.GetComponent<UnitMelee>().ThrownTriggerCheck(transform)) Destroy(gameObject);
-            }else if((Vector3.Distance(transform.position, targetPoint.position) < 1.0f))
-            {
-                //targetPoint.GetComponent<UnitMelee>().ThrownTriggerCheck(transform);
-                //Destroy(gameObject);
             }
+            //else if ((Vector3.Distance(transform.position, targetPoint.position) < 1.0f))
+            //{
+            //    Debug.Log("에러위치확인2");
+            //    targetPoint.GetComponent<UnitMelee>().ThrownTriggerCheck(transform);
+            //    Destroy(gameObject);
+            //}
             yield return delay_001;
         }
     }

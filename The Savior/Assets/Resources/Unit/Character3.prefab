@@ -204,6 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5716b60f6c4f4ab478324b38720ce029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttackEffect: {fileID: 1418397634877033262, guid: e8ad656994fd81a4e9c48266f51b4361, type: 3}
   attackTriggerBox: {fileID: 187956751885809799}
   thrown: 0
   targetUnit: {fileID: 0}
