@@ -19,7 +19,6 @@ public class DungeonOS : MonoBehaviour
     WaitForSeconds delay_03 = new WaitForSeconds(0.3f);
     private DungeonController DungeonCtrl;
     public List<string> errorList;
-    private Vector2 mousePoint = new Vector2();
     private PlayerInput playerInput;
     private InputActionMap playerMap;
     private InputAction clickAction;
@@ -267,7 +266,7 @@ public class DungeonOS : MonoBehaviour
         {
             OnRoundVictory();
         }
-        else if (characterGroup.Count <= DieCount_Ally)
+        else if (partyUnit.Count <= DieCount_Ally)
         {
             OnDungeonFailed();
         }
@@ -297,7 +296,6 @@ public class DungeonOS : MonoBehaviour
 
     void NextRound(int num)
     {
-        Debug.Log("넥스트 라운ㄷ느");
         isRoundPlaying = true;
         DGTimerEnd();
         StartCoroutine(FadeIn());
@@ -312,7 +310,6 @@ public class DungeonOS : MonoBehaviour
         }
         else StageReset(10);
         HandRefill();
-        Debug.Log("넥스트 라운ㄷ느 종료");
     }
     // 마우스 입력 버튼 아직 안했음
     void OnStageSelect()
@@ -494,15 +491,15 @@ public class DungeonOS : MonoBehaviour
     {
         if (roundDGP != 1)
         {
-            for (int i = monsterGroup.Count - 1; i >= 0; i--)
+            int temp = monsterGroup.Count;
+            for (int i = temp - 1; i >= 0; i--)
             {
-                Debug.Log("i:" + i + "monstergroup : " + monsterGroup[i].unitObj);
-                Destroy(monsterGroup[i].unitObj);
+                monsterGroup[i].SelfDestory();
             }
             monsterGroup.Clear();
         }
         if (slotStageDG != null) slotStageDG.SetActive(false);
-        slotStageDG = stageGroupDG[stageIndexDG[stageNum]];
+        slotStageDG = stageGroupDG[stageIndexDG[stageNum] -1];
         slotStageDG.SetActive(true);
         Camera.main.transform.position = slotStageDG.GetComponentInChildren<Camera>().transform.position;
         Camera.main.transform.rotation = slotStageDG.GetComponentInChildren<Camera>().transform.rotation;
@@ -751,6 +748,7 @@ public class DungeonOS : MonoBehaviour
             tempUnit = Instantiate(new CharacterDatabase.Data(item.value).charObject);
             SceneManager.MoveGameObjectToScene(tempUnit, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
             partyUnit.Add(tempUnit.AddComponent<UnitStateData>());
+            partyUnit[partyUnit.Count - 1].unitObj = tempUnit;
             partyUnit[partyUnit.Count - 1].DataSetting(true, item.value);
             partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitMelee>();
             partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitAI>();
@@ -1000,6 +998,7 @@ public class DungeonOS : MonoBehaviour
             tempMonster = Instantiate(dungeonData.dungeonMonsterBox[1].charObject);
             SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
             monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
+            monsterGroup[monsterGroup.Count - 1].unitObj = tempMonster;
             monsterGroup[monsterGroup.Count - 1].DataSetting(false, dungeonData.dungeonMonsterBox[1].number);
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitMelee>();
             monsterGroup[0].gameObject.AddComponent<UnitAI>();
@@ -1015,6 +1014,7 @@ public class DungeonOS : MonoBehaviour
             tempMonster = Instantiate(dungeonData.dungeonMonsterBox[0].charObject);
             SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
             monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
+            monsterGroup[monsterGroup.Count - 1].unitObj = tempMonster;
             monsterGroup[monsterGroup.Count - 1].DataSetting(false, dungeonData.dungeonMonsterBox[0].number);
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitMelee>();
             monsterGroup[0].gameObject.AddComponent<UnitAI>();
@@ -1031,6 +1031,7 @@ public class DungeonOS : MonoBehaviour
             tempMonster = Instantiate(dungeonData.dungeonMonsterBox[tempint].charObject);
             SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
             monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
+            monsterGroup[monsterGroup.Count - 1].unitObj = tempMonster;
             monsterGroup[monsterGroup.Count - 1].DataSetting(false, dungeonData.dungeonMonsterBox[tempint].number);
             monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitMelee>();
             tempUnitInfo = monsterGroup[monsterGroup.Count - 1].GetComponent<UnitInfo>();
@@ -1195,6 +1196,7 @@ public class DungeonOS : MonoBehaviour
     /// <returns></returns>
     public IEnumerator DGTimer()
     {
+        yield return delay_01;
         float cycleTime = 0f;
         while (timerOnDGP)
         {

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UnitStateData : MonoBehaviour
 {
 
+
     #region UnitUI
     private Canvas canvas;
     Image partySlotHPGauage;
@@ -88,7 +89,7 @@ public class UnitStateData : MonoBehaviour
     /// <summary>
     /// 유닛 우선도 : 방어 인식 범위
     /// </summary>
-    public float defRange;
+    public float defRange = 1;
     /// <summary>
     /// 캐릭터 기본 자리 우선도 : 자리 배치
     /// </summary>
@@ -213,11 +214,11 @@ public class UnitStateData : MonoBehaviour
     /// <summary>
     /// 가중치 :: 무적 유무
     /// </summary>
-    public bool isinvincible;
+    public bool isinvincible = false;
     public List<BuffDataBase> Current_buff = new List<BuffDataBase>();
     //적
-    public int Add_rewardGold;
-    public int Add_rewardSoul;
+    public int Add_rewardGold = 0;
+    public int Add_rewardSoul = 0;
     #endregion
     public int partyNumber;
 
@@ -316,6 +317,11 @@ public class UnitStateData : MonoBehaviour
         unitHPGauage.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 2f, 0));
     }
 
+
+    public void SelfDestory()
+    {
+        Destroy(this.gameObject);
+    }
 
     private void OnDestroy()
     {

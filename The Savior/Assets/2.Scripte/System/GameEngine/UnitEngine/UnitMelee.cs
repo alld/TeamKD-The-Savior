@@ -58,6 +58,7 @@ public class UnitMelee : MonoBehaviour
         else
         {
             TempThrown = Instantiate(Resources.Load<GameObject>("Unit/TempThrown"));
+            Instantiate(unitInfo.AttackEffect, TempThrown.transform);
             SceneManager.MoveGameObjectToScene(TempThrown, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
             TempThrown.transform.position = transform.position;
             UnitInfo tempInfo = TempThrown.GetComponent<UnitInfo>();
@@ -69,6 +70,7 @@ public class UnitMelee : MonoBehaviour
             tempInfo.thrown = true;
             TempThrown.GetComponent<ThrownObjMove>().thrownSpeed = 0.2f;
             TempThrown.GetComponent<ThrownObjMove>().targetPoint = GetComponent<UnitAI>().targetPoint;
+            //else TempThrown.GetComponent<ThrownObjMove>().targetPoint = GetComponent<UnitAI>().targetPoint;
 
             Destroy(tempInfo, 3.0f);
             // (작업 필요)원거리 공격시 투사체 오브젝트 생성
@@ -143,15 +145,21 @@ public class UnitMelee : MonoBehaviour
         if (unitdata.isLive)
         {
             float temp_shield;
-            float temp_damage = DamageEngine.instance.OnProtectCalculate(false, dmg, AttackerNumber, partyNumber, out temp_shield);
+            float temp_damage = DamageEngine.instance.OnProtectCalculate(unitdata.playerUnit, dmg, AttackerNumber, partyNumber, out temp_shield);
             //Debug.Log("계산전데미지" + dmg  + "계산후: " + temp_damage);
             unitdata.Current_protect -= temp_shield;
             unitdata.hp -= temp_damage;
             if (unitdata.hp <= 0)
             {
-                if (unitdata.playerUnit) DungeonOS.instance.DieCount_Ally++;
-                else DungeonOS.instance.DieCount_Enemy++;
                 GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
+                foreach (var item in DungeonOS.instance.partyUnit)
+                {
+                    item.GetComponent<UnitAI>().AITargetLiveCheck();
+                }
+                foreach (var item in DungeonOS.instance.monsterGroup)
+                {
+                    item.GetComponent<UnitAI>().AITargetLiveCheck();
+                }
             }
         }
     }

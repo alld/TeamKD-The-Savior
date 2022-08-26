@@ -217,7 +217,6 @@ public class RelicSkill : MonoBehaviour
         }
         else
         {
-            Debug.Log("1." + DungeonOS.instance.equipRelic.Count + "::" + relicNum);
             effectCount = DungeonOS.instance.equipRelic[relicNum-5].negEffectCount.ToString();
             if (DungeonOS.instance.equipRelic[relicNum-5].negLoopEffect) tempSkillTime = DungeonOS.instance.equipRelic[relicNum-5].negEffectDataB4;
             switch (DungeonOS.instance.equipRelic[relicNum-5].negEffectTypeA)
@@ -606,8 +605,9 @@ public class RelicSkill : MonoBehaviour
                     temp_damage = DamageEngine.instance.OnDamageCalculate(false, true, DungeonOS.instance.equipRelic[relicNum].effectValue, temp, out temp_shieldDamage);
                     DungeonOS.instance.partyUnit[temp].Current_protect -= temp_shieldDamage;
                     DungeonOS.instance.partyUnit[temp].hp -= temp_damage;
-                    if (DungeonOS.instance.partyUnit[temp].hp < 0)
+                    if (DungeonOS.instance.partyUnit[temp].hp <= 0)
                     {
+                        Debug.Log(DungeonOS.instance.partyUnit[temp].unitObj + " ::" + DungeonOS.instance.partyUnit[temp].hp);
                         DungeonOS.instance.partyUnit[temp].GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
                     }
                     break;
