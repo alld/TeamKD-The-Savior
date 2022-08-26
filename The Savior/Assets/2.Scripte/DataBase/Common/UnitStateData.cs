@@ -147,6 +147,7 @@ public class UnitStateData : MonoBehaviour
     public List<int> rewardUnit = new List<int>();
     public List<int> rewardRelic = new List<int>();
     public GameObject unitObj;
+    public GameObject unitPrefabs;
 
     #endregion
     #region À¯´Ö °¡ÁßÄ¡
@@ -222,6 +223,7 @@ public class UnitStateData : MonoBehaviour
     #endregion
     public int partyNumber;
 
+    
     public void DataSetting(bool playerCheck, int num)
     {
         playerUnit = playerCheck;
@@ -229,7 +231,7 @@ public class UnitStateData : MonoBehaviour
         {
             gameObject.layer = 6;
             CharacterDatabase.Data unit = new CharacterDatabase.Data(num);
-            unitObj = unit.charObject;
+            unitPrefabs = unit.charObject;
             number = unit.number;
             charName = unit.charName;
             maxHP = unit.maxHP;
@@ -260,7 +262,7 @@ public class UnitStateData : MonoBehaviour
         {
             gameObject.layer = 7;
             MonsterDatabase.Data unit = new MonsterDatabase.Data(num);
-            unitObj = unit.charObject;
+            unitPrefabs = unit.charObject;
             number = unit.number;
             monsterType = unit.monsterType;
             charName = unit.charName;

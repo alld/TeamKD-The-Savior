@@ -19,7 +19,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class UnitMelee : MonoBehaviour
 {
-    
+
     /// <summary>
     /// 기능 : 피격된 대상에대한 데이터에 접근하기위한 변수
     /// <br></br>방법 : DungeonOS.instance.partySlot[<paramref name="partyNumber"/>]
@@ -34,6 +34,9 @@ public class UnitMelee : MonoBehaviour
     private UnitStateData attackerData;
     private GameObject attackerObj;
     private UnitInfo attackerInfo;
+    private UnitStateData targetUnitData;
+
+    public GameObject TextPre;
 
 
     private void Start()
@@ -48,7 +51,7 @@ public class UnitMelee : MonoBehaviour
     public void OnAttack()
     {
         int tempAType = GetComponent<UnitStateData>().attackType;
-        if(tempAType != 2)
+        if (tempAType != 2)
         {
             unitInfo.attackTriggerBox.SetActive(true);
             unitInfo.targetUnit = GetComponent<UnitAI>().targetObj;
@@ -68,14 +71,28 @@ public class UnitMelee : MonoBehaviour
             tempInfo.targetUnit = GetComponent<UnitAI>().targetObj;
             tempInfo.damage = GetComponent<UnitStateData>().damage;
             tempInfo.thrown = true;
-            TempThrown.GetComponent<ThrownObjMove>().thrownSpeed = 0.2f;
+            TempThrown.GetComponent<ThrownObjMove>().thrownSpeed = 0.08f;
             TempThrown.GetComponent<ThrownObjMove>().targetPoint = GetComponent<UnitAI>().targetPoint;
             //else TempThrown.GetComponent<ThrownObjMove>().targetPoint = GetComponent<UnitAI>().targetPoint;
-
-            Destroy(tempInfo, 3.0f);
+            StartCoroutine(DamageTransmission(TempThrown));
             // (작업 필요)원거리 공격시 투사체 오브젝트 생성
         }
     }
+
+    IEnumerator DamageTransmission(GameObject obj)
+    {
+        targetUnitData = GetComponent<UnitAI>().targetObj;
+        if (targetUnitData != null)
+        {
+            yield return new WaitForSeconds(Vector3.Distance(transform.position, targetUnitData.unitObj.transform.position) * 0.02f);
+        }
+        if (targetUnitData != null)
+        {
+            OnDamaged(unitdata.damage, targetUnitData.partyNumber);
+        }
+        Destroy(obj);
+    }
+
 
     /// <summary>
     /// 이 컴포넌트를 가지고 있는 유닛이 피격될시 결과 처리 함수
@@ -144,14 +161,65 @@ public class UnitMelee : MonoBehaviour
     {
         if (unitdata.isLive)
         {
+            GameObject textobj;
             float temp_shield;
             float temp_damage = DamageEngine.instance.OnProtectCalculate(unitdata.playerUnit, dmg, AttackerNumber, partyNumber, out temp_shield);
             //Debug.Log("계산전데미지" + dmg  + "계산후: " + temp_damage);
             unitdata.Current_protect -= temp_shield;
             unitdata.hp -= temp_damage;
+            textobj = Instantiate(Resources.Load<GameObject>("Unit/UI/FloatText"));
+            textobj.transform.position = transform.position + Vector3.up;
+            textobj.GetComponent<TextMesh>().text = temp_damage.ToString();
             if (unitdata.hp <= 0)
             {
                 GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
+                foreach (var item in DungeonOS.instance.partyUnit)
+                {
+                    item.GetComponent<UnitAI>().AITargetLiveCheck();
+                }
+                foreach (var item in DungeonOS.instance.monsterGroup)
+                {
+                    item.GetComponent<UnitAI>().AITargetLiveCheck();
+                }
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// 데미지 엔진을 실행시키는 함수 
+    /// <br></br><paramref name="dmg"/> : 공격시 가해진 기본 데미지량
+    /// <br></br><paramref name="defenerNumber"/> : 공격받은 대상의 넘버링 
+    /// <br></br>데이터베이스가 아닌 dungeonOS에서 별도 그룹값에 접근하기위한 넘버링
+    /// </summary>
+    /// <param name="dmg"></param>
+    /// <param name="defenerNumber"></param>
+    private void OnDamaged(float dmg, int defenerNumber)
+    {
+        UnitStateData targetData;
+        if (GetComponent<UnitAI>().targetObj == null) return;
+        if(GetComponent<UnitAI>().targetObj.playerUnit)
+        {
+            targetData = DungeonOS.instance.partyUnit[defenerNumber];
+        }
+        else
+        {
+            targetData = DungeonOS.instance.monsterGroup[defenerNumber];
+        }
+        if (targetData.isLive)
+        {
+            GameObject textobj;
+            float temp_shield;
+            float temp_damage = DamageEngine.instance.OnProtectCalculate(targetData.playerUnit, dmg, partyNumber, defenerNumber, out temp_shield);
+            targetData.Current_protect -= temp_shield;
+            targetData.hp -= temp_damage;
+            textobj = Instantiate(Resources.Load<GameObject>("Unit/UI/FloatText"));
+            textobj.transform.position = targetData.unitObj.transform.position + Vector3.up;
+            textobj.GetComponent<TextMesh>().text = temp_damage.ToString();
+
+            if (targetData.hp <= 0)
+            {
+                targetData.GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
                 foreach (var item in DungeonOS.instance.partyUnit)
                 {
                     item.GetComponent<UnitAI>().AITargetLiveCheck();

@@ -50,6 +50,8 @@ public class DamageEngine : MonoBehaviour
         }
 
 
+        //Debug.Log("attacker:" + attacker + "defender:" + defender);
+        //Debug.Log(DungeonOS.instance.monsterGroup.Count + " ::" + DungeonOS.instance.partyUnit.Count);
         if (EnemyUnit[defender].isinvincible) return 0;
         // 속성 변환 체크 후 설정값 지정
         if (AllyUnit[attacker].Add_attributeCheck) a_attribute = AllyUnit[attacker].Add_attribute;

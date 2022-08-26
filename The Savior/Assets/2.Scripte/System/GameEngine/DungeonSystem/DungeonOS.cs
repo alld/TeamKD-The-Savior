@@ -16,6 +16,7 @@ public class DungeonOS : MonoBehaviour
     private GameObject timerArrowDG;
     private GameObject[] timerlevelUI;
     WaitForSeconds delay_01 = new WaitForSeconds(0.1f);
+    WaitForSeconds delay_001 = new WaitForSeconds(0.01f);
     WaitForSeconds delay_03 = new WaitForSeconds(0.3f);
     private DungeonController DungeonCtrl;
     public List<string> errorList;
@@ -426,9 +427,10 @@ public class DungeonOS : MonoBehaviour
                 DungeonCtrl.fade.color = color;
             }
             else check = false;
-            yield return delay_01;
+            yield return delay_001;
         }
         DungeonCtrl.fade.color = new Color(0, 0, 0, 1);
+        yield return delay_03;
         StartCoroutine(FadeOut());
     }
     /// <summary>
@@ -442,14 +444,14 @@ public class DungeonOS : MonoBehaviour
         while (check)
         {
             Color color = DungeonCtrl.fade.color;
-            colorvalue -= Time.deltaTime * 10;
+            colorvalue -= Time.deltaTime * 1;
             if (colorvalue > 0)
             {
                 color.a = colorvalue;
                 DungeonCtrl.fade.color = color;
             }
             else check = false;
-            yield return delay_01;
+            yield return delay_001;
         }
         DungeonCtrl.fade.color = new Color(0, 0, 0, 0);
         DungeonCtrl.fadeObj.SetActive(false);
@@ -1027,6 +1029,7 @@ public class DungeonOS : MonoBehaviour
         }
         for (int i = 0; i < dungeonData.monsterBoxCount[roundDGP]; i++)
         {
+
             int tempint = Random.Range(dungeonData.monsterBoxMin[roundDGP], dungeonData.monsterBoxMax[roundDGP]);
             tempMonster = Instantiate(dungeonData.dungeonMonsterBox[tempint].charObject);
             SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));

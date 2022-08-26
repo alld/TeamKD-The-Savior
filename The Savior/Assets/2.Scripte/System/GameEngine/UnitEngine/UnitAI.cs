@@ -462,8 +462,16 @@ public class UnitAI : MonoBehaviour
             {
                 Action_Attack();
             }
-            if (targetObj == null) isRemove = true;
-            else if (!targetObj.isLive) { isRemove = true; }
+            if (targetObj == null)
+            {
+                isRemove = true;
+                break;
+            }
+            else if (!targetObj.isLive)
+            {
+                isRemove = true; 
+                break;
+            }
             yield return delay_05;
         }
         //animator.SetBool(ani_Attack, true);
@@ -585,7 +593,7 @@ public class UnitAI : MonoBehaviour
     IEnumerator State_Death() // »ç¸Á
     {
         Action_Die();
-        animator.SetBool(ani_Death, true);
+        animator.SetTrigger(ani_Death);
         if (!unit.isLive)
         {
             OnEndAI();
@@ -765,7 +773,7 @@ public class UnitAI : MonoBehaviour
     public void Action_Die()
     {
         unitState = UnitState.Die;
-        animator.SetBool(ani_Death, true);
+        animator.SetTrigger(ani_Death);
         unit.isLive = false;
         if (isplayer) DungeonOS.instance.DieCount_Ally++;
         else DungeonOS.instance.DieCount_Enemy++;
@@ -857,7 +865,7 @@ public class UnitAI : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, targetPoint.position) >= 1f)
             {
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetPoint.position), 20);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetPoint.position - transform.position), 20);
                 Movetemp = (targetPoint.position - transform.position).normalized  * unit.moveSpeed;
                 //Move_Yzero = Movetemp - (Vector3.up * Movetemp.y);
                 animator.SetBool(ani_Walk, true);

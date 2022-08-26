@@ -508,7 +508,6 @@ Transform:
   m_Children:
   - {fileID: 5324912204990564533}
   - {fileID: 5330830256838173189}
-  - {fileID: 5324806608212857313}
   m_Father: {fileID: 5324574839622806299}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -623,6 +622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5716b60f6c4f4ab478324b38720ce029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttackEffect: {fileID: 0}
   attackTriggerBox: {fileID: 7518834147177876116}
   thrown: 0
   targetUnit: {fileID: 0}
@@ -1440,14 +1440,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5327440910608152343}
-  m_LocalRotation: {x: -0.044153277, y: -0.16584834, z: -0.012062183, w: 0.9850885}
-  m_LocalPosition: {x: -0.08908812, y: -2.753353e-16, z: -4.4408918e-17}
+  m_LocalRotation: {x: 0.034378152, y: 0.27587909, z: 0.11878159, w: 0.9532051}
+  m_LocalPosition: {x: 0.27348092, y: 0.008739713, z: 0.010270636}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5330690287639102545}
-  m_Father: {fileID: 5330768358869868743}
-  m_RootOrder: 2
+  m_Father: {fileID: 5330679890603238895}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5327442360111877329
 GameObject:
@@ -1540,7 +1540,8 @@ Transform:
   m_LocalPosition: {x: -0.059118144, y: -1.8624858e-16, z: -5.551115e-19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5324806608212857313}
   m_Father: {fileID: 5324535838635647849}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
