@@ -128,6 +128,9 @@ public class PlayStory : MonoBehaviour
                 map.OnClick_OutCastleBtn();
                 OnDiaLog();
                 return;
+            case 90:
+                CloseDiaLog();
+                return;
             default:
                 break;
         }
