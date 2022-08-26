@@ -75,6 +75,10 @@ public class WorldMapCastle : MonoBehaviour
     private void OnClick_VisitCastleBtn()
     {
         castleImg.SetActive(true);
+        if(GameManager.instance.data.storyProgress == 1)
+        {
+            // 왕성을 강조하는 이미지.
+        }
     }
 
     /// <summary>

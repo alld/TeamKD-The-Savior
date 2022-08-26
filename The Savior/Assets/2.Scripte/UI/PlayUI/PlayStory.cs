@@ -109,6 +109,7 @@ public class PlayStory : MonoBehaviour
         {
             case 1:
                 CloseDiaLog();
+                // 왕성 강조하는 이미지
                 return;
             case 47:
                 CloseDiaLog();
