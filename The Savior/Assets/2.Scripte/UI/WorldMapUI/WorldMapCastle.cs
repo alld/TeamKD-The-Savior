@@ -68,17 +68,26 @@ public class WorldMapCastle : MonoBehaviour
         buy = GetComponent<BuyCardPack>();
     }
 
+    // 스토리에서 던전 클릭시 던전을 가르키는 이미지 삭제.
+    // 던전 툴팁 활성화.
     private void OnClick_GrottaBtn()
     {
-        if (GameManager.instance.data.storyProgress == 90)
+        if (GameManager.instance.data.storyProgress == 92)
         {
             storyBackGound[4].SetActive(false);
+            story.toolTip[5].SetActive(true);
+            story.toolTip[6].SetActive(true);
         }
     }
 
+    /// <summary>
+    /// 월드맵 마을 지도 오픈 함수.
+    /// 스토리 진행중일경우 해당 이벤트를 발생.
+    /// 왕성을 가르키는 이미지를 활성화하고 대화창을 활성화한다.
+    /// </summary>
     private void OnClick_CastleBtn()
     {
-        if(GameManager.instance.data.storyProgress >= 0 && GameManager.instance.data.storyProgress <= 44)
+        if(GameManager.instance.data.storyProgress == 3)
         {
             storyBackGound[1].SetActive(false);
             story.OnDiaLog();
@@ -87,19 +96,17 @@ public class WorldMapCastle : MonoBehaviour
 
     /// <summary>
     /// 월드맵에서 성으로 이동하는 버튼
+    /// 스토리 진행중일경우 해당 이벤트 발생.
+    /// 월드맵에서 왕성을 가르키는 이미지를 비활성화 하고, 마을 지도에서 왕성을 가르키는 이미지를 활성화한다.
     /// </summary>
     public void OnClick_VisitCastleBtn()
     {
         castleImg.SetActive(true);
-        if(GameManager.instance.data.storyProgress == 1)
+        if(GameManager.instance.data.storyProgress == 3)
         {
             // 왕성을 강조하는 이미지.
             storyBackGound[0].SetActive(false);
             storyBackGound[1].SetActive(true);
-        }
-        if(!story.isNotStoryMode)
-        {
-            story.OnDiaLog();
         }
     }
 
@@ -120,23 +127,30 @@ public class WorldMapCastle : MonoBehaviour
         shopImg.SetActive(isShop);
         buy.OpenShop();
 
-        if(GameManager.instance.data.storyProgress >= 56 && GameManager.instance.data.storyProgress <= 61)
+        // 스토리 진행도가 58일 때 발생하는 이벤트
+        // 대화창을 활성화하고 상점을 가르키는 이미지를 비활성화한다.
+        if(GameManager.instance.data.storyProgress == 58)
         {
             story.OnDiaLog();
             storyBackGound[3].SetActive(false);
         }
     }
 
+
+    /// <summary>
+    /// 상점창을 비활성화 하는 버튼.
+    /// </summary>
     private void OnClick_CloseShopBtn()
     {
         buy.InitBuyCard();
         isShop = false;
         shopImg.SetActive(false);
 
-        if (GameManager.instance.data.storyProgress == 62)
+        // 스토리 진행도 64일 때 발생하는 이벤트
+        // 대화창을 활성화 한다.
+        if (GameManager.instance.data.storyProgress == 64)
         {
             story.OnDiaLog();
-
         }
     }
 
@@ -158,19 +172,24 @@ public class WorldMapCastle : MonoBehaviour
         summon.InitSummon();
         InitChurchButton();
 
-        if(GameManager.instance.data.storyProgress >= 46 && GameManager.instance.data.storyProgress <= 51)
+        // 스토리 진행도 49일 때 발생하는 이벤트.
+        // 교회를 가르키는 이미지를 비활성화한다.
+        if(GameManager.instance.data.storyProgress == 49)
         {
             story.OnDiaLog();
             storyBackGound[2].SetActive(false);
         }
     }
 
+    /// <summary>
+    /// 교회창 비활성화 버튼
+    /// </summary>
     private void OnClick_CloseChurchBtn()
     {
         isChurch = false;
         churchImg.SetActive(false);
 
-        if(GameManager.instance.data.storyProgress == 52)
+        if(GameManager.instance.data.storyProgress == 54)
         {
             story.OnDiaLog();
         }

@@ -331,12 +331,19 @@ public class GameManager : MonoBehaviour
                 playUI.dungeonBar.SetActive(false);
                 isDungeon = false;
 
-                if (data.storyProgress == 0 || data.storyProgress >= 65)
-                {
-                    PlayStory story = GameObject.Find("PUIManager").GetComponent<PlayStory>();
-                    story.OnDiaLog();
-                }
+                PlayStory story = GameObject.Find("PUIManager").GetComponent<PlayStory>();
 
+                switch (data.storyProgress)
+                {
+                    case 0:
+                        story.OnDiaLog();
+                        break;
+                    case 69:
+                        story.OnDiaLog();
+                        break;                    
+                    default:
+                        break;
+                }
                 break;
             case 3:
                 SceneManager.UnloadSceneAsync(currentlyScene);
