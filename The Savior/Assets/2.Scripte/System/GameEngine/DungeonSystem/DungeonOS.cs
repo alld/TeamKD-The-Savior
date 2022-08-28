@@ -511,6 +511,7 @@ public class DungeonOS : MonoBehaviour
         MonsterCreate();
         MonsterSetting();
         isRoundPlaying = true;
+        slotStageDG.GetComponent<StageInfo>().StageSelectGroup.SetActive(false);
     }
 
     /// <summary>
