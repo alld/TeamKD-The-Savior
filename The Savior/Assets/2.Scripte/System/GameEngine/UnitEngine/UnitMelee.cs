@@ -84,7 +84,7 @@ public class UnitMelee : MonoBehaviour
         targetUnitData = GetComponent<UnitAI>().targetObj;
         if (targetUnitData != null)
         {
-            yield return new WaitForSeconds(Vector3.Distance(transform.position, targetUnitData.unitObj.transform.position) * 0.02f);
+            yield return new WaitForSeconds(Vector3.Distance(transform.position, targetUnitData.unitObj.transform.position) * 0.03f);
         }
         if (targetUnitData != null)
         {
@@ -169,7 +169,7 @@ public class UnitMelee : MonoBehaviour
             unitdata.hp -= temp_damage;
             textobj = Instantiate(Resources.Load<GameObject>("Unit/UI/FloatText"));
             textobj.transform.position = transform.position + Vector3.up;
-            textobj.GetComponent<TextMesh>().text = temp_damage.ToString();
+            textobj.GetComponent<TextMesh>().text = temp_damage.ToString("0");
             if (unitdata.hp <= 0)
             {
                 GetComponent<UnitAI>().AutoScheduler(2, UnitAI.AIPattern.Death);
@@ -215,7 +215,7 @@ public class UnitMelee : MonoBehaviour
             targetData.hp -= temp_damage;
             textobj = Instantiate(Resources.Load<GameObject>("Unit/UI/FloatText"));
             textobj.transform.position = targetData.unitObj.transform.position + Vector3.up;
-            textobj.GetComponent<TextMesh>().text = temp_damage.ToString();
+            textobj.GetComponent<TextMesh>().text = temp_damage.ToString("0");
 
             if (targetData.hp <= 0)
             {

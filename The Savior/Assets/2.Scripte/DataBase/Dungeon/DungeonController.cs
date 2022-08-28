@@ -27,6 +27,8 @@ public class DungeonController : MonoBehaviour
     public GameObject[] cardSlot;
     public Image fade;
     public GameObject fadeObj;
+    public GameObject RewardWindow;
+    public Button RewardButton; // юс╫ц
     #endregion
 
     private void Awake()
@@ -34,5 +36,10 @@ public class DungeonController : MonoBehaviour
         instance = this;
     }
 
+
+    public void OnButtonCtrl()
+    {
+        GameManager.instance.SceneChange(2);
+    }
 
 }

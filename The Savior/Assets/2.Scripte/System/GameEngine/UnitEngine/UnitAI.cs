@@ -180,6 +180,7 @@ public class UnitAI : MonoBehaviour
     public void OnStartAI()
     {
         StartCoroutine(delay_StartAI());
+        GetComponent<UnitInfo>().attackTriggerBox.SetActive(false);//юс╫ц
     }
 
     IEnumerator delay_StartAI()

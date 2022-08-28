@@ -276,7 +276,7 @@ public class DungeonOS : MonoBehaviour
     public void OnRoundVictory()
     {
         isRoundPlaying = false;
-        if (roundDGP == 10)
+        if (roundDGP == 10 || roundDGP == 20)
         {
             OnDungeonAllClear();
             return;
@@ -287,6 +287,7 @@ public class DungeonOS : MonoBehaviour
 
     void OnDungeonAllClear()
     {
+        DungeonCtrl.RewardWindow.SetActive(true);
         //보상 UI 처리(결과창)
     }
 
