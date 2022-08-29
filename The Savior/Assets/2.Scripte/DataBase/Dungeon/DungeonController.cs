@@ -28,6 +28,8 @@ public class DungeonController : MonoBehaviour
     public Image fade;
     public GameObject fadeObj;
     public GameObject RewardWindow;
+    public TMP_Text roundText;
+    public GameObject roundTextInfo;
     public Button RewardButton; // юс╫ц
     #endregion
 

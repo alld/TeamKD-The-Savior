@@ -77,7 +77,48 @@ public class UnitMelee : MonoBehaviour
             StartCoroutine(DamageTransmission(TempThrown));
             // (작업 필요)원거리 공격시 투사체 오브젝트 생성
         }
+        unitInfo.UnitSound.clip = unitInfo.attackedSFX[Random.Range(0, unitInfo.attackedSFX.Length)];
+        unitInfo.UnitSoundStart();
     }
+
+
+    public void OnAttack2()
+    {
+        Debug.Log("공격2 실행확인");
+        int tempAType = GetComponent<UnitStateData>().attackType;
+        if (tempAType != 2)
+        {
+            unitInfo.attackTriggerBox.SetActive(true);
+            unitInfo.targetUnit = GetComponent<UnitAI>().targetObj;
+
+            // (작업 필요)근접 공격시 근접 무기에 달려있는 트리거상자 활성화
+        }
+        else
+        {
+            TempThrown = Instantiate(Resources.Load<GameObject>("Unit/TempThrown"));
+            Instantiate(unitInfo.AttackEffectTemp222, TempThrown.transform);
+            SceneManager.MoveGameObjectToScene(TempThrown, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+            TempThrown.transform.position = transform.position;
+            UnitInfo tempInfo = TempThrown.GetComponent<UnitInfo>();
+            tempInfo.partyNumber = partyNumber;
+            tempInfo.unitNumber = unitNumber;
+            tempInfo.playerUnit = unitInfo.playerUnit;
+            tempInfo.targetUnit = GetComponent<UnitAI>().targetObj;
+            tempInfo.damage = GetComponent<UnitStateData>().damage;
+            tempInfo.thrown = true;
+            TempThrown.GetComponent<ThrownObjMove>().thrownSpeed = 0.08f;
+            TempThrown.GetComponent<ThrownObjMove>().targetPoint = GetComponent<UnitAI>().targetPoint;
+            //else TempThrown.GetComponent<ThrownObjMove>().targetPoint = GetComponent<UnitAI>().targetPoint;
+            StartCoroutine(DamageTransmission(TempThrown));
+            // (작업 필요)원거리 공격시 투사체 오브젝트 생성
+        }
+        unitInfo.UnitSound.clip = unitInfo.attackedSFX[Random.Range(0, unitInfo.attackedSFX.Length)];
+        unitInfo.UnitSoundStart();
+    }
+
+
+
+
 
     IEnumerator DamageTransmission(GameObject obj)
     {
@@ -167,6 +208,14 @@ public class UnitMelee : MonoBehaviour
             //Debug.Log("계산전데미지" + dmg  + "계산후: " + temp_damage);
             unitdata.Current_protect -= temp_shield;
             unitdata.hp -= temp_damage;
+
+
+            unitInfo.UnitSound.clip = unitInfo.attackedSFX[Random.Range(0, unitInfo.attackedSFX.Length)];
+            unitInfo.UnitSoundStart(); // 사운드 추가부분 
+            GameObject sfobject = Instantiate(unitInfo.attackedFX, transform);
+            if (unitInfo.playerUnit) sfobject.transform.LookAt(DungeonOS.instance.monsterGroup[AttackerNumber].unitObj.transform);
+            else sfobject.transform.LookAt(DungeonOS.instance.partyUnit[AttackerNumber].unitObj.transform);
+            Destroy(sfobject, 2.0f);
             textobj = Instantiate(Resources.Load<GameObject>("Unit/UI/FloatText"));
             textobj.transform.position = transform.position + Vector3.up;
             textobj.GetComponent<TextMesh>().text = temp_damage.ToString("0");
@@ -213,6 +262,13 @@ public class UnitMelee : MonoBehaviour
             float temp_damage = DamageEngine.instance.OnProtectCalculate(targetData.playerUnit, dmg, partyNumber, defenerNumber, out temp_shield);
             targetData.Current_protect -= temp_shield;
             targetData.hp -= temp_damage;
+            UnitInfo targetinfo = targetData.GetComponent<UnitInfo>(); // 사운드 추가부분
+            targetinfo.UnitSound.clip = targetinfo.attackedSFX[Random.Range(0, targetinfo.attackedSFX.Length)];
+            targetinfo.UnitSoundStart();
+            GameObject sfobject = Instantiate(targetinfo.attackedFX, targetData.transform);
+            sfobject.transform.LookAt(transform);
+            Destroy(sfobject, 2.0f);
+
             textobj = Instantiate(Resources.Load<GameObject>("Unit/UI/FloatText"));
             textobj.transform.position = targetData.unitObj.transform.position + Vector3.up;
             textobj.GetComponent<TextMesh>().text = temp_damage.ToString("0");

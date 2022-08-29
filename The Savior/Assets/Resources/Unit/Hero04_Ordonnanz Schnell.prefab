@@ -4145,6 +4145,7 @@ GameObject:
   - component: {fileID: 9050470740801607616}
   - component: {fileID: -9218123503068061595}
   - component: {fileID: 5960579449908274296}
+  - component: {fileID: 4069888976696065263}
   m_Layer: 0
   m_Name: Hero04_Ordonnanz Schnell
   m_TagString: UNIT
@@ -4181,7 +4182,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5716b60f6c4f4ab478324b38720ce029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackedSFX:
+  - {fileID: 8300000, guid: 6a3e45b8d5613d14d9a46133e67d1bb7, type: 3}
+  - {fileID: 8300000, guid: d4dad478a2e55a84ebcaa3e73cbbd453, type: 3}
+  - {fileID: 8300000, guid: f9a5fe35af5ad6c4b9375f80a27d9a71, type: 3}
+  attackSFX:
+  - {fileID: 8300000, guid: ca6ec83bfb83b7e44a2aac82e94da314, type: 3}
+  - {fileID: 8300000, guid: 9d8c365095977fc4b8435ed847c4b8f4, type: 3}
+  - {fileID: 8300000, guid: cb28c719a787a6640acc6ffd1918ecfd, type: 3}
+  attackedFX: {fileID: 9189457405095051394, guid: a1c2666e1f27adf47b9e797edb9b3cdf, type: 3}
   AttackEffect: {fileID: 3344135587336767134, guid: f3a1806f587f6bc45820e922c8ea49df, type: 3}
+  AttackEffectTemp222: {fileID: 3344135587336767134, guid: 074588a75e357854092fce4bc9289a27, type: 3}
   attackTriggerBox: {fileID: 1303683863620567903}
   thrown: 0
   targetUnit: {fileID: 0}
@@ -4189,6 +4200,7 @@ MonoBehaviour:
   playerUnit: 1
   unitNumber: 4
   partyNumber: 0
+  UnitSound: {fileID: 0}
 --- !u!143 &5960579449908274296
 CharacterController:
   m_ObjectHideFlags: 0
@@ -4207,6 +4219,102 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!82 &4069888976696065263
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9050470740801607631}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &9050470740818224110
 GameObject:
   m_ObjectHideFlags: 0

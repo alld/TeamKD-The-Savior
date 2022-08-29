@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class UnitInfo : MonoBehaviour
 {
+    public AudioClip[] attackedSFX;
+    public AudioClip[] attackSFX;
+    public GameObject attackedFX;
+
     public GameObject AttackEffect;
+    public GameObject AttackEffectTemp222;
 
     public GameObject attackTriggerBox;
     public bool thrown; // 투사체 유무
@@ -54,4 +59,15 @@ public class UnitInfo : MonoBehaviour
         }
     }
 
+    public AudioSource UnitSound;
+
+    private void Start()
+    {
+        UnitSound = GetComponent<AudioSource>();
+    }
+
+    public void UnitSoundStart()
+    {
+        UnitSound.Play();
+    }
 }

@@ -188,8 +188,6 @@ public class UnitAI : MonoBehaviour
         if (settingCehck)AIDeleSetting();
         ResetAISetting();
         yield return delay_10;
-        yield return delay_10;
-        yield return delay_10;
         AutoScheduler(3, 0);
         isRoundCheck = false;
     }
@@ -258,6 +256,7 @@ public class UnitAI : MonoBehaviour
                             StartCoroutine(State_Stern(5.0f));
                             break;
                         case AIPattern.Skill:
+                            StartCoroutine(State_Attacking2());
                             break;
                         case AIPattern.SpecialSkill:
                             break;
@@ -365,9 +364,15 @@ public class UnitAI : MonoBehaviour
         {
             if (perceptionEnemyUnit.Count > 0)
             {
-                return AIPattern.Attacking;
+                if (Random.Range(0, 5) == 0) return AIPattern.Skill;
+                else return AIPattern.Attacking;
             }
-            else return AIPattern.Attacking;
+            else
+            {
+                if (Random.Range(0, 5) == 0) return AIPattern.Skill;
+                else return AIPattern.Attacking;
+            }
+
         }
 
 
@@ -481,6 +486,57 @@ public class UnitAI : MonoBehaviour
         if(aiSchedule.Count != 0)aiSchedule.RemoveAt(0);
         AutoScheduler(0, AIPattern.Pass);
     }
+
+    IEnumerator State_Attacking2() // 공격
+    {
+
+        isOnScheduler = true;
+        StartCoroutine(IsOnGoing());
+
+        while (isOnScheduler)
+        {
+            AttackTargetSearch();
+            if (targetObj == null)
+            {
+                MovePointSearch();
+                Action_AttackMove();
+            }
+            else break;
+
+            yield return delay_03;
+        }
+        isMoving = false;
+        animator.SetBool(ani_Walk, false);
+        //애니메이션 작동
+        while (!isRemove)
+        {
+            if (onAttackAvailable)
+            {
+                Action_Attack2();
+            }
+            if (targetObj == null)
+            {
+                isRemove = true;
+                break;
+            }
+            else if (!targetObj.isLive)
+            {
+                isRemove = true;
+                break;
+            }
+            yield return delay_05;
+        }
+        //animator.SetBool(ani_Attack, true);
+        isMoving = false;
+        isOnScheduler = false;
+        if (aiSchedule.Count != 0) aiSchedule.RemoveAt(0);
+        AutoScheduler(0, AIPattern.Pass);
+    }
+
+
+
+
+
 
     IEnumerator State_Avoiding() // 회피
     {
@@ -815,6 +871,23 @@ public class UnitAI : MonoBehaviour
         StartCoroutine(CooldownCheck(unit.attackSpeed, 0));
         return true;
     }
+
+    /// <summary>
+    /// 임시용
+    /// </summary>
+    public bool Action_Attack2()
+    {
+        unitState = UnitState.Attack;
+        animator.SetTrigger(ani_Attack);
+        unitMelee.OnAttack2();
+        onAttackAvailable = false;
+        if (!isGaze) StartCoroutine(TargetGaze());
+        StartCoroutine(CooldownCheck(unit.attackSpeed, 0));
+        return true;
+    }
+
+
+
 
     /// <summary>
     /// 유닛을 자동으로 움직이게 하는 함수

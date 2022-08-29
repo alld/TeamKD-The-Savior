@@ -15,6 +15,7 @@ public class DungeonOS : MonoBehaviour
     //private PlayUIManager PUIManager;
     private GameObject timerArrowDG;
     private GameObject[] timerlevelUI;
+    WaitForSeconds delay_10 = new WaitForSeconds(1.0f);
     WaitForSeconds delay_01 = new WaitForSeconds(0.1f);
     WaitForSeconds delay_001 = new WaitForSeconds(0.01f);
     WaitForSeconds delay_03 = new WaitForSeconds(0.3f);
@@ -25,6 +26,8 @@ public class DungeonOS : MonoBehaviour
     private InputAction clickAction;
 
     private IEnumerator Timer;
+    private int tempRoundNumber;
+
     #endregion
     #region 던전 기본 데이터
     public Transform UnitGroupTr;
@@ -275,6 +278,8 @@ public class DungeonOS : MonoBehaviour
 
     public void OnRoundVictory()
     {
+        DungeonCtrl.roundTextInfo.SetActive(true);
+        DungeonCtrl.roundText.text = "Round Clear";
         isRoundPlaying = false;
         if (roundDGP == 10 || roundDGP == 20)
         {
@@ -298,20 +303,29 @@ public class DungeonOS : MonoBehaviour
 
     void NextRound(int num)
     {
-        isRoundPlaying = true;
+        //isRoundPlaying = true;
         DGTimerEnd();
-        StartCoroutine(FadeIn());
         if (++roundDGP % 10 == 5) StageReset(5);
         else if (roundDGP % 10 != 0)
         {
             if (num + 1 != roundDGP)
             {
-                StageReset(num);
+                //StageReset(num);
+                tempRoundNumber = num;
             }
-            else StageReset(roundDGP);
+            else
+            {
+                tempRoundNumber = roundDGP;
+                //StageReset(roundDGP);
+            }
         }
-        else StageReset(10);
+        else
+        {
+            tempRoundNumber = 10;
+            //StageReset(10);
+        }
         HandRefill();
+        StartCoroutine(FadeIn());
     }
     // 마우스 입력 버튼 아직 안했음
     void OnStageSelect()
@@ -433,6 +447,8 @@ public class DungeonOS : MonoBehaviour
         DungeonCtrl.fade.color = new Color(0, 0, 0, 1);
         yield return delay_03;
         StartCoroutine(FadeOut());
+        StageReset(tempRoundNumber);
+        DungeonCtrl.roundText.text = " ";
     }
     /// <summary>
     /// 페이드인 처리후 페이드아웃 
@@ -456,6 +472,20 @@ public class DungeonOS : MonoBehaviour
         }
         DungeonCtrl.fade.color = new Color(0, 0, 0, 0);
         DungeonCtrl.fadeObj.SetActive(false);
+
+        yield return delay_10;
+        DungeonCtrl.roundText.text = "3";
+        yield return delay_10;
+        DungeonCtrl.roundText.text = "2";
+        yield return delay_10;
+        DungeonCtrl.roundText.text = "1";
+        yield return delay_10;
+        DungeonCtrl.roundText.text = "Start";
+        isRoundPlaying = true;
+        DGTimerStart();
+        yield return delay_10;
+        yield return delay_10;
+        DungeonCtrl.roundTextInfo.SetActive(false);
     }
     #endregion
     #endregion
@@ -502,15 +532,15 @@ public class DungeonOS : MonoBehaviour
             monsterGroup.Clear();
         }
         if (slotStageDG != null) slotStageDG.SetActive(false);
-        slotStageDG = stageGroupDG[stageIndexDG[stageNum] -1];
+        slotStageDG = stageGroupDG[stageIndexDG[stageNum] - 1];
         slotStageDG.SetActive(true);
         Camera.main.transform.position = slotStageDG.GetComponentInChildren<Camera>().transform.position;
         Camera.main.transform.rotation = slotStageDG.GetComponentInChildren<Camera>().transform.rotation;
-        DGTimerStart();
         PlayerUnitSetting();
         MonsterCreate();
         MonsterSetting();
-        isRoundPlaying = true;
+        //isRoundPlaying = true;
+        if (stageNum == 1) isRoundPlaying = true;
         slotStageDG.GetComponent<StageInfo>().StageSelectGroup.SetActive(false);
     }
 
@@ -1341,6 +1371,7 @@ public class DungeonOS : MonoBehaviour
         }
     }
     #endregion
+
 
 
 }

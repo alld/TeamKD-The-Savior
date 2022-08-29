@@ -1658,6 +1658,7 @@ GameObject:
   - component: {fileID: 5354182175742560131}
   - component: {fileID: -4948868368040479063}
   - component: {fileID: -4607164153603874494}
+  - component: {fileID: -1823419485632269862}
   m_Layer: 0
   m_Name: "Hero02_K\xFCnstler Klang"
   m_TagString: UNIT
@@ -1694,7 +1695,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5716b60f6c4f4ab478324b38720ce029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackedSFX:
+  - {fileID: 8300000, guid: 6a3e45b8d5613d14d9a46133e67d1bb7, type: 3}
+  - {fileID: 8300000, guid: d4dad478a2e55a84ebcaa3e73cbbd453, type: 3}
+  - {fileID: 8300000, guid: f9a5fe35af5ad6c4b9375f80a27d9a71, type: 3}
+  attackSFX:
+  - {fileID: 8300000, guid: c22686c745d2d874fb2f9112865a52f5, type: 3}
+  - {fileID: 8300000, guid: 9a34ae941b8212e4d8a3e91ab6d7adc8, type: 3}
+  attackedFX: {fileID: 9189457405095051394, guid: a1c2666e1f27adf47b9e797edb9b3cdf, type: 3}
   AttackEffect: {fileID: 8147339232287682113, guid: 26dd23272e542cc4caa2886e7a65cdf0, type: 3}
+  AttackEffectTemp222: {fileID: 8147339232287682113, guid: 9b65b9a602a458046867eb828c02842b, type: 3}
   attackTriggerBox: {fileID: 8365797439645129323}
   thrown: 0
   targetUnit: {fileID: 0}
@@ -1702,6 +1712,7 @@ MonoBehaviour:
   playerUnit: 1
   unitNumber: 2
   partyNumber: 0
+  UnitSound: {fileID: 0}
 --- !u!143 &-4607164153603874494
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1720,6 +1731,102 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!82 &-1823419485632269862
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5354182175742560133}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5354182175851832430
 GameObject:
   m_ObjectHideFlags: 0
