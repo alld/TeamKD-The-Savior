@@ -779,17 +779,20 @@ public class DungeonOS : MonoBehaviour
         GameObject tempUnit;
         foreach (var item in GameManager.instance.data.equipCharacter.Select((value, index) => new { value, index }))
         {
-            tempUnit = Instantiate(new CharacterDatabase.Data(item.value).charObject);
-            SceneManager.MoveGameObjectToScene(tempUnit, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
-            partyUnit.Add(tempUnit.AddComponent<UnitStateData>());
-            partyUnit[partyUnit.Count - 1].unitObj = tempUnit;
-            partyUnit[partyUnit.Count - 1].DataSetting(true, item.value);
-            partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitMelee>();
-            partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitAI>();
-            tempUnitInfo = partyUnit[partyUnit.Count - 1].GetComponent<UnitInfo>();
-            tempUnitInfo.changeUnitNumber = item.value;
-            tempUnitInfo.changePartyNumber = partyUnit.Count - 1;
-            partyUnit[partyUnit.Count - 1].isLive = true;
+            if (item.value != 0)
+            {
+                tempUnit = Instantiate(new CharacterDatabase.Data(item.value).charObject);
+                SceneManager.MoveGameObjectToScene(tempUnit, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+                partyUnit.Add(tempUnit.AddComponent<UnitStateData>());
+                partyUnit[partyUnit.Count - 1].unitObj = tempUnit;
+                partyUnit[partyUnit.Count - 1].DataSetting(true, item.value);
+                partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitMelee>();
+                partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitAI>();
+                tempUnitInfo = partyUnit[partyUnit.Count - 1].GetComponent<UnitInfo>();
+                tempUnitInfo.changeUnitNumber = item.value;
+                tempUnitInfo.changePartyNumber = partyUnit.Count - 1;
+                partyUnit[partyUnit.Count - 1].isLive = true;
+            }
         }
     }
 
