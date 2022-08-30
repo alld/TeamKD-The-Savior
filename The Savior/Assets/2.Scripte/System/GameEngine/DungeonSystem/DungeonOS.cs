@@ -305,7 +305,7 @@ public class DungeonOS : MonoBehaviour
     {
         //isRoundPlaying = true;
         DGTimerEnd();
-        if (++roundDGP % 10 == 5) StageReset(5);
+        if (++roundDGP % 10 == 5) tempRoundNumber = 5;
         else if (roundDGP % 10 != 0)
         {
             if (num + 1 != roundDGP)
