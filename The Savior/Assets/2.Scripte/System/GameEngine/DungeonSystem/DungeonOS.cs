@@ -513,6 +513,7 @@ public class DungeonOS : MonoBehaviour
         PlayerUnitCreate();
         ////스테이지 설정 한번 들어가야함. 
         StageReset(roundDGP);
+
         //StageReset(checkCountDGGame); // 컷팅넘버 구조 재검토
     }
     /// <summary>
@@ -540,7 +541,11 @@ public class DungeonOS : MonoBehaviour
         MonsterCreate();
         MonsterSetting();
         //isRoundPlaying = true;
-        if (stageNum == 1) isRoundPlaying = true;
+        if (stageNum == 1)
+        {
+            isRoundPlaying = true;
+            DGTimerStart();
+        }
         slotStageDG.GetComponent<StageInfo>().StageSelectGroup.SetActive(false);
     }
 
