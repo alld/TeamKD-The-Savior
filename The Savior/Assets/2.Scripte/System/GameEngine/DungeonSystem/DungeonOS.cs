@@ -798,6 +798,7 @@ public class DungeonOS : MonoBehaviour
                 tempUnitInfo.changeUnitNumber = item.value;
                 tempUnitInfo.changePartyNumber = partyUnit.Count - 1;
                 partyUnit[partyUnit.Count - 1].isLive = true;
+                partyUnit[partyUnit.Count - 1].UISetting();
             }
         }
     }
@@ -1241,8 +1242,12 @@ public class DungeonOS : MonoBehaviour
         progressTimeDGP = 0;
         timerOnDGP = true;
         timeLevelDGP = 0;
-        DungeonCtrl.gameTimerBG[0].fillAmount = 1;
-        DungeonCtrl.gameTimerBG[1].fillAmount = 1;
+        foreach (var item in DungeonCtrl.gameTimerBG)
+        {
+            item.fillAmount = 1;
+        }
+        //DungeonCtrl.gameTimerBG[0].fillAmount = 1;
+        //DungeonCtrl.gameTimerBG[1].fillAmount = 1;
         StartCoroutine(Timer);
     }
     /// <summary>

@@ -26,11 +26,11 @@ public class UnitStateData : MonoBehaviour
     /// <summary>
     /// 캐릭터 기본 체력
     /// </summary>
-    public float hp 
+    public float hp
     {
         get { return display_hp; }
         set
-        { 
+        {
             display_hp = value;
             HPUI();
         }
@@ -223,7 +223,7 @@ public class UnitStateData : MonoBehaviour
     #endregion
     public int partyNumber;
 
-    
+
     public void DataSetting(bool playerCheck, int num)
     {
         playerUnit = playerCheck;
@@ -294,13 +294,14 @@ public class UnitStateData : MonoBehaviour
     {
         UISettingCheck = true;
         canvas = GameObject.Find("DungeonCanvas").GetComponent<Canvas>();
-        unitHPGauage = Instantiate(Resources.Load<Image>("Unit/UI/HpGauage"),canvas.transform);
-        if (playerUnit) partySlotHPGauage = DungeonController.instance.partySlotHPGauage[partyNumber]; HPUIMove();
+        unitHPGauage = Instantiate(Resources.Load<Image>("Unit/UI/HpGauage"), canvas.transform);
+        if (playerUnit) partySlotHPGauage = DungeonController.instance.partySlotHPGauage[partyNumber]; 
+        HPUIMove();
     }
 
     public void StagePositionReset()
     {
-        
+
     }
 
     public void HPUI()
@@ -308,7 +309,7 @@ public class UnitStateData : MonoBehaviour
         if (!UISettingCheck) UISetting();
         float temp = hp / maxHP;
         unitHPGauage.fillAmount = temp;
-        if(playerUnit) partySlotHPGauage.fillAmount = temp;
+        if (playerUnit) partySlotHPGauage.fillAmount = temp;
         if (hp <= 0) unitHPGauage.gameObject.SetActive(false);
         else if (hp > 1) unitHPGauage.gameObject.SetActive(true);
         // 파티슬롯 기준 UI 지정/ 몬스터는 별도 UI 그룹 생성 
