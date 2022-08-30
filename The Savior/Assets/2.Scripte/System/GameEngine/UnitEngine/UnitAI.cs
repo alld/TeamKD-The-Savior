@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class UnitAI : MonoBehaviour
 {
@@ -121,6 +122,7 @@ public class UnitAI : MonoBehaviour
             unit = GetComponent<UnitStateData>();
             animator = GetComponentInChildren<Animator>();
             targetPoint = Instantiate(Resources.Load<GameObject>("Unit/MovePoint")).transform;
+            SceneManager.MoveGameObjectToScene(targetPoint.gameObject, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
             targetPoint.position = transform.position;
             if (unit.playerUnit)
             {

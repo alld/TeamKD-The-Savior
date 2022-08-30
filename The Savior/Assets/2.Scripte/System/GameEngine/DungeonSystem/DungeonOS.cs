@@ -69,7 +69,7 @@ public class DungeonOS : MonoBehaviour
     public GameObject playerStagePointGroup;
     public GameObject monsterStagePointGroup;
     private Transform[] playerStagePoint;
-    private Transform[] monsterStagePoint;
+    public Transform[] monsterStagePoint;
     public DungeonData dungeonData;
     public bool[] handSlot = { false, false, false };
     /// <summary>
@@ -500,7 +500,7 @@ public class DungeonOS : MonoBehaviour
         stageIndexDG = dungeonData.stageDataIndex;
         foreach (var item in GameManager.instance.data.equipRelic)
         {
-            if(item != 0) equipRelic.Add(new RelicData.Data(item));
+            if (item != 0) equipRelic.Add(new RelicData.Data(item));
         }
 
         foreach (var item in stagePrefabGroupDG.Select((value, index) => new { value, index }))
@@ -541,6 +541,7 @@ public class DungeonOS : MonoBehaviour
         PlayerUnitSetting();
         MonsterCreate();
         MonsterSetting();
+        MonsterBossCreate();
         //isRoundPlaying = true;
         if (stageNum == 1)
         {
@@ -1035,38 +1036,6 @@ public class DungeonOS : MonoBehaviour
         DieCount_Enemy = 0;
         GameObject tempMonster;
         UnitInfo tempUnitInfo;
-        if (roundDGP % 10 == 5)
-        {
-            tempMonster = Instantiate(dungeonData.dungeonMonsterBox[1].charObject);
-            SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
-            monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
-            monsterGroup[monsterGroup.Count - 1].unitObj = tempMonster;
-            monsterGroup[monsterGroup.Count - 1].DataSetting(false, dungeonData.dungeonMonsterBox[1].number);
-            monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitMelee>();
-            monsterGroup[0].gameObject.AddComponent<UnitAI>();
-            tempUnitInfo = monsterGroup[monsterGroup.Count - 1].GetComponent<UnitInfo>();
-            tempUnitInfo.changeUnitNumber = monsterGroup[0].number;
-            tempUnitInfo.changePartyNumber = 0;
-            monsterGroup[0].transform.position = monsterStagePoint[1].position;
-            monsterGroup[0].transform.rotation = monsterStagePoint[1].rotation;
-            monsterGroup[monsterGroup.Count - 1].isLive = true;
-        }
-        else if (roundDGP % 10 == 0)
-        {
-            tempMonster = Instantiate(dungeonData.dungeonMonsterBox[0].charObject);
-            SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
-            monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
-            monsterGroup[monsterGroup.Count - 1].unitObj = tempMonster;
-            monsterGroup[monsterGroup.Count - 1].DataSetting(false, dungeonData.dungeonMonsterBox[0].number);
-            monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitMelee>();
-            monsterGroup[0].gameObject.AddComponent<UnitAI>();
-            tempUnitInfo = monsterGroup[monsterGroup.Count - 1].GetComponent<UnitInfo>();
-            tempUnitInfo.changeUnitNumber = monsterGroup[0].number;
-            tempUnitInfo.changePartyNumber = 0;
-            monsterGroup[0].transform.position = monsterStagePoint[1].position;
-            monsterGroup[0].transform.rotation = monsterStagePoint[1].rotation;
-            monsterGroup[monsterGroup.Count - 1].isLive = true;
-        }
         for (int i = 0; i < dungeonData.monsterBoxCount[roundDGP]; i++)
         {
 
@@ -1085,10 +1054,54 @@ public class DungeonOS : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 게임 시작후, 휴식 타이밍에 덱 셔플 기능
-    /// </summary>
-    public void DeckShuffle()
+    void MonsterBossCreate()
+    {
+        DieCount_Enemy = 0;
+        GameObject tempMonster;
+        UnitInfo tempUnitInfo;
+        int tempMonsterGroupindex, tempbossNumber;
+        if (roundDGP % 10 == 5)
+        {
+            tempbossNumber = 1;
+            tempMonster = Instantiate(dungeonData.dungeonMonsterBox[tempbossNumber].charObject);
+            SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+            monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
+            tempMonsterGroupindex = monsterGroup.Count - 1;
+            monsterGroup[tempMonsterGroupindex].unitObj = tempMonster;
+            monsterGroup[tempMonsterGroupindex].DataSetting(false, dungeonData.dungeonMonsterBox[tempbossNumber].number);
+            monsterGroup[tempMonsterGroupindex].gameObject.AddComponent<UnitMelee>();
+            monsterGroup[tempMonsterGroupindex].gameObject.AddComponent<UnitAI>();
+            tempUnitInfo = monsterGroup[tempMonsterGroupindex].GetComponent<UnitInfo>();
+            tempUnitInfo.changeUnitNumber = monsterGroup[tempMonsterGroupindex].number;
+            tempUnitInfo.changePartyNumber = tempMonsterGroupindex;
+            monsterGroup[tempMonsterGroupindex].transform.position = monsterStagePoint[1].position;
+            monsterGroup[tempMonsterGroupindex].transform.rotation = monsterStagePoint[1].rotation;
+            monsterGroup[tempMonsterGroupindex].isLive = true;
+        }
+        else if (roundDGP % 10 == 0)
+        {
+            tempbossNumber = 0;
+            tempMonster = Instantiate(dungeonData.dungeonMonsterBox[tempbossNumber].charObject);
+            SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+            monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
+            tempMonsterGroupindex = monsterGroup.Count - 1;
+            monsterGroup[tempMonsterGroupindex].unitObj = tempMonster;
+            monsterGroup[tempMonsterGroupindex].DataSetting(false, dungeonData.dungeonMonsterBox[tempbossNumber].number);
+            monsterGroup[tempMonsterGroupindex].gameObject.AddComponent<UnitMelee>();
+            monsterGroup[tempMonsterGroupindex].gameObject.AddComponent<UnitAI>();
+            tempUnitInfo = monsterGroup[tempMonsterGroupindex].GetComponent<UnitInfo>();
+            tempUnitInfo.changeUnitNumber = monsterGroup[tempMonsterGroupindex].number;
+            tempUnitInfo.changePartyNumber = tempMonsterGroupindex;
+            monsterGroup[tempMonsterGroupindex].transform.position = monsterStagePoint[1].position;
+            monsterGroup[tempMonsterGroupindex].transform.rotation = monsterStagePoint[1].rotation;
+            monsterGroup[tempMonsterGroupindex].isLive = true;
+        }
+    }
+
+        /// <summary>
+        /// 게임 시작후, 휴식 타이밍에 덱 셔플 기능
+        /// </summary>
+        public void DeckShuffle()
     {
         List<int> tempList = new List<int>();
         for (int i = 0; i < useDeckDGP.Count; i++)

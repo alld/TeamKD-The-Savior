@@ -21,9 +21,9 @@ public class DungeonData : MonoBehaviour
             case 0:
                 for (int i = 0; i < 20; i++)
                 {
-                    monsterBoxMin.Add(Random.Range(2, 4));
-                    monsterBoxMax.Add(Random.Range(monsterBoxMin[i], 4));
-                    monsterBoxCount.Add(Random.Range(1, 4));
+                    monsterBoxMin.Add(Random.Range(2, 6));
+                    monsterBoxMax.Add(Random.Range(monsterBoxMin[i], 6));
+                    monsterBoxCount.Add(Random.Range(3, 6));
                 }
                 dungeonMonsterBox.Add(new MonsterDatabase.Data(6));
                 dungeonMonsterBox.Add(new MonsterDatabase.Data(5));
