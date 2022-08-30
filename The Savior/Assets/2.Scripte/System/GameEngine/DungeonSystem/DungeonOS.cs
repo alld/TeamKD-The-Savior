@@ -70,7 +70,7 @@ public class DungeonOS : MonoBehaviour
     public GameObject monsterStagePointGroup;
     private Transform[] playerStagePoint;
     private Transform[] monsterStagePoint;
-    public DungeonData.data dungeonData;
+    public DungeonData dungeonData;
     public bool[] handSlot = { false, false, false };
     /// <summary>
     /// 각라운드가 가지고있는 정보
@@ -116,10 +116,12 @@ public class DungeonOS : MonoBehaviour
             if (value)
             {
                 dele_RoundStart();
+                DGTimerStart();
             }
             else
             {
                 dele_RoundEnd();
+                DGTimerEnd();
             }
         }
     }
@@ -226,7 +228,8 @@ public class DungeonOS : MonoBehaviour
 
     private void Awake()
     {
-        dungeonData = new DungeonData.data(dungeonNumber);
+        dungeonData = GetComponent<DungeonData>();
+        dungeonData.DataSetting(dungeonNumber);
         instance = this;
 
     }
@@ -304,7 +307,6 @@ public class DungeonOS : MonoBehaviour
     void NextRound(int num)
     {
         //isRoundPlaying = true;
-        DGTimerEnd();
         if (++roundDGP % 10 == 5) tempRoundNumber = 5;
         else if (roundDGP % 10 != 0)
         {
@@ -482,7 +484,6 @@ public class DungeonOS : MonoBehaviour
         yield return delay_10;
         DungeonCtrl.roundText.text = "Start";
         isRoundPlaying = true;
-        DGTimerStart();
         yield return delay_10;
         yield return delay_10;
         DungeonCtrl.roundTextInfo.SetActive(false);
@@ -495,7 +496,7 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void GameSetting()
     {
-        roundInfoDG = dungeonData.stageDataInfo;
+        roundInfoDG = dungeonData.stageDataInfo; // 해당 기능 기준으로 검사 % 나머지연산 교체
         stageIndexDG = dungeonData.stageDataIndex;
         foreach (var item in GameManager.instance.data.equipRelic)
         {
@@ -533,7 +534,7 @@ public class DungeonOS : MonoBehaviour
             monsterGroup.Clear();
         }
         if (slotStageDG != null) slotStageDG.SetActive(false);
-        slotStageDG = stageGroupDG[stageIndexDG[stageNum] - 1];
+        slotStageDG = stageGroupDG[stageIndexDG[stageNum]];
         slotStageDG.SetActive(true);
         Camera.main.transform.position = slotStageDG.GetComponentInChildren<Camera>().transform.position;
         Camera.main.transform.rotation = slotStageDG.GetComponentInChildren<Camera>().transform.rotation;
@@ -544,7 +545,6 @@ public class DungeonOS : MonoBehaviour
         if (stageNum == 1)
         {
             isRoundPlaying = true;
-            DGTimerStart();
         }
         slotStageDG.GetComponent<StageInfo>().StageSelectGroup.SetActive(false);
     }

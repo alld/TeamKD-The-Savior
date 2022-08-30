@@ -469,6 +469,7 @@ GameObject:
   - component: {fileID: 600042790}
   - component: {fileID: 600042794}
   - component: {fileID: 600042793}
+  - component: {fileID: 600042796}
   - component: {fileID: 600042792}
   - component: {fileID: 600042791}
   - component: {fileID: 600042795}
@@ -526,6 +527,7 @@ MonoBehaviour:
   slotStageDG: {fileID: 0}
   playerStagePointGroup: {fileID: 1327760378}
   monsterStagePointGroup: {fileID: 69969054}
+  dungeonData: {fileID: 0}
   handSlot: 000000
   roundInfoDG: 
   monsterGroup: []
@@ -739,6 +741,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &600042796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600042787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ffda49af5899e146af95f6c2c47a623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterBoxMin: 
+  monsterBoxMax: 
+  monsterBoxCount: 
+  stageDataInfo: 0100000001000000010000000100000002000000010000000100000001000000010000000a0000000100000001000000010000000100000002000000010000000100000001000000010000000a000000
+  stageDataIndex: 0000000000000000000000000000000001000000000000000000000000000000010000000300000000000000000000000000000000000000010000000000000000000000000000000000000003000000
 --- !u!1 &617554973
 GameObject:
   m_ObjectHideFlags: 0
