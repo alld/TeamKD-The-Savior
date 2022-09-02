@@ -560,7 +560,7 @@ public class DungeonOS : MonoBehaviour
             switch (item.attackType)
             {
                 case 1:
-                    if (stageSlotPlayerBottom.Count < 3)
+                    if (stageSlotPlayerBottom.Count < 2)
                     {
                         stageSlotPlayerBottom.Add(item);
                     }
@@ -580,7 +580,7 @@ public class DungeonOS : MonoBehaviour
                             }
                         }
                         // 다음줄 검토 
-                        if (stageSlotPlayerMid.Count < 3)
+                        if (stageSlotPlayerMid.Count < 2)
                         {
                             stageSlotPlayerMid.Add(moveSlot);
                         }
@@ -597,7 +597,7 @@ public class DungeonOS : MonoBehaviour
                                 }
                             }
                             // 다음줄 검토 
-                            if (stageSlotPlayerTop.Count < 3)
+                            if (stageSlotPlayerTop.Count < 2)
                             {
                                 stageSlotPlayerTop.Add(moveSlot);
                             }
@@ -609,7 +609,7 @@ public class DungeonOS : MonoBehaviour
                     }
                     break;
                 case 2:
-                    if (stageSlotPlayerMid.Count < 3)
+                    if (stageSlotPlayerMid.Count < 2)
                     {
                         stageSlotPlayerMid.Add(item);
                     }
@@ -631,7 +631,7 @@ public class DungeonOS : MonoBehaviour
                                 }
                             }
                             // 다음줄 검토 
-                            if (stageSlotPlayerBottom.Count < 3)
+                            if (stageSlotPlayerBottom.Count < 2)
                             {
                                 stageSlotPlayerBottom.Add(moveSlot);
                             }
@@ -648,7 +648,7 @@ public class DungeonOS : MonoBehaviour
                                     }
                                 }
                                 // 다음줄 검토 
-                                if (stageSlotPlayerTop.Count < 3)
+                                if (stageSlotPlayerTop.Count < 2)
                                 {
                                     stageSlotPlayerTop.Add(moveSlot);
                                 }
@@ -671,7 +671,7 @@ public class DungeonOS : MonoBehaviour
                                 }
                             }
                             // 다음줄 검토 
-                            if (stageSlotPlayerTop.Count < 3)
+                            if (stageSlotPlayerTop.Count < 2)
                             {
                                 stageSlotPlayerTop.Add(moveSlot);
                             }
@@ -688,7 +688,7 @@ public class DungeonOS : MonoBehaviour
                                     }
                                 }
                                 // 다음줄 검토 
-                                if (stageSlotPlayerBottom.Count < 3)
+                                if (stageSlotPlayerBottom.Count < 2)
                                 {
                                     stageSlotPlayerBottom.Add(moveSlot);
                                 }
@@ -701,7 +701,7 @@ public class DungeonOS : MonoBehaviour
                     }
                     break;
                 case 3:
-                    if (stageSlotPlayerTop.Count < 3)
+                    if (stageSlotPlayerTop.Count < 2)
                     {
                         stageSlotPlayerTop.Add(item);
                     }
@@ -721,7 +721,7 @@ public class DungeonOS : MonoBehaviour
                             }
                         }
                         // 다음줄 검토 
-                        if (stageSlotPlayerMid.Count < 3)
+                        if (stageSlotPlayerMid.Count < 2)
                         {
                             stageSlotPlayerMid.Add(moveSlot);
                         }
@@ -738,7 +738,7 @@ public class DungeonOS : MonoBehaviour
                                 }
                             }
                             // 다음줄 검토 
-                            if (stageSlotPlayerBottom.Count < 3)
+                            if (stageSlotPlayerBottom.Count < 2)
                             {
                                 stageSlotPlayerBottom.Add(moveSlot);
                             }
@@ -761,12 +761,12 @@ public class DungeonOS : MonoBehaviour
         }
         for (int i = 0; i < stageSlotPlayerMid.Count; i++)
         {
-            stageSlotPlayerMid[i].gameObject.transform.position = playerStagePoint[i + 4].position;
+            stageSlotPlayerMid[i].gameObject.transform.position = playerStagePoint[i + 3].position;
             stageSlotPlayerMid[i].HPUIMove();
         }
         for (int i = 0; i < stageSlotPlayerTop.Count; i++)
         {
-            stageSlotPlayerTop[i].gameObject.transform.position = playerStagePoint[i + 7].position;
+            stageSlotPlayerTop[i].gameObject.transform.position = playerStagePoint[i + 5].position;
             stageSlotPlayerTop[i].HPUIMove();
         }
 
