@@ -258,7 +258,7 @@ public class UnitAI : MonoBehaviour
                             StartCoroutine(State_Stern(5.0f));
                             break;
                         case AIPattern.Skill:
-                            StartCoroutine(State_Attacking2());
+                            StartCoroutine(State_Attacking2()); // 추후 변경 필요
                             break;
                         case AIPattern.SpecialSkill:
                             break;
@@ -366,12 +366,12 @@ public class UnitAI : MonoBehaviour
         {
             if (perceptionEnemyUnit.Count > 0)
             {
-                if (Random.Range(0, 5) == 0) return AIPattern.Skill;
+                if (onSkillAvailable) return AIPattern.Skill;
                 else return AIPattern.Attacking;
             }
             else
             {
-                if (Random.Range(0, 5) == 0) return AIPattern.Skill;
+                if (onSkillAvailable) return AIPattern.Skill;
                 else return AIPattern.Attacking;
             }
 
@@ -514,7 +514,7 @@ public class UnitAI : MonoBehaviour
         {
             if (onAttackAvailable)
             {
-                Action_Attack2();
+                Action_Skil();
             }
             if (targetObj == null)
             {
@@ -846,7 +846,12 @@ public class UnitAI : MonoBehaviour
     public bool Action_Skil()
     {
         unitState = UnitState.Skill;
-        //UnitSkill.instance
+        // 스킬 엔진에서 out으로 대상유무까지 반환, 여기서 조건 검사, 분기 발생
+        animator.SetTrigger(ani_Skill); // 애니메이터 트리거로 되어있는지 확인 필요
+        UnitSkill.instance.OnSkill(unit.basicSkillA, isplayer, partyNumber, out skill_cooldown);
+        onSkillAvailable = false;
+        if (!isGaze) StartCoroutine(TargetGaze());
+        StartCoroutine(CooldownCheck(skill_cooldown, 1));
         return true;
     }
 
@@ -863,6 +868,7 @@ public class UnitAI : MonoBehaviour
     /// <summary>
     /// 유닛을 공격하게 하는 함수
     /// </summary>
+    float skill_cooldown;
     public bool Action_Attack()
     {
         unitState = UnitState.Attack;
@@ -881,7 +887,7 @@ public class UnitAI : MonoBehaviour
     {
         unitState = UnitState.Attack;
         animator.SetTrigger(ani_Attack);
-        unitMelee.OnAttack2();
+        unitMelee.OnAttack();
         onAttackAvailable = false;
         if (!isGaze) StartCoroutine(TargetGaze());
         StartCoroutine(CooldownCheck(unit.attackSpeed, 0));
