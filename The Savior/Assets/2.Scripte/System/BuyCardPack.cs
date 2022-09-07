@@ -45,9 +45,11 @@ public class BuyCardPack : MonoBehaviour
         confirmButton.onClick.AddListener(() => OnClick_ConfirmBtn());
         cardDectTr = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/MyCard/Viewport/Content").transform;
 
+
+        // 상점 창 오픈 시에 호출됨.
+        // 상점에 카드 팩이 생성된다.
         for (int i = 0; i < maxCardPack; i++)
         {
-
             int idx = i + 1;
             cardPackList.Add(Resources.Load<GameObject>("PackItem"));
             packName = cardPackList[i].GetComponentsInChildren<TextMeshProUGUI>()[0];
@@ -100,6 +102,7 @@ public class BuyCardPack : MonoBehaviour
         {
             cardImg[i] = Resources.Load<Image>("Card/Card_"+ (i + 1).ToString());
             card = Instantiate(cardImg[i], cardList[i]);
+            Destroy(card.GetComponent<ViewCard>());     // 구매한 카드의 드래그를 막기 위함.
             InitRect(card);
         }
 
@@ -142,6 +145,7 @@ public class BuyCardPack : MonoBehaviour
             int rnd = Random.Range(1, 24);
             cardImg[i] = Resources.Load<Image>("Card/Card_" + (rnd).ToString());
             card = Instantiate(cardImg[i], buyCardList[i]);
+            Destroy(card.GetComponent<ViewCard>());     // 구매한 카드의 드래그를 막기 위함.
 
             // 획득한 카드의 데이터 저장.
             if (GameManager.instance.cardDic.ContainsKey(rnd))
