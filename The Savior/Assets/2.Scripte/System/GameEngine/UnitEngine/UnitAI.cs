@@ -489,6 +489,10 @@ public class UnitAI : MonoBehaviour
         AutoScheduler(0, AIPattern.Pass);
     }
 
+    // 타겟팅이 되어야하는지, 어떤 스킬 구성인지에대한 개념이 필요함. 
+    // 이상적 구조를 고려할때, 스킬엔진이 AI행동을 접근시키고 AI에는 각 스킬에 대한 행동양식이 있어야함.
+    // AI 스킬 작동 -> 스킬엔진 접근 -> 스킬 엔진에서 스킬에 적합한 AI행동을 AI에 명령 -> AI 행동 명령 
+    // 스킬 쿨다운은 최종시 적용하고, 검사는 [AI스킬 작동] 시점에서 해야함. 
     IEnumerator State_Attacking2() // 공격
     {
 
