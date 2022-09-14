@@ -1036,7 +1036,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &76200154
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3361,6 +3361,7 @@ GameObject:
   - component: {fileID: 301621654}
   - component: {fileID: 301621656}
   - component: {fileID: 301621659}
+  - component: {fileID: 301621660}
   m_Layer: 0
   m_Name: WUIManager
   m_TagString: Untagged
@@ -3576,6 +3577,34 @@ MonoBehaviour:
   - {fileID: 1202029130}
   - {fileID: 79002052}
   isWorldTextSetting: 0
+--- !u!114 &301621660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301621651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a32cde4d1721062499361376d20b413a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fogs:
+  - {fileID: 1152426870}
+  - {fileID: 129612402}
+  - {fileID: 1285512231}
+  - {fileID: 1226684983}
+  - {fileID: 999898400}
+  - {fileID: 318448324}
+  - {fileID: 1860831616}
+  curFog: {fileID: 0}
+  dungeons:
+  - {fileID: 1633696184}
+  - {fileID: 813503262}
+  - {fileID: 1538024143}
+  - {fileID: 1034933186}
+  - {fileID: 76200153}
+  - {fileID: 580048789}
 --- !u!1 &308489082
 GameObject:
   m_ObjectHideFlags: 0
@@ -6515,7 +6544,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &580048790
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8346,7 +8375,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &813503263
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10319,7 +10348,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1034933187
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12328,7 +12357,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1152426871
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16720,7 +16749,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1538024144
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17609,7 +17638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1633696185
 RectTransform:
   m_ObjectHideFlags: 0

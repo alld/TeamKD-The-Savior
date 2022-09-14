@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6802312100928605675}
   - component: {fileID: 6802312100928605672}
   - component: {fileID: 2582743624785580389}
-  - component: {fileID: -100408719572786243}
+  - component: {fileID: -8980267196376822948}
   m_Layer: 5
   m_Name: InfoText
   m_TagString: Untagged
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
---- !u!114 &-100408719572786243
+--- !u!114 &-8980267196376822948
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,5 +164,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
+  m_HorizontalFit: 0
   m_VerticalFit: 2
