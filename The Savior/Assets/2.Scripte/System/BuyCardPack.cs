@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Newtonsoft.Json.Linq;
 
 public class BuyCardPack : MonoBehaviour
 {
@@ -30,12 +31,17 @@ public class BuyCardPack : MonoBehaviour
     private Transform cardDectTr;
 
 
-    private int maxCardPack = 5;
+    private int maxCardPack = 3;
     private List<GameObject> cardPackList = new List<GameObject>();
     private GameObject thisObject;
     private TextMeshProUGUI packName;
     private TextMeshProUGUI packContant;
     private Button[] selectPackButton;
+    private TextAsset cardPackData;
+    private bool isBuy = false;
+    private int curPack = 0;
+    private int firstNum = 0;
+    private int lastNum = 0;
 
     private void Start()
     {
@@ -44,7 +50,9 @@ public class BuyCardPack : MonoBehaviour
         OnClick_SelectPackBtn(1);
         confirmButton.onClick.AddListener(() => OnClick_ConfirmBtn());
         cardDectTr = GameObject.Find("GameUI/MainUI/DeckWindow/ContentBox/MyCard/Viewport/Content").transform;
+        cardPackData = Resources.Load<TextAsset>("CardDB/CardPackContent");
 
+        JArray packData = JArray.Parse(cardPackData.text);
 
         // 상점 창 오픈 시에 호출됨.
         // 상점에 카드 팩이 생성된다.
@@ -55,8 +63,8 @@ public class BuyCardPack : MonoBehaviour
             packName = cardPackList[i].GetComponentsInChildren<TextMeshProUGUI>()[0];
             packContant = cardPackList[i].GetComponentsInChildren<TextMeshProUGUI>()[1];
 
-            packName.text = idx.ToString() + "번 카드팩";        // 카드팩 이름
-            packContant.text = "카드팩 설명";        // 카드팩 설명
+            packName.text = packData[i]["CardPack"].ToString();        // 카드팩 이름
+            packContant.text = packData[i]["CardContent"].ToString();        // 카드팩 설명
 
             thisObject = Instantiate(cardPackList[i], shopCardPackTr);  // 프리팹에 있는 카드팩을 상점에 생성
             thisObject.gameObject.name = "Pack_" + i;                   // 생성한 오브젝트의 이름
@@ -96,13 +104,27 @@ public class BuyCardPack : MonoBehaviour
     /// <param name="idx"></param>
     private void OnClick_SelectPackBtn(int idx)
     {
+        curPack = idx;
         InitCardPack();
-        for (int i = 0; i < 5; i++)
+        switch (idx)
         {
-            cardImg[i] = Resources.Load<Image>("Card/Card_"+ (i + 1).ToString());
-            card = Instantiate(cardImg[i], cardList[i]);
-            Destroy(card.GetComponent<ViewCard>());     // 구매한 카드의 드래그를 막기 위함.
-            InitRect(card);
+            case 1:
+                HealCardPack();
+                firstNum = 1;
+                lastNum = 8;
+                break;
+            case 2:
+                AttackCardPack();
+                firstNum = 16;
+                lastNum = 24;
+                break;
+            case 3:
+                ShieldCardPack();
+                firstNum = 8;
+                lastNum = 16;
+                break;
+            default:
+                break;
         }
 
         pack = Instantiate(cardPackImg[(idx - 1)], shopCardPackImageTr);
@@ -110,6 +132,38 @@ public class BuyCardPack : MonoBehaviour
 
         openPack.SetActive(false);
         unPack.SetActive(true);
+    }
+
+    private void HealCardPack()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            cardImg[i] = Resources.Load<Image>("Card/Card_" + (i + 1).ToString());
+            card = Instantiate(cardImg[i], cardList[i]);
+            Destroy(card.GetComponent<ViewCard>());     // 구매한 카드의 드래그를 막기 위함.
+            InitRect(card);
+        }
+    }
+
+    private void ShieldCardPack()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            cardImg[i] = Resources.Load<Image>("Card/Card_" + (i + 8).ToString());
+            card = Instantiate(cardImg[i], cardList[i]);
+            Destroy(card.GetComponent<ViewCard>());     // 구매한 카드의 드래그를 막기 위함.
+            InitRect(card);
+        }
+    }
+    private void AttackCardPack()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            cardImg[i] = Resources.Load<Image>("Card/Card_" + (i + 16).ToString());
+            card = Instantiate(cardImg[i], cardList[i]);
+            Destroy(card.GetComponent<ViewCard>());     // 구매한 카드의 드래그를 막기 위함.
+            InitRect(card);
+        }
     }
 
     /// <summary>
@@ -139,9 +193,11 @@ public class BuyCardPack : MonoBehaviour
     {
         unPack.SetActive(false);
         openPack.SetActive(true);
+        isBuy = true;
+
         for (int i = 0; i < 5; i++)
         {
-            int rnd = Random.Range(1, 24);
+            int rnd = Random.Range(firstNum, lastNum);
             cardImg[i] = Resources.Load<Image>("Card/Card_" + (rnd).ToString());
             Instantiate(cardImg[i], cardDectTr);
             card = Instantiate(cardImg[i], buyCardList[i]);
@@ -162,9 +218,11 @@ public class BuyCardPack : MonoBehaviour
 
     public void DestroyCard()
     {
+        if (!isBuy) return;
         for (int i = 0; i < 5; i++)
         {
             Destroy(buyCardList[i].GetChild(0).gameObject);
         }
+        isBuy = false;
     }
 }
