@@ -97,7 +97,6 @@ public class BuyCardPack : MonoBehaviour
     private void OnClick_SelectPackBtn(int idx)
     {
         InitCardPack();
-        InitBuyCard();
         for (int i = 0; i < 5; i++)
         {
             cardImg[i] = Resources.Load<Image>("Card/Card_"+ (i + 1).ToString());
@@ -118,7 +117,7 @@ public class BuyCardPack : MonoBehaviour
     /// </summary>
     private void OnClick_ConfirmBtn()
     {
-        InitBuyCard();
+        DestroyCard();
         unPack.SetActive(true);
         openPack.SetActive(false);
     }
@@ -144,6 +143,7 @@ public class BuyCardPack : MonoBehaviour
         {
             int rnd = Random.Range(1, 24);
             cardImg[i] = Resources.Load<Image>("Card/Card_" + (rnd).ToString());
+            Instantiate(cardImg[i], cardDectTr);
             card = Instantiate(cardImg[i], buyCardList[i]);
             Destroy(card.GetComponent<ViewCard>());     // 구매한 카드의 드래그를 막기 위함.
 
@@ -160,17 +160,11 @@ public class BuyCardPack : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 카드 구매 후 확인 버튼을 누를 경우 혹은 상점이 열릴 경우 호출
-    /// </summary>
-    public void InitBuyCard()
+    public void DestroyCard()
     {
         for (int i = 0; i < 5; i++)
         {
-            if (buyCardList[i].childCount > 0)
-            {
-                buyCardList[i].GetChild(0).transform.SetParent(cardDectTr);
-            }
+            Destroy(buyCardList[i].GetChild(0).gameObject);
         }
     }
 }

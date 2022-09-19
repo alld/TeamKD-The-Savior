@@ -142,10 +142,10 @@ public class WorldMapCastle : MonoBehaviour
     /// </summary>
     private void OnClick_CloseShopBtn()
     {
-        buy.InitBuyCard();
+        buy.DestroyCard();
         isShop = false;
         shopImg.SetActive(false);
-
+        
         // 스토리 진행도 64일 때 발생하는 이벤트
         // 대화창을 활성화 한다.
         if (GameManager.instance.data.storyProgress == 64)
