@@ -15662,6 +15662,7 @@ GameObject:
   - component: {fileID: 580982195}
   - component: {fileID: 580982194}
   - component: {fileID: 580982192}
+  - component: {fileID: 580982197}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -15826,6 +15827,22 @@ MonoBehaviour:
   number: 0
   ID: 0
   priorities: 0
+--- !u!114 &580982197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580982182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3b50bfe57c3e94c81f5bf2a51d8157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeTr: {fileID: 67993926}
+  currentlyScene: Main
+  _fadeScreen: {fileID: 0}
+  _loadingBar: {fileID: 0}
 --- !u!1 &590144826
 GameObject:
   m_ObjectHideFlags: 0

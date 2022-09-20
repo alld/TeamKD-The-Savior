@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     public int cardIdx = 0;  // Json 파일에 저장되어있는 카드의 인덱스
     // Play씬의 UI를 특정 상황에 따라 활성화 하기 위한 함수.
     private PlayUI playUI;
+    private SceneLoad sceneLoad;
 
     #region 유동 데이터 관리
 
@@ -41,12 +42,18 @@ public class GameManager : MonoBehaviour
         else Destroy(this);
         DontDestroyOnLoad(this.gameObject);
         dataManager = GetComponent<GameDataManager>();
+        sceneLoad = GetComponent<SceneLoad>();
         // 게임 시작시에 Main씬을 연결한다.
         SceneManager.LoadSceneAsync("Main", LoadSceneMode.Additive);
         // Play씬에서 사용하는 UI 연결
         playUI = GameObject.Find("PUIManager").GetComponent<PlayUI>();
 
         StartCoroutine(GameStart());
+    }
+
+    private void Start()
+    {
+        StartCoroutine(GameSave());
     }
 
     /// <summary>
@@ -133,7 +140,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public IEnumerator GameSave()
     {
-        yield return StartCoroutine(dataManager.SaveGameDataToJson(data));
+        while (true)
+        {
+            yield return StartCoroutine(dataManager.SaveGameDataToJson(data));
+        }
     }
 
     /// <summary>
@@ -291,6 +301,7 @@ public class GameManager : MonoBehaviour
 
     #region 씬 관련
     public string currentlyScene = "Main";
+    
 
     /// <summary>
     /// 기존 씬을 언로드 하고, 입력된 번호에 맞는 씬을 Additive해준다.
@@ -303,9 +314,7 @@ public class GameManager : MonoBehaviour
         {
             // 메인씬으로 이동한다.
             case 0:
-                SceneManager.UnloadSceneAsync(currentlyScene);
-                currentlyScene = "Main";
-                SceneManager.LoadSceneAsync(currentlyScene, LoadSceneMode.Additive);
+                StartCoroutine(sceneLoad.MainSceneLoad());
 
                 playUI.topBar.SetActive(false);
                 playUI.partyBar.SetActive(false);
@@ -313,19 +322,16 @@ public class GameManager : MonoBehaviour
                 break;
             // 오프닝 씬으로 이동한다.
             case 1:
-                SceneManager.UnloadSceneAsync(currentlyScene);
-                currentlyScene = "Opening";
+                StartCoroutine(sceneLoad.OpeningSceneLoad());
+
                 data.CurrentScene = 1;
-                SceneManager.LoadSceneAsync(currentlyScene, LoadSceneMode.Additive);
                 isDungeon = false;
                 break;
             // 월드맵 씬으로 이동한다.
             case 2:
-                SceneManager.UnloadSceneAsync(currentlyScene);
-                currentlyScene = "WorldMap";
-                data.CurrentScene = 2;
-                SceneManager.LoadSceneAsync(currentlyScene, LoadSceneMode.Additive);
+                StartCoroutine(sceneLoad.WorldMapSceneLoad());
 
+                data.CurrentScene = 2;
                 playUI.topBar.SetActive(true);
                 playUI.partyBar.SetActive(true);
                 playUI.dungeonBar.SetActive(false);
@@ -346,10 +352,8 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case 3:
-                SceneManager.UnloadSceneAsync(currentlyScene);
-                currentlyScene = "Tutorial";
+                StartCoroutine(sceneLoad.TutorialSceneLoad());
                 data.CurrentScene = 3;
-                SceneManager.LoadSceneAsync(currentlyScene, LoadSceneMode.Additive);
                 isDungeon = true;
                 break;
         }
@@ -368,7 +372,6 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (currentlyScene == "Main") return;
-        StartCoroutine(GameSave());
         playTime += Time.deltaTime;
         if (dungeonOS != null) dungeonPlayTime += Time.deltaTime;
     }

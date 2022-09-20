@@ -25,6 +25,10 @@ public class DungeonOS : MonoBehaviour
     private InputActionMap playerMap;
     private InputAction clickAction;
 
+    // 씬을 관리하는 스크립트를 만들었습니다. 게임 매니저에 있던 currentScene은 이쪽으로 옮겨졌습니다.
+    // Start에서 초기화할게요.
+    private SceneLoad sceneLoader;      
+
     private IEnumerator Timer;
     private int tempRoundNumber;
 
@@ -262,7 +266,9 @@ public class DungeonOS : MonoBehaviour
         GameManager.instance.dungeonPlayTime = 0;
         //게임용 UI 활성화 
         DungeonCtrl.dungeonUI.SetActive(true);
+        sceneLoader = GameObject.Find("GameManager").GetComponent<SceneLoad>();
         GameSetting();
+
     }
 
     #region 던전 이벤트(기능) // 주석처리 미흡
@@ -507,7 +513,7 @@ public class DungeonOS : MonoBehaviour
         {
             stageGroupDG[item.index] = Instantiate(item.value);
             stageGroupDG[item.index].SetActive(false);
-            SceneManager.MoveGameObjectToScene(stageGroupDG[item.index], SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+            SceneManager.MoveGameObjectToScene(stageGroupDG[item.index], SceneManager.GetSceneByName(sceneLoader._currentlyScene)); // sceneLoader에서 현재 씬 이름을 가져옵니다.
         }
         roundDGP = 1;
         HandReset();
@@ -788,7 +794,7 @@ public class DungeonOS : MonoBehaviour
             if (item.value != 0)
             {
                 tempUnit = Instantiate(new CharacterDatabase.Data(item.value).charObject);
-                SceneManager.MoveGameObjectToScene(tempUnit, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+                SceneManager.MoveGameObjectToScene(tempUnit, SceneManager.GetSceneByName(sceneLoader._currentlyScene));// 씬 관련 변경했읍니다.
                 partyUnit.Add(tempUnit.AddComponent<UnitStateData>());
                 partyUnit[partyUnit.Count - 1].unitObj = tempUnit;
                 partyUnit[partyUnit.Count - 1].DataSetting(true, item.value);
@@ -1042,7 +1048,7 @@ public class DungeonOS : MonoBehaviour
 
             int tempint = Random.Range(dungeonData.monsterBoxMin[roundDGP], dungeonData.monsterBoxMax[roundDGP]);
             tempMonster = Instantiate(dungeonData.dungeonMonsterBox[tempint].charObject);
-            SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+            SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(sceneLoader._currentlyScene));//변경했읍니다.
             monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
             monsterGroup[monsterGroup.Count - 1].unitObj = tempMonster;
             monsterGroup[monsterGroup.Count - 1].DataSetting(false, dungeonData.dungeonMonsterBox[tempint].number);

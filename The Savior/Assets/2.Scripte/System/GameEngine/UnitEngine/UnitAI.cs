@@ -109,6 +109,7 @@ public class UnitAI : MonoBehaviour
     private bool onSkillAvailable = false;
     private bool onSpecialSkillAvailable = false;
     private bool settingCehck = true;
+    private SceneLoad sceneLoader;
 
     // 상점에서도 같은 오브젝트를 사용하기때문에, Start사용시 예외처리 필수
     public void Start()
@@ -122,7 +123,8 @@ public class UnitAI : MonoBehaviour
             unit = GetComponent<UnitStateData>();
             animator = GetComponentInChildren<Animator>();
             targetPoint = Instantiate(Resources.Load<GameObject>("Unit/MovePoint")).transform;
-            SceneManager.MoveGameObjectToScene(targetPoint.gameObject, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+            sceneLoader = GameObject.Find("GameManager").GetComponent<SceneLoad>();
+            SceneManager.MoveGameObjectToScene(targetPoint.gameObject, SceneManager.GetSceneByName(sceneLoader._currentlyScene));   // 씬 관련 변경했읍니다.
             targetPoint.position = transform.position;
             if (unit.playerUnit)
             {
