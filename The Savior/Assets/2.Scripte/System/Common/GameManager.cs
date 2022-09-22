@@ -145,7 +145,6 @@ public class GameManager : MonoBehaviour
             yield return StartCoroutine(dataManager.SaveGameDataToJson(data));
         }
     }
-
     /// <summary>
     /// 데이터를 불러온다.
     /// </summary>
@@ -154,9 +153,6 @@ public class GameManager : MonoBehaviour
         data = dataManager.LoadGameDataFromJson();
         yield return null;
     }
-
-
-   
     /// <summary>
     /// 카드 프리셋 초기화
     /// </summary>
@@ -169,7 +165,6 @@ public class GameManager : MonoBehaviour
         StartCoroutine(dataManager.SavePresetToJson());
         yield return null;
     }
-
     /// <summary>
     /// 보유 카드 데이터 초기화
     /// </summary>
@@ -183,7 +178,6 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(dataManager.WriteCardDataToJson());
         yield return null;
     }
-
     /// <summary>
     /// 보유중인 캐릭터의 데이터 초기화
     /// </summary>

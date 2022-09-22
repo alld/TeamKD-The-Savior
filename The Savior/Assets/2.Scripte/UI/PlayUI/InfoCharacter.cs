@@ -21,15 +21,18 @@ public class InfoCharacter : MonoBehaviour
     StringBuilder skillBuilder = new StringBuilder();
     StringBuilder ultimateBuilder = new StringBuilder();
 
-
-
     // 버튼
+    [Header("버튼")]
     public Button closeInfoButton;
     public Button skillButton;
     public Button statusButton;
     public Button identityButton;
+    public Button levelUpButton;
 
+    [Space(10.0f)]
+    
     // 인포 창 이미지
+    [Header("이미지")]
     public GameObject charInfo; // : CharacterInfo Image  
     public GameObject skillImg;
     public GameObject statusImg;
@@ -37,6 +40,8 @@ public class InfoCharacter : MonoBehaviour
 
     // 이미지 위치
     public Transform imgTr;
+
+    [Space(10.0f)]
 
     [Header("스킬창")]
     public Transform skillTr;
@@ -47,6 +52,8 @@ public class InfoCharacter : MonoBehaviour
     // 캐릭터의 스킬 이미지
     private Image skillImage;
     private Image ultimateImage;
+
+    [Space(10.0f)]
 
     [Header("캐릭터 정보")]
     // 캐릭터 이름 텍스트
@@ -61,28 +68,38 @@ public class InfoCharacter : MonoBehaviour
     private int attackType;
     private string attackTypeToString;
 
+    [Space(10.0f)]
+    [Header("현재 캐릭터 번호")]
+    public int currentCharacterNumber = 0;
+    public TMP_Text level;
+    public Image expBar;
+
+    [Header("생성될 레벨업 팝업 위치")]
+    public Transform levelUpTr;
+    private GameObject levelUpScreen;
 
     // 상세정보에 활성화 된 캐릭터 이미지
     private Image character;
 
     void Start()
     {
-        closeInfoButton.onClick.AddListener(() => OnClick_CloseInfoBtn());
-        skillButton.onClick.AddListener(() => OnClick_SkillBtn());
-        statusButton.onClick.AddListener(() => OnClick_StatusBtn());
-        identityButton.onClick.AddListener(() => OnClick_IdentityBtn());
-
         textAsset_infoData = Resources.Load<TextAsset>("CharacterDB/CharacterInfoData");
         textAsset_name = Resources.Load<TextAsset>("CharacterDB/CharacterNameData");
         textAsset_skill = Resources.Load<TextAsset>("CharacterDB/SkillTextData");
         textAsset_ultimate = Resources.Load<TextAsset>("CharacterDB/UltimateTextData");
+        levelUpScreen = Resources.Load<GameObject>("LevelUpScreen");
         textInfoData = JArray.Parse(textAsset_infoData.text);
         textNameData = JArray.Parse(textAsset_name.text);
         textSkillData = JArray.Parse(textAsset_skill.text);
         textUltimateData = JArray.Parse(textAsset_ultimate.text);
 
-        OnClick_SkillBtn();
+        closeInfoButton.onClick.AddListener(() => OnClick_CloseInfoBtn());
+        skillButton.onClick.AddListener(() => OnClick_SkillBtn());
+        statusButton.onClick.AddListener(() => OnClick_StatusBtn());
+        identityButton.onClick.AddListener(() => OnClick_IdentityBtn());
+        levelUpButton.onClick.AddListener(() => OnClick_CreateLevelUpScreenBtn());
 
+        OnClick_SkillBtn();
     }
 
     /// <summary>
@@ -91,7 +108,7 @@ public class InfoCharacter : MonoBehaviour
     public void OnCharacterInfo(Image copyImg, int num)
     {
         charInfo.SetActive(true);
-
+        currentCharacterNumber = num;
         // 이 함수를 호출한 캐릭터의 번호에 맞는 데이터를 가져온다.
         //charData = new CharacterDatabase(num-1); // 이전
         character = copyImg;
@@ -206,9 +223,20 @@ public class InfoCharacter : MonoBehaviour
             default:
                 break;
         }
-        
 
+        LevelSystem();
         Destroy(character.GetComponent<ViewCharacterInfo>());
+    }
+
+    private void LevelSystem()
+    {
+        expBar.fillAmount = GameManager.instance.charExp[currentCharacterNumber-1].exp * 0.01f; ;
+        level.text = GameManager.instance.charExp[currentCharacterNumber-1].level.ToString();
+    }
+
+    private void OnClick_CreateLevelUpScreenBtn()
+    {
+        levelUpScreen = Instantiate(levelUpScreen, levelUpTr);
     }
 
     /// <summary>
@@ -262,5 +290,10 @@ public class InfoCharacter : MonoBehaviour
 
         skillImg.SetActive(false);
         statusImg.SetActive(false);
+    }
+
+    private void OnClick_LevelUpScreenBtn()
+    {
+
     }
 }
