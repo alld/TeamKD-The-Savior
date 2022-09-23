@@ -7,7 +7,7 @@ public class SceneLoad : MonoBehaviour
 {
     AsyncOperation operation;
     public Transform fadeTr;
-    [SerializeField]private string currentlyScene = "Main";
+    [SerializeField]public static string currentlyScene = "Main";
     public string _currentlyScene { get { return currentlyScene; } }
     private GameObject fadeScreen;
     private Slider loadingBar;

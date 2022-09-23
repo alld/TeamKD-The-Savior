@@ -62,7 +62,7 @@ public class UnitMelee : MonoBehaviour
         {
             TempThrown = Instantiate(Resources.Load<GameObject>("Unit/TempThrown"));
             Instantiate(unitInfo.AttackEffect, TempThrown.transform);
-            SceneManager.MoveGameObjectToScene(TempThrown, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+            SceneManager.MoveGameObjectToScene(TempThrown, SceneManager.GetSceneByName(SceneLoad.currentlyScene));
             TempThrown.transform.position = transform.position;
             UnitInfo tempInfo = TempThrown.GetComponent<UnitInfo>();
             tempInfo.partyNumber = partyNumber;
@@ -97,7 +97,7 @@ public class UnitMelee : MonoBehaviour
         {
             TempThrown = Instantiate(Resources.Load<GameObject>("Unit/TempThrown"));
             Instantiate(unitInfo.AttackEffectTemp222, TempThrown.transform);
-            SceneManager.MoveGameObjectToScene(TempThrown, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+            SceneManager.MoveGameObjectToScene(TempThrown, SceneManager.GetSceneByName(SceneLoad.currentlyScene));
             TempThrown.transform.position = transform.position;
             UnitInfo tempInfo = TempThrown.GetComponent<UnitInfo>();
             tempInfo.partyNumber = partyNumber;

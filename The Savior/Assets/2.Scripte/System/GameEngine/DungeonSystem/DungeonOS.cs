@@ -805,6 +805,8 @@ public class DungeonOS : MonoBehaviour
                 tempUnitInfo.changePartyNumber = partyUnit.Count - 1;
                 partyUnit[partyUnit.Count - 1].isLive = true;
                 partyUnit[partyUnit.Count - 1].UISetting();
+                partyUnit[partyUnit.Count - 1].gameObject.AddComponent<UnitSkill>();
+
             }
         }
     }
@@ -1058,6 +1060,7 @@ public class DungeonOS : MonoBehaviour
             tempUnitInfo.changeUnitNumber = monsterGroup[monsterGroup.Count - 1].number;
             tempUnitInfo.changePartyNumber = monsterGroup.Count - 1;
             monsterGroup[monsterGroup.Count - 1].isLive = true;
+            monsterGroup[monsterGroup.Count - 1].gameObject.AddComponent<UnitSkill>();
         }
     }
 
@@ -1071,7 +1074,7 @@ public class DungeonOS : MonoBehaviour
         {
             tempbossNumber = 1;
             tempMonster = Instantiate(dungeonData.dungeonMonsterBox[tempbossNumber].charObject);
-            SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+            SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(SceneLoad.currentlyScene));
             monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
             tempMonsterGroupindex = monsterGroup.Count - 1;
             monsterGroup[tempMonsterGroupindex].unitObj = tempMonster;
@@ -1084,12 +1087,13 @@ public class DungeonOS : MonoBehaviour
             monsterGroup[tempMonsterGroupindex].transform.position = monsterStagePoint[1].position;
             monsterGroup[tempMonsterGroupindex].transform.rotation = monsterStagePoint[1].rotation;
             monsterGroup[tempMonsterGroupindex].isLive = true;
+            monsterGroup[tempMonsterGroupindex].gameObject.AddComponent<UnitSkill>();
         }
         else if (roundDGP % 10 == 0)
         {
             tempbossNumber = 0;
             tempMonster = Instantiate(dungeonData.dungeonMonsterBox[tempbossNumber].charObject);
-            SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(GameManager.instance.currentlyScene));
+            SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(SceneLoad.currentlyScene));
             monsterGroup.Add(tempMonster.AddComponent<UnitStateData>());
             tempMonsterGroupindex = monsterGroup.Count - 1;
             monsterGroup[tempMonsterGroupindex].unitObj = tempMonster;
@@ -1102,6 +1106,8 @@ public class DungeonOS : MonoBehaviour
             monsterGroup[tempMonsterGroupindex].transform.position = monsterStagePoint[1].position;
             monsterGroup[tempMonsterGroupindex].transform.rotation = monsterStagePoint[1].rotation;
             monsterGroup[tempMonsterGroupindex].isLive = true;
+            monsterGroup[tempMonsterGroupindex].gameObject.AddComponent<UnitSkill>();
+
         }
     }
 

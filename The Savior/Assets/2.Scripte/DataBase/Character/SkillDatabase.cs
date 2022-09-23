@@ -8,6 +8,6 @@ public class SkillDatabase : MonoBehaviour
 
     public SkillDatabase(int num)
     {
-        cooldown = 10.0f;
+        cooldown = 20.0f;
     }
 }

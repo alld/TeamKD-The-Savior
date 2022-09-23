@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -12,7 +13,7 @@ public class UnitAI : MonoBehaviour
     #region 캐시처리
 
     private CapsuleCollider unit_collider;
-    private UnitStateData unit;
+    public UnitStateData unit;
     private UnitMelee unitMelee;
     private CharacterController unitControl;
     private Ray ray;
@@ -518,10 +519,11 @@ public class UnitAI : MonoBehaviour
         //애니메이션 작동
         while (!isRemove)
         {
-            if (onAttackAvailable)
+            if (onSkillAvailable)
             {
                 Action_Skil();
             }
+            else break;
             if (targetObj == null)
             {
                 isRemove = true;
@@ -720,6 +722,27 @@ public class UnitAI : MonoBehaviour
         }
     }
 
+    public void AttackTargetSearch(out UnitStateData targetN)
+    {
+        int temp = 0;
+        targetObj = null;
+        targetN = null;
+        foreach (var item in EnemyUnit)
+        {
+            if (!item.isLive) continue;
+            targetDistance = Vector3.Distance(transform.position, item.transform.position);
+            if (targetDistance <= unit.attackRange)
+            {
+                if (item.priorities > temp)
+                {
+                    temp = item.priorities;
+                    targetObj = item;
+                    targetN = item;
+                }
+            }
+        }
+    }
+
     private void MovePointSearch()
     {
         float tempDistance = 99999;
@@ -854,7 +877,13 @@ public class UnitAI : MonoBehaviour
         unitState = UnitState.Skill;
         // 스킬 엔진에서 out으로 대상유무까지 반환, 여기서 조건 검사, 분기 발생
         animator.SetTrigger(ani_Skill); // 애니메이터 트리거로 되어있는지 확인 필요
-        UnitSkill.instance.OnSkill(unit.basicSkillA, isplayer, partyNumber, out skill_cooldown);
+        if (!GetComponent<UnitSkill>().OnSkill(unit.basicSkillA, out skill_cooldown)) 
+        {
+            Debug.Log("ads");
+            return false;
+        }
+        Debug.Log("ads2" + skill_cooldown);
+
         onSkillAvailable = false;
         if (!isGaze) StartCoroutine(TargetGaze());
         StartCoroutine(CooldownCheck(skill_cooldown, 1));
