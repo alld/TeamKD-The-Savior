@@ -787,6 +787,7 @@ public class DungeonOS : MonoBehaviour
     /// </summary>
     void PlayerUnitCreate()
     {
+        DieCount_Ally = 0;
         UnitInfo tempUnitInfo;
         GameObject tempUnit;
         foreach (var item in GameManager.instance.data.equipCharacter.Select((value, index) => new { value, index }))
@@ -1047,7 +1048,6 @@ public class DungeonOS : MonoBehaviour
         UnitInfo tempUnitInfo;
         for (int i = 0; i < dungeonData.monsterBoxCount[roundDGP]; i++)
         {
-
             int tempint = Random.Range(dungeonData.monsterBoxMin[roundDGP], dungeonData.monsterBoxMax[roundDGP]);
             tempMonster = Instantiate(dungeonData.dungeonMonsterBox[tempint].charObject);
             SceneManager.MoveGameObjectToScene(tempMonster, SceneManager.GetSceneByName(sceneLoader._currentlyScene));//변경했읍니다.
@@ -1066,7 +1066,6 @@ public class DungeonOS : MonoBehaviour
 
     void MonsterBossCreate()
     {
-        DieCount_Enemy = 0;
         GameObject tempMonster;
         UnitInfo tempUnitInfo;
         int tempMonsterGroupindex, tempbossNumber;

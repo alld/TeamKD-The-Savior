@@ -12,6 +12,7 @@ public class UnitAI : MonoBehaviour
 
     #region 캐시처리
 
+    private UnitSkill unitSkill;
     private CapsuleCollider unit_collider;
     public UnitStateData unit;
     private UnitMelee unitMelee;
@@ -179,6 +180,7 @@ public class UnitAI : MonoBehaviour
         isRemove = true;
         isOnScheduler = false;
         isRoundCheck = true;
+        unitSkill = GetComponent<UnitSkill>();
     }
 
 
@@ -369,14 +371,25 @@ public class UnitAI : MonoBehaviour
         {
             if (perceptionEnemyUnit.Count > 0)
             {
-                if (onSkillAvailable) return AIPattern.Skill;
-                else return AIPattern.Attacking;
+                if (onSkillAvailable)
+                {
+                    if (unitSkill.SkillCheck(unit.basicSkillA))
+                    {
+                        return AIPattern.Skill;
+                    }
+                }
             }
             else
             {
-                if (onSkillAvailable) return AIPattern.Skill;
-                else return AIPattern.Attacking;
+                if (onSkillAvailable)
+                {
+                    if (unitSkill.SkillCheck(unit.basicSkillA))
+                    {
+                        return AIPattern.Skill;
+                    }
+                }
             }
+            return AIPattern.Attacking;
 
         }
 
@@ -521,7 +534,7 @@ public class UnitAI : MonoBehaviour
         {
             if (onSkillAvailable)
             {
-                Action_Skil();
+                Action_Skill();
             }
             else break;
             if (targetObj == null)
@@ -872,12 +885,12 @@ public class UnitAI : MonoBehaviour
     /// <summary>
     /// 유닛이 자동으로 일반스킬을 쓰는 함수
     /// </summary>
-    public bool Action_Skil()
+    public bool Action_Skill()
     {
         unitState = UnitState.Skill;
         // 스킬 엔진에서 out으로 대상유무까지 반환, 여기서 조건 검사, 분기 발생
         animator.SetTrigger(ani_Skill); // 애니메이터 트리거로 되어있는지 확인 필요
-        if (!GetComponent<UnitSkill>().OnSkill(unit.basicSkillA, out skill_cooldown)) 
+        if (!unitSkill.OnSkill(unit.basicSkillA, out skill_cooldown)) 
         {
             Debug.Log("ads");
             return false;
