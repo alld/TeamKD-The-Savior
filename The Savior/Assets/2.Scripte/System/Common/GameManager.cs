@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviour
     private PlayUI playUI;
     private SceneLoad sceneLoad;
 
+    public delegate void SoulEvent(int souls);
+    public event SoulEvent soulEvent;
+
     #region 유동 데이터 관리
 
 

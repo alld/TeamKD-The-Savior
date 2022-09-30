@@ -230,13 +230,16 @@ public class InfoCharacter : MonoBehaviour
 
     private void LevelSystem()
     {
-        expBar.fillAmount = GameManager.instance.charExp[currentCharacterNumber-1].exp * 0.01f; ;
+        expBar.fillAmount = GameManager.instance.charExp[currentCharacterNumber-1].exp * 0.01f;
         level.text = GameManager.instance.charExp[currentCharacterNumber-1].level.ToString();
+        Debug.Log(GameManager.instance.charExp[currentCharacterNumber - 1].exp);
+        Debug.Log(GameManager.instance.charExp[currentCharacterNumber - 1].exp * 0.01f);
     }
 
     private void OnClick_CreateLevelUpScreenBtn()
     {
-        levelUpScreen = Instantiate(levelUpScreen, levelUpTr);
+        if (GameManager.instance.charExp[currentCharacterNumber - 1].level == 3) return;
+        Instantiate(levelUpScreen, levelUpTr);
     }
 
     /// <summary>
@@ -290,10 +293,5 @@ public class InfoCharacter : MonoBehaviour
 
         skillImg.SetActive(false);
         statusImg.SetActive(false);
-    }
-
-    private void OnClick_LevelUpScreenBtn()
-    {
-
     }
 }
