@@ -10,6 +10,8 @@ public class UnitSkill : MonoBehaviour
     public UnitAI unitAI;
     SkillDatabase tempSkill;
 
+    public WaitForSeconds delay_01 = new WaitForSeconds(0.1f);
+    public WaitForSeconds delay_10 = new WaitForSeconds(1.0f);
     
 
     private void Start()
@@ -26,7 +28,11 @@ public class UnitSkill : MonoBehaviour
             case 1:
                 if (DungeonOS.instance.DieCount_Ally == 0)
                 {
-                    check = true;
+                    if (unit.isLive)
+                    {
+                        check = true;
+                    }
+                    else check = false;
                 }
                 break;
             case 2:
@@ -69,6 +75,7 @@ public class UnitSkill : MonoBehaviour
                     unitAI.AttackTargetSearch(out targetUnit);
                     SkillUse = true;
                     GameObject.Find("Model").transform.localPosition = Vector3.zero; // 애니메이션 반복실행시 뛰쳐나가는거 재조정
+                    StartCoroutine(Skill_Resurrection());
                 }
                 break;
             case 2: // 음유시인 스킬 
@@ -86,5 +93,16 @@ public class UnitSkill : MonoBehaviour
     }
 
     
+
+    IEnumerator Skill_Resurrection()
+    {
+        yield return delay_10;
+        yield return delay_10;
+        yield return delay_10;
+        if (SkillCheck(1))
+        {
+            unitAI.Resurrection(0);
+        }
+    }
 
 }

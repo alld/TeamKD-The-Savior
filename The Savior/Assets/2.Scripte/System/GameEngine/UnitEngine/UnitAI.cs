@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -1020,5 +1021,30 @@ public class UnitAI : MonoBehaviour
         yield return delay_03;
         isGaze = false;
     }
+
+    public void Resurrection(float percent)
+    {
+        unit.isLive = true;
+        if(percent == 0)
+        {
+            unit.hp = unit.maxHP;
+        }
+        else if (percent < 1 && percent > 0){
+            unit.hp = unit.maxHP * percent;
+        }
+        else
+        {
+            if(percent >= unit.maxHP)
+            {
+                unit.hp = unit.maxHP;
+            }
+            else
+            {
+                unit.hp = percent;
+            }
+        }
+        AutoScheduler(2, AIPattern.Pass);
+    }
+
     #endregion
 }
