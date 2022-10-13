@@ -228,12 +228,10 @@ public class InfoCharacter : MonoBehaviour
         Destroy(character.GetComponent<ViewCharacterInfo>());
     }
 
-    private void LevelSystem()
+    public void LevelSystem()
     {
         expBar.fillAmount = GameManager.instance.charExp[currentCharacterNumber-1].exp * 0.01f;
         level.text = GameManager.instance.charExp[currentCharacterNumber-1].level.ToString();
-        Debug.Log(GameManager.instance.charExp[currentCharacterNumber - 1].exp);
-        Debug.Log(GameManager.instance.charExp[currentCharacterNumber - 1].exp * 0.01f);
     }
 
     private void OnClick_CreateLevelUpScreenBtn()

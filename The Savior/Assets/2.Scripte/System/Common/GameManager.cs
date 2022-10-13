@@ -251,7 +251,8 @@ public class GameManager : MonoBehaviour
     public IEnumerator SaveCharExp(int id)
     {
         dataManager.SaveCharExp(charExp[id - 1]);
-        yield return StartCoroutine(dataManager.WriteCharExp());
+        dataManager.WriteCharExp();
+        yield return null;
     }
 
     /// <summary>

@@ -25,9 +25,12 @@ public class LevelUp : MonoBehaviour
     private InfoCharacter info;
     private int characterNumber;    //캐릭터의 번호는 1번부터 시작함. -> 배열에 넣을 땐 -1하기.
 
+    PlayToolBar tool;
+
     void Start()
     {
         info = GameObject.Find("PUIManager").GetComponent<InfoCharacter>();
+        tool = GameObject.Find("PUIManager").GetComponent<PlayToolBar>();
 
         levelUpButton = transform.GetChild(0).GetChild(1).GetComponent<Button>();
         closeButton = transform.GetChild(1).GetChild(0).GetComponent<Button>();
@@ -87,11 +90,13 @@ public class LevelUp : MonoBehaviour
                 break;
         }
         GameManager.instance.data.souls -= addExp;
+        StartCoroutine(GameManager.instance.SaveCharExp(characterNumber));
         StartCoroutine( GameManager.instance.GameSave());
-        StartCoroutine( GameManager.instance.SaveCharExp(characterNumber));
+        StartCoroutine(tool.Gold());
 
-        Debug.Log(characterNumber + "_Level :  " + GameManager.instance.charExp[characterNumber - 1].level);
-        Debug.Log(characterNumber + "_Exp :  " + GameManager.instance.charExp[characterNumber - 1].exp);
+        // 레벨업 버튼 클릭시 인포 창 수정
+        info.LevelSystem();
+
         Destroy(this.gameObject);
     }
 

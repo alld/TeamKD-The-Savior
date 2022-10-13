@@ -59,9 +59,7 @@ public class GameDataManager : MonoBehaviour
         if (saveData.ContainsKey(charExp.id.ToString()))
         {
             saveData[charExp.id.ToString()] = JObject.FromObject(charExp);
-            return;
         }
-        //saveData.Add(charExp.id.ToString(), JObject.FromObject(charExp));
     }
 
     /// <summary>

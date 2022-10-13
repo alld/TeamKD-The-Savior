@@ -90,8 +90,6 @@ public class PlayStory : MonoBehaviour
             default:
                 break;
         }
-
-        Debug.Log(GameManager.instance.data.storyProgress);
     }
 
     // 대화창을 활성화한다.
