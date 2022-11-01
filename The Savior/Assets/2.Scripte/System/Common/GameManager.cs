@@ -10,6 +10,16 @@ public class GameManager : MonoBehaviour
     //½Ì±ÛÅÏ ÆĞÅÏ Àû¿ë 
     public static GameManager instance = null;
 
+    //=================================½Ì±ÛÅæ=====================================================
+
+    UIManager _ui = new UIManager();
+    AddressableManager _address = new AddressableManager();
+
+    public static UIManager UI { get { return instance._ui; } }
+    public static AddressableManager Address { get { return instance._address; } }
+
+    //=====================================================================================
+
     //°ÔÀÓ ¹öÀü Á¤º¸
     public static string GameVersion = "Ver.00";
 
