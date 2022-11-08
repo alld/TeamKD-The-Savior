@@ -5,21 +5,8 @@ using UnityEngine.SceneManagement;
 using GameDataTable;
 using System.IO;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    //싱글턴 패턴 적용 
-    public static GameManager instance = null;
-
-    //=================================싱글톤=====================================================
-
-    UIManager _ui = new UIManager();
-    AddressableManager _address = new AddressableManager();
-
-    public static UIManager UI { get { return instance._ui; } }
-    public static AddressableManager Address { get { return instance._address; } }
-
-    //=====================================================================================
-
     //게임 버전 정보
     public static string GameVersion = "Ver.00";
 
@@ -51,9 +38,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null) instance = this;
-        else Destroy(this);
-        DontDestroyOnLoad(this.gameObject);
+        Regist(this);
+
         dataManager = GetComponent<GameDataManager>();
         sceneLoad = GetComponent<SceneLoad>();
         // 게임 시작시에 Main씬을 연결한다.

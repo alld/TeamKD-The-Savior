@@ -47,6 +47,20 @@ public abstract class UI_Base : MonoBehaviour
 
     public static void BindEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
     {
-        // UI 클릭, 드래그 이벤트 처리
+        EventHandle eventHandle = go.GetOrAddComponent<EventHandle>();
+
+        switch (type)
+        {
+            case Define.UIEvent.Click:
+                eventHandle.OnClickEvent -= action;
+                eventHandle.OnClickEvent += action;
+                break;
+            case Define.UIEvent.Drag:
+                eventHandle.OnDragEvent -= action;
+                eventHandle.OnDragEvent += action;
+                break;
+            default:
+                break;
+        }
     }
 }

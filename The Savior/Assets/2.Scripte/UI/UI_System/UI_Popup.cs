@@ -6,6 +6,6 @@ public class UI_Popup : UI_Base
 {
     public override void Init()
     {
-        GameManager.UI.SetCanvas(gameObject, true);
+        throw new System.NotImplementedException();
     }
 }
