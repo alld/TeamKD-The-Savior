@@ -63,7 +63,7 @@ public class GameManager : Singleton<GameManager>
     {
         yield return StartCoroutine(GameLoad());
         yield return StartCoroutine(LoadCharExp());
-        yield return StartCoroutine(AddCardData());
+        //yield return StartCoroutine(AddCardData());
         yield return StartCoroutine(LoadOwnCardData());
         yield return StartCoroutine(LoadPresetData());
         yield return StartCoroutine(CharacterIndexSetting());

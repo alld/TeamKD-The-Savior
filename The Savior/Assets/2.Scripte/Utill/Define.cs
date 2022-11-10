@@ -9,4 +9,9 @@ public class Define
         Click,
         Drag,
     }
+    public enum DataType
+    {
+        Card,
+        Relic
+    }
 }

@@ -48,7 +48,6 @@ public abstract class UI_Base : MonoBehaviour
     public static void BindEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
     {
         EventHandle eventHandle = go.GetOrAddComponent<EventHandle>();
-
         switch (type)
         {
             case Define.UIEvent.Click:
