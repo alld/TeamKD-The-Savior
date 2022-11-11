@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ *  확장 함수를 관리하는 클래스입니다.
+ *  staic class입니다. 함수도 모두 static으로 선언해주세요.
+ *  멤버 변수는 선언은 금지입니다.
+ *  
+ *  선언 방식 : 인자 앞에 this를 붙이면 됩니다.
+ */
+
 public static class Extension
 {
     public static T GetOrAddComponent<T>(this GameObject go) where T : UnityEngine.Component

@@ -7,7 +7,7 @@ public class RelicData : MonoBehaviour
 {
     public class Data
     {
-        private TextAsset jsonData, jsonTextData;
+        private TextAsset jsonData;//, jsonTextData;
 
         public int number;
         public int idx = 0;
@@ -60,25 +60,25 @@ public class RelicData : MonoBehaviour
             number = num;
             byte tempSort;                       // 수정부분 
             jsonData = Resources.Load<TextAsset>("RelicDB/RelicData");
-            jsonTextData = Resources.Load<TextAsset>("RelicDB/RelicText");
+            //jsonTextData = Resources.Load<TextAsset>("RelicDB/RelicText");
             JArray jdata = JArray.Parse(jsonData.text);
-            JArray textdata = JArray.Parse(jsonTextData.text);
+            //JArray textdata = JArray.Parse(jsonTextData.text);
             idx = int.Parse(jdata[num - 1]["Index"].ToObject<string>());
-            switch (GameManager.instance.data.Language)
-            {
-                case 0:
-                    relicName = textdata[num - 1]["Name_Kr"].ToObject<string>();
-                    content = textdata[num - 1]["Positive_Kr"].ToObject<string>();
-                    addContent = textdata[num - 1]["Negative_Kr"].ToObject<string>();
-                    break;
-                case 1:
-                    relicName = textdata[num - 1]["Name_Eng"].ToObject<string>();
-                    content = textdata[num - 1]["Positive_Eng"].ToObject<string>();
-                    addContent = textdata[num - 1]["Negative_Eng"].ToObject<string>();
-                    break;
-                default:
-                    break;
-            }
+            //switch (GameManager.instance.data.Language)
+            //{
+            //    case 0:
+            //        relicName = textdata[num - 1]["Name_Kr"].ToObject<string>();
+            //        content = textdata[num - 1]["Positive_Kr"].ToObject<string>();
+            //        addContent = textdata[num - 1]["Negative_Kr"].ToObject<string>();
+            //        break;
+            //    case 1:
+            //        relicName = textdata[num - 1]["Name_Eng"].ToObject<string>();
+            //        content = textdata[num - 1]["Positive_Eng"].ToObject<string>();
+            //        addContent = textdata[num - 1]["Negative_Eng"].ToObject<string>();
+            //        break;
+            //    default:
+            //        break;
+            //}
 
 
             usingTime = int.Parse(jdata[num - 1]["usingTime"].ToObject<string>());

@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Enum 타입의 선언만 허용합니다.
+ */
+
 public class Define
 {
     public enum UIEvent 
@@ -9,9 +13,10 @@ public class Define
         Click,
         Drag,
     }
-    public enum DataType
+
+    public enum EquipCount  // 장착 가능한 수.
     {
-        Card,
-        Relic
+        Character = 4,
+        Relic = 5,
     }
 }

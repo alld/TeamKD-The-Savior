@@ -4,28 +4,41 @@ using UnityEngine;
 using System;
 /*
  * 카드 데이터 리팩토링.
- * 테이블 데이터는 임시로 리소스에서 읽어 오는 형식으로 구현.
- * 데이터를 저장하는 부분은 json과 스크립터블 오브젝트 중에 고민중.
+ * 임시로 만든겁니다. 추후 수정 예정
  */
 
-public class CardData : DataManager
+public class CardData : Singleton<CardData>
 {
-    public Dictionary<int, CardTable> cardTable = new Dictionary<int, CardTable>();
+    private Dictionary<int, CardTable> cardTable = new Dictionary<int, CardTable>();
+
+    private void Awake()
+    {
+        Regist(this);
+    }
 
     private void Start()
     {
         Init();
-        Load();
     }
 
-    protected override void Init()
+    private void Init()
     {
         cardTable.Clear();
+        cardTable = DataManager.instance.LoadJson<CardTableData, int, CardTable>("CardDB/CardJsonData").MakeDick();
+        Debug.Log("Card Text Data Load Complete");
     }
 
-    protected override void Load()
+    public CardTable GetCardTextData(int key)
     {
-        cardTable = LoadJson<CardTableData, int, CardTable>("CardDB/CardJsonData").MakeDick();
+        if (cardTable == null) return null;
+
+        if (cardTable.ContainsKey(key))
+            return cardTable[key];
+        else
+        {
+            Debug.Log("해당 키의 카드 정보는 존재하지 않습니다.");
+            return null;
+        }
     }
 }
 

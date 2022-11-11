@@ -8,21 +8,26 @@ using UnityEngine;
  * 어드레서블로 데이터를 로드하는 방식과,
  * 구글 시트를 사용하여 데이터 통신하는 방식 중에 고민중입니다.
  */
-public abstract class DataManager : Singleton<DataManager>
+public class DataManager : Singleton<DataManager>
 {
     private void Awake()
     {
         Regist(this);
     }
-
-    protected Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
+    public Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>
     {
         TextAsset textAsset = Resources.Load<TextAsset>(path);
         return JsonUtility.FromJson<Loader>(textAsset.text);
     }
 
-    protected abstract void Init();
-    protected abstract void Load();
+    public string ObjectToJson(object obj)
+    {
+        return JsonUtility.ToJson(obj, true);
+    }
+    public T JsonToObject<T>(string jsonData)
+    {
+        return JsonUtility.FromJson<T>(jsonData);
+    }
 }
 
 public interface ILoader<Key, Value>
