@@ -1,235 +1,232 @@
-{
-  "cardTables": [
-    {
-      "Index": 1,
-      "Name_Kr": "치유의 비",
-      "Name_Eng": "Healing Rain",
-      "Type": 0,
-      "Content_1_Kr": "전체 아군의 체력을 {2}초 동안 초당 {0} 만큼 회복한다.",
-      "Content_1_Eng": "Recovers all allies' HP by {0} per second for {2} seconds.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 2,
-      "Name_Kr": "치유 의식",
-      "Name_Eng": "Healing Ritual",
-      "Type": 0,
-      "Content_1_Kr": "전체 아군의 체력을 {2}초 동안 초당 {0} 만큼 회복한다.",
-      "Content_1_Eng": "Recovers all allies' HP by {0} per second for {2} seconds.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 3,
-      "Name_Kr": "치유의 바람",
-      "Name_Eng": "Healing Wind",
-      "Type": 0,
-      "Content_1_Kr": "전체 아군의 체력을 {2}초 동안 초당 {0} 만큼 회복한다.",
-      "Content_1_Eng": "Recovers all allies' HP by {0} per second for {2} seconds.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 4,
-      "Name_Kr": "빛의 구원",
-      "Name_Eng": "The Salvation of Light",
-      "Type": 0,
-      "Content_1_Kr": "전체 아군의 체력을 즉시 {0} 만큼 회복한다.",
-      "Content_1_Eng": "Instantly restores {0} HP to all allies.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 5,
-      "Name_Kr": "빛의 은총",
-      "Name_Eng": "Blessing of Light",
-      "Type": 0,
-      "Content_1_Kr": "전체 아군의 체력을 즉시 {0} 만큼 회복한다.",
-      "Content_1_Eng": "Instantly restores {0} HP to all allies.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 6,
-      "Name_Kr": "빛의 권능",
-      "Name_Eng": "Power of Light",
-      "Type": 0,
-      "Content_1_Kr": "전체 아군의 체력을 즉시 {0} 만큼 회복한다.",
-      "Content_1_Eng": "Instantly restores {0} HP to all allies.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 7,
-      "Name_Kr": "에이비리베의 세례",
-      "Name_Eng": "Ewige Liebe's Baptism",
-      "Type": 0,
-      "Content_1_Kr": "전체 아군의 체력을 즉시 {0} 만큼 회복한다.",
-      "Content_1_Eng": "Instantly restores {0} HP to all allies.",
-      "Content_2_Kr": "전체 아군의 체력을 {2}초 동안 초당 {1} 만큼 회복한다.",
-      "Content_2_Eng": "Recovers all allies' HP by {1} per second for {2} seconds."
-    },
-    {
-      "Index": 8,
-      "Name_Kr": "수호의 기도",
-      "Name_Eng": "Prayer of Protection",
-      "Type": 1,
-      "Content_1_Kr": "전체 아군의 체력의 ({0} * 100)% 만큼 방어막을 즉시 생성한다.",
-      "Content_1_Eng": "Instantly creates a shield equal to ({0} * 100)% of all allies' HP.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 9,
-      "Name_Kr": "수호의 보호막",
-      "Name_Eng": "Guardian Shield",
-      "Type": 1,
-      "Content_1_Kr": "전체 아군의 체력의 ({0} * 100)% 만큼 방어막을 즉시 생성한다.",
-      "Content_1_Eng": "Instantly creates a shield equal to ({0} * 100)% of all allies' HP.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 10,
-      "Name_Kr": "수호의 갑옷",
-      "Name_Eng": "Guardian Armor",
-      "Type": 1,
-      "Content_1_Kr": "전체 아군의 체력의 ({0} * 100)% 만큼 방어막을 즉시 생성한다.",
-      "Content_1_Eng": "Instantly creates a shield equal to ({0} * 100)% of all allies' HP.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 11,
-      "Name_Kr": "인내의 광채",
-      "Name_Eng": "The brilliance of patience",
-      "Type": 1,
-      "Content_1_Kr": "전체 아군에게 {0} 만큼 방어막을 즉시 생성한다.",
-      "Content_1_Eng": "Instantly creates a shield equal to {0} on all allies.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 12,
-      "Name_Kr": "인내의 손길",
-      "Name_Eng": "Hand of Patience",
-      "Type": 1,
-      "Content_1_Kr": "전체 아군에게 {0} 만큼 방어막을 즉시 생성한다.",
-      "Content_1_Eng": "Instantly creates a shield equal to {0} on all allies.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 13,
-      "Name_Kr": "인내의 의지",
-      "Name_Eng": "The Will of Patience",
-      "Type": 1,
-      "Content_1_Kr": "전체 아군에게 {0} 만큼 방어막을 즉시 생성한다.",
-      "Content_1_Eng": "Instantly creates a shield equal to {0} on all allies.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 14,
-      "Name_Kr": "빛의 보호",
-      "Name_Eng": "Protection of Light",
-      "Type": 1,
-      "Content_1_Kr": "전체 아군에게 {2}초 동안 [무적]부여",
-      "Content_1_Eng": "Applies [Invincible] to all allies for {2} seconds",
-      "Content_2_Kr": "전체 아군에게 {2}초 동안 [상태이상 면역] 부여\"",
-      "Content_2_Eng": "Inflicts [Status Immunity] to all allies for {2} seconds\""
-    },
-    {
-      "Index": 15,
-      "Name_Kr": "플류트레네의 방패",
-      "Name_Eng": "Shield of Frühling Träne",
-      "Type": 1,
-      "Content_1_Kr": "전체 아군에게 {0} 만큼 방어막을 즉시 생성한다.",
-      "Content_1_Eng": "Instantly creates a shield equal to {0} on all allies.",
-      "Content_2_Kr": "전체 아군의 체력의 ({1} * 100)% 만큼 방어막을 즉시 생성한다.",
-      "Content_2_Eng": "Instantly creates a shield equal to ({1} * 100)% of all allies' HP."
-    },
-    {
-      "Index": 16,
-      "Name_Kr": "성수 뿌리기",
-      "Name_Eng": "Spraying Holy Water",
-      "Type": 4,
-      "Content_1_Kr": "전체 적에게 {0}의 즉시 피해를 입힌다.",
-      "Content_1_Eng": "Instantly deals {0} damage to all enemies.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 17,
-      "Name_Kr": "정의 집행",
-      "Name_Eng": "Justice Enforcement",
-      "Type": 4,
-      "Content_1_Kr": "전체 적에게 {0}의 즉시 피해를 입힌다.",
-      "Content_1_Eng": "Instantly deals {0} damage to all enemies.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 18,
-      "Name_Kr": "파멸의 격노",
-      "Name_Eng": "Wrath of Doom",
-      "Type": 4,
-      "Content_1_Kr": "전체 적에게 {0}의 즉시 피해를 입힌다.",
-      "Content_1_Eng": "Instantly deals {0} damage to all enemies.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 19,
-      "Name_Kr": "빛의 일격",
-      "Name_Eng": "Light Strike",
-      "Type": 4,
-      "Content_1_Kr": "전체 적에게 {0}의 즉시 피해를 입힌다.",
-      "Content_1_Eng": "Instantly deals {0} damage to all enemies.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 20,
-      "Name_Kr": "창공의 비",
-      "Name_Eng": "Rain of the Sky",
-      "Type": 4,
-      "Content_1_Kr": "전체 적에게 {2}초 동안 {0}의 초당 피해를 입힌다.",
-      "Content_1_Eng": "Inflicts {0} damage per second for {2} seconds to all enemies.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 21,
-      "Name_Kr": "꿰뚫는 광채",
-      "Name_Eng": "Piercing Radiance",
-      "Type": 4,
-      "Content_1_Kr": "전체 적에게 {2}초 동안 {0}의 초당 피해를 입힌다.",
-      "Content_1_Eng": "Inflicts {0} damage per second for {2} seconds to all enemies.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 22,
-      "Name_Kr": "빛의 기둥",
-      "Name_Eng": "Pillars of Light",
-      "Type": 4,
-      "Content_1_Kr": "전체 적에게 {2}초 동안 {0}의 초당 피해를 입힌다.",
-      "Content_1_Eng": "Inflicts {0} damage per second for {2} seconds to all enemies.",
-      "Content_2_Kr": "",
-      "Content_2_Eng": ""
-    },
-    {
-      "Index": 23,
-      "Name_Kr": "라이덴샤프트의 격노",
-      "Name_Eng": "Wrath of Leidenschaft",
-      "Type": 4,
-      "Content_1_Kr": "전체 적에게 {0}의 즉시 피해를 입힌다.",
-      "Content_1_Eng": "Instantly deals {0} damage to all enemies.",
-      "Content_2_Kr": "전체 적에게 {2}초 동안 {1}의 초당 피해를 입힌다.",
-      "Content_2_Eng": "Inflicts {1} damage per second for {2} seconds to all enemies."
-    }
-  ]
-
-}
+[
+  {
+    "Index": 1,
+    "Name_Kr": "치유의 비",
+    "Name_Eng": "Healing Rain",
+    "Type": 0,
+    "Content_1_Kr": "전체 아군의 체력을 {2}초 동안 초당 {0} 만큼 회복한다.",
+    "Content_1_Eng": "Recovers all allies' HP by {0} per second for {2} seconds.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 2,
+    "Name_Kr": "치유 의식",
+    "Name_Eng": "Healing Ritual",
+    "Type": 0,
+    "Content_1_Kr": "전체 아군의 체력을 {2}초 동안 초당 {0} 만큼 회복한다.",
+    "Content_1_Eng": "Recovers all allies' HP by {0} per second for {2} seconds.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 3,
+    "Name_Kr": "치유의 바람",
+    "Name_Eng": "Healing Wind",
+    "Type": 0,
+    "Content_1_Kr": "전체 아군의 체력을 {2}초 동안 초당 {0} 만큼 회복한다.",
+    "Content_1_Eng": "Recovers all allies' HP by {0} per second for {2} seconds.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 4,
+    "Name_Kr": "빛의 구원",
+    "Name_Eng": "The Salvation of Light",
+    "Type": 0,
+    "Content_1_Kr": "전체 아군의 체력을 즉시 {0} 만큼 회복한다.",
+    "Content_1_Eng": "Instantly restores {0} HP to all allies.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 5,
+    "Name_Kr": "빛의 은총",
+    "Name_Eng": "Blessing of Light",
+    "Type": 0,
+    "Content_1_Kr": "전체 아군의 체력을 즉시 {0} 만큼 회복한다.",
+    "Content_1_Eng": "Instantly restores {0} HP to all allies.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 6,
+    "Name_Kr": "빛의 권능",
+    "Name_Eng": "Power of Light",
+    "Type": 0,
+    "Content_1_Kr": "전체 아군의 체력을 즉시 {0} 만큼 회복한다.",
+    "Content_1_Eng": "Instantly restores {0} HP to all allies.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 7,
+    "Name_Kr": "에이비리베의 세례",
+    "Name_Eng": "Ewige Liebe's Baptism",
+    "Type": 0,
+    "Content_1_Kr": "전체 아군의 체력을 즉시 {0} 만큼 회복한다.",
+    "Content_1_Eng": "Instantly restores {0} HP to all allies.",
+    "Content_2_Kr": "전체 아군의 체력을 {2}초 동안 초당 {1} 만큼 회복한다.",
+    "Content_2_Eng": "Recovers all allies' HP by {1} per second for {2} seconds."
+  },
+  {
+    "Index": 8,
+    "Name_Kr": "수호의 기도",
+    "Name_Eng": "Prayer of Protection",
+    "Type": 1,
+    "Content_1_Kr": "전체 아군의 체력의 ({0} * 100)% 만큼 방어막을 즉시 생성한다.",
+    "Content_1_Eng": "Instantly creates a shield equal to ({0} * 100)% of all allies' HP.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 9,
+    "Name_Kr": "수호의 보호막",
+    "Name_Eng": "Guardian Shield",
+    "Type": 1,
+    "Content_1_Kr": "전체 아군의 체력의 ({0} * 100)% 만큼 방어막을 즉시 생성한다.",
+    "Content_1_Eng": "Instantly creates a shield equal to ({0} * 100)% of all allies' HP.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 10,
+    "Name_Kr": "수호의 갑옷",
+    "Name_Eng": "Guardian Armor",
+    "Type": 1,
+    "Content_1_Kr": "전체 아군의 체력의 ({0} * 100)% 만큼 방어막을 즉시 생성한다.",
+    "Content_1_Eng": "Instantly creates a shield equal to ({0} * 100)% of all allies' HP.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 11,
+    "Name_Kr": "인내의 광채",
+    "Name_Eng": "The brilliance of patience",
+    "Type": 1,
+    "Content_1_Kr": "전체 아군에게 {0} 만큼 방어막을 즉시 생성한다.",
+    "Content_1_Eng": "Instantly creates a shield equal to {0} on all allies.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 12,
+    "Name_Kr": "인내의 손길",
+    "Name_Eng": "Hand of Patience",
+    "Type": 1,
+    "Content_1_Kr": "전체 아군에게 {0} 만큼 방어막을 즉시 생성한다.",
+    "Content_1_Eng": "Instantly creates a shield equal to {0} on all allies.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 13,
+    "Name_Kr": "인내의 의지",
+    "Name_Eng": "The Will of Patience",
+    "Type": 1,
+    "Content_1_Kr": "전체 아군에게 {0} 만큼 방어막을 즉시 생성한다.",
+    "Content_1_Eng": "Instantly creates a shield equal to {0} on all allies.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 14,
+    "Name_Kr": "빛의 보호",
+    "Name_Eng": "Protection of Light",
+    "Type": 1,
+    "Content_1_Kr": "전체 아군에게 {2}초 동안 [무적]부여",
+    "Content_1_Eng": "Applies [Invincible] to all allies for {2} seconds",
+    "Content_2_Kr": "전체 아군에게 {2}초 동안 [상태이상 면역] 부여\"",
+    "Content_2_Eng": "Inflicts [Status Immunity] to all allies for {2} seconds\""
+  },
+  {
+    "Index": 15,
+    "Name_Kr": "플류트레네의 방패",
+    "Name_Eng": "Shield of Frühling Träne",
+    "Type": 1,
+    "Content_1_Kr": "전체 아군에게 {0} 만큼 방어막을 즉시 생성한다.",
+    "Content_1_Eng": "Instantly creates a shield equal to {0} on all allies.",
+    "Content_2_Kr": "전체 아군의 체력의 ({1} * 100)% 만큼 방어막을 즉시 생성한다.",
+    "Content_2_Eng": "Instantly creates a shield equal to ({1} * 100)% of all allies' HP."
+  },
+  {
+    "Index": 16,
+    "Name_Kr": "성수 뿌리기",
+    "Name_Eng": "Spraying Holy Water",
+    "Type": 4,
+    "Content_1_Kr": "전체 적에게 {0}의 즉시 피해를 입힌다.",
+    "Content_1_Eng": "Instantly deals {0} damage to all enemies.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 17,
+    "Name_Kr": "정의 집행",
+    "Name_Eng": "Justice Enforcement",
+    "Type": 4,
+    "Content_1_Kr": "전체 적에게 {0}의 즉시 피해를 입힌다.",
+    "Content_1_Eng": "Instantly deals {0} damage to all enemies.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 18,
+    "Name_Kr": "파멸의 격노",
+    "Name_Eng": "Wrath of Doom",
+    "Type": 4,
+    "Content_1_Kr": "전체 적에게 {0}의 즉시 피해를 입힌다.",
+    "Content_1_Eng": "Instantly deals {0} damage to all enemies.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 19,
+    "Name_Kr": "빛의 일격",
+    "Name_Eng": "Light Strike",
+    "Type": 4,
+    "Content_1_Kr": "전체 적에게 {0}의 즉시 피해를 입힌다.",
+    "Content_1_Eng": "Instantly deals {0} damage to all enemies.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 20,
+    "Name_Kr": "창공의 비",
+    "Name_Eng": "Rain of the Sky",
+    "Type": 4,
+    "Content_1_Kr": "전체 적에게 {2}초 동안 {0}의 초당 피해를 입힌다.",
+    "Content_1_Eng": "Inflicts {0} damage per second for {2} seconds to all enemies.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 21,
+    "Name_Kr": "꿰뚫는 광채",
+    "Name_Eng": "Piercing Radiance",
+    "Type": 4,
+    "Content_1_Kr": "전체 적에게 {2}초 동안 {0}의 초당 피해를 입힌다.",
+    "Content_1_Eng": "Inflicts {0} damage per second for {2} seconds to all enemies.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 22,
+    "Name_Kr": "빛의 기둥",
+    "Name_Eng": "Pillars of Light",
+    "Type": 4,
+    "Content_1_Kr": "전체 적에게 {2}초 동안 {0}의 초당 피해를 입힌다.",
+    "Content_1_Eng": "Inflicts {0} damage per second for {2} seconds to all enemies.",
+    "Content_2_Kr": "",
+    "Content_2_Eng": ""
+  },
+  {
+    "Index": 23,
+    "Name_Kr": "라이덴샤프트의 격노",
+    "Name_Eng": "Wrath of Leidenschaft",
+    "Type": 4,
+    "Content_1_Kr": "전체 적에게 {0}의 즉시 피해를 입힌다.",
+    "Content_1_Eng": "Instantly deals {0} damage to all enemies.",
+    "Content_2_Kr": "전체 적에게 {2}초 동안 {1}의 초당 피해를 입힌다.",
+    "Content_2_Eng": "Inflicts {1} damage per second for {2} seconds to all enemies."
+  }
+]

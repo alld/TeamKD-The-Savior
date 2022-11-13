@@ -19,4 +19,16 @@ public class Define
         Character = 4,
         Relic = 5,
     }
+
+    public enum PresetName
+    {
+        Count = 5,
+    }
+
+    public enum LastGameViewPoint
+    {
+        Main,
+        World,
+        Dungeon,
+    }
 }

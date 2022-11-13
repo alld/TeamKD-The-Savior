@@ -9,7 +9,8 @@ using System;
  */
 public class NewRelicData : Singleton<NewRelicData>
 {
-    private Dictionary<int, RelicTable> relicTable = new Dictionary<int, RelicTable>();
+    private string RELIC_DATA_PATH = "RelicDB/RelicText";
+    private Dictionary<int, RelicTextTable> relicTable = new Dictionary<int, RelicTextTable>();
 
     private void Awake()
     {
@@ -24,11 +25,29 @@ public class NewRelicData : Singleton<NewRelicData>
     private void Init()
     {
         relicTable.Clear();
-        relicTable = DataManager.instance.LoadJson<RelicTableData, int, RelicTable>("RelicDB/RelicText").MakeDick();
+        LoadRelicData();
         Debug.Log("Relic Text Data Load Complete");
     }
 
-    public RelicTable GetRelicTextData(int key)
+    //리소스 폴더에 있는 유물 데이터 테이블을 불러오고 유물 테이블 딕셔너리에 저장한다.
+    private void LoadRelicData()
+    {
+        string jsonData = NewGameDataManager.instance.LoadJsonDataToResources(RELIC_DATA_PATH);
+        jsonData = "{\"relicTableList\":" + jsonData + "}";
+
+        RelicTableList relicTableList = new RelicTableList();
+        relicTableList = NewGameDataManager.instance.JsonToObject<RelicTableList>(jsonData);
+
+        foreach (var relic in relicTableList.relicTableList)
+        {
+            relicTable.Add(relic.Index, relic);
+        }
+    }
+
+    /// <summary>
+    /// 해당 키의 유물 데이터를 반환한다.
+    /// </summary>
+    public RelicTextTable GetRelicTextData(int key)
     {
         if (relicTable == null) return null;
 
@@ -43,8 +62,14 @@ public class NewRelicData : Singleton<NewRelicData>
 
 }
 
+[SerializeField]
+public class RelicTableList
+{
+    public List<RelicTextTable> relicTableList = new List<RelicTextTable>();
+}
+
 [Serializable]
-public class RelicTable
+public class RelicTextTable
 {
     public int Index;
     public string Name_Kr;
@@ -55,18 +80,4 @@ public class RelicTable
     public string Negative_Eng;
     public string Condition_kor;
     public string Condition_Eng;
-}
-
-public class RelicTableData : ILoader<int, RelicTable>
-{
-    public List<RelicTable> relicTables = new List<RelicTable>();
-    public Dictionary<int, RelicTable> MakeDick()
-    {
-        Dictionary<int, RelicTable> dic = new Dictionary<int, RelicTable>();
-
-        foreach (RelicTable relic in relicTables)
-            dic.Add(relic.Index, relic);
-
-        return dic;
-    }
 }

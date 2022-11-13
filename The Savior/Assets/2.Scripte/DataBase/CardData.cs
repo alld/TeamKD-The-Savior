@@ -9,7 +9,9 @@ using System;
 
 public class CardData : Singleton<CardData>
 {
-    private Dictionary<int, CardTable> cardTable = new Dictionary<int, CardTable>();
+    private string CARD_DATA_PATH = "CardDB/CardJsonData";
+
+    private Dictionary<int, CardTextTable> cardTable = new Dictionary<int, CardTextTable>();
 
     private void Awake()
     {
@@ -24,11 +26,29 @@ public class CardData : Singleton<CardData>
     private void Init()
     {
         cardTable.Clear();
-        cardTable = DataManager.instance.LoadJson<CardTableData, int, CardTable>("CardDB/CardJsonData").MakeDick();
+        LoadCardData();
         Debug.Log("Card Text Data Load Complete");
     }
 
-    public CardTable GetCardTextData(int key)
+    // 리소스 폴더에 있는 카드 데이터 테이블을 불러오고 카드 테이블 딕셔너리에 저장한다.
+    private void LoadCardData()
+    {
+        string jsonData = NewGameDataManager.instance.LoadJsonDataToResources(CARD_DATA_PATH);
+        jsonData = "{\"cardTableList\":" + jsonData + "}";
+
+        CardTableList cardTableList = new CardTableList();
+        cardTableList = NewGameDataManager.instance.JsonToObject<CardTableList>(jsonData);
+
+        foreach (var card in cardTableList.cardTableList)
+        {
+            cardTable.Add(card.Index, card);
+        }
+    }
+
+    /// <summary>
+    /// 해당 키의 카드 데이터를 반환한다.
+    /// </summary>
+    public CardTextTable GetCardTextData(int key)
     {
         if (cardTable == null) return null;
 
@@ -43,7 +63,13 @@ public class CardData : Singleton<CardData>
 }
 
 [Serializable]
-public class CardTable
+public class CardTableList
+{
+    public List<CardTextTable> cardTableList = new List<CardTextTable>();
+}
+
+[Serializable]
+public class CardTextTable
 {
     public int Index;
     public string Name_Kr;
@@ -53,19 +79,4 @@ public class CardTable
     public string Content_1_Eng;
     public string Content_2_Kr;
     public string Content_2_Eng;
-}
-
-[Serializable]
-public class CardTableData : ILoader<int, CardTable>
-{
-    public List<CardTable> cardTables = new List<CardTable>();
-    public Dictionary<int, CardTable> MakeDick()
-    {
-        Dictionary<int, CardTable> dic = new Dictionary<int, CardTable>();
-
-        foreach (CardTable card in cardTables)
-            dic.Add(card.Index, card);
-
-        return dic;
-    }
 }
