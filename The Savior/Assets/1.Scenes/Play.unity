@@ -5991,6 +5991,7 @@ GameObject:
   - component: {fileID: 215386670}
   - component: {fileID: 215386669}
   - component: {fileID: 215386671}
+  - component: {fileID: 215386672}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -6056,6 +6057,18 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
+--- !u!114 &215386672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215386667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb75a25c5ef0d8e469d98e75bae484a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &215864050
 GameObject:
   m_ObjectHideFlags: 0
