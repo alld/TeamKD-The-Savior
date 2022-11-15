@@ -160,7 +160,7 @@ public class PlayerData
     public int storyProgress;
     public int dungeonFirstClear;
     // 현재 플레이어의 상태
-    public Define.LastGameViewPoint lastGameViewPoint;
+    public Define.LastGameViewPoint lastGameViewPoint = Define.LastGameViewPoint.Main;
 }
 
 [Serializable]
