@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 8488111886923045364}
   - component: {fileID: 8488111886923045367}
   m_Layer: 5
-  m_Name: Slider2
+  m_Name: BGMSound_Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -781,7 +781,7 @@ GameObject:
   - component: {fileID: 8488111887337174849}
   - component: {fileID: 8488111887337174848}
   m_Layer: 5
-  m_Name: Slider3
+  m_Name: SFXSound_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2868,7 +2868,7 @@ GameObject:
   - component: {fileID: 8488111888112340868}
   - component: {fileID: 8488111888112340869}
   m_Layer: 5
-  m_Name: Dropdown
+  m_Name: Language_DropDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3915,7 +3915,7 @@ GameObject:
   - component: {fileID: 8488111888384853765}
   - component: {fileID: 8488111888384853764}
   m_Layer: 5
-  m_Name: Slider1
+  m_Name: TotalSound_Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -27,16 +27,24 @@ public class Option : UI_Base
     }
     enum OptionSliders
     {
-
+        TotalSound_Slider,
+        BGMSound_Slider,
+        SFXSound_Slider,
     }
-    enum OptionDropDowns
+    enum OptionDropdowns
     {
-
+        Language_DropDown,
     }
     enum OptionButtons
     {
-
+        CloseButton,
     }
+
+    private List<TMP_Text> texts = new List<TMP_Text>();
+    private List<Image> images = new List<Image>();
+    private List<Slider> sliders = new List<Slider>();
+    private List<TMP_Dropdown> dropdowns = new List<TMP_Dropdown>();
+    private List<Button> buttons = new List<Button>();
 
     private void Start()
     {
@@ -48,11 +56,13 @@ public class Option : UI_Base
         Bind<TMP_Text>(typeof(OptionTexts));
         Bind<Image>(typeof(OptionImages));
         Bind<Slider>(typeof(OptionSliders));
-        Bind<Dropdown>(typeof(OptionDropDowns));
+        Bind<TMP_Dropdown>(typeof(OptionDropdowns));
         Bind<Button>(typeof(OptionButtons));
 
-        TMP_Text optionTitle = GetText((int)OptionTexts.OptionTitle_Text);
-
-        Debug.Log(optionTitle.gameObject.name);
+        texts = Get<TMP_Text>();
+        images = Get<Image>();
+        sliders = Get<Slider>();
+        dropdowns = Get<TMP_Dropdown>();
+        buttons = Get<Button>();
     }
 }

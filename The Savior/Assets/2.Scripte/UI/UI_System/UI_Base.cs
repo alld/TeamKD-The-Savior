@@ -27,9 +27,20 @@ public abstract class UI_Base : MonoBehaviour
                 obj[i] = Util.FindChild<T>(gameObject, names[i], true);
 
             if (obj[i] == null)
-                Debug.Log($"Failedto bind{names[i]}");
+                Debug.Log($"Failed to bind{names[i]}");
         }
-    } 
+    }
+
+    protected List<T> Get<T>()where T : UnityEngine.Object
+    {
+        List<T> list = new List<T>();
+        foreach (var item in _obj[typeof(T)])
+        {
+            list.Add(item as T);
+        }
+
+        return list;
+    }
 
     protected T Get<T>(int idx)where T : UnityEngine.Object
     {
