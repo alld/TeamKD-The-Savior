@@ -13,6 +13,8 @@ public class NewGameDataManager : Singleton<NewGameDataManager>
     private Dictionary<int, MyCharacter> myCharacters = new Dictionary<int, MyCharacter>();
     [SerializeField] private PlayerData playerData = new PlayerData();
 
+    private Action languageChange;
+
     private void Awake()
     {
         Regist(this);
@@ -131,6 +133,39 @@ public class NewGameDataManager : Singleton<NewGameDataManager>
     {
         TextAsset textAsset = Resources.Load<TextAsset>(path);
         return textAsset.text;
+    }
+
+    /// <summary>
+    /// PlayerData를 가져온다.
+    /// </summary>
+    public PlayerData GetPlayerData()
+    {
+        return playerData;
+    }
+
+    /// <summary>
+    /// PlayerData의 값은 파라미터로 받아온 데이터로 변경한다.
+    /// </summary>
+    public void SetPlayerData(PlayerData _playerData)
+    {
+        playerData = _playerData;
+    }
+
+    /// <summary>
+    /// 언어 변환 함수를 연결하는 함수. 이 함수를 통해 구독이 되었다면 LanguageChange 함수를 통해 구독한 함수를 호출한다.
+    /// </summary>
+    public void ObserberLanguage(Action refreshLanguage)
+    {
+        languageChange -= refreshLanguage;
+        languageChange += refreshLanguage;
+    }
+
+    /// <summary>
+    /// ObserberLanguage를 통해 구독한 함수를 실행한다.
+    /// </summary>
+    public void LanguageChange()
+    {
+        languageChange?.Invoke();
     }
 }
 
