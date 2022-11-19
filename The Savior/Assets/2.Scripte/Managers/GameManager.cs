@@ -139,10 +139,11 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     public IEnumerator GameSave()
     {
-        while (true)
-        {
-            yield return StartCoroutine(dataManager.SaveGameDataToJson(data));
-        }
+        yield return null;
+        //while (true)
+        //{
+        //    yield return StartCoroutine(dataManager.SaveGameDataToJson(data));
+        //}
     }
     /// <summary>
     /// 데이터를 불러온다.

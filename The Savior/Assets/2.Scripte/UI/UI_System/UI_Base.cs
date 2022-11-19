@@ -10,14 +10,14 @@ public abstract class UI_Base : MonoBehaviour
 {
     private Dictionary<Type, UnityEngine.Object[]> _obj = new Dictionary<Type, UnityEngine.Object[]>();
 
-    public abstract void Init();
+    protected abstract void Init();
 
     protected void Bind<T>(Type type) where T : UnityEngine.Object
     {
         string[] names = Enum.GetNames(type);
         UnityEngine.Object[] obj = new UnityEngine.Object[names.Length];
 
-        _obj.Add(typeof(T), obj);
+        _obj.Add(type, obj);
 
         for (int i = 0; i < names.Length; i++)
         {
@@ -31,10 +31,10 @@ public abstract class UI_Base : MonoBehaviour
         }
     }
 
-    protected List<T> Get<T>()where T : UnityEngine.Object
+    protected List<T> Get<T>(Type type)where T : UnityEngine.Object
     {
         List<T> list = new List<T>();
-        foreach (var item in _obj[typeof(T)])
+        foreach (var item in _obj[type])
         {
             list.Add(item as T);
         }
@@ -42,19 +42,19 @@ public abstract class UI_Base : MonoBehaviour
         return list;
     }
 
-    protected T Get<T>(int idx)where T : UnityEngine.Object
+    protected T Get<T>(Type type, int idx)where T : UnityEngine.Object
     {
         UnityEngine.Object[] obj = null;
-        if (_obj.TryGetValue(typeof(T), out obj) == false)
+        if (_obj.TryGetValue(type, out obj) == false)
             return null;
 
         return obj[idx] as T;
     }
 
-    protected TMP_Text GetText(int idx) { return Get<TMP_Text>(idx); }
-    protected Button GetButton(int idx) { return Get<Button>(idx); }
-    protected Image GetImage(int idx) { return Get<Image>(idx); }
-    protected GameObject GetGameObject(int idx) { return Get<GameObject>(idx); }
+    protected TMP_Text GetText(Type type, int idx) { return Get<TMP_Text>(type, idx); }
+    protected Button GetButton(Type type, int idx) { return Get<Button>(type, idx); }
+    protected Image GetImage(Type type, int idx) { return Get<Image>(type, idx); }
+    protected GameObject GetGameObject(Type type, int idx) { return Get<GameObject>(type, idx); }
 
     public static void BindEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
     {

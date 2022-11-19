@@ -67,7 +67,7 @@ public class SceneLoad : MonoBehaviour
     public IEnumerator OpeningSceneLoad()
     {
         CreateLodingScreen();
-        operation = SceneManager.UnloadSceneAsync(currentlyScene);
+        //operation = SceneManager.UnloadSceneAsync(currentlyScene);
         currentlyScene = "Opening";
         operation = SceneManager.LoadSceneAsync(currentlyScene, LoadSceneMode.Additive);
         if (!operation.isDone)

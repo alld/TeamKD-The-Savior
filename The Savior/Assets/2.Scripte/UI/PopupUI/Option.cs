@@ -7,15 +7,19 @@ using UnityEngine.UI;
 public class Option : UI_Popup
 {
     // 이 스크립트에서 접근하려고 하는 UI들.
-    enum OptionTexts
+
+    enum SoundTexts
     {
-        OptionTitle_Text,
-        Total_Text,
-        BGM_Text,
-        SFX_Text,
         TotalSound_Text,
         BGMSound_Text,
         SFXSound_Text,
+    }
+    enum OptionTexts
+    {
+        Total_Text,
+        BGM_Text,
+        SFX_Text,
+        OptionTitle_Text,
         Language_Text,
         Close_Text,
     }
@@ -24,6 +28,7 @@ public class Option : UI_Popup
         Total_Mute,
         BGM_Mute,
         SFX_Mute,
+        Dimmed,
     }
     enum OptionSliders
     {
@@ -40,6 +45,7 @@ public class Option : UI_Popup
         CloseButton,
     }
 
+    private List<TMP_Text> soundTexts = new List<TMP_Text>();
     private List<TMP_Text> texts = new List<TMP_Text>();
     private List<Image> images = new List<Image>();
     private List<Slider> sliders = new List<Slider>();
@@ -51,24 +57,16 @@ public class Option : UI_Popup
         Init();
     }
 
-    public override void Init()
+    protected override void Init()
     {
         NewGameDataManager.instance.ObserberLanguage(LanguageChangeTexts);
 
-        Bind<TMP_Text>(typeof(OptionTexts));
-        Bind<Image>(typeof(OptionImages));
-        Bind<Slider>(typeof(OptionSliders));
-        Bind<TMP_Dropdown>(typeof(OptionDropdowns));
-        Bind<Button>(typeof(OptionButtons));
-
-        texts = Get<TMP_Text>();
-        images = Get<Image>();
-        sliders = Get<Slider>();
-        dropdowns = Get<TMP_Dropdown>();
-        buttons = Get<Button>();
+        BindObjects();
+        SetObjects();
 
         // 각 버튼 / 드롭다운 / 슬라이더를 연결한다.
         dropdowns[(int)OptionDropdowns.Language_DropDown].onValueChanged.AddListener(delegate { onValueChanged_LanguageDropdown(); });
+        buttons[(int)OptionButtons.CloseButton].onClick.AddListener(delegate { OnClick_CloseOption(); });
 
         for (int i = 0; i < sliders.Count; i++)
         {
@@ -82,13 +80,39 @@ public class Option : UI_Popup
         {
             OnValueChanged_SoundTextOrMuteImage(i);
         }
+
+        // 딤드 처리한 이미지
+        images[(int)OptionImages.Dimmed].SetToScreenSize();
     }
 
+    private void BindObjects()
+    {
+        Bind<TMP_Text>(typeof(SoundTexts));
+        Bind<TMP_Text>(typeof(OptionTexts));
+        Bind<Image>(typeof(OptionImages));
+        Bind<Slider>(typeof(OptionSliders));
+        Bind<TMP_Dropdown>(typeof(OptionDropdowns));
+        Bind<Button>(typeof(OptionButtons));
+    }
+
+    private void SetObjects()
+    {
+        soundTexts = Get<TMP_Text>(typeof(SoundTexts));
+        texts = Get<TMP_Text>(typeof(OptionTexts));
+        images = Get<Image>(typeof(OptionImages));
+        sliders = Get<Slider>(typeof(OptionSliders));
+        dropdowns = Get<TMP_Dropdown>(typeof(OptionDropdowns));
+        buttons = Get<Button>(typeof(OptionButtons));
+    }
+
+    // 드롭다운에서 언어가 변환 되었을 때 변환된 언어에 맞에 텍스트를 갱신합니다.
     private void LanguageChangeTexts()
     {
         // 언어 변환 로직.
+        Debug.Log($"언어가 변환되었음 : {NewGameDataManager.instance.GetPlayerData().language}");
     }
 
+    // 드롭다운을 통해 언어를 변환합니다.
     private void onValueChanged_LanguageDropdown()
     {
         PlayerData playerData = NewGameDataManager.instance.GetPlayerData();
@@ -98,6 +122,7 @@ public class Option : UI_Popup
         NewGameDataManager.instance.SetPlayerData(playerData);
     }
 
+    // 옵션 창의 Slider의 value 변환값을 playerData에 넣어줍니다.
     private void OnValueChanged_SoundSlider(int idx)
     {
         PlayerData playerData = NewGameDataManager.instance.GetPlayerData();
@@ -118,9 +143,10 @@ public class Option : UI_Popup
                 return;
         }
 
-        NewGameDataManager.instance.SetPlayerData(playerData);
+        NewGameDataManager.instance.SetPlayerData(playerData);        
     }
 
+    // 옵션 창의 사운드 value를 통해 value Text와 Mute Image를 출력합니다.
     private void OnValueChanged_SoundTextOrMuteImage(int idx)
     {
         PlayerData playerData = NewGameDataManager.instance.GetPlayerData();
@@ -151,13 +177,19 @@ public class Option : UI_Popup
 
         if (slider.value == 0)
         {
-            texts[idx].text = "";
+            soundTexts[idx].text = "";
             images[idx].gameObject.SetActive(true);
         }
         else
         {
-            texts[idx].text = soundValueText;
+            soundTexts[idx].text = soundValueText;
             images[idx].gameObject.SetActive(false);
         }
+    }
+
+    private void OnClick_CloseOption()
+    {
+        NewGameDataManager.instance.SaveGameData();
+        UIManager.instance.Hide();
     }
 }

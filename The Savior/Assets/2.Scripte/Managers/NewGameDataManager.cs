@@ -112,7 +112,7 @@ public class NewGameDataManager : Singleton<NewGameDataManager>
     private void WriteJsonData(string path, string json)
     {
         File.WriteAllText(path, json);
-        Debug.Log("Data Write Complete");
+        Debug.Log("SaveComplete!!!");
     }
 
     // 데이터를 JSON 형식으로 변환.

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class UI_Popup : UI_Base
 {
-    public override void Init()
+    protected override void Init()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Create Popup !");
     }
 }

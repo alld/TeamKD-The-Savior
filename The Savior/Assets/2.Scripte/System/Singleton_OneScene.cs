@@ -25,14 +25,13 @@ public class Singleton_OneScene<T> : MonoBehaviour where T : MonoBehaviour
             T _component = GameObject.FindObjectOfType<T>();
             if(_component != null)
             {
-                Regist(_component);
                 return _instance;
             }
 
             Debug.Log(CAN_NOT_FIND_COMPONENT);
             GameObject go = new GameObject { name = $"@{typeof(T).ToString()}" };
             _component = go.GetOrAddComponent<T>();
-            Init(_instance);
+            Init(_component);
             return _instance;
         }
     }

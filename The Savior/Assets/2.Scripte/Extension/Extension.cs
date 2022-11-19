@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 /*
  *  확장 함수를 관리하는 클래스입니다.
  *  staic class입니다. 함수도 모두 static으로 선언해주세요.
@@ -28,5 +28,11 @@ public static class Extension
             return null;
 
         return component;
+    }
+
+    public static void SetToScreenSize(this Image image)
+    {
+        image.rectTransform.sizeDelta = new Vector2(1920, 1080);
+        image.rectTransform.anchoredPosition = new Vector2(0, 0);
     }
 }
