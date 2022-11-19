@@ -8,7 +8,7 @@ public class TopBar : UI_Base
     enum Buttons
     {
         PauseButton,
-
+        InventoryBUtton,
     }
 
     List<Button> buttons = new List<Button>();
