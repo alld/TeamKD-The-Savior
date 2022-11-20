@@ -85,7 +85,7 @@ public class Option : UI_Popup
         images[(int)OptionImages.Dimmed].SetToScreenSize();
     }
 
-    private void BindObjects()
+    protected override void BindObjects()
     {
         Bind<TMP_Text>(typeof(SoundTexts));
         Bind<TMP_Text>(typeof(OptionTexts));
@@ -95,7 +95,7 @@ public class Option : UI_Popup
         Bind<Button>(typeof(OptionButtons));
     }
 
-    private void SetObjects()
+    protected override void SetObjects()
     {
         soundTexts = Get<TMP_Text>(typeof(SoundTexts));
         texts = Get<TMP_Text>(typeof(OptionTexts));

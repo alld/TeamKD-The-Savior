@@ -8,7 +8,7 @@ public class TopBar : UI_Base
     enum Buttons
     {
         PauseButton,
-        InventoryBUtton,
+        InventoryButton,
     }
 
     List<Button> buttons = new List<Button>();
@@ -24,6 +24,7 @@ public class TopBar : UI_Base
         SetObjects();
 
         buttons[(int)Buttons.PauseButton].onClick.AddListener(delegate { OnClick_PauseButton(); });
+        buttons[(int)Buttons.InventoryButton].onClick.AddListener(delegate { OnClick_InventoryButton(); });
     }
 
     private void BindObjects()
@@ -37,4 +38,5 @@ public class TopBar : UI_Base
     }
 
     private void OnClick_PauseButton() { UIManager.instance.Show("Pause"); }
+    private void OnClick_InventoryButton() { UIManager.instance.Show("Inventory"); }
 }

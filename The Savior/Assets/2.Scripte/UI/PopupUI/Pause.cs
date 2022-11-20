@@ -50,14 +50,14 @@ public class Pause : UI_Popup
         buttons[(int)PauseButtons.ExitButton].onClick.AddListener(delegate { OnClick_ExitButton(); });
     }
 
-    private void BindObjects()
+    protected override void BindObjects()
     {
         Bind<TMP_Text>(typeof(PauseTexts));
         Bind<Button>(typeof(PauseButtons));
         Bind<Image>(typeof(PauseImanges));
     }
 
-    private void SetObjects()
+    protected override void SetObjects()
     {
         texts = Get<TMP_Text>(typeof(PauseTexts));
         buttons = Get<Button>(typeof(PauseButtons));

@@ -29,6 +29,26 @@ MonoBehaviour:
     m_Address: Inventory
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 0256e57555b991640a68e82532a150de
+    m_Address: Relic
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 88717ba7616d2cb40ab9cd7f05ec0712
+    m_Address: Party
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c91696ac780571d4bb6e13a7afb34c77
+    m_Address: Collect
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 46f7643712afa96448d2676857d7630c
+    m_Address: CardDeck
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f16be6823ce4c3a4c81ad3fbdf801cf5
+    m_Address: CharacterInfo
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 91c8a0687cb38db45ac8b7655f23d35b, type: 2}
   m_SchemaSet:

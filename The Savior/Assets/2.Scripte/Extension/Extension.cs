@@ -32,7 +32,7 @@ public static class Extension
 
     public static void SetToScreenSize(this Image image)
     {
-        image.rectTransform.sizeDelta = new Vector2(1920, 1080);
+        image.rectTransform.sizeDelta = new Vector2(3000, 3000);
         image.rectTransform.anchoredPosition = new Vector2(0, 0);
     }
 }
