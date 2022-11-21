@@ -11,6 +11,7 @@ public class NewGameDataManager : Singleton<NewGameDataManager>
 
     private Dictionary<int, MyCard> myCards = new Dictionary<int, MyCard>();
     private Dictionary<int, MyCharacter> myCharacters = new Dictionary<int, MyCharacter>();
+    private Dictionary<int, MyRelic> myRelic = new Dictionary<int, MyRelic>();
     [SerializeField] private PlayerData playerData = new PlayerData();
 
     private Action languageChange;
@@ -90,6 +91,15 @@ public class NewGameDataManager : Singleton<NewGameDataManager>
         myCharacters.Add(character.id, character);
     }
 
+    /// <summary>
+    /// 유물 획득 시 해당 유물의 정보를 저장한다.
+    /// </summary>
+    public void AddMyRelic(int id)
+    {
+        MyRelic relic = new MyRelic(id);
+        myRelic.Add(relic.id, relic);
+    }
+
     // 플레이어가 가지고 있는 카드
     private void LoadMyCardData()
     {
@@ -107,7 +117,23 @@ public class NewGameDataManager : Singleton<NewGameDataManager>
         foreach (var character in playerData.myCharacters)
             myCharacters.Add(character.id, character);
     }
+    
+    // 카드 데이터 반환
+    public Dictionary<int, MyCard> GetCardData()
+    {
+        return myCards;
+    }
+    
+    // 캐릭터 데이터를 반환
+    public Dictionary<int, MyCharacter> GetCharacterData()
+    {
+        return myCharacters;
+    }
 
+    public Dictionary<int, MyRelic> GetRelicData()
+    {
+        return myRelic;
+    }
     // Json 데이터를 파일로 저장하기.
     private void WriteJsonData(string path, string json)
     {
@@ -175,15 +201,21 @@ public class PlayerData
     // 플레이어 보유 재화
     public int gold = 1000;
     public int soul = 1000;
+    // 플레이어 인벤토리 아이템 개수.
+    public int cardCount = 27;
+    public int relicCount = 28;
+    public int partyCount = 28;
     // World Scene에서 자신의 위치를 알려주는 마크 포인트
     public int myPoint;
     // 카드 덱 프리셋
-    public int currentCardPreset;
+    public int currentCardPreset = 0;
     public string[] presetName = new string[(int)Define.PresetName.Count];
+    public MyPreset[] presetData = new MyPreset[5];
     // 장착한 캐릭터, 유물
     public int[] equipRelic = new int[(int)Define.EquipCount.Relic];
     public int[] equipCharacter = new int[(int)Define.EquipCount.Character];
     // 플레이어가 가지고 있는 캐릭터, 유물
+    public List<MyRelic> myRelic = new List<MyRelic>();
     public List<MyCharacter> myCharacters = new List<MyCharacter>();
     public List<MyCard> myCards = new List<MyCard>();
     // 옵션
@@ -196,6 +228,17 @@ public class PlayerData
     public int dungeonFirstClear;
     // 현재 플레이어의 상태
     public Define.LastGameViewPoint lastGameViewPoint = Define.LastGameViewPoint.Main;
+}
+
+[Serializable]
+public class MyRelic
+{
+    public int id;
+
+    public MyRelic(int _id)
+    {
+        id = _id;
+    }
 }
 
 [Serializable]
@@ -225,4 +268,10 @@ public class MyCharacter
         exp = 0;
         level = 1;
     }
+}
+
+[Serializable]
+public class MyPreset
+{
+    public int[] id = new int[28];
 }

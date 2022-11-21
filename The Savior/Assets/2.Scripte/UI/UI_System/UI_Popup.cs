@@ -4,11 +4,7 @@ using UnityEngine;
 
 public abstract class UI_Popup : UI_Base
 {
-    protected override void Init()
-    {
-        Debug.Log("Create Popup !");
-    }
-
+    protected abstract override void Init();
 
     /*
      * »ç¿ë¹ý.
