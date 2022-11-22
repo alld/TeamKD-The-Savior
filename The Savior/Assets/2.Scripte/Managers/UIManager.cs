@@ -21,8 +21,7 @@ public class UIManager : Singleton<UIManager>
 
     public void Show(string path)
     {
-        PrefabManager.instance.AddCallBack(path => CreatePopup(path));
-        StartCoroutine(PrefabManager.instance.LoadGameObject(path));
+        StartCoroutine(PrefabManager.instance.LoadGameObject(path, path => CreatePopup(path)));
     }
 
     private void CreatePopup(string path)

@@ -6,11 +6,30 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using System;
 public class PrefabManager : Singleton_OneScene<PrefabManager>
 {
+    const string CARD = "Card_";
+    const string RELIC = "Relic_";
+
     private Dictionary<string, UnityEngine.Object> pool = new Dictionary<string, UnityEngine.Object>();
     private Action<string> createObject;
 
-    public IEnumerator LoadGameObject(string path)
+    private void Awake()
     {
+        Regist(this);
+    }
+
+    private void Start()
+    {
+        for (int i = 1; i <= 12; i++) StartCoroutine(LoadGameObject($"{RELIC}{i}"));
+        for (int i = 1; i <= 23; i++) StartCoroutine(LoadGameObject($"{CARD}{i}"));
+    }
+
+    /// <summary>
+    /// 불러올 소스의 패스와, 로드가 끝났을 때 실행될 콜백을 등록함.
+    /// </summary>
+    public IEnumerator LoadGameObject(string path, Action<string> callback = null)
+    {
+        AddCallBack(callback);
+
         if (pool.ContainsKey(path))
         {
             createObject?.Invoke(path);
@@ -36,16 +55,8 @@ public class PrefabManager : Singleton_OneScene<PrefabManager>
         return pool[path] as T;
     }
 
-    public T GetPool<T>(string key) where T : UnityEngine.Object
-    {
-        if (pool.ContainsKey(key) == false) return null;
-        return pool[key] as T;
-    }
-
-    /// <summary>
-    /// Addressable Load가 완료 되면 구독해둔 함수를 실행한다.
-    /// </summary>
-    public void AddCallBack(Action<string> call)
+    // 리소스 로드가 끝났을 때 실행될 함수를 등록함.
+    private void AddCallBack(Action<string> call)
     {
         createObject -= call;
         createObject += call;
@@ -54,6 +65,7 @@ public class PrefabManager : Singleton_OneScene<PrefabManager>
     // 한번 실행했으면 비워준다.
     private void InitCallBack()
     {
+        if (createObject == null) return;
         createObject = null;
     }
 }

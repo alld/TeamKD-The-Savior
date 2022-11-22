@@ -70,6 +70,6 @@ public class NewRelicInventory : UI_Popup
     private void SetRelicData() 
     {
         Dictionary<int, MyRelic> relics = NewGameDataManager.instance.GetRelicData();
-        Debug.Log($"³» À¯¹° : {relics.Count}");
+        
     }
 }

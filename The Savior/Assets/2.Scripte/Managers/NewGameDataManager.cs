@@ -5,6 +5,9 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 
+// 플레이어가 가지고 있어야하는 데이터를 관리하는 클래스입니다.
+// 여기서 가지고 있는 데이터를 기반으로 데이터 테이블에 접근해서 필요한 데이터를 가져옵니다.
+
 public class NewGameDataManager : Singleton<NewGameDataManager>
 {
     private string GAME_DATA_PATH = "";
@@ -64,6 +67,7 @@ public class NewGameDataManager : Singleton<NewGameDataManager>
         playerData = JsonToObject<PlayerData>(loadData);
 
         LoadMyCardData();
+        LoadMyRelicData();
         LoadMyCharacterData();
     }
 
@@ -96,8 +100,15 @@ public class NewGameDataManager : Singleton<NewGameDataManager>
     /// </summary>
     public void AddMyRelic(int id)
     {
+        if (myRelic.ContainsKey(id))
+        {
+            Debug.Log("이미 해당 유물을 가지고있습니다.");
+            return;
+        }
+
         MyRelic relic = new MyRelic(id);
         myRelic.Add(relic.id, relic);
+        playerData.myRelic.Add(relic);
     }
 
     // 플레이어가 가지고 있는 카드
@@ -107,6 +118,14 @@ public class NewGameDataManager : Singleton<NewGameDataManager>
 
         foreach (var card in playerData.myCards)
             myCards.Add(card.id, card);
+    }
+
+    private void LoadMyRelicData()
+    {
+        if (playerData.myRelic.Count == 0) return;
+
+        foreach (var relic in playerData.myRelic)
+            myRelic.Add(relic.id, relic);
     }
 
     // 플레이어가 가지고 있는 캐릭터
